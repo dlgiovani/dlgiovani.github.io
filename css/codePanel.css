@@ -1,0 +1,60 @@
+.codePanel
+{
+    background-color: var(--backgroundColorMain);
+    /*fits it to the corners of the body*/
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 101%;
+    /*----------------------------------*/
+    font-size: 1.4rem;
+    font-family: semiCoder;
+}
+
+.codePanel h1
+{
+    color: var(--color1);
+    font-family: clearly;
+    font-size: 4em;
+    font-weight: 100;
+    margin: 0;
+}
+
+.codePanel h2
+{
+    color: var(--color2);
+    font-family: semiCoder;
+}
+
+.codePanel p
+{
+    color: var(--color3);
+    font-family: semiCoder;
+}
+
+.codePanel n1
+{
+    color: var(--color4);
+    font-family: semiCoder;
+    font-size: 2em;
+}
+
+.codePanel hr
+{
+    color: var(--color4);
+    width: 33vw;
+    border-style: dotted;
+    border-width: 1px 0 0 0;
+}
+
+.presentationSection
+{
+    position: sticky;
+    left: 0;
+    right: 0;
+    text-align: center;
+    top: 39vh;
+}
