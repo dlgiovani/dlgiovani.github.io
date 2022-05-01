@@ -1,0 +1,30 @@
+:root {
+    --color1: #10719e;
+    --color2: #26607a;
+    --color3: #e48a3c;
+    --color4: #E8AD78;
+    --color5: #09181f;
+    --backgroundColorMain: #14143b;
+    --backgroundColorGlass: rgba(179, 179, 179, .7);
+    --selectionColor: rgba(9, 24, 31, .5);
+}
+
+html {
+    transition: .4s;
+    scroll-behavior: smooth;
+}
+
+::selection
+{
+    background-color: var(--selectionColor);
+}
+
+@font-face {
+    font-family: semiCoder;
+    src: url("../fonts/Semi-Coder-Regular.otf");
+}
+
+@font-face {
+    font-family: clearly;
+    src: url("../fonts/print_clearly_ot.otf");
+}
