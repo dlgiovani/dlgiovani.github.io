@@ -8,7 +8,7 @@
     padding: 0;
     margin: 0;
     width: 100%;
-    height: 101%;
+    height: 100vh;
     /*----------------------------------*/
     font-size: 1.4rem;
     font-family: semiCoder;
@@ -52,7 +52,7 @@
 
 .presentationSection
 {
-    position: sticky;
+    position: relative;
     left: 0;
     right: 0;
     text-align: center;

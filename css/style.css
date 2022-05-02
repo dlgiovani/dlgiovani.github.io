@@ -14,6 +14,12 @@ html {
     scroll-behavior: smooth;
 }
 
+/* .main
+{
+    display: flex;
+    flex-direction: column;
+} */
+
 ::selection
 {
     background-color: var(--selectionColor);
@@ -27,4 +33,9 @@ html {
 @font-face {
     font-family: clearly;
     src: url("../fonts/print_clearly_ot.otf");
+}
+
+@font-face {
+    font-family: vonique;
+    src: url("../fonts/Vonique\ 43_D.otf");
 }
