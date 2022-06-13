@@ -70,7 +70,8 @@
 .progressBar::before
 {
     font-family: monofonto;
-    content: ">This is 100% CSS!<";
+    /*content: ">This is 100% CSS!<";*/
+    content: ">oii geooo🥳<";
 }
 
 .keyboard
