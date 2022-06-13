@@ -1,12 +1,27 @@
 :root {
-    --color1: #10719e;
-    --color2: #26607a;
-    --color3: #e48a3c;
-    --color4: #E8AD78;
-    --color5: #09181f;
-    --backgroundColorMain: #14143b;
-    --backgroundColorGlass: rgba(179, 179, 179, .7);
-    --selectionColor: rgba(9, 24, 31, .5);
+    --color1-1: #079DD9;
+    --color1-2: #04B2D9;
+    --color2-1: #732222;
+    --color2-2: #A6341B;
+    --bgcolor1: #0D0D0D;
+    --bgcolor2: #2F2F2F;/*change?*/
+    --bgtr2:    #2f2f2f79;/*change?*/
+}
+
+@media only screen and (max-width: 600px)
+{
+    :root
+    {
+        --menuSize: 50vw;
+    }
+}
+
+@media only screen and (min-width: 601px)
+{
+    :root
+    {
+        --menuSize: 20vw;
+    }
 }
 
 html {
@@ -14,28 +29,44 @@ html {
     scroll-behavior: smooth;
 }
 
-/* .main
-{
-    display: flex;
-    flex-direction: column;
-} */
-
 ::selection
 {
-    background-color: var(--selectionColor);
+    background-color: var(--color2-2);
 }
 
-@font-face {
-    font-family: semiCoder;
-    src: url("../fonts/Semi-Coder-Regular.otf");
+@font-face { font-family: monofonto; src: url("../fonts/monofonto.otf"); }
+@font-face { font-family: future; src: url("../fonts/future.ttf"); }
+@font-face { font-family: dealerplate; src: url("../fonts/dealerplate\ california.ttf"); }
+@font-face { font-family: franchise; src: url("../fonts/Franchise.ttf"); }
+@font-face { font-family: franchiseFilled; src: url("../fonts/FranchiseFilled.ttf"); }
+
+body
+{
+    background-color: var(--bgcolor1);
 }
 
-@font-face {
-    font-family: clearly;
-    src: url("../fonts/print_clearly_ot.otf");
+.landPage
+{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
-@font-face {
-    font-family: vonique;
-    src: url("../fonts/Vonique\ 43_D.otf");
+.mainTitle
+{
+    font-family: monofonto;
+    color: var(--color1-1);
+    font-size: 20vmin;
+    margin-bottom: 0;
+    text-decoration: underline .7rem var(--color2-2);
+    animation: appear .4s;
+    text-align: center;
+}
+
+.mainTitle:nth-child(2)
+{
+    margin: 0;
+    animation: appear 1s;
 }
