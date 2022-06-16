@@ -1,7 +1,7 @@
 var myHeaders = new Headers();
 
 var myInit = { method: 'GET',
-               mode: 'cors',
+               mode: 'no-cors',
                cache: 'default' };
 
 let avg = 0;
