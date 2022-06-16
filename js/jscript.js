@@ -1,6 +1,11 @@
 var myHeaders = new Headers();
 
-var myInit = { method: 'GET',
+headers.append('Content-Type', 'application/json');
+headers.append('Accept', 'application/json');
+headers.append('Access-Control-Allow-Credentials', 'true');
+
+var myInit = { method: 'POST',
+               headers: myHeaders,
                mode: 'no-cors',
                cache: 'default' };
 
