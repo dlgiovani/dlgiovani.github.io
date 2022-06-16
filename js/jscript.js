@@ -3,7 +3,7 @@ let x = 0;
 console.log("Hello, advanced user! :)")
 function getCriptoInfo() {
   let obj;
-  fetch("https://api.nomics.com/v1/currencies/ticker?key=689202df19036ccd2ed422ff647ba3052f95ca2a&ids=BTC,XRP,ETH,BNB,SOL,DOGE,SHIB,LTC&interval=1h,1d,30d&convert=BRL&per-page=100&page=1")  
+  fetch("https://api.nomics.com/v1/currencies/ticker?key=689202df19036ccd2ed422ff647ba3052f95ca2a&ids=BTC,XRP,ETH,BNB,SOL,DOGE,SHIB,LTC&interval=1h,1d,30d&convert=BRL&per-page=100&page=1", {mode: 'no-cors'})  
   .then(response => response.json())  
   .then(data => {
     //console.log(data)
