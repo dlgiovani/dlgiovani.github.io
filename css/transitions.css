@@ -39,3 +39,27 @@
         color: var(--color1-1);
     }
 }
+
+@keyframes criptoBars
+{
+    0%
+    {
+        height: 0;
+    }
+
+    40%
+    {
+        height: 5em;
+        background-color: var(--color2-2);
+    }
+
+    100%
+    {
+        background-color: var(--color1-1);
+    }
+
+    /* 100%
+    {
+        height: calc(var(--BTCprice)/10000);
+    } */
+}

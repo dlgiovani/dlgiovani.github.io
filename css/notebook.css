@@ -1,6 +1,6 @@
 .notebook
 {
-    width: 100vmin;
+    width: 80vmin;
     height: 60vmin;
     display: flex;
     flex-direction: column;
@@ -17,15 +17,29 @@
 .notebook:hover .keyboard > ul
 {
     transition: 1s;
-    border: 1px solid var(--color2-1);
-    box-shadow: 1em;
+    border: 2px dotted var(--color2-1);
+    box-shadow: 0 -.5em 0em 0em var(--color2-1);
+}
+
+.screenContent
+{
+    margin-top: 5vmax;
+    text-align: center;
+}
+
+.screenContent::before
+{
+    color: var(--color2-2);
+    content: "Hover the cursor to see this cool CSS3 + JS project ☺";
+    font-size: 3vmin;
+    font-family: future;
 }
 
 .notebook:hover .screenContent::before
 {
     color: var(--color2-2);
-    content: "loading progress...";
-    font-size: 4vmin;
+    content: "Crypto API integration";
+    font-size: 3vmin;
     transition: .4s;
 }
 
@@ -34,6 +48,11 @@
     margin-top: 1vmax;
     text-align: center;
     font-family: future;
+}
+
+.notebook:hover .price
+{
+    display: flex;
 }
 
 .notebook:hover .progressBar
@@ -53,6 +72,8 @@
     border-radius: 15px 15px 5px 5px;
     width: 80vmin;
     height: 50vmin;
+    display: flex;
+    flex-direction: column;
 }
 
 .progressBar
@@ -71,7 +92,7 @@
 {
     font-family: monofonto;
     /*content: ">This is 100% CSS!<";*/
-    content: ">oii geooo🥳<";
+    content: ">Real time updating graph!<";
 }
 
 .keyboard
@@ -93,9 +114,33 @@
 {
     width: 1vmin;
     height: 1vmin;
-    border: 1px dotted #202020d0;
+    border: 2px solid #202020d0;
     margin: 1px;
     transition: .2s;
     overflow: hidden;
     align-self: stretch;
+}
+
+
+@media only screen and (max-width: 601px)
+{
+    .keyboard
+{
+    display: none;
+}
+
+    .screen
+    {
+        height: 100%;
+    }
+
+    .notebook
+    {
+        height: 50vmax;
+    }
+
+    .mainTitle
+    {
+        font-size: 10vmin;
+    }
 }
