@@ -1,8 +1,8 @@
 var myHeaders = new Headers();
 
-headers.append('Content-Type', 'application/json');
-headers.append('Accept', 'application/json');
-headers.append('Access-Control-Allow-Credentials', 'true');
+myHeaders.append('Content-Type', 'application/json');
+myHeaders.append('Accept', 'application/json');
+myHeaders.append('Access-Control-Allow-Credentials', 'true');
 
 var myInit = { method: 'POST',
                headers: myHeaders,
