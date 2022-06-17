@@ -1,12 +1,7 @@
 var myHeaders = new Headers();
 
-myHeaders.append('Content-Type', 'application/json');
-myHeaders.append('Accept', 'application/json');
-myHeaders.append('Access-Control-Allow-Credentials', 'true');
 let data;
-var myInit = { method: 'POST',
-               headers: myHeaders,
-               mode: 'cors'};
+var myInit = {mode: 'cors'};
 
 let avg = 0;
 let x = 0;
