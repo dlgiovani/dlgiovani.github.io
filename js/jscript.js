@@ -5,9 +5,8 @@ var myHeaders = new Headers();
 myHeaders.append('Access-Control-Allow-Origin', '*');
 //
 let data;
-var myInit = { method: 'POST',
-               headers: myHeaders,
-               mode: 'cors'};
+var myInit = { mode: 'cors',
+               Origin: 'https://api.nomics.com/v1' };
 
 let avg = 0;
 let x = 0;
