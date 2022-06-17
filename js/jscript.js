@@ -1,7 +1,13 @@
 var myHeaders = new Headers();
 
+//myHeaders.append('Content-Type', 'application/json');
+//myHeaders.append('Accept', 'application/json');
+myHeaders.append('Access-Control-Allow-Origin', '*');
+//
 let data;
-var myInit = {mode: 'cors'};
+var myInit = { method: 'POST',
+               headers: myHeaders,
+               mode: 'cors'};
 
 let avg = 0;
 let x = 0;
