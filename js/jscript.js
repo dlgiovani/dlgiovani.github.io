@@ -79,11 +79,13 @@ function getCriptoInfo() {
 };
 console.log("Stop sniffing into my code. geez :/");
 console.log("jk bro, have fun XD");
-window.onload = getCriptoInfo();
+
+
+setTimeout(() => {getCriptoInfo()}, 1200);
 
 var intervalId = window.setInterval(function(){
   getCriptoInfo();
-}, 10000);
+}, 60000);
 
 
 
