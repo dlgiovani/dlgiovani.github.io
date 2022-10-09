@@ -64,6 +64,22 @@ body
     padding-top: 1em;
 }
 
+.cardContainer
+{
+    width: 90vw;
+    max-width: 220px;
+    height: 90vw;
+    max-height: 220px;
+    margin: 5em;
+    /* padding: 1em; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    background-color: var(--color_B2);
+}
+
 .projectCardBox
 {
     margin: 4vw;
@@ -142,18 +158,26 @@ body
 .buttonDefault
 {
     margin: 1em;
-    background-color: transparent;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     height: 2em;
-    color: var(--color_A2);
-    border-color: var(--color_A2);
+    background-color: var(--color_A2);
+    color: var(--color_A1);
+    border-color: var(--color_A1);
     border-style: solid;
 }
 
 .buttonDefault:hover
 {
-    background-color: var(--color_A2);
-    color: var(--color_A3);
-    border-color: var(--color_A3);
+    background-color: var(--color_A1);
+    color: var(--color_A2);
+    border-color: var(--color_A2);
     cursor: pointer;
+}
+
+/*----------misc*/
+
+.projImage
+{
+    width: 12em;
+    height: 8em;
 }
