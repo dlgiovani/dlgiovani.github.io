@@ -1,0 +1,23 @@
+.col-1{
+    position: absolute;
+    left:0;
+    width:25%;
+}
+
+.col-2{
+    position: absolute;
+    left:0;
+    width:50%;
+}
+
+.col-3{
+    position: absolute;
+    left:0;
+    width:75%;
+}
+
+.col-4{
+    position: absolute;
+    left:0;
+    width:100%;
+}
