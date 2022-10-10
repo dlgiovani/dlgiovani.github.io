@@ -16,6 +16,12 @@
     margin: 1em 0 1em 0;
 }
 
+.menuBtn:hover
+{
+    margin: 1em 0 1em 0;
+    animation: small-aurora 4s infinite;
+}
+
 .home:hover
 {
     fill: var(--color_B1);

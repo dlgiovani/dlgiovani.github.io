@@ -15,3 +15,37 @@
         box-shadow: .1em .1em 5px 1px var(--color_A3);
     }
   }
+
+  @keyframes aurora {
+
+    0% {
+        box-shadow: 1em 3em 10em .2em var(--color_A2);
+    }
+    
+    50% {
+        box-shadow: 1em 3em 7em .1em var(--color_A3);
+    }
+
+    100% {
+        box-shadow: 1em 3em 10em .2em var(--color_A2);
+    }
+  }
+
+  @keyframes small-aurora {
+
+    0% {
+        box-shadow: 0 0 5em .02em var(--color_A2);
+    }
+    
+    30% {
+        box-shadow: 0 0 3em .01em var(--color_A3);
+    }
+
+    65% {
+        box-shadow: 0 0 4em .02em var(--color_A1);
+    }
+
+    100% {
+        box-shadow: 0 0 5em .02em var(--color_A2);
+    }
+  }
