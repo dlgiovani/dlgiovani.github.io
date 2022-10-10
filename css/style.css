@@ -50,6 +50,11 @@ body
     background-color: var(--color_A1);
 }
 
+.elevate:hover
+{
+    animation: elevate 2s infinite;
+}
+
 /*----------boxes*/
 
 .cardBox
@@ -64,19 +69,23 @@ body
     padding-top: 1em;
 }
 
+.box
+{
+    display: flex;
+    justify-content: space-around;
+}
+
 .cardContainer
 {
     width: 90vw;
-    max-width: 220px;
+    max-width: 20vw;
     height: 90vw;
-    max-height: 220px;
-    margin: 5em;
-    /* padding: 1em; */
+    max-height: 18vw;
+    margin: 4em;
+    padding: 1em;
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
-    flex-wrap: wrap;
+    justify-content: space-between;
     background-color: var(--color_B2);
 }
 
@@ -103,7 +112,6 @@ body
     font-family: monofonto;
     color: var(--color_A3);
     font-size: 14vmin;
-    text-decoration: underline .7rem var(--color2-2);
     animation: appear .4s;
 }
 
@@ -119,6 +127,16 @@ body
 {
     font-family: monospace;
     color: var(--color_A3);
+    margin-bottom: 0;
+}
+
+.title
+{
+    text-align: center;
+    font-family: monospace;
+    font-size: 4em;
+    color: var(--color_A3);
+    text-decoration: underline .1em var(--color_A2);
     margin-bottom: 0;
 }
 
@@ -174,10 +192,33 @@ body
     cursor: pointer;
 }
 
+.buttonDisabled
+{
+    margin: 1em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    height: 2em;
+    background-color: var(--color_A2);
+    color: var(--color_A1);
+    border-color: var(--color_A1);
+    border-style: dashed;
+    cursor: progress;
+}
+
+.cardButtonsContainer
+{
+    position: relative;
+    bottom: 0;
+}
+
 /*----------misc*/
 
 .projImage
 {
     width: 12em;
     height: 8em;
+}
+
+.mouseForbidden
+{
+    cursor: not-allowed;
 }

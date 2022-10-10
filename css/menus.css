@@ -1,0 +1,32 @@
+.sideBar
+{
+    width: var(--sidePanelWidth);
+    height: 100vh;
+    position: fixed;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.8em;
+    justify-content: center;
+    z-index: 1;
+}
+
+.menuBtn
+{
+    margin: 1em 0 1em 0;
+}
+
+.home:hover
+{
+    fill: var(--color_B1);
+}
+
+.skills:hover
+{
+    fill: var(--color_B3);
+}
+
+.projects:hover
+{
+    fill: var(--color_B2);
+}

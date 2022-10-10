@@ -1,0 +1,17 @@
+@keyframes elevate {
+
+    0% {
+        transform: translate(-.1em, -.1em);
+    box-shadow: .1em .1em 5px 1px var(--color_A3);
+    }
+    
+    50% {
+        transform: translate(-.5em, -.5em);
+        box-shadow: .7em .7em 5px 1px var(--color_A3);
+    }
+
+    100% {
+        transform: translate(-.1em, -.1em);
+        box-shadow: .1em .1em 5px 1px var(--color_A3);
+    }
+  }

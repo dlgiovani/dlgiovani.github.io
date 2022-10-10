@@ -1,0 +1,662 @@
+<body>
+
+
+  <div id="textArea"></div>
+
+<py-script>
+
+#md_CharacterControl.py
+
+from operator import countOf
+import time, random, copy
+
+
+Dices = {
+  0: {
+      'Cor'       : 'Verde',
+      'Passos'    : 2,
+      'Tiro'      : 1,
+      'Cérebro'   : 3,
+      'Quantidade': 6
+  },
+
+  1: {
+      'Cor'       : 'Amarelo',
+      'Passos'    : 2,
+      'Tiro'      : 2,
+      'Cérebro'   : 2,
+      'Quantidade': 4
+  },
+
+  2: {
+      'Cor'       : 'Vermelho',
+      'Passos'    : 2,
+      'Tiro'      : 3,
+      'Cérebro'   : 1,
+      'Quantidade': 3
+  }
+}
+
+DicesIndexes = []
+for i in Dices:
+  DicesIndexes.append(i)
+
+Actions = ['Passos', 'Tiro', 'Cérebro']
+
+
+PlayersInGame = []
+
+BotNameSyllables = {"kan", "len", "ghi", "flok", "trom", "fle", "dros", "da", "lim", "a", "ki", "ta", "ma", "shi"}
+
+BotGenerationMessages = {
+  "Mordendo uns transeuntes...",
+  "Selecionando os melhores cérebros...",
+  "Fazendo uma pausa pro lanche...",
+  "Costurando mandíbulas tortas...",
+  "Enchendo linguiça...",
+  "Treinando o zumbi...",
+  "Enchendo a caneca de café...",
+  "Contemplando a paisagem...",
+  "Ouvindo grunge...",
+  "Motivando o zumbi..."
+}
+
+
+class Player:
+  def __init__(self, name, description, klass, isBot, hp, brains):
+      self.name           = name
+      self.description    = description
+      self.klass          = klass
+      self.isBot          = isBot
+      self.hp             = hp
+      self.brains         = 0
+  #enddef
+
+  def getPlayer(name, description, klass, isBot, hp, brains):
+      return {'name': name, 'description': description, 'klass': klass, 'isBot': isBot, 'hp': hp, 'brains': brains}
+  #enddef
+#endclass
+
+class TotalInGame:
+  def __init__(self, qtdplayers, qtdbots):
+      self.players = qtdplayers
+      self.bots    = qtdbots
+      self.total   = self.bots + self.players
+
+  #enddef
+#endclass
+
+Klass = {
+  0 : {
+      'name'          : 'Parrudo',
+      'items'         : 0,
+      'hp'            : 4,
+      'fullBelly'     : 15,
+      'description'   : "Enquanto as outras classes possuem 3 de vida, esta tem 4. Porém, devido ao seu acelerado metabolismo, precisa consumir 15 cérebros para a vitória ao invés de 13."
+  },
+
+  1 : {
+      'name'          : 'Normal',
+      'items'         : 0,
+      'hp'            : 3,
+      'fullBelly'     : 13,
+      'description'   : "3 de vida, 13 cérebros pra encher o bucho. Nada de mais. Um zumbi normal."
+  },
+
+  #TODO: ↓
+  # 2 : {
+  #     'name'          : 'Incansável',
+  #     'items'         : 0,
+  #     'hp'            : 3,
+  #     'fullBelly'     : 13,
+  #     'description'   : "Caso os 3 dados na rodada deste zumbi resultem em passos, este pode optar por correr mais um pouco e jogar mais um dado para tentar alcançar sua vítima."
+  # },
+
+  # 3 : {
+  #     'name'          : 'Ciclista',
+  #     'items'         : 1,
+  #     'hp'            : 3,
+  #     'fullBelly'     : 13,
+  #     'description'   : "Este zumbi já não anda mais de bicicleta, mas ainda tem um capacete que oferece 50% de chances de protegê-lo do tiro. Durabilidade de 4 tiros."
+  # },
+
+  # 4 : {
+  #     'name'          : 'Cowboy',
+  #     'items'         : 1,
+  #     'hp'            : 3,
+  #     'fullBelly'     : 13,
+  #     'description'   : "Se o cowboy conseguir cérebros na rodada, ele pode optar por trocá-los por laços. Ao jogar um laço, existe 30% de chances de pegar 1 vítima, 15% de pegar 2 e 3% de pegar 3."
+  # }
+
+
+  #TODO: add Weeb that gets isekai'd when he dies (1hp)
+
+}
+
+
+'''
+
+SetCharacters: chama funções para criar personagens, bots e humanos
+
+'''
+
+def SetCharacters(TotalInThisGame):
+  PlayersInGame = []
+  if TotalInThisGame.bots > 0:
+      newSection()
+      PlayersInGame += (GenerateBots(TotalInThisGame.bots))
+
+  if TotalInThisGame.players > 0:
+      newSection()
+      PlayersInGame += (SetPlayers(TotalInThisGame.players))
+
+  return PlayersInGame
+
+#enddef
+
+'''
+
+GenerateBots: gera bots, seus nomes e classes, e os adiciona na lista de jogadores
+
+'''
+
+def GenerateBots(quantityOfBots):
+  print("Ok! vou gerar os bots...\n")
+  ThisBotsInGame = []
+  for x in range(random.randint(3, 6)):
+      print(random.choice(list(BotGenerationMessages))) #imersão
+      time.sleep(1.2)
+
+  print("") #linebreak
+  for i in range(quantityOfBots):
+      quantityOfSyllables = random.choice([2,3])
+      name = ''
+      
+      for o in range(quantityOfSyllables):
+          name += random.choice(tuple(BotNameSyllables))
+          
+      description = 'bipbop' #TODO add cool descriptions
+      klass = random.randint(0, len(Klass) - 1)
+      isBot = True
+
+      ThisBotsInGame.append(Player.getPlayer(name, description, klass, isBot, 3, 0))
+
+      speech("Nasce {}, um zumbi {}!\n".format(name, Klass[klass]['name']), .01)
+      time.sleep(.5)
+
+  return ThisBotsInGame
+
+#enddef
+
+'''
+
+SetPlayers: Define jogadores humanos a partir de inputs do usuário, e os adiciona a lista de jogadores.
+
+'''
+
+def SetPlayers(quantityOfPlayers):
+  print("\nJoia. Agora, vamos criar os personagens dos jogadores ^ü^ eba!\n\n")
+  ThisPlayersInGame = []
+  for i in range(quantityOfPlayers):
+      name = ''
+      while name.strip() == '':
+          name = input("Jogador {}, escolha um nome que faça jus à grandeza de seu personagem: ".format(i+1))
+      
+      name = name.strip()
+      print("\n{}! Que nome digno!\n".format(name))
+      time.sleep(3)
+
+      print("Vamos escolher a classe do seu personagem.\n")
+      print('(Classes listadas já estão funcionando :D\nno futuro, serão adicionadas mais classes. Já é possível dar um sneak peek no código...)\n')
+      time.sleep(2)
+      for x in Klass:
+          print("{}. {}   - {}".format(x,Klass[x]['name'],Klass[x]['description']))
+          time.sleep(.03)
+
+      while True:
+          try:
+              chosenKlass = int(input("\n\nE aí, qual a classe de {}? ".format(name)))
+              if chosenKlass in range(0, len(Klass)):
+                  break
+              else:
+                  print('\nOops, parece que a classe não existe. Tente escolher um número entre 0 e {}, correpondente a classe de {}'.format(len(Klass) - 1, name))
+          except:
+              print('\nOops, parece que a classe não existe. Tente escolher um número entre 0 e {}, correpondente a classe de {}'.format(len(Klass) - 1, name))
+
+      klass = chosenKlass
+      speech("Nobre {}!".format(Klass[klass]['name']),.01)
+      time.sleep(1)
+
+      print('\nVamos adicionar uma descrição digna para {}.'.format(name))
+      description = input('{} é: '.format(name))
+      
+      isBot = False
+      hp = int(Klass[klass]['hp'])
+      ThisPlayersInGame.append(Player.getPlayer(name, description, klass, isBot, hp, 0))
+      speech('\nUma nova lenda surge: {} ({}), {}\n'.format(name, Klass[klass]['name'], description), .04)
+
+  return ThisPlayersInGame
+
+#enddef
+
+
+'''
+
+'''
+def play(PlayersInGame):
+  for currentPlayer in PlayersInGame: # Para cada jogador listado
+      steps       = 0
+      shots       = 0
+      brains      = 0
+      dices       = 0
+      shotDices   = {'Verde': 0, 'Amarelo': 0, 'Vermelho': 0} #TODO: load from dict
+      playerIsPlaying = True
+      speech('\nTurno de {}!\nNo momento, tem {} cérebros.'.format(currentPlayer['name'], currentPlayer['brains']), .03)
+      speech('\n{}, prepare-se.\n'.format(currentPlayer['name']), .03)
+
+      DiceTube = copy.deepcopy(Dices) #tubo a ser utilizado no turno do próximo jogador, resetado para o default sempre que muda de jogador
+      DiceTube[0]['Quantidade']   = Dices[0]['Quantidade']
+      DiceTube[1]['Quantidade']   = Dices[1]['Quantidade']
+      DiceTube[2]['Quantidade']   = Dices[2]['Quantidade']
+
+      while playerIsPlaying: #este boolean será falso quando o jogador não quiser pegar mais 3 dados ou quando receber 3 tiros no turno.
+          if not currentPlayer['isBot']:
+              input('Aperte Enter para selecionar seus dados...')
+          dices += 1
+
+          #escolhendo o dado no tubo
+          thisDice = DiceTube[random.choices(DicesIndexes, weights = [DiceTube[0]['Quantidade'], DiceTube[1]['Quantidade'], DiceTube[2]['Quantidade']], k = 1)[0]]
+          thisDice['Quantidade'] -= 1
+          #print('dados no tubo \n{}'.format(DiceTube)) #TODO quando chegar em 13, dados que não resultaram em tiros devem voltar ao tubo.
+          speech('\nDado {}!\n'.format(thisDice['Cor']), .03)
+
+          if not currentPlayer['isBot']:
+              input('Aperte Enter para jogar o dado...')
+          speech('\n•••\n', .03)
+          
+          #escolhendo a face no dado
+          thisAction = random.choices(Actions, weights = (thisDice['Passos'], thisDice['Tiro'], thisDice['Cérebro']), k = 1)
+
+          match thisAction[0]:
+              case 'Passos':
+                  steps += 1
+              case 'Tiro':
+                  shots += 1
+                  shotDices[thisDice['Cor']] += 1
+              case 'Cérebro':
+                  brains += 1
+
+          speech('-> {}!\nTotais neste turno:\n'.format(thisAction[0]), .01)
+          print(' - Passos: {}\n - Tiros: {}\n - Cérebros: {}\n'.format(steps, shots, brains))
+
+          if shots >= currentPlayer['hp']:
+              speech('\nOh não, você perdeu este turno!\n', .03)
+              playerIsPlaying = False
+              break
+
+          if dices >= 3:
+              print('---\nDados restantes no tubo:')
+              for leftDice in DiceTube:
+                  print(f"{DiceTube[leftDice]['Cor']}: {DiceTube[leftDice]['Quantidade']}")
+
+              while True:
+                  speech('---\nDeseja pegar mais 3 dados para jogar? (S/N)\n', .03)
+                  if not currentPlayer['isBot']:
+                      try:
+                          keepPlaying = str.lower(input())
+                      except:
+                          speech('\nOops, digite S para sim ou N para não.\n', .03)
+                  else:
+                      keepPlaying = 'n' #bot medroso pra acelerar a gameplay, TODO: keepPlaying <- prob('s' = ?, 'n' = ?)
+                  
+                  if keepPlaying in ('s', 'n'):
+                      break
+                  else:
+                      speech('\nOops, digite S para sim ou N para não.\n', .03)
+          
+              if keepPlaying == 's':
+                  dices = 0
+                  totalInTube = 0
+                  for q in DiceTube:
+                      totalInTube += DiceTube[q]['Quantidade']
+                  if totalInTube < 3:
+                      speech('\nRedefinindo dados no tubo, exceto aqueles que resultaram em tiros...\n', .03)
+                      DiceTube = copy.deepcopy(Dices) #tubo a ser utilizado no turno do próximo jogador, resetado para o default sempre que muda de jogador
+                      DiceTube[0]['Quantidade']   = Dices[0]['Quantidade'] - shotDices['Verde']
+                      DiceTube[1]['Quantidade']   = Dices[1]['Quantidade'] - shotDices['Amarelo']
+                      DiceTube[2]['Quantidade']   = Dices[2]['Quantidade'] - shotDices['Vermelho']
+                      for leftDice in DiceTube:
+                          print(f"{DiceTube[leftDice]['Cor']}: {DiceTube[leftDice]['Quantidade']}")
+
+              else: #keepPlaying == 'n'
+                  currentPlayer['brains'] += brains
+                  playerIsPlaying = False
+                  speech('{} termina seu turno com\n - {} Cérebros\n - Sofrendo {} Tiros, avançando com {} cérebros no total.'.format(currentPlayer['name'], brains, shots, currentPlayer['brains']), .03)
+                  break
+
+      newSection()
+      speech('\nA rodada terminou. Estatísticas:\n', .04)
+      for p in PlayersInGame:
+          print('\n{}: {} cérebros'.format(p['name'], p['brains']))
+#enddef
+
+'''
+
+'''
+def tiebreak(PlayersInGame):
+  maxBrains = 0
+  tieList = []
+  for thisPlayer in PlayersInGame:
+      if thisPlayer['brains'] == Klass[thisPlayer['klass']]['fullBelly']:
+          tieList.append(thisPlayer)
+
+  if len(tieList) > 1:
+      newSection()
+      speech('**\nTemos dois vencedores na rodada. Hora do desempate! Quem conseguir mais cérebros no desempate, ganha!\n**', .03)
+      time.sleep(1)
+      foundWinner = False
+  else:
+      return tieList[0]['name']
+  
+  while not foundWinner:
+      play(tieList)
+
+      for thisPlayer in tieList:
+          thisPlayerGain = thisPlayer['brains'] - Klass[thisPlayer['klass']]['fullBelly']
+          if thisPlayerGain > maxBrains:
+              maxBrains = thisPlayerGain
+
+      listOfTopTie = []
+      for thisPlayer in tieList:
+          if thisPlayer['brains'] - Klass[thisPlayer['klass']]['fullBelly'] == maxBrains:
+              listOfTopTie.append(thisPlayer)
+      
+      tieList = []
+      tieList = listOfTopTie
+      if len(listOfTopTie) == 1:
+          foundWinner = True
+
+  return listOfTopTie[0]['name']
+
+#enddef
+
+'''
+
+'''
+
+def congratulateWinner(champion):
+  newSection()
+  speech('- - - - - Temos um vencedor! - - - - -\n', .07)
+  time.sleep(1)
+  speech('\n**************************************', .03)
+  print(f'\n- - - - - Parabéns {champion}! - - - - -')
+  speech('**************************************', .03)
+  newSection()
+
+
+
+#md_UiFunctions.py
+
+global fastMode, allText
+allText = ''
+
+def defineModes():
+  global fastMode
+  fastmode = False
+  strFastMode = input('Tecle \'S\' para ativar o modo de texto rápido, ou aperte Enter para prosseguir assim mesmo... (Dica: o modo rápido escreve os textos mais depressa na tela.)')
+  if strFastMode.lower() == 's':
+      fastMode = True
+  else:
+      fastMode = False
+
+def newSection():
+  print("\n\n")
+  speech("============================================|", .01)
+  speech("|######################", .03)
+  print("\n\n")
+#enddef
+
+def speech(text, speed):
+  speed = 1
+  global fastMode, allText
+  if fastMode:
+      speed = 0
+  allText += text
+  pyscript.write('textArea', text)
+#enddef
+
+
+'''
+
+ScriptStartGame: script para fins de imersão
+
+'''
+
+def ScriptStartGame(PlayersInGame):
+  speech('\nMestre: A aventura vai começar.\n', .03)
+  speech('\nNossos nobres heróis ', .03)
+  for onePlayer in PlayersInGame:
+      speech('{}, {}; '.format(onePlayer['name'], onePlayer['description']),.01)
+      time.sleep(.4)
+  
+  speech('partem em sua jornada para salvar o mundo dos zumbis e... ãh?', .03)
+  speaker1 = PlayersInGame[random.randrange(0, len(PlayersInGame))]['name']
+  speaker2 = PlayersInGame[random.randrange(0, len(PlayersInGame))]['name']
+  while speaker1 == speaker2:
+      speaker2 = PlayersInGame[random.randrange(0, len(PlayersInGame))]['name']
+
+  speech('\n{}: Que barulho é esse?'.format(speaker1), .03)
+  time.sleep(2)
+  speech('\n{}: Parece que vem da porta.'.format(speaker2), .03)
+  time.sleep(2)
+  speech('\n -Frodo, o guarda, vem correndo até a sala. Parece que está com o braço ferido.', .03)
+  time.sleep(2)
+  speaker1 = PlayersInGame[random.randrange(0, len(PlayersInGame))]['name']
+  speaker2 = PlayersInGame[random.randrange(0, len(PlayersInGame))]['name']
+  while speaker1 == speaker2:
+      speaker2 = PlayersInGame[random.randrange(0, len(PlayersInGame))]['name']
+
+  speech('\nFrodo: Arrgh! {}, {}, pessoal! Emergência!'.format(speaker1, speaker2), .03)
+  time.sleep(2)
+  speech('\n{}: Frodo! O que houve? Seu braço!'.format(speaker1), .03)
+  time.sleep(2)
+  speech('\nMestre: Antes que alguém pudesse proferir outras palavras, percebem uma silhueta atrás de Frodo.', .03)
+  time.sleep(3)
+  print('\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣶⣿⣿⣿⣷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⣴⣶⣶⣿⣿⣿⣿⣶⣦⣄⣀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣴⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣄⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠙⠻⢿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠆⠀⠀⠀⠀⠀⠈⠉⠀⣿⣿⣿⣿⣿⣷⠀\n⠀⠀⠀⠀⠀⠀⠀⢀⣀⣤⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⠃⠀⠀⠀⠀⠀⠀⠀⠀⣿⡟⠹⣿⣿⣿⡆\n⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣿⡇\n⠀⠀⠀⢀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⣠⣼⣿⣿⣿⣿⣿⡟⠀⣿⣿⡿⠻⠟⠀⠀⠀⠀⠸⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⣴⣿⣿⣿⣿⣿⣿⣿⣿⡇⢠⣿⣿⡷⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠻⣿⣿⣿⣿⣿⠋⢻⣿⣧⣻⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠙⠛⣿⣿⠏⠀⠀⠉⠃⣿⡟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⠋⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⡏⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠈⢻⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⡿⠁⠀⠀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⣿⣿⣿⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⡿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⠛⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⢿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢾⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⠿⣿⣿⣿⡿')
+  speech('zumbi: ', .01)
+  time.sleep(3)
+  speech('C... Cééééreebrooos...', .05)
+  time.sleep(1)
+  speech('\n\nMestre: Uma horda de zumbis entra na casa. ', .03)
+  time.sleep(2)
+  speaker1 = PlayersInGame[random.randrange(0, len(PlayersInGame))]['name']
+  speaker2 = PlayersInGame[random.randrange(0, len(PlayersInGame))]['name']
+  while speaker1 == speaker2:
+      speaker2 = PlayersInGame[random.randrange(0, len(PlayersInGame))]['name']
+
+  speech('{} tenta alcançar o baú onde guardam as armas. Está emperrado. {} tenta ajudá-lo, mas percebe uma pressão sob'.format(speaker1, speaker2),.03)
+  speech('\nseu tornozelo. Sua visão fica escura e desmaia.',.03)
+  time.sleep(1)
+
+  speech('\n\nMestre: Quando {} acorda, percebe algo diferente: estava verde. Seus amigos também. Frodo havia sumido.'.format(speaker2),.03)
+  time.sleep(1)
+  speaker1 = PlayersInGame[random.randrange(0, len(PlayersInGame))]['name']
+  speaker2 = PlayersInGame[random.randrange(0, len(PlayersInGame))]['name']
+  while speaker1 == speaker2:
+      speaker2 = PlayersInGame[random.randrange(0, len(PlayersInGame))]['name']
+
+  speech('\n{}: Gente, tem algo errado...'.format(speaker1), .03)
+  time.sleep(1)
+  speech('\n{}: Uau, Sherlock Holmes, descobriu isso sozinho? Parece que viramos zumbis.'.format(speaker2), .03)
+  time.sleep(1)
+  speech('\n{}: Paia :/ . Pior que eu to com fome...'.format(speaker1), .03)
+  time.sleep(1)
+
+  speaker1 = PlayersInGame[random.randrange(0, len(PlayersInGame))]['name']
+  speaker2 = PlayersInGame[random.randrange(0, len(PlayersInGame))]['name']
+  while speaker1 == speaker2:
+      speaker2 = PlayersInGame[random.randrange(0, len(PlayersInGame))]['name']
+
+  speech('\n{}: Acho que devíamos sair por aí comer uns cérebros, papo reto.'.format(speaker1), .03)
+  time.sleep(1)
+  speech('\n{}: Devíamos fazer uma competição também, quem enche a barriga primeiro.'.format(speaker2), .03)
+  time.sleep(1)
+  speech('\n{}: Da hora! Eu tô nessa!'.format(speaker1), .03)
+  time.sleep(1)
+
+  speech('\n\nMestre: E então, os mais novos zumbis de Rootenville saíram para buscar vítimas indefesas para\n', .03)
+  speech('fins puramente competitivos. ', .03)
+  time.sleep(2)
+  speech('Que foi, achou que eles teriam que coletar cérebros para salvar o mundo de algum jeito?', .03)
+
+#enddef
+
+
+#zombieDice.py
+
+# Bibliotecas
+
+
+#--
+
+defineModes()
+
+'''
+
+Welcome: mensagem de boas vindas
+
+'''
+def Welcome():
+    speech('ATENÇÃO: este programa usa alguns caracteres UTF-8. Caso seu console não esteja configurado com suporte UTF-8,', .01)
+    speech('\n vão aparecer uns bagulhos sinistros na tela.', .01)
+    speech('\nAqui uma demonstração desses caracteres: ⣿⣿⣿', .01)
+    speech('\nPS: o console do VScode decodifica estes caracteres ^^, o CMD do Windows normalmente não.', .01)
+    speech('\nPS²: Caso esteja testando o jogo, é possível utilizar os nomes chuck norris e hackerman para ficar com a quantidade total de cérebros após a 1ª rodada. (use um para cada jogador para testar o desempate)', .01)
+    newSection()
+    time.sleep(5)
+    newSection()
+    speech("Olá! Bem vindos ao ZombieDice.\n", .04)
+    time.sleep(2)
+    speech("Este é um jogo de zumbi, mas antes que você comece a se gabar\n", .01)
+    speech("de ser um expert em sobrevivência pós-apocalíptica porque já\n", .01)
+    speech("assistiu todas as temporadas de The Walking Dead, fique sabendo que:", .01)
+    time.sleep(2)
+    speech("\n\n   1. Já pode tirar seu cavalinho da horda de zumbis, Rick Grimes.", .01)
+    speech("\n      Neste jogo, VOCÊ É O ZUMBI.", .01)
+    time.sleep(1)
+    speech("\n\n   2. Para de ser fanboy, aceita logo que TWD fica paia depois da 6 temporada :/", .01)
+    time.sleep(3)
+
+    speech("\n\nOk, preparem a pipoca, acomodem-se na cadeira, abram o suco de tamarindo (com sabor de limão)!", .01)
+    speech("\nVamos começar. Antes, eu preciso saber quanta gente vai jogar.", .01)
+    speech("\nAh, e não se preocupe se tiver pouca gente! Posso usar meus poderes", .01)
+    speech("\npsiônicos para invocar uns bots.", .01)
+
+    StartMenu()
+#enddef
+
+'''
+
+StartMenu: Define a quantidade de jogadores e de bots
+
+'''
+
+def StartMenu():
+    while True:
+        try:
+            quantityOfPlayers = int(input("\nQuantas pessoas vão jogar?:"))
+            if quantityOfPlayers < 0:
+                quantityOfPlayers *= -1
+
+            break
+        except ValueError:
+            print("Oops... Algo deu errado. Você inseriu um número de jogadores?")
+    #endwhile    
+
+    print("Entendi, {} pessoas vão jogar.".format(quantityOfPlayers))
+
+    while True:
+        try:
+            quantityOfBots = int(input("\nQuantos bots vão jogar?:"))
+            if quantityOfBots < 0:
+                quantityOfBots *= -1
+
+            break
+        except ValueError:
+            print("Oops... Algo deu errado. Você inseriu um número de bots?")
+    #endwhile   
+      
+    print("Bip bop, {} bots vão jogar.".format(quantityOfBots))
+
+    TotalInThisGame = TotalInGame(quantityOfPlayers, quantityOfBots)
+
+    if TotalInThisGame.total <= 1:
+        speech("\n\nQuer todos os cérebros pra você? ~.o", .03)
+        speech("\nAdicione pelo menos 2 jogadores ou bots para iniciar.\n", .03)
+        StartMenu()
+
+    if TotalInThisGame.players == 0:
+        print("Robô também sofre, abaixem o preço do i9!")
+
+    PlayersInGame = SetCharacters(TotalInThisGame)
+    ScriptStartGame(PlayersInGame)
+    StartGame(PlayersInGame)
+
+#enddef
+
+
+'''
+
+'''
+def thankYou():
+    newSection()
+    speech('\nObrigado por jogar minha versão de ZombieDice.\n', .03)
+    speech('Espero que tenha se divertido o tanto quanto eu me diverti fazendo ele (ou mais!)\n', .03)
+    speech('De fato, gostei tanto de construir ele, que vou aprimorar a jogatina.\n', .03)
+    speech('Lembra quando tu foi definir seu personagem e lá dizia que tinha classes em construção?\n', .03)
+    speech('Pois é.\n', .03)
+    speech('E o melhor, tá tudo open source no GitHub...\n', .03)
+    speech('https://github.com/dlgiovani\n', .03)
+    speech('\n-- Obrigado ao prof Galbas por lecionar a matéria de RC com tanta qualidade\n', .03)
+
+'''
+
+StartGame: inicia as rodadas
+
+'''
+
+def StartGame(PlayersInGame):
+    newSection()
+    keepPlaying = 's'
+    hasWinner   = False
+
+    while not hasWinner:
+
+        play(PlayersInGame)
+
+        for p in PlayersInGame:
+            '''
+            Use estes nomes para testar as condições de desempate e vitória mais facilmente.
+            '''
+            if p['name'].lower() in ('chuck norris', 'hackerman'):
+                p['brains'] = Klass[p['klass']]['fullBelly']
+
+            if p['brains'] == Klass[p['klass']]['fullBelly']:
+                hasWinner = True
+
+
+        if hasWinner:
+            winnerPlayer = tiebreak(PlayersInGame)
+            congratulateWinner(winnerPlayer)
+            thankYou()
+
+#enddef
+
+Welcome()
+
+</py-script>
+
+</body>
+
+<link rel="stylesheet" href="/pyscript-main/" />
+<script defer src="https://pyscript.net/latest/pyscript.js"></script>

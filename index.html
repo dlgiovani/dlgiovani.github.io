@@ -6,12 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/columns.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/menus.css">
     <link rel="icon" type="image/png" sizes="32x32" href="img/favico/favicon-32x32.png">
 
     <title>Giovani DL</title>
 </head>
-<body>
-    <div class="cardBox col-0-2">
+<body id="home">
+    <div class="sideBar">
+
+        <a href="#home">
+            <svg fill="var(--color_A3)" viewBox="0 0 16 16" class="menuBtn home" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.36 1.37l6.36 5.8-.71.71L13 6.964v6.526l-.5.5h-3l-.5-.5v-3.5H7v3.5l-.5.5h-3l-.5-.5V6.972L2 7.88l-.71-.71 6.35-5.8h.72zM4 6.063v6.927h2v-3.5l.5-.5h3l.5.5v3.5h2V6.057L8 2.43 4 6.063z"></path></svg>
+        </a>
+
+        <a href="#skills">
+            <svg fill="var(--color_A3)" t="1569683753031" viewBox="0 0 1024 1024" version="1.1" class="menuBtn skills" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><defs></defs><path d="M312.1 591.5c3.1 3.1 8.2 3.1 11.3 0l101.8-101.8 86.1 86.2c3.1 3.1 8.2 3.1 11.3 0l226.3-226.5c3.1-3.1 3.1-8.2 0-11.3l-36.8-36.8c-3.1-3.1-8.2-3.1-11.3 0L517 485.3l-86.1-86.2c-3.1-3.1-8.2-3.1-11.3 0L275.3 543.4c-3.1 3.1-3.1 8.2 0 11.3l36.8 36.8z"></path><path d="M904 160H548V96c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H120c-17.7 0-32 14.3-32 32v520c0 17.7 14.3 32 32 32h356.4v32L311.6 884.1c-3.7 2.4-4.7 7.3-2.3 11l30.3 47.2v0.1c2.4 3.7 7.4 4.7 11.1 2.3L512 838.9l161.3 105.8c3.7 2.4 8.7 1.4 11.1-2.3v-0.1l30.3-47.2c2.4-3.7 1.3-8.6-2.3-11L548 776.3V744h356c17.7 0 32-14.3 32-32V192c0-17.7-14.3-32-32-32z m-40 512H160V232h704v440z"></path></svg>
+        </a>
+
+        <a href="#projects">
+            <svg fill="var(--color_A3)" viewBox="0 0 15 16" class="menuBtn projects" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path></svg>
+        </a>
+
+    </div>
+    <div class="cardBox col-0-2 r-0">
 
         <p class="upperTitle">Hi, I'm</p>
         <div class="mainTitle">Giovani Drosda Lima</div>
@@ -51,20 +68,64 @@
 
     </div>
 
-    <div class="col-2-4">
+    <div class="col-0-4 r-1">
 
-        <div class="cardContainer">
+        <div class="title" id="projects">Projects</div>
 
-            <p class="upperTitle">
-                Password Generator
-            </p>
-            <div>
-                <button class="buttonDefault">
-                    Code
-                </button>
-                <button class="buttonDefault" onclick="location.href='/projects/passwordGenerator.html'" type="button">
-                    Check it out
-                </button>
+        <div class="box">
+
+            <div class="cardContainer elevate">
+
+                <p class="upperTitle">
+                    Password Generator
+                </p>
+                <p class="paragraph">
+                    Creates a strong and safe password that consists of letters, numbers and special characters randomly generated.
+                </p>
+                <div class="cardButtonsContainer">
+                    <button class="buttonDefault" onclick="location.href='https://github.com/dlgiovani/password-generator'" type="button">
+                        Code
+                    </button>
+                    <button class="buttonDefault" onclick="location.href='/projects/passwordGenerator.html'" type="button">
+                        Check it out
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="cardContainer elevate">
+
+                <p class="upperTitle">
+                    Zombie Dice
+                </p>
+                <p class="paragraph">
+                    A shell game developed in python. Very fun to play with your friends or even bots!
+                </p>
+                <div class="cardButtonsContainer">
+                    <button class="buttonDefault" onclick="location.href='https://github.com/dlgiovani/ZombieDice'" type="button">
+                        Code
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="cardContainer elevate">
+
+                <p class="upperTitle">
+                    Zipf lab
+                </p>
+                <p class="paragraph">
+                    Application in development to display the frequency of objects from a collection in an (todo) easy to understand and visualize way, correlating it to Zipf's observations.
+                </p>
+                <div class="cardButtonsContainer">
+                    <button class="buttonDefault" onclick="location.href='https://github.com/dlgiovani/zipf-project'" type="button">
+                        Code
+                    </button>
+                    <button class="buttonDisabled">
+                        Coming soon...
+                    </button>
+                </div>
+
             </div>
 
         </div>
