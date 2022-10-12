@@ -20,6 +20,8 @@
 {
     margin: 1em 0 1em 0;
     animation: small-aurora 4s infinite;
+    transition: .5s;
+    background-color: transparent;
 }
 
 .home:hover
@@ -29,10 +31,10 @@
 
 .skills:hover
 {
-    fill: var(--color_B3);
+    fill: var(--color_B2);
 }
 
 .projects:hover
 {
-    fill: var(--color_B2);
+    fill: var(--color_B3);
 }

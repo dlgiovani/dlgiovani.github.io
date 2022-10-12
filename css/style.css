@@ -17,7 +17,7 @@
 {
     :root
     {
-       --sidePanelWidth: 0;
+       --sidePanelWidth: 20px;
     }
 }
 
@@ -28,6 +28,7 @@
         --sidePanelWidth: 40px;
     }
 }
+
 
 html {
     transition: .4s;
@@ -59,10 +60,19 @@ body
 
 .cardBox
 {
+    display: inline-block;
     margin: 1vw;
     padding: 1em;
     box-shadow: 5px 10px 10px -5px var(--color_A3);
     animation: aurora 4s infinite;
+}
+
+.cycleBox
+{
+    display: inline-block;
+    margin: 4vw;
+    padding: 1em;
+    /* top: 15vh; */
 }
 
 .card
@@ -74,6 +84,7 @@ body
 {
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .cardContainer
@@ -82,12 +93,11 @@ body
     max-width: 20vw;
     height: 90vw;
     max-height: 18vw;
-    margin: 4em;
+    margin: 2em 4em;
     padding: 1em;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: var(--color_B2);
 }
 
 .projectCardBox
@@ -96,6 +106,15 @@ body
     padding: 1em;
     box-shadow: 1px 2px 10px var(--color_A3);
     text-align: center;
+}
+
+.circleContent
+{
+    align-self: center;
+    border-style: solid;
+    border-width: .5em;
+    border-radius: 100%;
+    padding: 1em;
 }
 
 /*----------texts*/
@@ -211,6 +230,44 @@ body
     bottom: 0;
 }
 
+
+/*----------images*/
+
+.cardImageSmall
+{
+    width: 5em;
+    height: 5em;
+}
+
+.cycleGraph
+{
+    width: 24em;
+    height: 24em;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    background: conic-gradient(var(--color_B1) 0 33%, var(--color_B2) 33% 66%, var(--color_B3) 66%);
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cycleGraphInner
+{
+    width: 18em;
+    height: 18em;
+    background: var(--color_A1);
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: left;
+    padding: 1em;
+    flex-direction: column;
+    overflow: hidden;
+}
+
 /*----------misc*/
 
 .projImage
@@ -222,4 +279,38 @@ body
 .mouseForbidden
 {
     cursor: not-allowed;
+}
+
+.top
+{
+    margin-top: 25vh;
+}
+
+.borderModern
+{
+    border-style: solid;
+    border-width: .2em;
+    border-radius: 1em;
+    border-color: var(--color_A3);
+}
+
+.solutionsHover:hover
+{
+    color: var(--color_B1);
+    transition: .1s;
+    text-decoration: underline;
+    transition: 1s;
+}
+
+.solutionsHover::after
+{
+    content: ' solve problems.';
+    transition: .4s;
+}
+
+.solutionsHover:hover::after
+{
+    content: ' create solutions.';
+    color: var(--color_B3);
+    transition: .5s;
 }

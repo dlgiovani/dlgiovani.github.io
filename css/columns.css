@@ -1,57 +1,81 @@
-.col-0-1{
-    position: absolute;
-    left:0;
-    width:25%;
+@media only screen and (max-width: 600px)
+{
+    .col-0-1{
+        position: relative;
+        left:0;
+        width:50%;
+    }
+    
+    .col-0-2{
+        position: relative;
+        left:0;
+        width:100%;
+    }
+    
+    .col-0-3{
+        position: relative;
+        left:0;
+        width:100%;
+    }
+    
+    .col-0-4{
+        position: relative;
+        left:0;
+        width:100%;
+    }
+    
+    .col-2-4{
+        position: relative;
+        left:50%;
+        width:100%;
+    }
+
+    .col-2-4s{
+        position: absolute;
+        left:50%;
+        width:50%;
+    }
 }
 
-.col-0-2{
-    position: absolute;
-    left:0;
-    width:50%;
-}
+@media only screen and (min-width: 601px)
+{
+    .col-0-1{
+        position: relative;
+        left:0;
+        width:25%;
+    }
+    
+    .col-0-2{
+        position: relative;
+        left:0;
+        width:50%;
+    }
+    
+    .col-0-3{
+        position: relative;
+        left:0;
+        width:75%;
+    }
+    
+    .col-0-4{
+        position: relative;
+        left:0;
+        width:100%;
+    }
+    
+    .col-2-4{
+        position: absolute;
+        left:50%;
+        width:50%;
+    }
 
-.col-0-3{
-    position: absolute;
-    left:0;
-    width:75%;
-}
-
-.col-0-4{
-    position: absolute;
-    left:0;
-    width:100%;
-}
-
-.col-2-4{
-    position: absolute;
-    left:50%;
-    width:50%;
+    .col-2-4s{
+        position: absolute;
+        left:50%;
+        width:40%;
+    }
 }
 
 
 /*----------rows*/
 
-.r-0
-{
-    top: 0;
-}
-
-.r-1
-{
-    top: 100vh;
-}
-
-.r-1h
-{
-    top: 90vh;
-}
-
-.r-2
-{
-    top: 200vh;
-}
-
-.r-2h
-{
-    top: 190vh;
-}
