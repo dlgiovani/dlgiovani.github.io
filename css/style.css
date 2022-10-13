@@ -17,7 +17,7 @@
 {
     :root
     {
-       --sidePanelWidth: 20px;
+       --sidePanelWidth: 40px;
     }
 }
 
@@ -63,8 +63,8 @@ body
     display: inline-block;
     margin: 1vw;
     padding: 1em;
-    box-shadow: 5px 10px 10px -5px var(--color_A3);
-    animation: aurora 4s infinite;
+    /*box-shadow: 5px 10px 10px -5px var(--color_A3);*/
+    /*animation: aurora 4s infinite;*/
 }
 
 .cycleBox
@@ -89,10 +89,10 @@ body
 
 .cardContainer
 {
-    width: 90vw;
+    min-width: 200px;
     max-width: 20vw;
-    height: 90vw;
-    max-height: 18vw;
+    min-height: 20vw;
+    max-height: fit-content;
     margin: 2em 4em;
     padding: 1em;
     display: flex;
@@ -132,7 +132,7 @@ body
     font-family: monofonto;
     color: var(--color_A3);
     font-size: 14vmin;
-    animation: appear .4s;
+    animation: small-aurora 14s infinite;
 }
 
 
