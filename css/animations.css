@@ -18,18 +18,28 @@
   }
 
   @keyframes aurora {
-
-    0% {
-        box-shadow: inset 1em 3em 10em .2em var(--color_A2);
-    }
     
+    0% {
+        color: var(--color_A3);
+        transform: translateX(10vw);
+    }
+
+    25% {
+        color: var(--color_A2);
+    }
+
     50% {
-        box-shadow: inset 1em 3em 7em .1em var(--color_A3);
+        color: var(--color_A3);
+    }
+
+    75% {
+        color: var(--color_A2);
     }
 
     100% {
-        box-shadow: inset 1em 3em 10em .2em var(--color_A2);
+        color: var(--color_A3);
     }
+
   }
 
   @keyframes small-aurora {
