@@ -46,3 +46,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   type();
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+  var navbar = document.querySelector('.navbar');
+  navbar.style.display = 'none';
+});
