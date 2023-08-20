@@ -6,154 +6,141 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Giovani's portfolio." />
     <meta name="keywords" content="django, marketplace, developer, portfolio" />
+
+    <link rel="stylesheet" href="assets/css/scrollBar.css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Giovani's pages</title>
   </head>
-  <body class="bg-gray-900">
-    <!-- Header -->
-    <header class="bg-gray-900 text-white py-8">
-      <div class="container mx-auto text-center">
-        <h1 class="text-4xl font-semibold mb-2">Giovani DL</h1>
-        <div class="md:flex grid grid-cols-1 justify-center">
-          <div class="text-xl">Software developer&nbsp;</div>
-          <div class="text-xl" id="solutionsHover"></div>
-        </div>
-      </div>
-    </header>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-2">
-      <!-- About Me -->
-      <div class="bg-indigo-600 p-4 rounded-lg">
-        <div class="container mx-auto">
-          <h2 class="text-2xl font-semibold mb-4 text-gray-900">Who am I?</h2>
-          <p class="text-white">
-            I think, visualize, understand and code. And drink coffe.
-            </p>
-            <hr>
-            <p class="text-white mt-1">
-            With a technical course in IT finished and Data science degree in progress, all I dream about is code (and get rich).
-          </p>
-          <p class="text-white mt-1">
-            I've been practicing many web-based software development skills such as Django, Flutter, Tailwind and Javascript. <strong>Web is the future (and present).</strong>
-          </p>
-        </div>
-      </div>
-
-      <!-- Projects -->
-      <a href="https://my-simple-marketplace-de99bbb33188.herokuapp.com/" target="_blank" >
+  <body class="bg-zinc-800">
+    <div class="flex justify-center items-center h-screen fixed inset-0 -z-10">
       <div
-        class="bg-orange-500 hover:bg-orange-600 ease-in duration-300 p-4 rounded-lg text-gray-900 hover:text-white"
+        class="text-white md:text-5xl font-semibold md:font-bold text-center"
       >
-        <h2 class="text-2xl font-semibold mb-4">Marketplace</h2>
-        <img
-          class="rounded-lg p-1 hover:rounded-xl ease-in duration-300"
-          src="assets/images/my_simple_marketplace_landpage.JPG"
-        />
-        <p class="font-semibold text-sky-50">
-          A simple marketplace with functional chat, user register and login, and item
-          submission/editing. Go try!
-        </p>
+        I got 99 problems but to solve'em ain't one.
       </div>
-    </a>
+    </div>
 
-      <!-- Contact -->
-      <div class="bg-indigo-500 p-4 rounded-lg">
-        <div class="container mx-auto">
-          <h2 class="text-2xl font-semibold mb-4 text-gray-900">Contact</h2>
-          <p class="text-gray-700">
-       
-              <div class="pb-6 flex justify-left gap-2 flex justify-left gap-2">
-                <svg
-                  fill="var(--color_A3)"
-                  stroke-width="0"
-                  viewBox="0 0 1024 1024"
-                  class="sc-gFGZVQ zWYNS"
-                  height="1em"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M928 160H96c-17.7 0-32 14.3-32 32v640c0 17.7 14.3 32 32 32h832c17.7 0 32-14.3 32-32V192c0-17.7-14.3-32-32-32zm-40 110.8V792H136V270.8l-27.6-21.5 39.3-50.5 42.8 33.3h643.1l42.8-33.3 39.3 50.5-27.7 21.5zM833.6 232L512 482 190.4 232l-42.8-33.3-39.3 50.5 27.6 21.5 341.6 265.6a55.99 55.99 0 0 0 68.7 0L888 270.8l27.6-21.5-39.3-50.5-42.7 33.2z"
-                  ></path>
-                </svg>
-        
-                <a
-                  href="https://mail.google.com/mail/u/0/#inbox?compose=CllgCJftMZGzZQcnKmNSqQgGLQPqJmlNfKfNmQzBFLTSmWMfLxlFBfxFfzWBppGnPZMRtMKfhHg" target="_blank"
-                  class="text-md text-white font-semibold font-semibold"
-                  >gdrosdalima@gmail.com</a
-                >
-              </div>
-        
-              <div class="pb-6 flex justify-left gap-2">
-                <svg
-                  fill="var(--color_B2)"
-                  stroke-width="0"
-                  version="1.1"
-                  viewBox="0 0 16 16"
-                  class="sc-ckMVTt hFGpnC"
-                  height="1em"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M13.641 2.325c-1.497-1.5-3.488-2.325-5.609-2.325-4.369 0-7.925 3.556-7.925 7.928 0 1.397 0.366 2.763 1.059 3.963l-1.125 4.109 4.203-1.103c1.159 0.631 2.463 0.966 3.787 0.966h0.003c0 0 0 0 0 0 4.369 0 7.928-3.556 7.928-7.928 0-2.119-0.825-4.109-2.322-5.609zM8.034 14.525v0c-1.184 0-2.344-0.319-3.356-0.919l-0.241-0.144-2.494 0.653 0.666-2.431-0.156-0.25c-0.663-1.047-1.009-2.259-1.009-3.506 0-3.634 2.956-6.591 6.594-6.591 1.759 0 3.416 0.688 4.659 1.931 1.244 1.247 1.928 2.9 1.928 4.662-0.003 3.637-2.959 6.594-6.591 6.594zM11.647 9.588c-0.197-0.1-1.172-0.578-1.353-0.644s-0.313-0.1-0.447 0.1c-0.131 0.197-0.512 0.644-0.628 0.778-0.116 0.131-0.231 0.15-0.428 0.050s-0.838-0.309-1.594-0.984c-0.588-0.525-0.987-1.175-1.103-1.372s-0.013-0.306 0.088-0.403c0.091-0.088 0.197-0.231 0.297-0.347s0.131-0.197 0.197-0.331c0.066-0.131 0.034-0.247-0.016-0.347s-0.447-1.075-0.609-1.472c-0.159-0.388-0.325-0.334-0.447-0.341-0.116-0.006-0.247-0.006-0.378-0.006s-0.347 0.050-0.528 0.247c-0.181 0.197-0.694 0.678-0.694 1.653s0.709 1.916 0.809 2.050c0.1 0.131 1.397 2.134 3.384 2.991 0.472 0.203 0.841 0.325 1.128 0.419 0.475 0.15 0.906 0.128 1.247 0.078 0.381-0.056 1.172-0.478 1.338-0.941s0.166-0.859 0.116-0.941c-0.047-0.088-0.178-0.137-0.378-0.238z"
-                  ></path>
-                </svg>
-        
-                <a href="https://wa.me/5541984486463" target="_blank" class="text-md text-white font-semibold"
-                  >+55 (41) 98448-6463</a
-                >
-              </div>
-        
-              <div class="pb-6 flex justify-left gap-2">
-                <svg
-                  fill="var(--color_B1)"
-                  viewBox="0 0 16 16"
-                  class="sc-kDDrLX hTbbuY"
-                  height="1em"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-                  ></path>
-                </svg>
-        
-                <a href="https://github.com/dlgiovani" target="_blank" class="text-md text-white font-semibold"
-                  >github.com/dlgiovani</a
-                >
-              </div>
-        
-              <div class="pb-6 flex justify-left gap-2">
-                <svg
-                  fill="var(--color_B3)"
-                  viewBox="0 0 448 512"
-                  class="sc-jqUVSM fNGOxn"
-                  height="1em"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
-                  ></path>
-                </svg>
-        
-                <a
-                  href="https://www.linkedin.com/in/giovani-drosda-lima/" target="_blank"
-                  class="text-md text-white font-semibold"
-                  >linkedin.com/in/giovani-drosda-lima</a
-                >
-              </div>
+    <div class="h-screen md:h-full flex justify-center items-center md:my-2">
+      <div
+        class="flex flex-col justify-center items-center p-12 md:w-screen md:h-screen mx-12 my-16 md:mt-0 rounded-xl bg-indigo-600 text-center"
+      >
+        <img src="assets/images/self-portrait.JPG" class="w-40 rounded-full" />
+        <p class="text-sm text-white">(self-portrait on MSpaint)</p>
+        <div class="text-white text-xl md:text-5xl font-bold mt-1">
+          Hi👋, I'm Giovani
+        </div>
+        <p class="mt-2 text-gray-200">
+          I code websites using Django, Python, Tailwind and a stainless steel
+          600ml cup of coffe.
+        </p>
+        <div class="flex justify-center items-center gap-4 mt-4">
+          <a href="https://github.com/dlgiovani" target="_blank">
+            <div
+              class="md:p-2 flex flex-col justify-center items-center hover:bg-indigo-700 rounded-xl ease-in duration-100"
+            >
+              <img src="assets/images/github_logo.png" class="w-10" />
+              <p class="text-white hidden md:block">GitHub</p>
             </div>
-          </p>
+          </a>
+          <a
+            href="https://linkedin.com/in/giovani-drosda-lima/"
+            target="_blank"
+          >
+            <div
+              class="md:p-2 flex flex-col justify-center items-center hover:bg-indigo-700 rounded-xl ease-in duration-100"
+            >
+              <img src="assets/images/linkedin_logo.png" class="w-10" />
+              <p class="text-white hidden md:block">linkedIn</p>
+            </div>
+          </a>
+          <a href="mailto:gdrosdalima@gmail.com" target="_blank">
+            <div
+              class="md:p-2 flex flex-col justify-center items-center hover:bg-indigo-700 rounded-xl ease-in duration-100"
+            >
+              <img src="assets/images/mail_icon.png" class="w-10" />
+              <p class="text-white hidden md:block">Mail me</p>
+            </div>
+          </a>
+          <a href="https://wa.me/5541984486463" target="_blank">
+            <div
+              class="md:p-2 flex flex-col justify-center items-center hover:bg-indigo-700 rounded-xl ease-in duration-100"
+            >
+              <img src="assets/images/whatsapp_logo.png" class="w-10" />
+              <p class="text-white hidden md:block">Whatsapp</p>
+            </div>
+          </a>
+          <a href="https://www.chess.com/member/kitamashi" target="_blank">
+            <div
+              class="md:p-2 flex flex-col justify-center items-center hover:bg-indigo-700 rounded-xl ease-in duration-100"
+            >
+              <img src="assets/images/chess_com_logo.svg" class="w-10" />
+              <p class="text-white hidden md:block">Chess.com</p>
+            </div>
+          </a>
         </div>
       </div>
-
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-4">
-      <div class="container mx-auto text-center">
-        <p>&copy; 2023 Giovani Drosda Lima. All rights reserved. <a href="dlgiovani.github.io-archives/index.html" class="text-cyan-100" target="_blank"><u>See my cool old portfolio</u></a> </p>
+    </div>
+    <div
+      class="flex flex-col justify-center items-center p-12 m-12 rounded-xl bg-violet-600 text-center"
+    >
+      <div>
+        <div class="text-white text-xl md:text-5xl font-bold">
+          Projects 🤓💻☝️
+        </div>
+        <p class="mt-4 text-gray-200">Check it out below!</p>
       </div>
-    </footer>
+    </div>
+
+    <div
+      class="flex flex-col justify-center items-center p-4 md:h-screen m-12 rounded-xl bg-violet-600 text-center"
+    >
+      <h1 class="text-white text-lg md:text-3xl font-semibold">
+        My marketplace
+      </h1>
+      <div
+        class="mt-4 md:m-4 gap-4 bg-violet-700 hover:bg-violet-800 ease-in duration-300 rounded-xl hover:rounded-3xl flex md:w-1/2"
+      >
+        <a
+          href="https://my-simple-marketplace-de99bbb33188.herokuapp.com/"
+          target="_blank"
+        >
+          <div class="m-2">
+            <p class="text-white">
+              With user signup/login, chat, item addition/edition, item browsing
+              per name/category and more.
+            </p>
+            <img
+              src="assets/images/my_simple_marketplace_landpage.JPG"
+              class="rounded-xl mt-2"
+            />
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div
+      class="flex flex-col justify-center items-center p-4 md:h-screen m-12 rounded-xl bg-emerald-700 text-center"
+    >
+      <h1 class="text-white text-lg md:text-3xl font-semibold">
+        More about me
+      </h1>
+      <div class="flex flex-col md:flex-row w-full justify-between p-2">
+        <div class="flex flex-col items-start text-left p-4">
+          <h1 class="text-lg text-white font-semibold">My goals are:</h1>
+          <p class="text-white">To get well paid 🤑🫰</p>
+          <p class="text-white">Work while travel to new places and meet new horizons 😎🥂</p>
+          <p class="text-white">Open a startup of my super cool personal project (classified) as a side hustle 🤫💹</p>
+          <p class="text-white">Get a girlfriend (this is gonna be like 4000 storypoints) 💌🥲</p>
+          <p class="text-white">Drink a nice coffe tomorrow morning. ☕</p>
+        </div>
+        <div class="flex flex-col items-start text-left p-4">
+          <h1 class="text-lg text-white font-semibold">My goals are <u>not:</u></h1>
+          <p class="text-white">To eat sushi 🥴 (not for me, but I respect)</p>
+          <p class="text-white">To leave projects unfinished 🤨</p>
+          <p class="text-white">Do a regular job. 😴</p>
+        </div>
+      </div>
+    </div>
   </body>
   <script src="assets/scripts/script.js"></script>
 </html>
