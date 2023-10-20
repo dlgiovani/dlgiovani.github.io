@@ -29,9 +29,9 @@ body {
   }
   
   ._slide {
-    background: url("/assets/images/bg_code.jpg") repeat-y;
+    background: url("/assets/images/bg_code.jpg") repeat;
     height: 3620px;
-    width: 1589px;
+    width: 100vw;
     animation: slide 400s linear infinite;
   }
   
