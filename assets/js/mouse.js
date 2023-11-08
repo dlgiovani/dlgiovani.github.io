@@ -1,7 +1,7 @@
 // UPDATE: I was able to get this working again... Enjoy!
 
 var cursor = document.querySelector('.cursor');
-var cursorinner = document.querySelector('.cursor2');
+var cursorinner = document.querySelector('.cursorinner');
 var a = document.querySelectorAll('a');
 
 document.addEventListener('mousemove', function(e){
@@ -19,12 +19,12 @@ document.addEventListener('mousemove', function(e){
 
 document.addEventListener('mousedown', function(){
   cursor.classList.add('click');
-  cursorinner.classList.add('cursorinnerhover')
+  cursorinner.classList.add('cursorinnerclick')
 });
 
 document.addEventListener('mouseup', function(){
   cursor.classList.remove('click')
-  cursorinner.classList.remove('cursorinnerhover')
+  cursorinner.classList.remove('cursorinnerclick')
 });
 
 a.forEach(item => {
@@ -33,5 +33,12 @@ a.forEach(item => {
   });
   item.addEventListener('mouseleave', () => {
     cursor.classList.remove('hover');
+  });
+
+  item.addEventListener('mouseover', () => {
+    cursorinner.classList.add('hoverinner');
+  });
+  item.addEventListener('mouseleave', () => {
+    cursorinner.classList.remove('hoverinner');
   });
 })

@@ -60,12 +60,12 @@ body {
   backdrop-filter: blur(2px) hue-rotate(90deg);
 }
 
-.cursor2 {
+.cursorinner {
   width: 10px;
   height: 10px;
   border-radius: 100%;
-  background-color: rgba(0, 0, 0, 0.878);
-  opacity: .3;
+  background-color: rgba(255, 255, 255, 1);
+  opacity: .7;
   position: fixed;
   transform: translate(-50%, -50%);
   pointer-events: none;
@@ -79,8 +79,22 @@ body {
   height: 70px;
 }
 
-.cursorinnerhover {
-  width: 50px;
-  height: 50px;
-  opacity: .5;
+.hoverinner {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  opacity: 1;
+  background-color: transparent;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: width .3s, height .3s, opacity .3s;
+  backdrop-filter: blur(10px) hue-rotate(120deg);
+}
+
+.cursorinnerclick {
+  width: 40px;
+  height: 40px;
+  opacity: .9;
+  border-radius: 35%;
 }
