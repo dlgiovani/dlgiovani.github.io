@@ -39,7 +39,7 @@ async function formatTime(time) {
 
 async function fetchTime() {
     try {
-        var response = await fetch('http://worldtimeapi.org/api/ip');
+        var response = await fetch('https://worldtimeapi.org/api/ip');
         r = await response.json()
         time = await formatTime(r);
         return time
