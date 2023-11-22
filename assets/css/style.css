@@ -9,7 +9,7 @@ body {
 
   }
 
-  * {cursor: none;}
+  /* * {cursor: none;} */
 
   /* WebKit-based browsers (Chrome, Safari) */
   body::-webkit-scrollbar {
@@ -26,26 +26,28 @@ body {
 
   ._container {
     overflow: hidden;
+    /* width: 3960px; */
   }
   
   ._slide {
-    background: url("/assets/images/bg_code.jpg") repeat;
-    height: 3620px;
+    background: url("/assets/images/bg_purple.jpg");
+    background-repeat: repeat;
+    background-size: 100vw 100vh;
+    height: 100vh;
+    /* width: 3960px; */
     width: 100vw;
-    animation: slide 400s linear infinite;
+    /* animation: slide 400s linear infinite; */
   }
   
   @keyframes slide{
     0% {
-      transform: translate3d(0, 0, 0);
+      transform: translateX(0);
     }
     100% {
-      transform: translate3d(0, -810px, 0);
+      transform: translateX(-3840px);
     }
   }
 
-
-  
 .cursor {
   width: 40px;
   height: 40px;
@@ -60,41 +62,9 @@ body {
   backdrop-filter: blur(2px) hue-rotate(90deg);
 }
 
-.cursorinner {
-  width: 10px;
-  height: 10px;
-  border-radius: 100%;
-  background-color: rgba(255, 255, 255, 1);
-  opacity: .7;
-  position: fixed;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  transition: width .3s, height .3s, opacity .3s;
-}
-
 .hover {
   background-color: rgba(52, 52, 52, 0.468);
   opacity: 0.5;
   width: 70px;
   height: 70px;
-}
-
-.hoverinner {
-  width: 40px;
-  height: 40px;
-  border-radius: 100%;
-  opacity: 1;
-  background-color: transparent;
-  position: fixed;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  transition: width .3s, height .3s, opacity .3s;
-  backdrop-filter: blur(10px) hue-rotate(120deg);
-}
-
-.cursorinnerclick {
-  width: 40px;
-  height: 40px;
-  opacity: .9;
-  border-radius: 35%;
 }
