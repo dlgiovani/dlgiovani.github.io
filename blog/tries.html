@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Tries</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href=""> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<style>
+    a:any-link {
+        text-decoration: underline;
+        color: #faf;
+    }
+
+    pr {
+        margin: .4em 0;
+        text-align: left;
+        width: 45em;
+    }
+
+    pr::before {
+        content: "➧";
+    }
+
+    h {
+        font-size: 1.61em;
+        font-weight: bold;
+        margin: 1em 0 0 0;
+    }
+
+    code {
+        color: #a5e;
+        font-family: monospace;
+        background-color: #1a001a;
+        border-radius: 5px;
+        margin: 2em 12em;
+        min-width: 25em;
+        padding: 1em;
+        text-align: left;
+    }
+
+    quote {
+        margin: 2em 1em;
+        border: 1px solid #a5e;
+        border-radius: 5px;
+        padding: 1em;
+    }
+
+    v {
+        color: #ea5;
+        font-family: monospace;
+    }
+
+    c {
+        color: #aaa;
+        font-family: monospace;
+    }
+
+    * {
+        color: #bca;
+        border-color: #faf;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        text-align: center;
+    }
+</style>
+
+<body class="bg-gray-900">
+    <pr class="w-full flex justify-center mt-4 font-thin"><a href="dlgiovani.github.io">Back to pages</a></pr>
+    <content class="flex flex-col justify-center items-center m-12 p-12 bg-gray-950 rounded-md">
+        <h>
+            Tries - Aplicação de busca binária em nós listados
+        </h>
+        <quote>"Em ciência da computação, uma trie, ou árvore de prefixos, é uma estrutura de dados do tipo árvore
+            ordenada, que pode ser usada para armazenar um array associativo em que as chaves são normalmente cadeias de
+            caracteres."<br>
+            <a href="https://pt.wikipedia.org/wiki/Trie">wikipedia</a>
+        </quote>
+        <pr>
+            Vamos falar um pouco sobre tries, o que são, para que servem, como implementá-las e, por fim, um exemplo.
+        </pr>
+        <h>
+            Partindo de árvores binárias:
+        </h>
+        <pr>
+            Uma tri (do inglês <i>retrieval</i>) é uma forma de hashing em notação Big O constante.
+        </pr>
+        <pr>
+            Uma tri é uma árvore, onde cada um de seus nós é um array. Como assim?
+            <br>
+            Pense em como uma árvore binária é representada:
+        </pr>
+        <code>
+            typedef struct <v>node</v> <c>// nó</c>
+            <br>
+            {
+            <br>
+            &nbsp;int <v>number</v>; <c>// valor do nó, definimos que será um número inteiro</c>
+            <br>
+            &nbsp;struct node *<v>left</v>; <c>// aponta para um nó à 'esquerda'</c>
+            <br>
+            &nbsp;struct node *<v>right</v>; <c>// aponta para um nó à 'direita'</c>
+            <br>
+            }
+            <br>
+            <v>node</v>;
+        </code>
+        <pr>
+            Com isso, podemos imaginar como seria uma árvore binária com raíz sendo 4, apontando para filhos 2 e 6, por
+            exemplo, da seguinte maneira:
+        </pr>
+        <a href="assets/binary_tree_nodes_example.jpg" target="_blank">
+            <img src="assets/binary_tree_nodes_example.jpg" class="h-96" />
+        </a>
+        <pr>
+            Caso você não esteja familiar, apenas saiba que o primeiro quadradinho com o número representa o valor de <i>number</i>. Logo abaixo dele, 0x121 representa o endereço deste valor na memória. Imediatamente ao lado dos valores, existem dois quadrados em sequência: o <i>left</i> e o <i>right</i>. Cada um deles tem como valor o endereço do número para o qual apontam (2 e 6, respectivamente).
+        </pr>
+        <pr>
+            Note que os endereços são alocados aleatoriamente, foram dispostos aqui com valores arbitrários para fins de demonstração.
+        </pr>
+        <quote>
+            Uma árvore binária, no melhor dos casos (balanceada), terá procedimentos de busca na ordem de O(log <i>n</i>). <br>
+            <a href="https://en.wikipedia.org/wiki/AVL_tree#Searching">wikipedia</a>
+        </quote>
+        <pr>
+            Vamos fazer uma pequena modificação na estrutura desta árvore, e usá-la para gravar nomes (limitaremo-nos aos caracteres minúsculos de <i>a</i> à <i>z</i> apenas, por simplicidade):
+        </pr>
+        <code>
+            typedef struct <v>node</v>
+            <br>
+            {
+            <br>
+            &nbsp;char *<v>letter</v>; <c>// um caracter</c>
+            <br>
+            &nbsp;struct node *<v>children[26]</v>; <c>// pointer para um node[array] de 26 espaços</c>
+            <br>
+            }
+            <br>
+            <v>node</v>;
+        </code>
+    </content>
+</body>
+
+</html>
