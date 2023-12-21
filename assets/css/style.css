@@ -68,3 +68,14 @@ body {
   width: 70px;
   height: 70px;
 }
+
+
+@keyframes roll-bg-image{
+  0%, 100%  {background-position-y: 12%;}
+  20%  {background-position: top;}
+  25%  {background-position: top;}
+  90% {background-position: bottom;}
+}
+.roll-bg-image {
+  animation: roll-bg-image 10.5s ease-in-out infinite;
+}
