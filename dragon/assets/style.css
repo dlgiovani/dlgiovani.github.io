@@ -110,6 +110,10 @@ button {
   cursor: pointer;
 }
 
+button w {
+  font-size: .7em;
+}
+
 button:hover {
   border: solid white;
 }
