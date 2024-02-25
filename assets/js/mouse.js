@@ -1,30 +1,18 @@
 // UPDATE: I was able to get this working again... Enjoy!
 
 var cursor = document.querySelector('.cursor');
-var cursorinner = document.querySelector('.cursorinner');
 var a = document.querySelectorAll('a');
 
 document.addEventListener('mousemove', function(e){
-  var x = e.clientX;
-  var y = e.clientY;
   cursor.style.transform = `translate3d(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%), 0)`
-});
-
-document.addEventListener('mousemove', function(e){
-  var x = e.clientX;
-  var y = e.clientY;
-  cursorinner.style.left = x + 'px';
-  cursorinner.style.top = y + 'px';
 });
 
 document.addEventListener('mousedown', function(){
   cursor.classList.add('click');
-  cursorinner.classList.add('cursorinnerclick')
 });
 
 document.addEventListener('mouseup', function(){
   cursor.classList.remove('click')
-  cursorinner.classList.remove('cursorinnerclick')
 });
 
 a.forEach(item => {
@@ -34,11 +22,20 @@ a.forEach(item => {
   item.addEventListener('mouseleave', () => {
     cursor.classList.remove('hover');
   });
-
-  item.addEventListener('mouseover', () => {
-    cursorinner.classList.add('hoverinner');
-  });
-  item.addEventListener('mouseleave', () => {
-    cursorinner.classList.remove('hoverinner');
-  });
 })
+
+function updateGradient(event) {
+  const containers = document.querySelectorAll('.illuminated');
+  containers.forEach(container => {
+      const rect = container.getBoundingClientRect();
+      const mouseX = event.clientX - rect.left;
+      const mouseY = event.clientY - rect.top;
+      const gradientX = (mouseX - 80) ;
+      const gradientY = (mouseY - 80) ;
+      const gradient = `radial-gradient(circle at ${gradientX}% ${gradientY}%, #444, #111)`;
+      container.style.background = gradient;
+  });
+}
+
+// Event listener for mousemove
+document.addEventListener('mousemove', updateGradient);

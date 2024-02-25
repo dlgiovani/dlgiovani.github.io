@@ -54,7 +54,6 @@
   height: 70px;
 }
 
-
 @keyframes roll-bg-image{
   0%, 100%  {background-position-y: 12%;}
   20%  {background-position: top;}
