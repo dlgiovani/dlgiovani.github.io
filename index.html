@@ -59,6 +59,11 @@
       <a href="certificates.html" target="_blank" class="mt-2 text-gray-200 underline">
         certificates 🔗
       </a>
+      <div id="TerrainWanderer" class="w-full h-96 mt-2">
+        <iframe src="https://openprocessing.org/sketch/2188030/embed/" class="w-full h-96"></iframe>
+        <button onclick="hideProcessingViews()" class="bg-red-700 p-2 rounded-b-lg w-full text-white font-semibold">close</button>
+      </div>
+
     </div>
 
     <div class="flex flex-col gap-2 overflow-y-scroll h-dvh justify-start py-20">
@@ -72,6 +77,22 @@
         </div>
         <a href="https://beacon-29733738b3a4.herokuapp.com" target="_blank"
           class="p-2 border-2 border-emerald-600 rounded-xl text-center w-fit hover:bg-neutral-800 ease duration-300 min-w-32">website</a>
+      </div>
+
+      <div
+        class="group illuminated md:w-64 mx-2 md:mx-12 bg-neutral-900 p-2 rounded-xl flex flex-col items-center gap-2 text-neutral-100 w-[75dvw] self-center ease duration-300">
+        <img src="assets/images/terrain-wanderer.jpg"
+          class="h-32 md:grayscale group-hover:grayscale-0 ease duration-300">
+        <div>
+          <h1 class="font-semibold text-center">TERRAIN WANDERER</h1>
+          <p class="text-center text-xs">a graphical application to navigate on a random generated terrain</p>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="enableTerrainWanderer()" target="_blank"
+            class="p-2 border-2 border-emerald-600 rounded-xl text-center w-fit hover:bg-neutral-800 ease duration-300 min-w-16">play</button>
+          <a href="https://github.com/dlgiovani/Terrain-Wanderer" target="_blank"
+            class="p-2 border-2 border-emerald-600 rounded-xl text-center w-fit hover:bg-neutral-800 ease duration-300 min-w-16">repository</a>
+        </div>
       </div>
 
       <div
@@ -109,20 +130,6 @@
         </div>
         <div class="flex gap-2">
           <a href="https://github.com/dlgiovani/Tesla-Vortex" target="_blank"
-            class="p-2 border-2 border-emerald-600 rounded-xl text-center w-fit hover:bg-neutral-800 ease duration-300 min-w-32">repository</a>
-        </div>
-      </div>
-
-      <div
-        class="group illuminated md:w-64 mx-2 md:mx-12 bg-neutral-900 p-2 rounded-xl flex flex-col items-center gap-2 text-neutral-100 w-[75dvw] self-center ease duration-300">
-        <img src="assets/images/terrain-wanderer.jpg"
-          class="h-32 md:grayscale group-hover:grayscale-0 ease duration-300">
-        <div>
-          <h1 class="font-semibold text-center">TERRAIN WANDERER</h1>
-          <p class="text-center text-xs">a graphical application to navigate on a random generated terrain</p>
-        </div>
-        <div class="flex gap-2">
-          <a href="https://github.com/dlgiovani/Terrain-Wanderer" target="_blank"
             class="p-2 border-2 border-emerald-600 rounded-xl text-center w-fit hover:bg-neutral-800 ease duration-300 min-w-32">repository</a>
         </div>
       </div>
@@ -185,5 +192,6 @@
       <div class="hover hidden md:block"></div>
 </body>
 <script src="assets/js/mouse.js"></script>
+<script src="assets/js/processingViewController.js"></script>
 
 </html>
