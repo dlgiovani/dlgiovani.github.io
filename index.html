@@ -13,10 +13,25 @@
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
   <title>Giovani's pages</title>
 </head>
+<!-- <style>
+  canvas {
+    display: block;
+    position: absolute;
+    width: 100dvw !important;
+    height: 100dvh !important;
+    margin: 0;
+  }
+  </style> -->
+<body class="bg-[#480278] overflow-x-hidden">
+  <canvas id="canvas3d" class="absolute !w-dvw !h-96 md:!h-dvh"></canvas>
+  <script type="module" async defer>
+    import { Application } from './assets/interactive_spheres/runtime.js';
+    const canvas = document.getElementById('canvas3d');
+    const app = new Application(canvas);
+    app.load('./assets/interactive_spheres/scene.splinecode');
+  </script>
 
-<body class="bg-black">
-
-  <div class="flex flex-col md:flex-row justify-start md:items-center h-dvh gap-4 md:gap-0">
+  <div class="flex flex-col md:flex-row justify-start md:items-center h-dvh gap-4 md:gap-0 p-4 md:p-0">
     <div
       class="flex md:flex-1 flex-col justify-center items-start p-2 md:p-12 md:ml-12 text-center md:border-r border-r-white backdrop-blur md:max-w-[100vw] md:w-96 text-start">
 
@@ -29,28 +44,28 @@
       <div class="flex justify-start gap-4 mt-4 flex-wrap">
         <a href="https://github.com/dlgiovani" target="_blank">
           <div
-            class="flex flex-col justify-center items-center bg-purple-950 md:bg-black hover:bg-purple-950 ease-in duration-300 rounded-3xl p-1">
+            class="flex flex-col justify-center items-center hover:bg-purple-950/50 ease-in duration-300 rounded-3xl p-1">
             <img src="assets/images/github.png" class="w-6 invert-[.90]" />
             <!-- <p class="text-white hidden md:block text-xs font-thin">@dlgiovani</p> -->
           </div>
         </a>
         <a href="https://linkedin.com/in/giovani-drosda-lima/" target="_blank">
           <div
-            class="flex flex-col justify-center items-center bg-blue-950 md:bg-black hover:bg-blue-950 ease-in duration-300 rounded-lg p-1">
+            class="flex flex-col justify-center items-center hover:bg-blue-950/50 ease-in duration-300 rounded-lg p-1">
             <img src="assets/images/linkedin.png" class="w-6 invert-[.90]" />
             <!-- <p class="text-white hidden md:block text-xs font-thin">linkedIn</p> -->
           </div>
         </a>
         <a href="https://www.instagram.com/dev_com_cafe/" target="_blank">
           <div
-            class="flex flex-col justify-center items-center bg-fuchsia-950 md:bg-black hover:bg-fuchsia-950 ease-in duration-300 rounded-xl p-1">
+            class="flex flex-col justify-center items-center hover:bg-fuchsia-950/50 ease-in duration-300 rounded-xl p-1">
             <img src="assets/images/instagram.png" class="w-6 invert-[.90]" />
             <!-- <p class="text-white hidden md:block text-xs font-thin">@dev_com_cafe</p> -->
           </div>
         </a>
         <a href="mailto:gdrosdalima@gmail.com" target="_blank">
           <div
-            class="flex flex-col justify-center items-center bg-red-950 md:bg-black hover:bg-red-950 ease-in duration-300 rounded-lg p-1">
+            class="flex flex-col justify-center items-center hover:bg-red-950/50 ease-in duration-300 rounded-lg p-1">
             <img src="assets/images/envelope-plus.png" class="w-6 invert-[.90]" />
             <!-- <p class="text-white hidden md:block text-xs font-thin">Mail me</p> -->
           </div>
@@ -61,12 +76,13 @@
       </a>
       <div id="TerrainWanderer" class="w-full h-96 mt-2">
         <iframe src="https://openprocessing.org/sketch/2188030/embed/" class="w-full h-96"></iframe>
-        <button onclick="hideProcessingViews()" class="bg-red-700 p-2 rounded-b-lg w-full text-white font-semibold">close</button>
+        <button onclick="hideProcessingViews()"
+          class="bg-red-700 p-2 rounded-b-lg w-full text-white font-semibold">close</button>
       </div>
 
     </div>
 
-    <div class="flex flex-col gap-2 overflow-y-scroll h-dvh justify-start py-20">
+    <div class="flex flex-col gap-2 overflow-y-scroll h-dvh justify-start py-20 z-10">
       <div
         class="group illuminated md:w-64 mx-2 md:mx-12 bg-neutral-900 p-2 rounded-xl flex flex-col items-center gap-2 text-neutral-100 w-[75dvw] self-center ease duration-300">
         <img src="assets/images/beacon_landpage.jpg"
@@ -190,6 +206,7 @@
 
       <div class="cursor hidden md:block"></div>
       <div class="hover hidden md:block"></div>
+  </div>
 </body>
 <script src="assets/js/mouse.js"></script>
 <script src="assets/js/processingViewController.js"></script>
