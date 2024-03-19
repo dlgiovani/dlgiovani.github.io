@@ -32,7 +32,7 @@ function updateGradient(event) {
       const mouseY = event.clientY - rect.top;
       const gradientX = (mouseX - 80) ;
       const gradientY = (mouseY - 80) ;
-      const gradient = `radial-gradient(circle at ${gradientX}% ${gradientY}%, #444, #111)`;
+      const gradient = `radial-gradient(circle at ${gradientX}% ${gradientY}%, #417, #111)`;
       container.style.background = gradient;
   });
 }

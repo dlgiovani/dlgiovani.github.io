@@ -22,18 +22,32 @@
     margin: 0;
   }
   </style> -->
-<body class="bg-[#480278] overflow-x-hidden">
-  <canvas id="canvas3d" class="absolute !w-dvw !h-96 md:!h-dvh"></canvas>
+<body class="bg-[#11021d] overflow-x-hidden">
+  <!-- <canvas id="canvas3d" class="absolute !w-dvw !h-96 md:!h-dvh"></canvas>
   <script type="module" async defer>
     import { Application } from './assets/interactive_spheres/runtime.js';
     const canvas = document.getElementById('canvas3d');
     const app = new Application(canvas);
     app.load('./assets/interactive_spheres/scene.splinecode');
+  </script> -->
+  <!-- <canvas id="canvas3d" class="absolute !w-dvw !h-96 md:!h-dvh opacity-80"></canvas>
+  <script type="module" async defer>
+    import { Application } from './assets/torus_knot/runtime.js';
+    const canvas = document.getElementById('canvas3d');
+    const app = new Application(canvas);
+    app.load('./assets/torus_knot/scene.splinecode');
+  </script> -->
+  <canvas id="canvas3d" class="absolute !w-dvw !h-96 md:!h-dvh"></canvas>
+  <script type="module" async defer>
+    import { Application } from './assets/two_balls/runtime.js';
+    const canvas = document.getElementById('canvas3d');
+    const app = new Application(canvas);
+    app.load('./assets/two_balls/scene.splinecode');
   </script>
 
-  <div class="flex flex-col md:flex-row justify-start md:items-center h-dvh gap-4 md:gap-0 p-4 md:p-0">
+  <div class="flex flex-col md:flex-row justify-start md:items-center h-dvh gap-4 md:gap-48 p-4 md:p-0">
     <div
-      class="flex md:flex-1 flex-col justify-center items-start p-2 md:p-12 md:ml-12 text-center md:border-r border-r-white backdrop-blur md:max-w-[100vw] md:w-96 text-start">
+      class="flex md:flex-1 flex-col justify-center items-start p-2 md:p-12 md:ml-12 text-center md:border-l-2 border-l-purple-700 backdrop-blur md:max-w-[100vw] md:w-96 text-start bg-black/25 rounded-xl">
 
       <div class="text-white text-3xl md:text-5xl font-bold mt-1">
         Hi👋, I'm Giovani
@@ -44,29 +58,29 @@
       <div class="flex justify-start gap-4 mt-4 flex-wrap">
         <a href="https://github.com/dlgiovani" target="_blank">
           <div
-            class="flex flex-col justify-center items-center hover:bg-purple-950/50 ease-in duration-300 rounded-3xl p-1">
-            <img src="assets/images/github.png" class="w-6 invert-[.90]" />
+            class="flex flex-col justify-center items-center hover:bg-purple-950 ease-in duration-300 rounded-3xl">
+            <img src="assets/images/contact-icons/svgs socials/github.svg" class="w-6" />
             <!-- <p class="text-white hidden md:block text-xs font-thin">@dlgiovani</p> -->
           </div>
         </a>
         <a href="https://linkedin.com/in/giovani-drosda-lima/" target="_blank">
           <div
-            class="flex flex-col justify-center items-center hover:bg-blue-950/50 ease-in duration-300 rounded-lg p-1">
-            <img src="assets/images/linkedin.png" class="w-6 invert-[.90]" />
+            class="flex flex-col justify-center items-center hover:bg-blue-950 ease-in duration-300 rounded-lg">
+            <img src="assets/images/contact-icons/svgs socials/linkedin.svg" class="w-6" />
             <!-- <p class="text-white hidden md:block text-xs font-thin">linkedIn</p> -->
           </div>
         </a>
         <a href="https://www.instagram.com/dev_com_cafe/" target="_blank">
           <div
-            class="flex flex-col justify-center items-center hover:bg-fuchsia-950/50 ease-in duration-300 rounded-xl p-1">
-            <img src="assets/images/instagram.png" class="w-6 invert-[.90]" />
+            class="flex flex-col justify-center items-center hover:bg-fuchsia-950 ease-in duration-300 rounded-xl">
+            <img src="assets/images/contact-icons/svgs socials/instagram.svg" class="w-6" />
             <!-- <p class="text-white hidden md:block text-xs font-thin">@dev_com_cafe</p> -->
           </div>
         </a>
         <a href="mailto:gdrosdalima@gmail.com" target="_blank">
           <div
-            class="flex flex-col justify-center items-center hover:bg-red-950/50 ease-in duration-300 rounded-lg p-1">
-            <img src="assets/images/envelope-plus.png" class="w-6 invert-[.90]" />
+            class="flex flex-col justify-center items-center hover:bg-red-950 ease-in duration-300 rounded-lg">
+            <img src="assets/images/contact-icons/svgs socials/mail.svg" class="w-6" />
             <!-- <p class="text-white hidden md:block text-xs font-thin">Mail me</p> -->
           </div>
         </a>
@@ -92,7 +106,7 @@
           <p class="text-center text-xs">a billboard democratizer</p>
         </div>
         <a href="https://beacon-29733738b3a4.herokuapp.com" target="_blank"
-          class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-neutral-800 ease duration-300 min-w-32">website</a>
+          class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-32">website</a>
       </div>
 
       <div
@@ -105,9 +119,9 @@
         </div>
         <div class="flex gap-2">
           <button onclick="enableTerrainWanderer()" target="_blank"
-            class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-neutral-800 ease duration-300 min-w-16">play</button>
+            class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-16">play</button>
           <a href="https://github.com/dlgiovani/Terrain-Wanderer" target="_blank"
-            class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-neutral-800 ease duration-300 min-w-16">repository</a>
+            class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-16">repository</a>
         </div>
       </div>
 
@@ -120,7 +134,7 @@
           <p class="text-center text-xs">a marketplace for your business</p>
         </div>
         <a href="https://github.com/dlgiovani/my_simple_marketplace" target="_blank"
-          class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-neutral-800 ease duration-300 min-w-32">repository</a>
+          class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-32">repository</a>
       </div>
 
       <div
@@ -134,7 +148,7 @@
         </div>
         <a href="https://chromewebstore.google.com/detail/sage50/mfkcidgkcjacmjddjpfecppgdenjjccm?hl=pt-BR&authuser=0"
           target="_blank"
-          class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-neutral-800 ease duration-300 min-w-32">download</a>
+          class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-32">download</a>
       </div>
 
       <div
@@ -146,7 +160,7 @@
         </div>
         <div class="flex gap-2">
           <a href="https://github.com/dlgiovani/Tesla-Vortex" target="_blank"
-            class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-neutral-800 ease duration-300 min-w-32">repository</a>
+            class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-32">repository</a>
         </div>
       </div>
 
@@ -159,9 +173,9 @@
         </div>
         <div class="flex gap-2">
           <a href="https://what-we-gamin-2ac3600a5db3.herokuapp.com" target="_blank"
-            class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-neutral-800 ease duration-300 min-w-16">website</a>
+            class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-16">website</a>
           <a href="https://github.com/dlgiovani/what-we-gamin" target="_blank"
-            class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-neutral-800 ease duration-300 min-w-16">repository</a>
+            class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-16">repository</a>
         </div>
       </div>
 
@@ -174,7 +188,7 @@
         </div>
         <div class="flex gap-2">
           <a href="cattos/index.html" target="_blank"
-            class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-neutral-800 ease duration-300 min-w-32">website</a>
+            class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-32">website</a>
         </div>
       </div>
 
@@ -187,7 +201,7 @@
         </div>
         <div class="flex gap-2">
           <a href="nimbus.html" target="_blank"
-            class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-neutral-800 ease duration-300 min-w-32">website</a>
+            class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-32">website</a>
         </div>
       </div>
 
@@ -200,7 +214,7 @@
         </div>
         <div class="flex gap-2">
           <a href="dragon/dragon.html" target="_blank"
-            class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-neutral-800 ease duration-300 min-w-32">website</a>
+            class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-32">website</a>
         </div>
       </div>
 
