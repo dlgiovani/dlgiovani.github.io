@@ -11,41 +11,16 @@
   <link rel="stylesheet" href="assets/css/style.css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+  <script src="assets/js/mouse.js" defer></script>
+  <script src="assets/js/bg.js" async type="module"></script>
+
+  <script src="assets/js/processingViewController.js" defer></script>
   <title>Giovani's pages</title>
 </head>
-<!-- <style>
-  canvas {
-    display: block;
-    position: absolute;
-    width: 100dvw !important;
-    height: 100dvh !important;
-    margin: 0;
-  }
-  </style> -->
 
-<body class="bg-[#11021d] overflow-x-hidden">
-  <!-- <canvas id="canvas3d" class="absolute !w-dvw !h-96 md:!h-dvh"></canvas>
-  <script type="module" async defer>
-    import { Application } from './assets/interactive_spheres/runtime.js';
-    const canvas = document.getElementById('canvas3d');
-    const app = new Application(canvas);
-    app.load('./assets/interactive_spheres/scene.splinecode');
-  </script> -->
-  <!-- <canvas id="canvas3d" class="absolute !w-dvw !h-96 md:!h-dvh opacity-80"></canvas>
-  <script type="module" async defer>
-    import { Application } from './assets/torus_knot/runtime.js';
-    const canvas = document.getElementById('canvas3d');
-    const app = new Application(canvas);
-    app.load('./assets/torus_knot/scene.splinecode');
-  </script> -->
+<body class="bg-[#11021d] overflow-x-hidden backgroundBlurEffect">
   <canvas id="canvas3d" class="absolute !w-dvw !h-96 md:!h-dvh"></canvas>
-  <script type="module" async defer>
-    import { Application } from './assets/two_balls/runtime.js';
-    const canvas = document.getElementById('canvas3d');
-    const app = new Application(canvas);
-    app.load('./assets/two_balls/scene.splinecode');
-  </script>
-
+  
   <div class="flex flex-col md:flex-row justify-start md:items-center h-dvh gap-4 md:gap-48 p-4 md:p-0">
     <div
       class="flex md:flex-1 flex-col justify-center items-start p-2 md:p-12 md:ml-12 text-center md:border-l-2 border-l-purple-700 backdrop-blur md:max-w-[100vw] md:w-96 text-start bg-black/25 rounded-xl">
@@ -98,19 +73,38 @@
       <div
         class="group illuminated md:w-64 mx-2 md:mx-12 bg-neutral-900 p-2 rounded-xl flex flex-col items-center gap-2 text-neutral-100 w-[75dvw] self-center ease duration-300">
         <img src="assets/images/economizabrasil.JPG"
-          class="h-32 md:grayscale group-hover:grayscale-0 ease duration-300">
+          class="w-full md:grayscale rounded-lg group-hover:grayscale-0 ease duration-300">
         <div>
           <h1 class="font-semibold text-center">Economiza Brasil</h1>
-          <p class="text-center text-xs">social net that provides the best discounts and coupons from partners daily, automatically.</p>
+          <p class="text-center text-xs">social net that provides the best discounts and coupons from partners daily,
+            automatically.</p>
         </div>
         <a href="https://economizabrasil.com?utm_source=dlgiovani.github.io" target="_blank"
           class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-32">website</a>
+        <p class="text-center text-xs w-full text-gray-100 font-thin">Bot · API · Fullstack · Business</p>
+      </div>
+
+      <div
+        class="group illuminated md:w-64 mx-2 md:mx-12 bg-neutral-900 p-2 rounded-xl flex flex-col items-center gap-2 text-neutral-100 w-[75dvw] self-center ease duration-300">
+        <img src="assets/images/my_simple_marketplace_landpage.JPG"
+          class="w-full md:grayscale rounded-lg group-hover:grayscale-0 ease duration-300">
+        <div>
+          <h1 class="font-semibold text-center">CATALOGUE</h1>
+          <p class="text-center text-xs">a marketplace for your business</p>
+        </div>
+        <div class="flex gap-2">
+          <a href="https://my-simple-marketplace-de99bbb33188.herokuapp.com/" target="_blank"
+            class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-16">site</a>
+          <a href="https://github.com/dlgiovani/my_simple_marketplace" target="_blank"
+            class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-16">repository</a>
+        </div>
+        <p class="text-center text-xs w-full text-gray-100 font-thin">Fullstack · CDN · Product</p>
       </div>
 
       <div
         class="group illuminated md:w-64 mx-2 md:mx-12 bg-neutral-900 p-2 rounded-xl flex flex-col items-center gap-2 text-neutral-100 w-[75dvw] self-center ease duration-300">
         <img src="assets/images/terrain-wanderer.jpg"
-          class="h-32 md:grayscale group-hover:grayscale-0 ease duration-300">
+          class="w-full md:grayscale rounded-lg group-hover:grayscale-0 ease duration-300">
         <div>
           <h1 class="font-semibold text-center">TERRAIN WANDERER</h1>
           <p class="text-center text-xs">a graphical application to navigate on a random generated terrain</p>
@@ -121,25 +115,14 @@
           <a href="https://github.com/dlgiovani/Terrain-Wanderer" target="_blank"
             class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-16">repository</a>
         </div>
-      </div>
-
-      <div
-        class="group illuminated md:w-64 mx-2 md:mx-12 bg-neutral-900 p-2 rounded-xl flex flex-col items-center gap-2 text-neutral-100 w-[75dvw] self-center ease duration-300">
-        <img src="assets/images/my_simple_marketplace_landpage.JPG"
-          class="h-32 md:grayscale group-hover:grayscale-0 ease duration-300">
-        <div>
-          <h1 class="font-semibold text-center">CATALOGUE</h1>
-          <p class="text-center text-xs">a marketplace for your business</p>
-        </div>
-        <a href="https://github.com/dlgiovani/my_simple_marketplace" target="_blank"
-          class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-32">repository</a>
+        <p class="text-center text-xs w-full text-gray-100 font-thin">Processing · Graphic · Game</p>
       </div>
 
       <div
         class="group illuminated md:w-64 mx-2 md:mx-12 bg-neutral-900 p-2 rounded-xl flex flex-col items-center gap-2 text-neutral-100 w-[75dvw] self-center ease duration-300">
         <img
           src="https://lh3.googleusercontent.com/Ubrdar1zVOBSoUOLHxWnHN5kRD34QAJeRN6gu2hE51Mb96gLSm60Pf_cKIsmEtKmy0gYtL1WG0mAIbIrriD3BkLNEg=s1280-w1280-h800"
-          class="h-32 md:grayscale group-hover:grayscale-0 ease duration-300">
+          class="w-full md:grayscale rounded-lg group-hover:grayscale-0 ease duration-300">
         <div>
           <h1 class="font-semibold text-center">SAGE 50</h1>
           <p class="text-center text-xs">a beautiful custom start page for your browser</p>
@@ -147,11 +130,13 @@
         <a href="https://chromewebstore.google.com/detail/sage50/mfkcidgkcjacmjddjpfecppgdenjjccm?hl=pt-BR&authuser=0"
           target="_blank"
           class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-32">download</a>
+        <p class="text-center text-xs w-full text-gray-100 font-thin">Chrome API · Extension · FrontEnd · API</p>
       </div>
 
       <div
         class="group illuminated md:w-64 mx-2 md:mx-12 bg-neutral-900 p-2 rounded-xl flex flex-col items-center gap-2 text-neutral-100 w-[75dvw] self-center ease duration-300">
-        <img src="assets/images/tesla-vortex.jpg" class="h-32 md:grayscale group-hover:grayscale-0 ease duration-300">
+        <img src="assets/images/tesla-vortex.jpg"
+          class="w-full md:grayscale rounded-lg group-hover:grayscale-0 ease duration-300">
         <div>
           <h1 class="font-semibold text-center">TESLA VORTEX</h1>
           <p class="text-center text-xs">a graphical application to generate Tesla's vortexes</p>
@@ -160,11 +145,13 @@
           <a href="https://github.com/dlgiovani/Tesla-Vortex" target="_blank"
             class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-32">repository</a>
         </div>
+        <p class="text-center text-xs w-full text-gray-100 font-thin">Processing · Graphic · Math</p>
       </div>
 
       <div
         class="group illuminated md:w-64 mx-2 md:mx-12 bg-neutral-900 p-2 rounded-xl flex flex-col items-center gap-2 text-neutral-100 w-[75dvw] self-center ease duration-300">
-        <img src="assets/images/what-we-gamin.JPG" class="h-32 md:grayscale group-hover:grayscale-0 ease duration-300">
+        <img src="assets/images/what-we-gamin.JPG"
+          class="w-full md:grayscale rounded-lg group-hover:grayscale-0 ease duration-300">
         <div>
           <h1 class="font-semibold text-center">WHAT WE GAMIN'</h1>
           <p class="text-center text-xs">a website to give you info and help you decide a new game to play</p>
@@ -175,11 +162,13 @@
           <a href="https://github.com/dlgiovani/what-we-gamin" target="_blank"
             class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-16">repository</a>
         </div>
+        <p class="text-center text-xs w-full text-gray-100 font-thin">Fullstack · API</p>
       </div>
 
       <div
         class="group illuminated md:w-64 mx-2 md:mx-12 bg-neutral-900 p-2 rounded-xl flex flex-col items-center gap-2 text-neutral-100 w-[75dvw] self-center ease duration-300">
-        <img src="assets/images/cattos.JPG" class="h-32 md:grayscale group-hover:grayscale-0 ease duration-300">
+        <img src="assets/images/cattos.JPG"
+          class="w-full md:grayscale rounded-lg group-hover:grayscale-0 ease duration-300">
         <div>
           <h1 class="font-semibold text-center">CATTOS</h1>
           <p class="text-center text-xs">a very cute website 🐾</p>
@@ -188,11 +177,13 @@
           <a href="cattos/index.html" target="_blank"
             class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-32">website</a>
         </div>
+        <p class="text-center text-xs w-full text-gray-100 font-thin">FrontEnd · API</p>
       </div>
 
       <div
         class="group illuminated md:w-64 mx-2 md:mx-12 bg-neutral-900 p-2 rounded-xl flex flex-col items-center gap-2 text-neutral-100 w-[75dvw] self-center ease duration-300">
-        <img src="assets/images/nimbus.JPG" class="h-32 md:grayscale group-hover:grayscale-0 ease duration-300">
+        <img src="assets/images/nimbus.JPG"
+          class="w-full md:grayscale rounded-lg group-hover:grayscale-0 ease duration-300">
         <div>
           <h1 class="font-semibold text-center">NIMBUS</h1>
           <p class="text-center text-xs">a cozy place to relax and feel the weather 🌥️</p>
@@ -201,11 +192,12 @@
           <a href="nimbus.html" target="_blank"
             class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-32">website</a>
         </div>
+        <p class="text-center text-xs w-full text-gray-100 font-thin">FrontEnd · API</p>
       </div>
 
       <div
         class="group illuminated md:w-64 mx-2 md:mx-12 bg-neutral-900 p-2 rounded-xl flex flex-col items-center gap-2 text-neutral-100 w-[75dvw] self-center ease duration-300">
-        <!-- <img src="assets/images/" class="h-32 md:grayscale group-hover:grayscale-0 ease duration-300"> -->
+        <!-- <img src="assets/images/" class="w-full md:grayscale rounded-lg group-hover:grayscale-0 ease duration-300"> -->
         <div>
           <h1 class="font-semibold text-center">DRAGON</h1>
           <p class="text-center text-xs">just visit it. Trust me.</p>
@@ -214,25 +206,38 @@
           <a href="dragon/dragon.html" target="_blank"
             class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-32">website</a>
         </div>
+        <p class="text-center text-xs w-full text-gray-100 font-thin">???</p>
       </div>
 
       <div
         class="group illuminated md:w-64 mx-2 md:mx-12 bg-neutral-900 p-2 rounded-xl flex flex-col items-center gap-2 text-neutral-100 w-[75dvw] self-center ease duration-300">
         <img src="assets/images/beacon_landpage.jpg"
-          class="h-32 md:grayscale group-hover:grayscale-0 ease duration-300">
+          class="w-full md:grayscale rounded-lg group-hover:grayscale-0 ease duration-300">
         <div>
           <h1 class="font-semibold text-center">BEACON</h1>
           <p class="text-center text-xs">a billboard democratizer</p>
         </div>
         <span href="#"
           class="p-2 border-2 border-purple-600 rounded-xl text-center w-fit hover:bg-purple-950 ease duration-300 min-w-32">soon</span>
+        <p class="text-center text-xs w-full text-gray-100 font-thin">Fullstack · Product</p>
+      </div>
+
+      <div
+        class="group illuminated md:w-64 mx-2 md:mx-12 bg-neutral-900 p-2 rounded-xl flex flex-col items-center gap-2 text-neutral-100 w-[75dvw] self-center ease duration-300">
+        <!-- <img src="assets/images/" class="w-full md:grayscale rounded-lg group-hover:grayscale-0 ease duration-300"> -->
+        <div>
+          <h1 class="font-semibold text-center">Tamashi</h1>
+          <p class="text-center text-xs text-red-500">(Top Secret)</p>
+        </div>
+        <div class="flex gap-2">
+        </div>
+        <p class="text-center text-xs w-full text-gray-100 font-thin">???</p>
       </div>
 
       <div class="cursor hidden md:block"></div>
       <div class="hover hidden md:block"></div>
     </div>
 </body>
-<script src="assets/js/mouse.js"></script>
-<script src="assets/js/processingViewController.js"></script>
+
 
 </html>

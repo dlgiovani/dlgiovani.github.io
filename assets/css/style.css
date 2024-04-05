@@ -1,37 +1,36 @@
 * {
-    /*firefox*/
-    scrollbar-width: thin; 
-    scrollbar-color: transparent transparent; 
-    overflow: -moz-scrollbars-none; 
+  /*firefox*/
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  overflow: -moz-scrollbars-none;
 
-    /* Internet Explorer and Edge */
-    -ms-overflow-style: none;
+  /* Internet Explorer and Edge */
+  -ms-overflow-style: none;
+}
 
-  }
+/* * {cursor: none;} */
 
-  /* * {cursor: none;} */
+/* WebKit-based browsers (Chrome, Safari) */
+*::-webkit-scrollbar {
+  width: 0;
+}
 
-  /* WebKit-based browsers (Chrome, Safari) */
-  *::-webkit-scrollbar {
-    width: 0;
+*::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(0);
   }
-  
-  *::-webkit-scrollbar-track {
-    background-color: transparent;
+  100% {
+    transform: translateX(-3840px);
   }
-  
-  *::-webkit-scrollbar-thumb {
-    background-color: transparent;
-  }
-  
-  @keyframes slide{
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-3840px);
-    }
-  }
+}
 
 .cursor {
   width: 8px;
@@ -53,12 +52,32 @@
   height: 40px;
 }
 
-@keyframes roll-bg-image{
-  0%, 100%  {background-position-y: 12%;}
-  20%  {background-position: top;}
-  25%  {background-position: top;}
-  90% {background-position: bottom;}
+@keyframes roll-bg-image {
+  0%,
+  100% {
+    background-position-y: 12%;
+  }
+  20% {
+    background-position: top;
+  }
+  25% {
+    background-position: top;
+  }
+  90% {
+    background-position: bottom;
+  }
 }
 .roll-bg-image {
   animation: roll-bg-image 10.5s ease-in-out infinite;
 }
+
+.backgroundBlurEffect {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background: radial-gradient(circle at 10%, #f08eb2 5%, #b28ef0 22%, #000 50%); */
+  background-color: #b28ef0;
+  z-index: -1;
+}
+
