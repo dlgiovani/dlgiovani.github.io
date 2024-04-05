@@ -1,7 +1,7 @@
 const paths = [
     '../../assets/two_balls/runtime.js',
-    '../../assets/interactive_spheres/runtime.js',
-    '../../assets/torus_knot/runtime.js'
+    '../../assets/interactive_spheres/runtime.js'
+    // '../../assets/torus_knot/runtime.js'
 ];
 
 const randomPath = paths[Math.floor(Math.random() * paths.length)];
@@ -14,9 +14,9 @@ import(randomPath).then(module => {
         const app = new Application(canvas);
         app.load('./assets/interactive_spheres/scene.splinecode');
 
-    } else if (randomPath === '../../assets/torus_knot/runtime.js') {
-        const app = new Application(canvas);
-        app.load('./assets/torus_knot/scene.splinecode');
+    // } else if (randomPath === '../../assets/torus_knot/runtime.js') {
+    //     const app = new Application(canvas);
+    //     app.load('./assets/torus_knot/scene.splinecode');
 
     } else {
         const app = new Application(canvas);
