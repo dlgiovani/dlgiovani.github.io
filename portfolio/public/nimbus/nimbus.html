@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html class="bg-gray-800 h-screen">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>NIMBUS</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <!-- <nav
+        class="w-full flex justify-center align-center border-b-2 border-gray-900 text-5xl text-gray-100 py-4 bg-teal-700/75 fixed opacity-10 hover:opacity-100">
+        NIMBUS
+    </nav> -->
+    <div class="w-screen h-screen overflow-hidden">
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/3MS--7XNvRc?si=RwRJsLuyq_Jr8TLK&amp;controls=0&amp;start=22190&autoplay=1&loop=1&vq=hd1080"
+        title="" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;"
+        allowfullscreen></iframe>
+    </div>
+    <nav
+        class="w-full h-full sm:h-auto flex flex-col sm:flex-row justify-between gap-2 align-center text-gray-100 p-4 absolute bottom-0">
+        <div id="time-container" class="flex flex-col gap-2 justify-center align-start p-4 rounded-xl backdrop-blur-xl">
+            <div id="tctime" class="text-5xl font-thin">...</div>
+            <div id="tcday">...</div>
+        </div>
+        <div id="weather-container" class="flex flex-col justify-around align-center p-4 rounded-xl backdrop-blur-xl">
+            <div class="flex flex-row justify-between align-center gap-8">
+                <div class="flex flex-col justify-between align-start gap-4">
+                    <div class="flex flex-row gap-1">
+                        <img src="https://img.icons8.com/ios/50/8a8a8a/marker--v1.png" class="w-6 h-6" />
+                        <h3 id="wctitle" class="text-md">...</h3>
+                    </div>
+                    <h1 id="wctemp" class="text-4xl text-center pb-4">...°C</h1>
+                </div>
+                <div class="flex flex-col justify-between align-end">
+                    <h3 id="wcstatus">...</h3>
+                    <h1 id="wcicon">...°C</h1>
+                </div>
+            </div>
+            <div class="flex flex-row justify-between align-center gap-3">
+                <div class="flex flex-row gap-2 rounded-xl p-2 align-center justify-between">
+                    <img src="https://img.icons8.com/ios/50/8a8a8a/sunset--v1.png" class="w-6 h-6" />
+                    <p id="wcsunset">...</p>
+                </div>
+                <div class="flex flex-row gap-2 rounded-xl p-2 align-center justify-between">
+                    <img src="https://img.icons8.com/ios/50/8a8a8a/hygrometer.png" class="w-6 h-6" />
+                    <p id="wchum">...%</p>
+                </div>
+                <div class="flex flex-row gap-2 rounded-xl p-2 align-center justify-between">
+                    <img src="https://img.icons8.com/ios/50/8a8a8a/wind--v1.png" class="w-6 h-6" />
+                    <div class="flex align-start">
+                        <p id="wcwind">...</p>
+                        <p id="wcwinddir" class="text-xs font-thin">...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <script src="./nimbus.js"></script>
+</body>
+
+</html>

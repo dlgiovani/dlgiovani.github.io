@@ -1,0 +1,151 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+:root {
+  --c1: #db504aff;
+  --c2: #ff6f59ff;
+  --c3: #254441ff;
+  --c4: #43aa8bff;
+  --c5: #b2b09bff;
+}
+
+@keyframes moveImage {
+  to {
+    transform: translateY(calc(100vh - 50px));
+  }
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: .5;
+  }
+  75% {
+    opacity: .5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes moveImage2 {
+    from {
+        transform: translateY(calc(100vh - 50px));
+    }
+    to {
+      transform: translateY(calc(0));
+    }
+    0% {
+      opacity: 0;
+    }
+    25% {
+      opacity: .5;
+    }
+    75% {
+      opacity: .5;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+@keyframes colorChangeOuter {
+  0% {
+    background-color: var(--c1);
+  }
+  25% {
+    background-color: var(--c2);
+  }
+  50% {
+    background-color: var(--c3);
+  }
+  75% {
+    background-color: var(--c4);
+  }
+  100% {
+    background-color: var(--c1);
+  }
+}
+
+@keyframes colorChangeInner {
+  0% {
+    background-color: var(--c5);
+  }
+  25% {
+    background-color: var(--c4);
+  }
+  50% {
+    background-color: var(--c3);
+  }
+  75% {
+    background-color: var(--c2);
+  }
+  100% {
+    background-color: var(--c5);
+  }
+}
+
+.cover {
+  background-color: #1f1f1f;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  padding: 1em;
+  border-radius: 1em;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: #cc33dd;
+  border: none;
+  font-size: 2em;
+  color: white;
+  cursor: pointer;
+}
+
+button w {
+  font-size: .7em;
+}
+
+button:hover {
+  border: solid white;
+}
+
+.outerwall {
+  background-color: #0e94b3;
+  height: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  animation: colorChangeOuter ease 4s infinite;
+}
+
+.innerwall {
+  padding: 1em;
+  width: calc(100vw - 6em);
+  height: calc(100vh - 6em);
+  background-color: #c2e018;
+  border-radius: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: colorChangeInner linear 3s infinite;
+}
+
+.dragon {
+    z-index: 999;
+}
+
+.dragonCenter {
+  max-width: 100vw;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
