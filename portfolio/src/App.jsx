@@ -67,17 +67,18 @@ function App() {
 
               <h1 className='text-xl font-semibold'>Giovani <span className='text-neutral-700'>Drosda</span> <span className='text-neutral-500'>Lima</span></h1>
               <h2 className='text-xl font-semibold'>Software Developer | Programmer</h2>
+              <h3 className='text-xs text-neutral-700'>websites · APIs · webapps · SaaS · analytics · dashboards · crm/erp</h3>
               <ul className='w-fit flex gap-3 mt-2'>
-                <a target="_blank" href='https://github.com/dlgiovani/' className='hover:text-neutral-600 ease duration-100'>
+                <a target="_blank" href='https://github.com/dlgiovani/' className='hover:text-neutral-600 hover:underline underline-offset-4 ease duration-100'>
                   <li className='opacity-80 text-lg'>GitHub</li>
                 </a>
-                <a target="mailto:gdrosdalima@gmail.com" href='mailto:gdrosdalima@gmail.com' className='hover:text-neutral-600 ease duration-100'>
+                <a target="mailto:gdrosdalima@gmail.com" href='mailto:gdrosdalima@gmail.com' className='hover:text-neutral-600 hover:underline underline-offset-4 ease duration-100'>
                   <li className='opacity-80 text-lg'>Email</li>
                 </a>
-                <a target="_blank" href='https://medium.com/@gdrosdalima' className='hover:text-neutral-600 ease duration-100'>
+                <a target="_blank" href='https://medium.com/@gdrosdalima' className='hover:text-neutral-600 hover:underline underline-offset-4 ease duration-100'>
                   <li className='opacity-80 text-lg'>Medium</li>
                 </a>
-                <a target="_blank" href='https://www.linkedin.com/in/giovani-drosda-lima/' className='hover:text-neutral-600 ease duration-100'>
+                <a target="_blank" href='https://www.linkedin.com/in/giovani-drosda-lima/' className='hover:text-neutral-600 hover:underline underline-offset-4 ease duration-100'>
                   <li className='opacity-80 text-lg'>LinkedIn</li>
                 </a>
               </ul>
