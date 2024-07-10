@@ -92,7 +92,7 @@ function App() {
         </div>
       </section>
       <section className='fixed bottom-2 w-full lg:w-fit text-center lg:right-6'>
-        <p className='text-xs text-neutral-600 font-thin'>Giovani Drosda Lima, 2024 | Inspired by <a className='underline' href='https://www.seyityilmaz.com/'>Seyit Yilmaz</a></p>
+        <p className='text-xs text-neutral-600 font-thin'>Giovani Drosda Lima, 2024 | Inspired by <a className='underline' target="_blank" href='https://www.seyityilmaz.com/'>Seyit Yilmaz</a></p>
       </section>
       {showcase}
     </div>
