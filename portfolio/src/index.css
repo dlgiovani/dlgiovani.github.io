@@ -42,15 +42,15 @@ body {
 
 @keyframes bg-breathing {
   0% {
-    background-color: #fff;
+    background-color: #eee;
   }
 
-  50% {
-    background-color: #eaedef;
+  80% {
+    background-color: #ddd;
   }
 
   100% {
-    background-color: #fff;
+    background-color: #eee;
   }
 }
 

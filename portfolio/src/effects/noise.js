@@ -10,15 +10,16 @@ export function drawNoise(ctx, canvas) {
   let color;
 
   function animate() {
-    for (let i = 0; i < buffer.length; i++) {
-      color = Math.random() * 255;
+    for (let i = 0; i < buffer.length -2; i+=2) {
+      color = Math.random() * 50 - 10;
       buffer[i] = (255 << 24) | (color << 16) | (color << 8) | color;
+      buffer[i+1] = (255 << 24) | (color << 16) | (color << 8) | color;
     }
     ctx.putImageData(imageData, 0, 0);
     // requestAnimationFrame(animate);
     setTimeout(() => {
-    requestAnimationFrame(animate)}, 80)
-  }
+      requestAnimationFrame(animate)}, 50)
+    }
   animate();
 }
 
