@@ -26,8 +26,8 @@ function App() {
     }
   };
 
-  const song = <button className='fixed bottom-24 right-8 -rotate-90 flex items-center'
-    onClick={handleSongClick}>Música 
+  const song = <button className='fixed bottom-24 right-8 -rotate-90 flex items-center hover:bg-primary/50 p-3 ease duration-200'
+    onClick={handleSongClick}>Música
     <span className='material-symbols-outlined'>{songSpan}</span>
     </button>
 

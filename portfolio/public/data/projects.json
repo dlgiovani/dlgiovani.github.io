@@ -8,11 +8,11 @@
     "year": "2024"
   },
   {
-    "name": "Gamefied Portfolio",
-    "description": "my old portfolio.",
-    "coverUrl": "/showcases/game-portfolio.webm",
-    "tags": ["portfolio", "React"],
-    "link": "https://dlgiovani.github.io/gameport/",
+    "name": "Whitenoise Portfolio",
+    "description": "an old portfolio.",
+    "coverUrl": "/showcases/whitenoise-portfolio.webm",
+    "tags": ["portfolio", "React", "design"],
+    "link": "https://dlgiovani.github.io/whitenoise-portfolio/",
     "year": "2024"
   },
   {
@@ -39,6 +39,14 @@
     "link": "https://www.producthunt.com/products/ph-newtab",
     "year": "2024"
   },
+    {
+      "name": "Gamefied Portfolio",
+      "description": "my old portfolio.",
+      "coverUrl": "/showcases/game-portfolio.webm",
+      "tags": ["portfolio", "React"],
+      "link": "https://dlgiovani.github.io/gameport/",
+      "year": "2024"
+    },
   {
     "name": "Business Card",
     "description": "a personal card made in React",
