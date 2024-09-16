@@ -1,15 +1,35 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 // import projects from './data/projects.js';
 import { TypeAnimation } from 'react-type-animation';
 import Langs from './components/Langs.jsx';
 
 function App() {
 
+  const songRef = useRef(null);
+  const [songSpan, setSongSpan] = useState('play_arrow');
   const [myProjects, setMyProjects] = useState([]);
   useEffect(() => {
-    const data = Promise.resolve(fetch('https://dlgiovani.github.io/data/projects.js'));
-    data.then((r) => setMyProjects(r.json()))
+    const data = Promise.resolve(fetch('/data/projects.json'));
+    data.then(async (r) => setMyProjects(await r.json()))
   }, [])
+
+  const handleSongClick = () => {
+    if (songRef.current) {
+      // Toggle play/pause
+      if (songRef.current.paused) {
+        songRef.current.play();
+        setSongSpan('pause');
+      } else {
+        songRef.current.pause();
+        setSongSpan('play_arrow');
+      }
+    }
+  };
+
+  const song = <button className='fixed bottom-24 right-8 -rotate-90 flex items-center'
+    onClick={handleSongClick}>Música 
+    <span className='material-symbols-outlined'>{songSpan}</span>
+    </button>
 
   const projectsList = myProjects.map((item, index) => {
     return (
@@ -66,6 +86,8 @@ function App() {
       <section name="projects" className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 pb-24'>
         {projectsList}
       </section>
+      {song}
+      <audio ref={songRef} src='/songs/C418 - Aria Math (Minecraft Volume Beta).mp3' />
     </main>
   )
 }

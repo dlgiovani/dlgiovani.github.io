@@ -1,0 +1,138 @@
+[
+  {
+    "name": "Chrome Built-In AI",
+    "description": "social net that provides the best discounts and coupons from partners daily, automatically.",
+    "coverUrl": "/showcases/chrome-ai.webm",
+    "tags": ["Dev", "AI", "Chrome", "React"],
+    "link": "https://dlgiovani.github.io/chrome-ai-webapp/",
+    "year": "2024"
+  },
+  {
+    "name": "Gamefied Portfolio",
+    "description": "my old portfolio.",
+    "coverUrl": "/showcases/game-portfolio.webm",
+    "tags": ["portfolio", "React"],
+    "link": "https://dlgiovani.github.io/gameport/",
+    "year": "2024"
+  },
+  {
+    "name": "Economiza Brasil",
+    "description": "social net that provides the best discounts and coupons from partners daily, automatically.",
+    "coverUrl": "mtpp/economizabrasil.webp",
+    "tags": ["Bot", "Automation", "API"],
+    "link": "https://economizabrasil.com/?utm_source=portfolio",
+    "year": "2023"
+  },
+  {
+    "name": "Sage 50",
+    "description": "a beautiful custom start page for your browser",
+    "coverUrl": "https://lh3.googleusercontent.com/Ubrdar1zVOBSoUOLHxWnHN5kRD34QAJeRN6gu2hE51Mb96gLSm60Pf_cKIsmEtKmy0gYtL1WG0mAIbIrriD3BkLNEg=s1280-w1280-h800",
+    "tags": ["Chrome API", "Extension"],
+    "link": "https://chromewebstore.google.com/detail/sage50/mfkcidgkcjacmjddjpfecppgdenjjccm?hl=pt-BR&authuser=0",
+    "year": "2023"
+  },
+  {
+    "name": "PH newtab",
+    "description": "a productivity homepage for Product Hunt users",
+    "coverUrl": "https://lh3.googleusercontent.com/cUz5AIMJHlDvxhWcWh-ospTFn7hgFlu8ESNGHcXKf6JGwAwZNlUnBy6qFyNm8Yw9ZWL06UhcZfj8nfDy3QQbgjhWqw=s800-w800-h500",
+    "tags": ["Chrome API", "Extension", "React", "DaisyUI"],
+    "link": "https://www.producthunt.com/products/ph-newtab",
+    "year": "2024"
+  },
+  {
+    "name": "Business Card",
+    "description": "a personal card made in React",
+    "coverUrl": "/mtpp/business-card.webp",
+    "tags": ["React", "Frontend"],
+    "link": "https://dlgiovani.github.io/digital-business-card/",
+    "year": "2024"
+  },
+  {
+    "name": "Catalogue",
+    "description": "a marketplace for your business",
+    "coverUrl": "mtpp/my_simple_marketplace_landpage.webp",
+    "tags": ["Fullstack", "CDN", "Product"],
+    "link": "https://www.youtube.com/watch?v=P4ej2iySmug",
+    "year": "2023"
+  },
+  {
+    "name": "Notes App",
+    "description": "a markdown supported notes app",
+    "coverUrl": "mtpp/notes-app.webp",
+    "tags": ["React", "Markdown"],
+    "link": "https://dlgiovani.github.io/notes-app/",
+    "year": "2024"
+  },
+  {
+    "name": "Terrain Wanderer",
+    "description": "a graphical application to navigate on a random generated terrain",
+    "coverUrl": "mtpp/terrain-wanderer.webp",
+    "tags": ["Graphics"],
+    "link": "https://openprocessing.org/sketch/2188030",
+    "year": "2023"
+  },
+  {
+    "name": "Tesla Vortex",
+    "description": "a graphical application to generate Tesla's vortexes",
+    "coverUrl": "mtpp/tesla-vortex.webp",
+    "tags": ["Graphic", "Math"],
+    "link": "https://github.com/dlgiovani/Tesla-Vortex",
+    "year": "2022"
+  },
+  {
+    "name": "Nimbus",
+    "description": "a cozy place to relax and feel the weather 🌥️",
+    "coverUrl": "mtpp/nimbus.webp",
+    "tags": ["Frontend", "API", "Embed"],
+    "link": "/nimbus/nimbus.html",
+    "year": "2023"
+  },
+  {
+    "name": "Dragon",
+    "description": "just visit it. Trust me.",
+    "coverUrl": "",
+    "tags": ["???"],
+    "link": "/dragon/dragon.html",
+    "year": "2023"
+  },
+  {
+    "name": "Cattos",
+    "description": "a very cute website 🐾",
+    "coverUrl": "mtpp/cattos.webp",
+    "tags": ["Frontend", "API", "Cute!"],
+    "link": "/cattos/index.html",
+    "year": "2023"
+  },
+  {
+    "name": "What we gaming'",
+    "description": "a website to give you info and help you decide a new game to play",
+    "coverUrl": "mtpp/what-we-gamin.webp",
+    "tags": ["Fullstack", "API", "Django"],
+    "link": "https://github.com/dlgiovani/what-we-gamin",
+    "year": "2023"
+  },
+  {
+    "name": "Beacon",
+    "description": "a billboard democratizer",
+    "coverUrl": "mtpp/beacon_landpage.webp",
+    "tags": ["Fullstack", "Product", "Django"],
+    "link": "",
+    "year": "?"
+  },
+  {
+    "name": "Tamashi",
+    "description": "(Top Secret)",
+    "coverUrl": "",
+    "tags": ["???"],
+    "link": "",
+    "year": "?"
+  },
+  {
+    "name": "Visihouse",
+    "description": "A 5D map viewer!",
+    "coverUrl": "",
+    "tags": ["5D map", "Virtual Tour", "React"],
+    "link": "",
+    "year": "2025"
+  }
+]
