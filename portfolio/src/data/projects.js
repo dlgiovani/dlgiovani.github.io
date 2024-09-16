@@ -15,7 +15,7 @@ export default function projects() {
       coverUrl: '/showcases/game-portfolio.webm',
       visitedCount: localStorage.getItem('Gamefied Portfolio') || 0,
       tags: ['portfolio', 'React'],
-      link: 'https://github.com/dlgiovani/dlgiovani.github.io/releases/tag/archives_last_game_release',
+      link: 'https://dlgiovani.github.io/gameport/',
       year: "2024"
     },
     {
