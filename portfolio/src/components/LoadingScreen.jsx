@@ -29,7 +29,7 @@ export default function LoadingScreen({ setIsLoadingScreen }) {
     "System ready."
   ];
 
-  const typingScript = script.map((item, index) => <li className="list-['$']" key={index} >{item}</li>)
+  const typingScript = script.map((item, index) => <li className="list-['$'] px-2" key={index} >{item}</li>)
 
   useEffect(() => {
     function addScript() {
@@ -49,7 +49,7 @@ export default function LoadingScreen({ setIsLoadingScreen }) {
     setTimeout(() => addScript(), Math.random()*180);
   }, [visibleScript.length])
   return (
-    <div className="flex flex-col h-svh pb-1 justify-end text-xs md:text-base">
+    <div className="flex flex-col h-svh pb-2 justify-end text-xs md:text-base">
       {
         visibleScript.map(
           (item, index) =>
