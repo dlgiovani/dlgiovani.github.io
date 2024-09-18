@@ -6,6 +6,26 @@
   font-family: "Source Code Pro";
 }
 
+@keyframes bootFade {
+  50% {
+    opacity: .5;
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+.fadeInFromBlur {
+  & > * {
+    opacity: 0; 
+    filter: blur(10px);
+    animation: bootFade 2s ease forwards;
+  }
+}
+
+
 .titleFade {
   animation: fadeRight linear forwards;
   animation-timeline: view(0% 120%);

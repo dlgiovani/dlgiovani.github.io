@@ -7,13 +7,29 @@ import LoadingScreen from './components/LoadingScreen.jsx';
 function App() {
 
   const songRef = useRef(null);
-  const [ songSpan, setSongSpan ] = useState('play_arrow');
-  const [ myProjects, setMyProjects ] = useState([]);
-  const [ isLoadingScreen, setIsLoadingScreen ] = useState(true);
+  const [songSpan, setSongSpan] = useState('play_arrow');
+  const [myProjects, setMyProjects] = useState([]);
+  const [isLoadingScreen, setIsLoadingScreen] = useState(true);
+  const [weather, setWeather] = useState(null);
 
   useEffect(() => {
     const data = Promise.resolve(fetch('/data/projects.json'));
     data.then(async (r) => setMyProjects(await r.json()))
+  }, [])
+
+  useEffect(() => {
+
+    const fetchWeather = async () => {
+      try {
+        var response = await fetch('https://api.weatherapi.com/v1/forecast.json?key=7a870ed4880f4ba98b845519232111&q=auto:ip&days=1&aqi=yes&alerts=yes');
+        var data = await response.json();
+        setWeather(data);
+      } catch (error) {
+        console.error('Error fetching weather:', error);
+      }
+    }
+
+    fetchWeather()
   }, [])
 
   if (isLoadingScreen) return <LoadingScreen setIsLoadingScreen={setIsLoadingScreen} />
@@ -31,10 +47,10 @@ function App() {
     }
   };
 
-  const song = <button className='fixed bottom-24 right-8 -rotate-90 flex items-center hover:bg-primary/50 p-3 ease duration-200'
+  const song = <button className='fixed bottom-24 right-0 -rotate-90 flex items-center btn btn-ghost drop-shadow'
     onClick={handleSongClick}>Música
     <span className='material-symbols-outlined'>{songSpan}</span>
-    </button>
+  </button>
 
   const projectsList = myProjects.map((item, index) => {
     return (
@@ -59,15 +75,20 @@ function App() {
   })
 
   return (
-    <main className='w-full h-[85vh] bg-base-100 font-source-code-pro [&::selection]:color-success'>
+    <main className='w-full h-[85vh] bg-base-100 font-source-code-pro [&::selection]:color-success fadeInFromBlur'>
+      <header className='fixed z-50 w-full flex justify-end items-center gap-2 py-1 px-4'>
+        {weather &&
+          <>
+            <img src={weather.current.condition.icon} className='h-8' />
+            <span>{weather.current.temp_c}°C em {weather.location.name}</span>
+          </>
+        }
+      </header>
       <Langs />
       <section name="title" className='w-full text-center text-base-content h-[95vh]'>
         <div className='flex flex-col justify-center items-center w-full sticky top-[30vh] pb-4 gap-2'>
           <h1 className='titleFade font-[Montserrat] text-5xl lg:text-8xl flex items-end gap-2'>
             <span>Giovani</span>
-            <a href='https://github.com/dlgiovani/' target='_blank'>
-              <img src="/social-icons/github.webp" className='lg:w-12 lg:h-12 w-8 h-8 bg-accent hover:bg-success ease duration-300 rounded-xl' alt="github" />
-            </a>
           </h1>
           <p className="titleFade bg-gradient-to-br from-stone-400 via-white to-stone-500 bg-clip-text text-transparent w-fit">
             <TypeAnimation
@@ -78,11 +99,15 @@ function App() {
             <a target='_blank' href='https://www.linkedin.com/messaging/compose?recipient=giovani-drosda-lima'
               className='btn btn-success mb-4'>Contrate-me</a>
             <a href="https://api.whatsapp.com/send?phone=5541984486463&text=Ol%C3%A1,%20Giovani!%0A%0AVi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar."
-              className='btn btn-success btn-ghost'>
+              className='btn btn-ghost'>
               <span className="material-symbols-outlined">
                 chat
               </span>
               whatsapp
+            </a>
+            <a href='https://github.com/dlgiovani/' target='_blank' className='btn btn-ghost flex items-center gap-2'>
+              <img src="/social-icons/github-round.webp" className='w-6 h-6 ease duration-300 rounded-full' alt="github" />
+              <span>github</span>
             </a>
           </div>
         </div>

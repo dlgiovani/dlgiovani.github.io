@@ -6,7 +6,7 @@ export default function LoadingScreen({ setIsLoadingScreen }) {
   const [visibleScript, setVisibleScript] = useState([]);
 
   const script = [
-    "GiovaniOS v1.0.0 booting...",
+    "GiOS v2.2.3 booting...",
     "Initializing kernel... [OK]",
     "Mounting file system: /home/projects/portfolio [OK]",
     "Detecting hardware: CPU... [OK], Memory... [OK], Creativity Level... [Over 9000]",
@@ -24,6 +24,7 @@ export default function LoadingScreen({ setIsLoadingScreen }) {
     "Loading information... [OK]",
     "Loading languages... [OK]",
     "Loading soundtrack... [OK]",
+    "Fetching weather... [OK]",
     "Fetching projects... [OK]",
     "System ready."
   ];
@@ -32,7 +33,6 @@ export default function LoadingScreen({ setIsLoadingScreen }) {
 
   useEffect(() => {
     function addScript() {
-      console.log(visibleScript.length, script.length);
       if (visibleScript.length === script.length) {
         setVisibleScript((old) => [...old, 
           <TypeAnimation key={'last'} 
