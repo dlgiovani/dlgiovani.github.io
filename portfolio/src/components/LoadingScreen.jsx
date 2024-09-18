@@ -49,7 +49,7 @@ export default function LoadingScreen({ setIsLoadingScreen }) {
     setTimeout(() => addScript(), Math.random()*180);
   }, [visibleScript.length])
   return (
-    <div className="flex flex-col h-screen justify-end">
+    <div className="flex flex-col h-svh pb-1 justify-end text-xs md:text-base">
       {
         visibleScript.map(
           (item, index) =>

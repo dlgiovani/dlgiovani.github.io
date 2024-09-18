@@ -86,7 +86,7 @@ function App() {
       </header>
       <Langs />
       <section name="title" className='w-full text-center text-base-content h-[95vh]'>
-        <div className='flex flex-col justify-center items-center w-full sticky top-[30vh] pb-4 gap-2'>
+        <div className='flex flex-col justify-center items-center w-full sticky top-[15vh] md:top-[30vh] pb-4 gap-2'>
           <h1 className='titleFade font-[Montserrat] text-5xl lg:text-8xl flex items-end gap-2'>
             <span>Giovani</span>
           </h1>
@@ -95,10 +95,11 @@ function App() {
               sequence={['software developer', 'desenvolvedor de software']}
               speed={180} deletionSpeed={150} /><span className='caret text-white -translate-x-3'>|</span>
           </p>
-          <div className='flex gap-4'>
+          <div className='flex md:gap-4 text-sm md:text-base'>
             <a target='_blank' href='https://www.linkedin.com/messaging/compose?recipient=giovani-drosda-lima'
               className='btn btn-success mb-4'>Contrate-me</a>
             <a href="https://api.whatsapp.com/send?phone=5541984486463&text=Ol%C3%A1,%20Giovani!%0A%0AVi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar."
+              target='_blank'
               className='btn btn-ghost'>
               <span className="material-symbols-outlined">
                 chat
@@ -107,7 +108,7 @@ function App() {
             </a>
             <a href='https://github.com/dlgiovani/' target='_blank' className='btn btn-ghost flex items-center gap-2'>
               <img src="/social-icons/github-round.webp" className='w-6 h-6 ease duration-300 rounded-full' alt="github" />
-              <span>github</span>
+              <span className='hidden md:block'>github</span>
             </a>
           </div>
         </div>
