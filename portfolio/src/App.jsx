@@ -2,16 +2,21 @@ import { useEffect, useRef, useState } from 'react';
 // import projects from './data/projects.js';
 import { TypeAnimation } from 'react-type-animation';
 import Langs from './components/Langs.jsx';
+import LoadingScreen from './components/LoadingScreen.jsx';
 
 function App() {
 
   const songRef = useRef(null);
-  const [songSpan, setSongSpan] = useState('play_arrow');
-  const [myProjects, setMyProjects] = useState([]);
+  const [ songSpan, setSongSpan ] = useState('play_arrow');
+  const [ myProjects, setMyProjects ] = useState([]);
+  const [ isLoadingScreen, setIsLoadingScreen ] = useState(true);
+
   useEffect(() => {
     const data = Promise.resolve(fetch('/data/projects.json'));
     data.then(async (r) => setMyProjects(await r.json()))
   }, [])
+
+  if (isLoadingScreen) return <LoadingScreen setIsLoadingScreen={setIsLoadingScreen} />
 
   const handleSongClick = () => {
     if (songRef.current) {
@@ -53,9 +58,8 @@ function App() {
 
   })
 
-
   return (
-    <main className='w-full h-[85vh] bg-base-100 font-source-code-pro [&::selection]:color-success '>
+    <main className='w-full h-[85vh] bg-base-100 font-source-code-pro [&::selection]:color-success'>
       <Langs />
       <section name="title" className='w-full text-center text-base-content h-[95vh]'>
         <div className='flex flex-col justify-center items-center w-full sticky top-[30vh] pb-4 gap-2'>
@@ -68,7 +72,7 @@ function App() {
           <p className="titleFade bg-gradient-to-br from-stone-400 via-white to-stone-500 bg-clip-text text-transparent w-fit">
             <TypeAnimation
               sequence={['software developer', 'desenvolvedor de software']}
-              speed={180} deletionSpeed={150} /><span className='caret text-white'>|</span>
+              speed={180} deletionSpeed={150} /><span className='caret text-white -translate-x-3'>|</span>
           </p>
           <div className='flex gap-4'>
             <a target='_blank' href='https://www.linkedin.com/messaging/compose?recipient=giovani-drosda-lima'

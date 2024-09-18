@@ -21,7 +21,7 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(90%);
+    transform: translateX(30%);
     filter: blur(20px);
   }
 }
@@ -47,7 +47,7 @@
 
 .caret {
   animation: caret infinite 1s;
-  transform: translate(-.6em);
+  /* transform: translate(-.6em); */
   position: absolute;
 }
 
