@@ -1,7 +1,7 @@
 const Ascii = () => {
 
   return (
-    <p id="ascii-art-attack-text" name="ascii-art-attack-text" 
+    <p id="ascii-art-attack-text" name="ascii-art-attack-text" className="scale-75 md:scale-100"
     style={{display: 'inline-block', 
     color: '#000000',
     fontSize: '9px',

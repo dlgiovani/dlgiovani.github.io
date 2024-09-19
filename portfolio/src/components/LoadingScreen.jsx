@@ -40,13 +40,13 @@ export default function LoadingScreen({ setIsLoadingScreen }) {
           speed={40} />
         ]);
         setTimeout(
-          () => setIsLoadingScreen(false), 2500
+          () => setIsLoadingScreen(false), 2100
         )
         return;
       }
       setVisibleScript((old) => [...old, typingScript[old.length]]);
     }
-    setTimeout(() => addScript(), Math.random()*180);
+    setTimeout(() => addScript(), Math.random()*150);
   }, [visibleScript.length])
   return (
     <div className="flex flex-col h-svh pb-2 justify-end text-xs md:text-base">

@@ -2,7 +2,7 @@ const Info = ({projectsCount}) => {
 
   return (
     <section className="flex flex-col items-start">
-      <p className="font-semibold">admin@pages</p>
+      <p className="font-semibold">giovani@pages</p>
       <p className="">-----------</p>
       <p className="flex gap-1">
         <span className="text-primary font-semibold">OS:</span>
