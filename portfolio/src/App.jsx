@@ -27,12 +27,14 @@ function App() {
       <Header />
       {/* <Langs /> */}
       <section name="title" className='w-full text-center text-base-content h-[95vh] relative'>
-        <div className='flex flex-col lg:flex-row justify-between items-center lg:items-end w-full sticky top-[5vh] md:top-[30vh] pb-4 gap-2 titleFade'>
-          <div className='flex flex-col lg:flex-row md:gap-2 items-center'>
+        <div className='flex flex-col lg:flex-row justify-between items-center lg:items-end w-full sticky top-[5vh] md:top-[30vh] pb-4 gap-2'>
+          <div className='flex flex-col lg:flex-row md:gap-2 items-center titleFade'>
             <Ascii />
             <Info projectsCount={myProjects.length} />
           </div>
-          <Buttons />
+          <div className='titleFade'>
+            <Buttons />
+          </div>
           <section className='fixed md:relative top-[10svh] right-0 md:top-auto flex flex-col justify-start md:justify-end gap-24 h-[53svh] md:h-full'>
             <About />
             <Song />
