@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Buttons from './components/Buttons.jsx';
 import Header from './components/Header.jsx';
-import Langs from './components/Langs.jsx';
 import LoadingScreen from './components/LoadingScreen.jsx';
 import Projects from './components/Projects.jsx';
 import Song from './components/Song.jsx';
@@ -11,6 +10,46 @@ import About from './components/About.jsx';
 
 function App() {
 
+  const themes = useMemo(() => [
+    "coffee",
+    "night",
+    "winter",
+    "dim",
+    "nord",
+    "sunset",
+    "dark",
+    "cupcake",
+    "emerald",
+    "corporate",
+    "synthwave",
+    "retro",
+    "cyberpunk",
+    "valentine",
+    "halloween",
+    "garden",
+    "forest",
+    "aqua",
+    "lofi",
+    "pastel",
+    "black",
+    "luxury",
+    "dracula",
+    "autumn",
+    "business",
+    "lemonade",
+  ], [])
+
+  const [currentTheme, setCurrentTheme] = useState(0);
+  function handleChangeTheme() {
+    let nextTheme;
+    if (currentTheme >= themes.length -1) {
+      nextTheme = 0;
+    } else {
+      nextTheme = currentTheme + 1;
+    }
+
+    setCurrentTheme(nextTheme);
+  }
   const [isLoadingScreen, setIsLoadingScreen] = useState(true);
   const [myProjects, setMyProjects] = useState([]);
 
@@ -19,8 +58,11 @@ function App() {
     data.then(async (r) => setMyProjects(await r.json()))
   }, [])
 
+  useEffect(() => {
+    if (!isLoadingScreen) document.documentElement.setAttribute('data-theme', themes[currentTheme]);
+  }, [currentTheme, isLoadingScreen, themes])
+
   if (isLoadingScreen) return <LoadingScreen setIsLoadingScreen={setIsLoadingScreen} />
-  document.documentElement.setAttribute('data-theme', 'coffee');
 
   return (
     <main className='w-full h-[85vh] bg-base-100 font-source-code-pro [&::selection]:color-success fadeInFromBlur'>
@@ -30,7 +72,7 @@ function App() {
         <div className='flex flex-col lg:flex-row justify-between items-center lg:items-end w-full sticky top-[5vh] md:top-[30vh] pb-4 gap-2'>
           <div className='flex flex-col lg:flex-row md:gap-2 items-center titleFade lg:pl-12'>
             <Ascii />
-            <Info projectsCount={myProjects.length} />
+            <Info projectsCount={myProjects.length} theme={themes[currentTheme]} handleChangeTheme={handleChangeTheme} />
           </div>
           <div className='titleFade'>
             <Buttons />

@@ -46,7 +46,7 @@ export default function LoadingScreen({ setIsLoadingScreen }) {
       }
       setVisibleScript((old) => [...old, typingScript[old.length]]);
     }
-    setTimeout(() => addScript(), Math.random()*150);
+    setTimeout(() => addScript(), Math.random()*120);
   }, [visibleScript.length])
   return (
     <div className="flex flex-col h-svh pb-2 justify-end text-xs md:text-base">

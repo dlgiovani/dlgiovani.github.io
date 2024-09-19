@@ -10,7 +10,7 @@ const About = () => {
       <dialog id="about_modal" className="modal">
         <div className="modal-box text-left text-pretty">
           <h3 className="font-bold text-lg">Olá, eu sou o Giovani</h3>
-          <p className="py-4">Sou um programador fullstack com quase uma década de experiência em programação e 3 anos em desenvolvimento de software.</p>
+          <p className="py-4">Sou um programador fullstack com quase uma década de experiência em programação e ~3 anos em desenvolvimento profissional de software.</p>
           <p className="py-4">Venho me especializando no momento em APIs REST e Oauth2. Crio webapps completos do zero com FastAPI e React, com grande foco na experiência do usuário.</p>
           <p className="py-4 font-thin">Pressione ESC ou clique fora para sair...</p>
         </div>

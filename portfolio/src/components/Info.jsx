@@ -1,4 +1,4 @@
-const Info = ({projectsCount}) => {
+const Info = ({ projectsCount, theme, handleChangeTheme }) => {
 
   return (
     <section className="flex flex-col items-start">
@@ -14,7 +14,10 @@ const Info = ({projectsCount}) => {
       </p>
       <p className="flex gap-1">
         <span className="text-primary font-semibold">Theme:</span>
-        <span className="text-accent">Coffee</span>
+        <span className="text-accent capitalize cursor-pointer underline decoration-dotted" onClick={() => handleChangeTheme()}>
+          {theme}
+        </span>
+        <span className="animate-pulse material-symbols-outlined text-secondary text-sm leading-7">contrast</span>
       </p>
       <p className="flex gap-1">
         <span className="text-primary font-semibold">Terminal Font:</span>
