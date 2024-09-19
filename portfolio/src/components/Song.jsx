@@ -21,7 +21,7 @@ const Song = () => {
 
   return (
     <>
-      <button className='fixed top-24 md:bottom-28 md:top-[auto] -right-4 md:right-0 !-rotate-90 flex items-center btn btn-ghost drop-shadow'
+      <button className='!-rotate-90 flex items-center btn btn-ghost drop-shadow'
         onClick={handleSongClick}>Música
         <span className='material-symbols-outlined'>{songSpan}</span>
       </button>

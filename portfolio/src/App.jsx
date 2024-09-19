@@ -7,6 +7,7 @@ import Projects from './components/Projects.jsx';
 import Song from './components/Song.jsx';
 import Ascii from './components/Ascii.jsx';
 import Info from './components/Info.jsx';
+import About from './components/About.jsx';
 
 function App() {
 
@@ -26,16 +27,19 @@ function App() {
       <Header />
       {/* <Langs /> */}
       <section name="title" className='w-full text-center text-base-content h-[95vh] relative'>
-        <div className='flex flex-col lg:flex-row justify-around items-center w-full lg:w-[75%] sticky top-[5vh] md:top-[30vh] pb-4 gap-2 titleFade'>
+        <div className='flex flex-col lg:flex-row justify-between items-center lg:items-end w-full sticky top-[5vh] md:top-[30vh] pb-4 gap-2 titleFade'>
           <div className='flex flex-col lg:flex-row md:gap-2 items-center'>
             <Ascii />
             <Info projectsCount={myProjects.length} />
           </div>
           <Buttons />
+          <section className='fixed md:relative top-[10svh] right-0 md:top-auto flex flex-col justify-start md:justify-end gap-24 h-[53svh] md:h-full'>
+            <About />
+            <Song />
+          </section>
         </div>
       </section>
       <Projects myProjects={myProjects} />
-      <Song />
       <div className='flex material-symbols-outlined absolute -bottom-[12svh] opacity-50 md:opacity-100 md:-bottom-6 right-0 hover:cursor-pointer
       w-full md:w-12 px-8 pt-1 md:mx-6 text-6xl justify-center md:bg-neutral/25 md:hover:bg-neutral/80 rounded-full animate-bounce'
         onClick={() => window.scrollBy({ top: 300, behavior: 'smooth' })}>keyboard_arrow_down</div>

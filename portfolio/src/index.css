@@ -11,6 +11,7 @@
     opacity: .5;
     filter: blur(0px);
   }
+
   100% {
     opacity: 1;
     filter: blur(0px);
@@ -19,7 +20,7 @@
 
 .fadeInFromBlur {
   & {
-    opacity: 0; 
+    opacity: 0;
     filter: blur(10px);
     animation: bootFade 2s ease forwards;
   }
@@ -36,13 +37,26 @@
   animation-timeline: view(0% 70%);
 }
 
+@media (max-width: 1024px) {
+
 @keyframes fadeRight {
-  0% {
-    transform: translateX(0);
-  }
   100% {
-    transform: translateX(10%);
     filter: blur(10px);
+  }
+}
+}
+
+@media (min-width: 1024px) {
+
+  @keyframes fadeRight {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(10%);
+      filter: blur(10px);
+    }
   }
 }
 
@@ -56,10 +70,13 @@
     filter: blur(10px);
     transform: translateX(-50px) rotateZ(-2deg);
   }
-  35%, 65% {
+
+  35%,
+  65% {
     filter: blur(0px);
     transform: translate(0);
   }
+
   100% {
     filter: blur(10px);
   }
@@ -75,6 +92,7 @@
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: .1;
   }
