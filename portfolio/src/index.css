@@ -90,14 +90,14 @@
 }
 
 html {
-  cursor: url("/cursors/default.cur"), auto;
+  cursor: url("/cursors/linux-cursor.webp"), auto;
   height: 100%;
   overflow: auto;
 }
 
-a:hover, button:hover {
+/* a:hover, button:hover {
   cursor: url("/cursors/pointer.cur"), auto;
-}
+} */
 
 body {
   height: 100%;
