@@ -13,7 +13,7 @@ const Buttons = () => {
         whatsapp
       </a>
       <a href='https://github.com/dlgiovani/' target='_blank' className='btn btn-ghost lg:bg-primary/5 flex items-center gap-2 md:justify-start'>
-        <img src="/social-icons/github-round.webp" className='w-6 h-6 ease duration-300 rounded-full' alt="github" />
+        <img src="/social-icons/github-round.webp" className='w-6 h-6 ease duration-300 rounded-full bg-accent' alt="github" />
         <span className='hidden md:block'>github</span>
       </a>
     </div>
