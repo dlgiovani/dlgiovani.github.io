@@ -28,7 +28,7 @@ function App() {
       {/* <Langs /> */}
       <section name="title" className='w-full text-center text-base-content h-[95vh] relative'>
         <div className='flex flex-col lg:flex-row justify-between items-center lg:items-end w-full sticky top-[5vh] md:top-[30vh] pb-4 gap-2'>
-          <div className='flex flex-col lg:flex-row md:gap-2 items-center titleFade'>
+          <div className='flex flex-col lg:flex-row md:gap-2 items-center titleFade lg:pl-12'>
             <Ascii />
             <Info projectsCount={myProjects.length} />
           </div>
