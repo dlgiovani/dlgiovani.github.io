@@ -9,6 +9,14 @@ const About = () => {
 
       <dialog id="about_modal" className="modal">
         <div className="modal-box text-left text-pretty">
+          <div className="flex gap-2 items-center">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="rounded-full w-4 h-4 bg-error mb-6 left-2 top-2"></button>
+            </form>
+            <button className="rounded-full w-4 h-4 bg-neutral mb-6 left-2 top-2"></button>
+            <button className="rounded-full w-4 h-4 bg-neutral mb-6 left-2 top-2"></button>
+          </div>
           <h3 className="font-bold text-lg">Olá, eu sou o Giovani</h3>
           <p className="py-4">Sou um programador fullstack com quase uma década de experiência em programação e ~3 anos em desenvolvimento profissional de software.</p>
           <p className="py-4">Venho me especializando no momento em APIs REST e Oauth2. Crio webapps completos do zero com FastAPI e React, com grande foco na experiência do usuário.</p>
