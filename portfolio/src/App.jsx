@@ -69,7 +69,7 @@ function App() {
         </div>
       </section>
       <Projects myProjects={myProjects} />
-      <div className='flex material-symbols-outlined absolute -bottom-[12svh] opacity-50 md:opacity-100 md:-bottom-6 right-0 hover:cursor-pointer
+      <div className='flex material-symbols-outlined absolute -bottom-[12svh] opacity-50 md:opacity-100 md:-bottom-6 left-0 hover:cursor-pointer
       w-full md:w-12 px-8 pt-1 md:mx-6 text-6xl justify-center md:bg-neutral/25 md:hover:bg-neutral/80 rounded-full animate-bounce'
         onClick={() => window.scrollBy({ top: 300, behavior: 'smooth' })}>keyboard_arrow_down</div>
     </main>
