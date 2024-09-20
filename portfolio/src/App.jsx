@@ -49,7 +49,7 @@ function App() {
   return (
     <>
       {isLoadingScreen && <LoadingScreen setIsLoadingScreen={setIsLoadingScreen} />}
-      <main className={`w-full h-[85vh] bg-base-100 font-source-code-pro [&::selection]:color-success fadeInFromBlur ${isLoadingScreen && 'overflow-hidden hidden'}`}>
+      <main className={`w-full h-[85vh] bg-base-100 font-source-code-pro [&::selection]:color-success ${isLoadingScreen ? 'overflow-hidden' : 'fadeInFromBlur'}`}>
         <Header />
         {/* <Langs /> */}
         <section name="title" className='w-full text-center text-base-content h-[95vh] relative'>
@@ -69,8 +69,8 @@ function App() {
           </div>
         </section>
         <Projects myProjects={myProjects} />
-        <div className='flex material-symbols-outlined absolute -bottom-[12svh] opacity-50 md:opacity-100 md:-bottom-6 left-0 hover:cursor-pointer
-      w-full md:w-12 px-8 pt-1 md:mx-6 text-6xl justify-center md:bg-neutral/25 md:hover:bg-neutral/80 rounded-full animate-bounce'
+        <div className={!isLoadingScreen && `flex material-symbols-outlined absolute -bottom-[12svh] opacity-50 md:opacity-100 md:-bottom-6 left-0 hover:cursor-pointer
+      w-full md:w-12 px-8 pt-1 md:mx-6 text-6xl justify-center md:bg-neutral/25 md:hover:bg-neutral/80 rounded-full animate-bounce`}
           onClick={() => window.scrollBy({ top: 300, behavior: 'smooth' })}>keyboard_arrow_down</div>
       </main>
     </>
