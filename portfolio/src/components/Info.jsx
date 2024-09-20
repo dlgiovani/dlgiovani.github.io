@@ -12,12 +12,13 @@ const Info = ({ projectsCount, theme, handleChangeTheme }) => {
         <span className="text-primary font-semibold">Host:</span>
         <span className="text-accent">Browser VM LM40</span>
       </p>
-      <p className="flex gap-1">
+      <p className="flex gap-1 w-[80%]">
         <span className="text-primary font-semibold">Theme:</span>
-        <span className="text-accent capitalize cursor-pointer underline decoration-dotted" onClick={() => handleChangeTheme()}>
-          {theme}
+        <span className="text-accent flex items-center justify-between w-full gap-2">
+          <span onClick={() => handleChangeTheme(-1)} className="select-none font-bold cursor-pointer text-xl material-symbols-outlined">arrow_back</span>
+          <span className="bg-primary text-primary-content">{theme}</span>
+          <span onClick={() => handleChangeTheme(1)} className="select-none font-bold cursor-pointer text-xl material-symbols-outlined">arrow_forward</span>
         </span>
-        <span className="animate-pulse material-symbols-outlined text-secondary text-sm leading-7">contrast</span>
       </p>
       <p className="flex gap-1">
         <span className="text-primary font-semibold">Terminal Font:</span>
