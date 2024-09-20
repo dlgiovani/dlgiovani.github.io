@@ -46,33 +46,34 @@ function App() {
     if (!isLoadingScreen) document.documentElement.setAttribute('data-theme', themes[currentTheme]);
   }, [currentTheme, isLoadingScreen, themes])
 
-  if (isLoadingScreen) return <LoadingScreen setIsLoadingScreen={setIsLoadingScreen} />
-
   return (
-    <main className='w-full h-[85vh] bg-base-100 font-source-code-pro [&::selection]:color-success fadeInFromBlur'>
-      <Header />
-      {/* <Langs /> */}
-      <section name="title" className='w-full text-center text-base-content h-[95vh] relative'>
-        <div className='flex flex-col lg:flex-row justify-between items-center lg:items-end w-full sticky top-[5vh] md:top-[30vh] pb-4 gap-2'>
-          <div className='flex flex-col lg:flex-row lg:gap-2 items-center titleFade lg:pl-12'>
-            <Ascii />
-            <Info projectsCount={myProjects.length} theme={themes[currentTheme]} handleChangeTheme={handleChangeTheme} />
+    <>
+      {isLoadingScreen && <LoadingScreen setIsLoadingScreen={setIsLoadingScreen} />}
+      <main className={`w-full h-[85vh] bg-base-100 font-source-code-pro [&::selection]:color-success fadeInFromBlur ${isLoadingScreen && 'overflow-hidden hidden'}`}>
+        <Header />
+        {/* <Langs /> */}
+        <section name="title" className='w-full text-center text-base-content h-[95vh] relative'>
+          <div className='flex flex-col lg:flex-row justify-between items-center lg:items-end w-full sticky top-[5vh] md:top-[30vh] pb-4 gap-2'>
+            <div className='flex flex-col lg:flex-row lg:gap-2 items-center titleFade lg:pl-12'>
+              <Ascii />
+              <Info projectsCount={myProjects.length} theme={themes[currentTheme]} handleChangeTheme={handleChangeTheme} />
+            </div>
+            <div className='titleFade'>
+              <Buttons />
+            </div>
+            <section className='fixed lg:relative top-[10svh] right-0 lg:top-auto flex flex-col justify-start lg:justify-end gap-24 h-[53svh] lg:h-full'>
+              <Theme handleChangeTheme={handleChangeTheme} />
+              <About />
+              <Song />
+            </section>
           </div>
-          <div className='titleFade'>
-            <Buttons />
-          </div>
-          <section className='fixed lg:relative top-[10svh] right-0 lg:top-auto flex flex-col justify-start lg:justify-end gap-24 h-[53svh] lg:h-full'>
-            <Theme handleChangeTheme={handleChangeTheme} />
-            <About />
-            <Song />
-          </section>
-        </div>
-      </section>
-      <Projects myProjects={myProjects} />
-      <div className='flex material-symbols-outlined absolute -bottom-[12svh] opacity-50 md:opacity-100 md:-bottom-6 left-0 hover:cursor-pointer
+        </section>
+        <Projects myProjects={myProjects} />
+        <div className='flex material-symbols-outlined absolute -bottom-[12svh] opacity-50 md:opacity-100 md:-bottom-6 left-0 hover:cursor-pointer
       w-full md:w-12 px-8 pt-1 md:mx-6 text-6xl justify-center md:bg-neutral/25 md:hover:bg-neutral/80 rounded-full animate-bounce'
-        onClick={() => window.scrollBy({ top: 300, behavior: 'smooth' })}>keyboard_arrow_down</div>
-    </main>
+          onClick={() => window.scrollBy({ top: 300, behavior: 'smooth' })}>keyboard_arrow_down</div>
+      </main>
+    </>
   )
 }
 
