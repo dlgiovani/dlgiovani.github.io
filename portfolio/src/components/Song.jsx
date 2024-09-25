@@ -21,9 +21,9 @@ const Song = () => {
 
   return (
     <>
-      <button className='!-rotate-90 flex items-center btn btn-ghost drop-shadow'
+      <button className='!-rotate-90 flex items-center btn btn-ghost drop-shadow text-sm md:text-base'
         onClick={handleSongClick}>Música
-        <span className='material-symbols-outlined'>{songSpan}</span>
+        <span className='material-symbols-outlined text-sm md:text-lg'>{songSpan}</span>
       </button>
       <audio ref={songRef} src='/songs/C418 - Aria Math (Minecraft Volume Beta).mp3' />
     </>

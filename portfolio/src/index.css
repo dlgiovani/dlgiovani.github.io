@@ -37,22 +37,23 @@
   animation-timeline: view(0% 70%);
 }
 
-@media (max-width: 1024px) {
 
-@keyframes fadeRight {
-  100% {
-    filter: blur(10px);
+@media (max-width: 1024px) {
+  
+  @keyframes fadeRight {
+    100% {
+      filter: blur(10px);
+    }
   }
-}
 }
 
 @media (min-width: 1024px) {
-
+  
   @keyframes fadeRight {
     0% {
       transform: translateX(0);
     }
-
+    
     100% {
       transform: translateX(10%);
       filter: blur(10px);
@@ -63,6 +64,12 @@
 .postsFade {
   animation: sharpInTheMiddle both;
   animation-timeline: view();
+}
+
+@supports (-moz-appearance: auto) {
+  .titleFade, .langFade, .postsFade {
+    animation: none;
+  }
 }
 
 @keyframes sharpInTheMiddle {

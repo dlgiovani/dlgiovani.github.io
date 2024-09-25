@@ -61,7 +61,8 @@ function App() {
             <div className='titleFade'>
               <Buttons />
             </div>
-            <section className='fixed lg:relative top-[10svh] right-0 lg:top-auto flex flex-col justify-start lg:justify-end gap-24 h-[53svh] lg:h-full'>
+            <section 
+            className='fixed lg:relative top-[10svh] right-0 lg:top-auto flex flex-col justify-start lg:justify-end gap-24 h-[53svh] lg:h-full'>
               <Theme handleChangeTheme={handleChangeTheme} />
               <About />
               <Song />
