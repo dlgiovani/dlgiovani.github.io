@@ -5,15 +5,19 @@ const Info = ({ projectsCount, theme, handleChangeTheme }) => {
       <p className="font-semibold">giovani@pages</p>
       <p className="">-----------</p>
       <p className="flex gap-1">
-        <span className="text-primary font-semibold">OS:</span>
-        <span className="text-accent">GiOS Linux X86_64</span>
+        <span className="text-primary font-semibold">Onde:</span>
+        <span className="text-accent">Curitiba, Brasil</span>
       </p>
       <p className="flex gap-1">
-        <span className="text-primary font-semibold">Host:</span>
-        <span className="text-accent">Browser VM LM40</span>
+        <span className="text-primary font-semibold">O quê:</span>
+        <span className="text-accent">Backend metido a Fullstack</span>
+      </p>
+      <p className="flex gap-1">
+        <span className="text-primary font-semibold">Nível:</span>
+        <span className="text-accent">Pleno</span>
       </p>
       <p className="flex gap-1 w-[80%]">
-        <span className="text-primary font-semibold">Theme:</span>
+        <span className="text-primary font-semibold">Tema:</span>
         <span className="text-accent flex items-center justify-between w-full gap-2">
           <span onClick={() => handleChangeTheme(-1)} className="select-none font-bold cursor-pointer text-xl material-symbols-outlined">arrow_back</span>
           <span className="bg-primary text-primary-content">{theme}</span>
@@ -21,11 +25,7 @@ const Info = ({ projectsCount, theme, handleChangeTheme }) => {
         </span>
       </p>
       <p className="flex gap-1">
-        <span className="text-primary font-semibold">Terminal Font:</span>
-        <span className="text-accent">Source Code Pro</span>
-      </p>
-      <p className="flex gap-1">
-        <span className="text-primary font-semibold">Projects:</span>
+        <span className="text-primary font-semibold">Projetos:</span>
         <span className="text-accent">&gt;{projectsCount}</span>
       </p>
       <div className="mt-4 flex flex-col">
