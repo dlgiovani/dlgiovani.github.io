@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+import Song from "./Song";
+import About from "./About";
+import Theme from "./Theme";
 
-const Header = () => {
+const Header = ({handleChangeTheme}) => {
 
   const [weather, setWeather] = useState(null);
 
@@ -21,11 +24,14 @@ const Header = () => {
 
   return (
     <header className='fixed z-50 w-full flex justify-end items-center gap-2 py-1 px-4'>
+      <Theme handleChangeTheme={handleChangeTheme} />
+      <About />
+      <Song />
       {weather &&
-        <>
+        <div className="text-xs md:text-base flex items-center">
           <img src={weather.current.condition.icon} className='h-8' />
           <span>{weather.current.temp_c}°C em {weather.location.name}</span>
-        </>
+        </div>
       }
     </header>
   )

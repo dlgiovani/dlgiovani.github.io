@@ -3,30 +3,16 @@ import Buttons from './components/Buttons.jsx';
 import Header from './components/Header.jsx';
 import LoadingScreen from './components/LoadingScreen.jsx';
 import Projects from './components/Projects.jsx';
-import Song from './components/Song.jsx';
 import Ascii from './components/Ascii.jsx';
 import Info from './components/Info.jsx';
-import About from './components/About.jsx';
-import Theme from './components/Theme.jsx';
+
 
 function App() {
 
   const themes = useMemo(() => [
+    "nord",
     "coffee",
     "night",
-    "dim",
-    "sunset",
-    "dark",
-    "forest",
-    "luxury",
-    "dracula",
-    "business",
-    "synthwave",
-    "retro",
-    "corporate",
-    "autumn",
-    "lofi",
-    "nord",
   ], [])
 
   const [currentTheme, setCurrentTheme] = useState(0);
@@ -43,36 +29,34 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (!isLoadingScreen) document.documentElement.setAttribute('data-theme', themes[currentTheme]);
-  }, [currentTheme, isLoadingScreen, themes])
+    document.documentElement.setAttribute('data-theme', themes[currentTheme]);
+  }, [currentTheme, themes])
 
   return (
     <>
       {isLoadingScreen && <LoadingScreen setIsLoadingScreen={setIsLoadingScreen} />}
-      <main className={`w-full h-[85vh] bg-base-100 font-source-code-pro [&::selection]:color-success ${isLoadingScreen ? 'overflow-hidden' : 'fadeInFromBlur'}`}>
-        <Header />
+      <main className={`w-full h-[85vh] bg-base-100 font-source-code-pro [&::selection]:color-success fadeInFromBlur`}>
+        <Header handleChangeTheme={handleChangeTheme} />
         {/* <Langs /> */}
         <section name="title" className='w-full text-center text-base-content h-[95vh] relative'>
-          <div className='flex flex-col lg:flex-row justify-between items-center lg:items-end w-full sticky top-[5vh] md:top-[30vh] pb-4 gap-2'>
-            <div className='flex flex-col lg:flex-row lg:gap-2 items-center titleFade lg:pl-12'>
+          <div className='flex flex-col justify-between items-center w-full sticky top-[5vh] md:top-[30vh] pb-4 gap-2'>
+            <div className='flex flex-col lg:flex-row lg:gap-2 items-center titleFade lg:pl-12 bg-primary/45 rounded-box p-2'>
               <Ascii />
               <Info projectsCount={myProjects.length} theme={themes[currentTheme]} handleChangeTheme={handleChangeTheme} />
             </div>
             <div className='titleFade'>
               <Buttons />
             </div>
-            <section 
-            className='fixed lg:relative top-[10svh] right-0 lg:top-auto flex flex-col justify-start lg:justify-end gap-24 h-[53svh] lg:h-full'>
-              <Theme handleChangeTheme={handleChangeTheme} />
-              <About />
-              <Song />
-            </section>
           </div>
         </section>
         <Projects myProjects={myProjects} />
         <div className={!isLoadingScreen ? `flex material-symbols-outlined absolute -bottom-[12svh] opacity-50 md:opacity-100 md:-bottom-6 left-0 hover:cursor-pointer
-      w-full md:w-12 px-8 pt-1 md:mx-6 text-6xl justify-center md:bg-neutral/25 md:hover:bg-neutral/80 rounded-full animate-bounce` : ''}
-          onClick={() => window.scrollBy({ top: 300, behavior: 'smooth' })}>keyboard_arrow_down</div>
+      w-full md:w-12 px-8 pt-1 md:mx-6 text-6xl justify-center md:bg-neutral/25 md:hover:bg-neutral/80 rounded-box pt-4` : ''}
+          onClick={() => window.scrollBy({ top: 300, behavior: 'smooth' })}>
+          <span className='animate-bounce'>
+            keyboard_arrow_down
+          </span>
+        </div>
       </main>
     </>
   )

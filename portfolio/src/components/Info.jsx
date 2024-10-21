@@ -5,28 +5,28 @@ const Info = ({ projectsCount, theme, handleChangeTheme }) => {
       <p className="font-semibold">giovani@pages</p>
       <p className="">-----------</p>
       <p className="flex gap-1">
-        <span className="text-primary font-semibold">Onde:</span>
-        <span className="text-accent">Curitiba, Brasil</span>
+        <span className="text-secondary-content bg-secondary font-semibold">Onde:</span>
+        <span className="text-primary-content">Curitiba, Brasil</span>
       </p>
       <p className="flex gap-1">
-        <span className="text-primary font-semibold">O quê:</span>
-        <span className="text-accent">Backend metido a Fullstack</span>
+        <span className="text-secondary-content bg-secondary font-semibold">O quê:</span>
+        <span className="text-primary-content">Backend metido a Fullstack</span>
       </p>
       <p className="flex gap-1">
-        <span className="text-primary font-semibold">Nível:</span>
-        <span className="text-accent">Pleno</span>
+        <span className="text-secondary-content bg-secondary font-semibold">Nível:</span>
+        <span className="text-primary-content">Pleno</span>
       </p>
       <p className="flex gap-1 w-[80%]">
-        <span className="text-primary font-semibold">Tema:</span>
-        <span className="text-accent flex items-center justify-between w-full gap-2">
+        <span className="text-secondary-content bg-secondary font-semibold">Tema:</span>
+        <span className="text-primary-content flex items-center justify-between w-full gap-2">
           <span onClick={() => handleChangeTheme(-1)} className="select-none font-bold cursor-pointer text-xl material-symbols-outlined">arrow_back</span>
           <span className="bg-primary text-primary-content">{theme}</span>
           <span onClick={() => handleChangeTheme(1)} className="select-none font-bold cursor-pointer text-xl material-symbols-outlined">arrow_forward</span>
         </span>
       </p>
       <p className="flex gap-1">
-        <span className="text-primary font-semibold">Projetos:</span>
-        <span className="text-accent">&gt;{projectsCount}</span>
+        <span className="text-secondary-content bg-secondary font-semibold">Projetos:</span>
+        <span className="text-primary-content">&gt;{projectsCount}</span>
       </p>
       <div className="mt-4 flex flex-col">
         <div className="flex self-center w-full">
@@ -37,7 +37,7 @@ const Info = ({ projectsCount, theme, handleChangeTheme }) => {
         </div>
         <div className="flex self-center w-full">
           <div className="flex-grow bg-neutral text-neutral-content p-1 text-sm">alembic</div>
-          <div className="flex-grow bg-accent text-accent-content p-1 text-sm">json</div>
+          <div className="flex-grow bg-accent text-accent-content p-1 text-sm">node.js</div>
           <div className="flex-grow bg-primary text-primary-content p-1 text-sm">pydantic</div>
           <div className="flex-grow bg-secondary text-secondary-content p-1 text-sm">sqlalchemy</div>
         </div>
