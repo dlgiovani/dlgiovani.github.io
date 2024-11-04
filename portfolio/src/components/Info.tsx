@@ -1,3 +1,5 @@
+import React from "react";
+
 const Info = ({ projectsCount, theme, handleChangeTheme }) => {
 
   return (
@@ -28,6 +30,15 @@ const Info = ({ projectsCount, theme, handleChangeTheme }) => {
         <span className="text-secondary-content bg-secondary font-semibold">Projetos:</span>
         <span className="text-primary-content">&gt;{projectsCount}</span>
       </p>
+      <p className="flex gap-1">
+        <span className="text-secondary-content bg-secondary font-semibold">Certificado:</span>
+        <span className="text-primary-content">
+          <a className="underline"
+          href="https://courses.edx.org/certificates/daa8e0573d574d43a5f24451aec18d61" target="_blank">
+            Harvard
+          </a>
+        </span>
+      </p>
       <div className="mt-4 flex flex-col">
         <div className="flex self-center w-full">
           <div className="flex-grow bg-accent text-accent-content p-1 text-sm">python</div>
@@ -42,8 +53,8 @@ const Info = ({ projectsCount, theme, handleChangeTheme }) => {
           <div className="flex-grow bg-secondary text-secondary-content p-1 text-sm">sqlalchemy</div>
         </div>
         <div className="flex self-center w-full">
-          <div className="flex-grow bg-primary text-primary-content p-1 text-sm">javascript</div>
-          <div className="flex-grow bg-secondary text-secondary-content p-1 text-sm">postgre/sql</div>
+          <div className="flex-grow bg-primary text-primary-content p-1 text-sm">postgre/sql</div>
+          <div className="flex-grow bg-secondary text-secondary-content p-1 text-sm">js/ts</div>
           <div className="flex-grow bg-accent text-accent-content p-1 text-sm">react</div>
           <div className="flex-grow bg-neutral text-neutral-content p-1 text-sm">apis</div>
         </div>

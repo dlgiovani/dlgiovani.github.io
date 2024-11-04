@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Song from "./Song";
 import About from "./About";
 import Theme from "./Theme";
 
 const Header = ({handleChangeTheme}) => {
 
-  const [weather, setWeather] = useState(null);
+  const [weather, setWeather] = useState<any>(null);
 
   useEffect(() => {
 
@@ -23,14 +23,14 @@ const Header = ({handleChangeTheme}) => {
   }, [])
 
   return (
-    <header className='fixed z-50 w-full flex justify-end items-center gap-2 py-1 px-4'>
+    <header className='fixed z-50 w-full flex justify-evenly md:justify-end items-center md:gap-2 py-1 md:px-4'>
       <Theme handleChangeTheme={handleChangeTheme} />
       <About />
       <Song />
       {weather &&
-        <div className="text-xs md:text-base flex items-center">
+        <div className="text-xs md:text-base flex items-center pr-4">
           <img src={weather.current.condition.icon} className='h-8' />
-          <span>{weather.current.temp_c}°C em {weather.location.name}</span>
+          <span>{weather.current.temp_c}°C <span className="hidden md:inline">&middot; {weather.location.name}</span></span>
         </div>
       }
     </header>
