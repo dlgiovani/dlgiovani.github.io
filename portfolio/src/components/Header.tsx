@@ -23,7 +23,7 @@ const Header = ({handleChangeTheme}) => {
   }, [])
 
   return (
-    <header className='fixed z-50 w-full flex justify-evenly md:justify-end items-center md:gap-2 py-1 md:px-4'>
+    <header className='fixed z-50 w-full flex justify-evenly md:justify-end items-center md:gap-2 py-1 m  d:px-4'>
       <Theme handleChangeTheme={handleChangeTheme} />
       <About />
       <Song />

@@ -6,7 +6,7 @@ export default function LoadingScreen({ setIsLoadingScreen }) {
   useEffect(() => {
       const timer = setTimeout(() => {
         setIsLoadingScreen(false);
-      }, 3000);
+      }, 1800);
 
     return () => {
       clearTimeout(timer);
@@ -14,10 +14,8 @@ export default function LoadingScreen({ setIsLoadingScreen }) {
   }, [setIsLoadingScreen])
   
   return (
-    <section className="w-full h-full absolute z-50 bg-[#9DAFA0] flex justify-center items-center fade-bg">
-      <div className="fade-img relative">
-        <img src="/cat_running.webp" className="rounded-[100%]" />
-      </div>
+    <section className="w-full h-full absolute z-50 bg-black flex justify-center items-center fade-bg">
+      <img src="/cat-loading.webp" alt="loading screen cat" />
     </section>
   )
 }

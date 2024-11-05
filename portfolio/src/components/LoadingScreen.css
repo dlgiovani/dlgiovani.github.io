@@ -1,39 +1,14 @@
-@keyframes loading-gradient {
+@keyframes fadeBg {
   0% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(100%);
     opacity: 1;
   }
-}
 
-@keyframes loading-bg {
-  0% {
-    opacity: 1;
-  }
   100% {
     opacity: 0;
   }
 }
 
 .fade-bg {
-  animation: loading-bg 3s ease-in   forwards;
+  animation: fadeBg .8s forwards;
+  animation-delay: 1s;
 }
-
-.fade-img {
-  position: relative; 
-  animation: loading-gradient 4s linear forwards;
-}
-
-.fade-img:after {
-  content:""; 
-  position: absolute; 
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: radial-gradient(circle at 50% 65%, #00000000 0% 25%, #9DAFA0 40%);
-  height: 100%; 
-}
-

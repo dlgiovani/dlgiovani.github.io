@@ -39,6 +39,15 @@ const Info = ({ projectsCount, theme, handleChangeTheme }) => {
           </a>
         </span>
       </p>
+      <p className="flex gap-1">
+        <span className="text-secondary-content bg-secondary font-semibold">Currículo:</span>
+        <span className="text-primary-content">
+          <a className="underline"
+          href="/cv-giovani-drosda-lima-ptbr.pdf" target="_blank">
+            pdf
+          </a>
+        </span>
+      </p>
       <div className="mt-4 flex flex-col">
         <div className="flex self-center w-full">
           <div className="flex-grow bg-accent text-accent-content p-1 text-sm">python</div>
