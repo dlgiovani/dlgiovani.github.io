@@ -44,7 +44,7 @@ const Info = ({ projectsCount, theme, handleChangeTheme }) => {
         <span className="text-primary-content">
           <a className="underline"
           href="/cv-giovani-drosda-lima-ptbr.pdf" target="_blank">
-            pdf
+            ver pdf
           </a>
         </span>
       </p>
