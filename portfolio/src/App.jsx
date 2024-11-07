@@ -12,7 +12,11 @@ function App() {
   const themes = useMemo(() => [
     "nord",
     "coffee",
+    "dracula",
     "night",
+    "sunset",
+    "retro",
+    "cupcake",
   ], [])
 
   const [currentTheme, setCurrentTheme] = useState(0);
