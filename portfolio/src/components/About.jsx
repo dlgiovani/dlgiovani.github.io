@@ -18,7 +18,7 @@ const About = () => {
             <button className="rounded-full w-4 h-4 bg-neutral mb-6 left-2 top-2"></button>
           </div>
           <h3 className="font-bold text-lg">Olá, eu sou o Giovani</h3>
-          <p className="py-4">Sou um programador fullstack com quase uma década de experiência em programação e ~3 anos em desenvolvimento profissional de software.</p>
+          <p className="py-4">Eu mexo com tecnologia desde 2017, já trabalhei no setor de TI do Exército Brasileiro e programei sistemas e integrações para grandes empresas de tecnologia e telecomunicações. Atualmente trabalho como analista de TI e programador.</p>
           <p className="py-4">Venho me especializando no momento em APIs REST e Oauth2. Crio webapps completos do zero com FastAPI e React (às vezes Node), com grande foco na experiência do usuário.</p>
           <p className="py-4 code text-xs">i use arch btw</p>
           <p className="py-4 font-thin">Pressione ESC ou clique fora para sair...</p>

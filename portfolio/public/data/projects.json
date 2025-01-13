@@ -1,7 +1,15 @@
 [
   {
+    "name": "UNIX aesthetic Portfolio",
+    "description": "my previous portfolio with a very cool aesthetic.",
+    "coverUrl": "/showcases/unix-aesthetic-portfolio.webp",
+    "tags": ["portfolio", "React", "design"],
+    "link": "https://dlgiovani.github.io/whitenoise-portfolio/",
+    "year": "2024"
+  },
+  {
     "name": "Chrome Built-In AI",
-    "description": "social net that provides the best discounts and coupons from partners daily, automatically.",
+    "description": "an experimental offline built-in AI on Chrome.",
     "coverUrl": "/showcases/chrome-ai.webm",
     "tags": ["Dev", "AI", "Chrome", "React"],
     "link": "https://dlgiovani.github.io/chrome-ai-webapp/",
@@ -9,7 +17,7 @@
   },
   {
     "name": "Whitenoise Portfolio",
-    "description": "an old portfolio.",
+    "description": "a portfolio concept.",
     "coverUrl": "/showcases/whitenoise-portfolio.webm",
     "tags": ["portfolio", "React", "design"],
     "link": "https://dlgiovani.github.io/whitenoise-portfolio/",

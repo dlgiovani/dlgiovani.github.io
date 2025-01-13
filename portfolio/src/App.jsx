@@ -1,69 +1,99 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, lazy, Suspense } from 'react';
 import Buttons from './components/Buttons.jsx';
 import Header from './components/Header.tsx';
-import LoadingScreen from './components/LoadingScreen.tsx';
-import Projects from './components/Projects.jsx';
 import Cat from './components/Cat.jsx';
 import Info from './components/Info.tsx';
 
+const Projects = lazy(() => import('./components/Projects.tsx'));
 
 function App() {
-
   const themes = useMemo(() => [
-    "nord",
-    "coffee",
-    "dracula",
-    "night",
-    "sunset",
-    "retro",
-    "cupcake",
-  ], [])
+    'luxury',
+    'sunset',
+    'lily',
+    'fantasy',
+    'retro',
+    'nord',
+  ], []);
 
   const [currentTheme, setCurrentTheme] = useState(0);
-  function handleChangeTheme(addend) {
-    let nextTheme = (currentTheme + addend + themes.length) % (themes.length);
-    setCurrentTheme(nextTheme);
-  }
-  const [isLoadingScreen, setIsLoadingScreen] = useState(true);
   const [myProjects, setMyProjects] = useState([]);
 
+  function handleChangeTheme(addend) {
+    let nextTheme = (currentTheme + addend + themes.length) % themes.length;
+    setCurrentTheme(nextTheme);
+  }
+
   useEffect(() => {
-    const data = Promise.resolve(fetch('/data/projects.json'));
-    data.then(async (r) => setMyProjects(await r.json()))
-  }, [])
+    async function fetchProjects() {
+      try {
+        const response = await fetch('/data/projects.json');
+        const data = await response.json();
+        setMyProjects(data);
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+      }
+    }
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(fetchProjects);
+    } else {
+      setTimeout(fetchProjects, 0);
+    }
+  }, []);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', themes[currentTheme]);
-  }, [currentTheme, themes])
+  }, [currentTheme, themes]);
 
   return (
     <>
-      {isLoadingScreen && <LoadingScreen setIsLoadingScreen={setIsLoadingScreen} />}
-      <main className={`w-full h-[85vh] bg-base-100 font-source-code-pro [&::selection]:color-success fadeInFromBlur ${isLoadingScreen && "overflow-hidden"}`}>
+      <main className={`w-full bg-base-100 font-source-code-pro [&::selection]:color-accent fadeInFromBlur`}>
         <Header handleChangeTheme={handleChangeTheme} />
-        {/* <Langs /> */}
-        <section name="title" className='w-full text-center text-base-content h-[95vh] relative'>
-          <div className='flex flex-col justify-between items-center w-full sticky top-[8vh] md:top-[30vh] pb-4 gap-2'>
-            <div className='flex flex-col lg:flex-row lg:gap-2 items-center titleFade lg:px-12 bg-primary/45 rounded-box p-2'>
+        <section name="title" className="w-full text-center text-base-content h-[98vh] relative">
+          <div className="flex flex-col justify-between items-center w-full h-fit sticky top-[8vh] md:top-[12vh] pb-4 gap-2">
+            <div className="flex flex-col lg:flex-row lg:gap-2 items-center titleFade lg:px-12 bg-primary/65 rounded-box p-2">
               <Cat />
-              <Info projectsCount={myProjects.length} theme={themes[currentTheme]} handleChangeTheme={handleChangeTheme} />
+              <Info
+                projectsCount={myProjects.length}
+                theme={themes[currentTheme]}
+                handleChangeTheme={handleChangeTheme}
+              />
             </div>
-            <div className='titleFade'>
+            <div className="titleFade">
               <Buttons />
             </div>
           </div>
         </section>
-        <Projects myProjects={myProjects} />
-        {/* <div className={!isLoadingScreen ? `hidden md:flex material-symbols-outlined absolute -bottom-[12svh] opacity-50 md:opacity-100 md:-bottom-6 left-0 hover:cursor-pointer
-      w-full md:w-12 px-8 pt-1 md:mx-6 text-6xl justify-center md:bg-neutral/25 md:hover:bg-neutral/80 rounded-box pt-4` : ''}
-          onClick={() => window.scrollBy({ top: 400, behavior: 'smooth' })}>
-          <span className='animate-bounce'>
-            keyboard_arrow_down
-          </span>
-        </div> */}
+        <Suspense fallback={
+          <div className='flex w-full justify-evenly'>
+            <div className="flex w-52 flex-col gap-4">
+              <div className="flex items-center gap-4">
+                <div className="skeleton h-16 w-16 shrink-0 rounded-full"></div>
+                <div className="flex flex-col gap-4">
+                  <div className="skeleton h-4 w-20"></div>
+                  <div className="skeleton h-4 w-28"></div>
+                </div>
+              </div>
+              <div className="skeleton h-32 w-full"></div>
+            </div>
+            <div className="flex w-52 flex-col gap-4">
+              <div className="flex items-center gap-4">
+                <div className="skeleton h-16 w-16 shrink-0 rounded-full"></div>
+                <div className="flex flex-col gap-4">
+                  <div className="skeleton h-4 w-20"></div>
+                  <div className="skeleton h-4 w-28"></div>
+                </div>
+              </div>
+              <div className="skeleton h-32 w-full"></div>
+            </div>
+          </div>
+        }>
+          <Projects myProjects={myProjects} />
+        </Suspense>
       </main>
     </>
-  )
+  );
 }
 
 export default App;
