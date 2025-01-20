@@ -50,7 +50,7 @@ function App() {
     <>
       <main className={`w-full bg-base-100 font-source-code-pro [&::selection]:color-accent fadeInFromBlur`}>
         <Header handleChangeTheme={handleChangeTheme} />
-        <section name="title" className="w-full text-center text-base-content h-[98vh] relative">
+        <section name="title" className="w-full text-center text-base-content h-[92vh] relative top-2">
           <div className="flex flex-col justify-between items-center w-full h-fit sticky top-[8vh] md:top-[12vh] pb-4 gap-2">
             <div className="flex flex-col lg:flex-row lg:gap-2 items-center titleFade lg:px-12 bg-primary/65 rounded-box p-2">
               <Cat />

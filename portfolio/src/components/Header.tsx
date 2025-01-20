@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Song from "./Song";
 import About from "./About";
 import Theme from "./Theme";
+import LanguageSelection from "./LanguageSelection";
 
 const Header = ({ handleChangeTheme }) => {
 
@@ -37,6 +38,7 @@ const Header = ({ handleChangeTheme }) => {
           <span>{weather.current.temp_c}°C <span className="hidden md:inline">&middot; {weather.location.name}</span></span>
         </div>
       }
+      <LanguageSelection />
     </header>
   )
 }

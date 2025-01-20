@@ -1,4 +1,5 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const Projects = ({ myProjects }) => {
   const playManager = useRef<[HTMLVideoElement] | []>([]);
@@ -9,7 +10,18 @@ const Projects = ({ myProjects }) => {
     playManager.current[index].pause();
   };
 
-  const projectsList = myProjects?.map((item: any, index: number) => {
+  const language = useLanguage();
+
+  const [tabActive, setTabActive] = useState<"portfolios" | "projects" | "coming (not so) soon">("portfolios");
+
+  const projectsList = myProjects?.filter((p) => {
+    return tabActive === 'portfolios' ?
+      p.tags.includes('portfolio') :
+      tabActive === 'projects' ?
+        !p.tags.includes('portfolio') && p.link !== "" :
+        tabActive === 'coming (not so) soon' ?
+          p.link === "" : false
+  }).map((item: any, index: number) => {
     return (
       <div key={index} className='flex md:even:flex-row-reverse md:flex-row flex-col gap-2 w-full bg-base-200 odd:bg-base-300 rounded-box p-1'>
         <a target='_blank' href={item.link || null} className='md:w-[50%] h-fit'
@@ -44,6 +56,36 @@ const Projects = ({ myProjects }) => {
 
   return (
     <section id='projects' className='flex flex-col gap-2 pb-24 px-4 md:px-12 lg:px-16'>
+      <div role="tablist" className="tabs tabs-boxed grid grid-cols-3">
+        <a role="tab" className={`ease duration-300 tab gap-2 ${tabActive === "portfolios" && "tab-active"}`}
+          onClick={() => { setTabActive("portfolios") }}>
+          <span className='material-symbols-outlined'>
+            auto_stories
+          </span>
+          <span className='hidden md:inline'>
+            {language.translate("portfolios")}
+          </span>
+        </a>
+        <a role="tab" className={`ease duration-300 tab gap-2 ${tabActive === "projects" && "tab-active"}`}
+          onClick={() => { setTabActive("projects") }}>
+          <span className='material-symbols-outlined'>
+            terminal
+          </span>
+          <span className='hidden md:inline'>
+            {language.translate("projects")}
+          </span>
+        </a>
+        <a role="tab" className={`ease duration-300 tab gap-2 text-nowrap flex-nowrap ${tabActive === "coming (not so) soon" && "tab-active"}`}
+          onClick={() => { setTabActive("coming (not so) soon") }}>
+          <span className='material-symbols-outlined'>
+            event_upcoming
+          </span>
+          <span className='hidden md:inline'>
+            {language.translate("coming (not so) soon")}
+          </span>
+        </a>
+      </div>
+      <p className='md:hidden text-center w-full'>{language.translate(tabActive)}</p>
       {projectsList}
     </section>
   )
