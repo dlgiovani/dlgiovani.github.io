@@ -1,9 +1,17 @@
+import React from "react";
+import { useLanguage } from "../contexts/LanguageContext";
+
 const About = () => {
+
+  const language = useLanguage();
 
   return (
     <>
-      <button className='flex items-center btn btn-ghost drop-shadow text-sm md:text-base' onClick={() => document.getElementById('about_modal').showModal()}>
-        <span>Sobre</span>
+      <button className='flex items-center btn btn-ghost drop-shadow text-sm md:text-base' onClick={() => {
+        const modal = document.getElementById('about_modal') as HTMLDialogElement;
+        modal?.showModal();
+      }}>
+        <span className="capitalize">{language.translate("about")}</span>
         <span className="material-symbols-outlined text-sm md:text-lg">lightbulb</span>
       </button>
 

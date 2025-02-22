@@ -1,7 +1,10 @@
 [
   {
     "name": "UNIX aesthetic Portfolio",
-    "description": "my previous portfolio with a very cool aesthetic.",
+    "description": {
+      "en": "My previous portfolio with a very cool aesthetic.",
+      "ptbr": "Meu portifólio anterior com uma estética muito legal."
+    },
     "coverUrl": "/showcases/unix-aesthetic-portfolio.webp",
     "tags": [
       "portfolio",
@@ -13,7 +16,10 @@
   },
   {
     "name": "Chrome Built-In AI",
-    "description": "an experimental offline built-in AI on Chrome.",
+    "description": {
+      "en": "An experimental offline built-in AI on Chrome.",
+      "ptbr": "Uma IA experimental offline incorporada no Chrome."
+    },
     "coverUrl": "/showcases/chrome-ai.webm",
     "tags": [
       "Dev",
@@ -26,7 +32,10 @@
   },
   {
     "name": "Whitenoise Portfolio",
-    "description": "a portfolio concept.",
+    "description": {
+      "en": "A portfolio concept.",
+      "ptbr": "Um conceito de portifólio."
+    },
     "coverUrl": "/showcases/whitenoise-portfolio.webm",
     "tags": [
       "portfolio",
@@ -38,7 +47,10 @@
   },
   {
     "name": "Economiza Brasil",
-    "description": "social net that provides the best discounts and coupons from partners daily, automatically.",
+    "description": {
+      "en": "A social network that provides the best discounts and coupons from partners daily, automatically.",
+      "ptbr": "Uma rede social que fornece os melhores descontos e cupons de parceiros diariamente, automaticamente."
+    },
     "coverUrl": "mtpp/economizabrasil.webp",
     "tags": [
       "Bot",
@@ -50,7 +62,10 @@
   },
   {
     "name": "Sage 50",
-    "description": "a beautiful custom start page for your browser",
+    "description": {
+      "en": "A beautiful custom start page for your browser.",
+      "ptbr": "Uma linda página inicial personalizada para o seu navegador."
+    },
     "coverUrl": "https://lh3.googleusercontent.com/Ubrdar1zVOBSoUOLHxWnHN5kRD34QAJeRN6gu2hE51Mb96gLSm60Pf_cKIsmEtKmy0gYtL1WG0mAIbIrriD3BkLNEg=s1280-w1280-h800",
     "tags": [
       "Chrome API",
@@ -61,7 +76,10 @@
   },
   {
     "name": "PH newtab",
-    "description": "a productivity homepage for Product Hunt users",
+    "description": {
+      "en": "A productivity homepage for Product Hunt users.",
+      "ptbr": "Uma página inicial de produtividade para usuários do Product Hunt."
+    },
     "coverUrl": "https://lh3.googleusercontent.com/cUz5AIMJHlDvxhWcWh-ospTFn7hgFlu8ESNGHcXKf6JGwAwZNlUnBy6qFyNm8Yw9ZWL06UhcZfj8nfDy3QQbgjhWqw=s800-w800-h500",
     "tags": [
       "Chrome API",
@@ -74,7 +92,10 @@
   },
   {
     "name": "Gamefied Portfolio",
-    "description": "my old portfolio.",
+    "description": {
+      "en": "My old portfolio.",
+      "ptbr": "Meu antigo portifólio."
+    },
     "coverUrl": "/showcases/game-portfolio.webm",
     "tags": [
       "portfolio",
@@ -85,7 +106,10 @@
   },
   {
     "name": "Business Card",
-    "description": "a personal card made in React",
+    "description": {
+      "en": "A personal card made in React.",
+      "ptbr": "Um cartão pessoal feito em React."
+    },
     "coverUrl": "/mtpp/business-card.webp",
     "tags": [
       "React",
@@ -96,7 +120,10 @@
   },
   {
     "name": "Catalogue",
-    "description": "a marketplace for your business",
+    "description": {
+      "en": "A marketplace for your business.",
+      "ptbr": "Um marketplace para o seu negócio."
+    },
     "coverUrl": "mtpp/my_simple_marketplace_landpage.webp",
     "tags": [
       "Fullstack",
@@ -108,7 +135,10 @@
   },
   {
     "name": "Notes App",
-    "description": "a markdown supported notes app",
+    "description": {
+      "en": "A markdown supported notes app.",
+      "ptbr": "Um aplicativo de notas com suporte a markdown."
+    },
     "coverUrl": "mtpp/notes-app.webp",
     "tags": [
       "React",
@@ -119,7 +149,10 @@
   },
   {
     "name": "Terrain Wanderer",
-    "description": "a graphical application to navigate on a random generated terrain",
+    "description": {
+      "en": "A graphical application to navigate on a randomly generated terrain.",
+      "ptbr": "Uma aplicação gráfica para navegar em um terreno gerado aleatoriamente."
+    },
     "coverUrl": "mtpp/terrain-wanderer.webp",
     "tags": [
       "Graphics"
@@ -129,7 +162,10 @@
   },
   {
     "name": "Tesla Vortex",
-    "description": "a graphical application to generate Tesla's vortexes",
+    "description": {
+      "en": "A graphical application to generate Tesla's vortexes.",
+      "ptbr": "Uma aplicação gráfica para gerar os vórtices de Tesla."
+    },
     "coverUrl": "mtpp/tesla-vortex.webp",
     "tags": [
       "Graphic",
@@ -140,7 +176,10 @@
   },
   {
     "name": "Nimbus",
-    "description": "a cozy place to relax and feel the weather 🌥️",
+    "description": {
+      "en": "A cozy place to relax and feel the weather 🌥️",
+      "ptbr": "Um lugar aconchegante para relaxar e sentir o clima 🌥️"
+    },
     "coverUrl": "mtpp/nimbus.webp",
     "tags": [
       "Frontend",
@@ -152,7 +191,10 @@
   },
   {
     "name": "Dragon",
-    "description": "just visit it. Trust me.",
+    "description": {
+      "en": "Just visit it. Trust me.",
+      "ptbr": "Apenas visite. Confie em mim."
+    },
     "coverUrl": "",
     "tags": [
       "???"
@@ -162,7 +204,10 @@
   },
   {
     "name": "Cattos",
-    "description": "a very cute website 🐾",
+    "description": {
+      "en": "A very cute website 🐾",
+      "ptbr": "Um site muito fofo 🐾"
+    },
     "coverUrl": "mtpp/cattos.webp",
     "tags": [
       "Frontend",
@@ -174,7 +219,10 @@
   },
   {
     "name": "What we gaming'",
-    "description": "a website to give you info and help you decide a new game to play",
+    "description": {
+      "en": "A website to give you info and help you decide on a new game to play.",
+      "ptbr": "Um site para te dar informações e ajudar a decidir um novo jogo para jogar."
+    },
     "coverUrl": "mtpp/what-we-gamin.webp",
     "tags": [
       "Fullstack",
@@ -186,7 +234,10 @@
   },
   {
     "name": "Beacon",
-    "description": "a billboard democratizer",
+    "description": {
+      "en": "A billboard democratizer.",
+      "ptbr": "Um democratizador de outdoors."
+    },
     "coverUrl": "mtpp/beacon_landpage.webp",
     "tags": [
       "Fullstack",
@@ -198,7 +249,10 @@
   },
   {
     "name": "Tamashi",
-    "description": "(Top Secret)",
+    "description": {
+      "en": "(Top Secret)",
+      "ptbr": "(Confidencial)"
+    },
     "coverUrl": "",
     "tags": [
       "???"
@@ -208,7 +262,10 @@
   },
   {
     "name": "Visihouse",
-    "description": "A 5D map viewer!",
+    "description": {
+      "en": "A 5D map viewer!",
+      "ptbr": "Um visualizador de mapa 5D!"
+    },
     "coverUrl": "",
     "tags": [
       "5D map",

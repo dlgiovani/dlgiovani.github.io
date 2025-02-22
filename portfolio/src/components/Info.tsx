@@ -7,7 +7,7 @@ const Info = ({ projectsCount, theme, handleChangeTheme }) => {
 
   return (
     <section className="flex flex-col items-start">
-      <p className="font-semibold bg-base-300 text-base-content mt-1 lg:mt-0">giovani@pages</p>
+      <p className="text-primary-content bg-primary font-semibold mt-1 lg:mt-0">giovani@pages</p>
       <p className="">-----------</p>
       <p className="flex gap-1">
         <span className="text-primary-content bg-primary font-semibold capitalize">{language.translate("where")}:</span>
@@ -46,7 +46,7 @@ const Info = ({ projectsCount, theme, handleChangeTheme }) => {
         <span className="text-primary-content bg-primary font-semibold capitalize">{language.translate("curriculum")}:</span>
         <span className="text-primary-content">
           <a className="underline"
-            href="/cv-giovani-drosda-lima-ptbr.pdf" target="_blank">
+            href={`/cv-giovani-drosda-lima-${language.currentLanguage}.pdf`} target="_blank">
             {language.translate("see PDF")}
           </a>
         </span>

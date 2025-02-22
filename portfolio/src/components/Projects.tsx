@@ -46,7 +46,7 @@ const Projects = ({ myProjects }) => {
         </a>
         <div className='md:w-[35%] flex items-center justify-center'>
           <p className='p-2 md:max-w-[50%]'>
-            {item.description}
+            {item.description[language.currentLanguage]}
           </p>
         </div>
       </div>
