@@ -2,8 +2,8 @@
   {
     "name": "UNIX aesthetic Portfolio",
     "description": {
-      "en": "My previous portfolio with a very cool aesthetic.",
-      "ptbr": "Meu portifólio anterior com uma estética muito legal."
+      "en": "My portfolio with a very cool aesthetic.",
+      "ptbr": "Meu portifólio com uma estética muito legal."
     },
     "coverUrl": "/showcases/unix-aesthetic-portfolio.webp",
     "tags": [
@@ -11,7 +11,7 @@
       "React",
       "design"
     ],
-    "link": "https://dlgiovani.github.io/unix-aesthetic-portfolio/",
+    "link": "https://dlgiovani.github.io/",
     "year": "2024"
   },
   {
