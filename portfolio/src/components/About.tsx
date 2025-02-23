@@ -7,7 +7,7 @@ const About = () => {
 
   return (
     <>
-      <button className='flex items-center btn btn-ghost drop-shadow text-sm md:text-base' onClick={() => {
+      <button name={language.translate("about")} className='flex items-center btn btn-ghost drop-shadow text-sm md:text-base' onClick={() => {
         const modal = document.getElementById('about_modal') as HTMLDialogElement;
         modal?.showModal();
       }}>
@@ -20,10 +20,10 @@ const About = () => {
           <div className="flex gap-2 items-end">
             <form method="dialog">
               {/* if there is a button in form, it will close the modal */}
-              <button className="rounded-full w-4 h-4 bg-error mb-6 left-2 top-2"></button>
+              <button name={language.translate("close")} className="rounded-full w-4 h-4 bg-error mb-6 left-2 top-2"></button>
             </form>
-            <button className="rounded-full w-4 h-4 bg-neutral mb-6 left-2 top-2"></button>
-            <button className="rounded-full w-4 h-4 bg-neutral mb-6 left-2 top-2"></button>
+            <span className="rounded-full w-4 h-4 bg-neutral mb-6 left-2 top-2"></span>
+            <span className="rounded-full w-4 h-4 bg-neutral mb-6 left-2 top-2"></span>
           </div>
           {language.currentLanguage === 'ptbr' &&
             <>
@@ -45,7 +45,7 @@ const About = () => {
           }
         </div>
         <form method="dialog" className="modal-backdrop">
-          <button>close</button>
+          <button name={language.translate("close")}>close</button>
         </form>
       </dialog>
     </>

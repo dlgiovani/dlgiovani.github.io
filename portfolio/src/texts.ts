@@ -72,5 +72,9 @@ export const texts: Record<string, Record<LanguageCode, string>> = {
     "see PDF": {
         "en": "see PDF",
         "ptbr": "ver PDF"
+    },
+    "close": {
+        "en": "close",
+        "ptbr": "fechar"
     }
 };
