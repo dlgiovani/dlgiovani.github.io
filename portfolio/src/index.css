@@ -1,6 +1,7 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: sunset --perfersdark --default, nord --preferslight;
+};
 
 .font-source-code-pro {
   font-family: "Source Code Pro";

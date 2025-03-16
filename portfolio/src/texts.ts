@@ -62,8 +62,8 @@ export const texts: Record<string, Record<LanguageCode, string>> = {
         "ptbr": "idioma"
     },
     "my_profession": {
-        "en": "IT Analyst & Programmer",
-        "ptbr": "Analista de TI e Programador"
+        "en": "Programmer",
+        "ptbr": "Programador"
     },
     "mid-level": {
         "en": "mid-level",

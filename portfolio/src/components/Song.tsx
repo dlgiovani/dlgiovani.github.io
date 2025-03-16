@@ -24,7 +24,7 @@ const Song = () => {
 
   return (
     <>
-      <button className='capitalize flex items-center btn btn-ghost drop-shadow text-sm md:text-base'
+      <button className='capitalize hidden md:flex items-center btn btn-ghost drop-shadow text-sm md:text-base'
         onClick={handleSongClick}>{language.translate("song")}
         <span className='material-symbols-outlined text-sm md:text-lg'>{songSpan}</span>
       </button>

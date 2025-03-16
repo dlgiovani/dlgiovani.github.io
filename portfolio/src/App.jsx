@@ -8,8 +8,8 @@ const Projects = lazy(() => import('./components/Projects.tsx'));
 
 function App() {
   const themes = useMemo(() => [
-    'nord',
-    'dim'
+    'sunset',
+    'nord'
   ], []);
 
   const [currentTheme, setCurrentTheme] = useState(0);
