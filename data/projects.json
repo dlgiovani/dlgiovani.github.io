@@ -1,5 +1,21 @@
 [
   {
+    "name": "Haven (beta)",
+    "description": {
+      "en": "A homepage extension for Chrome and soon Firefox, that you can use with your keyboard only. It features tab groups saves, pomodoro, and it is very customizable.",
+      "ptbr": "Uma extensão de homepage para o Chrome e em breve Firefox, que você pode usar com o teclado apenas. Conta com salvamento de grupos de abas, pomodoro, e é bem customizável."
+    },
+    "coverUrl": "/haven/haven.webp",
+    "tags": [
+      "Extension",
+      "Chrome",
+      "React",
+      "Productivity"
+    ],
+    "link": "https://chromewebstore.google.com/detail/ecebicihbmnljaincecidphdchackame?utm_source=item-share-cb",
+    "year": "2025"
+  },
+  {
     "name": "Chrome Built-In AI",
     "description": {
       "en": "An experimental offline built-in AI on Chrome.",
