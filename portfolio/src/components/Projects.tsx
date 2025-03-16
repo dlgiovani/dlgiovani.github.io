@@ -12,7 +12,7 @@ const Projects = ({ myProjects }) => {
 
   const language = useLanguage();
 
-  const [tabActive, setTabActive] = useState<"portfolios" | "projects" | "coming (not so) soon">("portfolios");
+  const [tabActive, setTabActive] = useState<"projects" | "portfolios" | "coming (not so) soon">("projects");
 
   const projectsList = myProjects?.filter((p) => {
     return tabActive === 'portfolios' ?
@@ -57,15 +57,6 @@ const Projects = ({ myProjects }) => {
   return (
     <section id='projects' className='flex flex-col gap-2 pb-24 px-4 md:px-12 lg:px-16'>
       <div role="tablist" className="tabs tabs-boxed grid grid-cols-3">
-        <a role="tab" className={`ease duration-300 tab gap-2 ${tabActive === "portfolios" && "tab-active"}`}
-          onClick={() => { setTabActive("portfolios") }}>
-          <span className='material-symbols-outlined'>
-            auto_stories
-          </span>
-          <span className='hidden md:inline'>
-            {language.translate("portfolios")}
-          </span>
-        </a>
         <a role="tab" className={`ease duration-300 tab gap-2 ${tabActive === "projects" && "tab-active"}`}
           onClick={() => { setTabActive("projects") }}>
           <span className='material-symbols-outlined'>
@@ -73,6 +64,15 @@ const Projects = ({ myProjects }) => {
           </span>
           <span className='hidden md:inline'>
             {language.translate("projects")}
+          </span>
+        </a>
+        <a role="tab" className={`ease duration-300 tab gap-2 ${tabActive === "portfolios" && "tab-active"}`}
+          onClick={() => { setTabActive("portfolios") }}>
+          <span className='material-symbols-outlined'>
+            auto_stories
+          </span>
+          <span className='hidden md:inline'>
+            {language.translate("portfolios")}
           </span>
         </a>
         <a role="tab" className={`ease duration-300 tab gap-2 text-nowrap flex-nowrap ${tabActive === "coming (not so) soon" && "tab-active"}`}
