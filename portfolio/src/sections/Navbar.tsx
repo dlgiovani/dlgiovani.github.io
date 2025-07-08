@@ -6,7 +6,7 @@ const Navbar = () => {
                 <img src="/icon-192.png" width={32} alt="Giovani" />
             </a>
             <p>
-                Bem-vindo(a) ao meu portifólio :)
+                Bem-vindo(a) :)
             </p>
             <label className="flex cursor-pointer gap-2">
                 <svg
