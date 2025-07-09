@@ -40,6 +40,22 @@ function App() {
         <span id='sobre' className='-translate-y-16'></span>
         <section className='w-screen bg-base-200 p-4 md:p-12 flex flex-col gap-12'>
           <h2 className='group text-2xl md:text-3xl font-semibold text-center'>
+            Quem sou eu<span className='group-hover:opacity-0 group-hover:text-sm duration-300 ease'>?</span><span className='text-sm opacity-0 group-hover:text-2xl md:group-hover:text-3xl group-hover:opacity-100 duration-300 ease text-secondary'>!</span>
+          </h2>
+
+          <div className='md:px-24'>
+            <ScrollReveal
+              baseOpacity={0}
+              enableBlur={true}
+              baseRotation={4}
+              blurStrength={10}
+              textClassName='!text-lg md:!text-2xl !font-normal text-pretty'
+            >
+              {aboutMeText}
+            </ScrollReveal>
+          </div>
+
+          <h2 className='group text-2xl md:text-3xl font-semibold text-center'>
             O que eu faço<span className='group-hover:opacity-0 group-hover:text-sm duration-300 ease'>?</span><span className='text-sm opacity-0 group-hover:text-2xl md:group-hover:text-3xl group-hover:opacity-100 duration-300 ease text-secondary'>!</span>
           </h2>
 
@@ -66,22 +82,6 @@ function App() {
             >
               Essas soluções se encontram na forma de websites, catálogos, integrações e dashboards,
               melhorando a sua vida e a de seus clientes.
-            </ScrollReveal>
-          </div>
-
-          <h2 className='group text-2xl md:text-3xl font-semibold text-center'>
-            Quem sou eu<span className='group-hover:opacity-0 group-hover:text-sm duration-300 ease'>?</span><span className='text-sm opacity-0 group-hover:text-2xl md:group-hover:text-3xl group-hover:opacity-100 duration-300 ease text-secondary'>!</span>
-          </h2>
-
-          <div className='md:px-24'>
-            <ScrollReveal
-              baseOpacity={0}
-              enableBlur={true}
-              baseRotation={4}
-              blurStrength={10}
-              textClassName='!text-lg md:!text-2xl !font-normal text-pretty'
-            >
-              {aboutMeText}
             </ScrollReveal>
           </div>
         </section>
