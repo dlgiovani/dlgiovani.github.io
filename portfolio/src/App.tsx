@@ -28,7 +28,7 @@ function App() {
             Faça seu site com quem se <span className='group-hover:decoration-primary underline decoration-transparent duration-300 ease'>especializa</span> no assunto.
           </h2>
           <Magnet padding={50} disabled={false} magnetStrength={10}>
-            <a href="https://siteparaimobiliarias.com.br" target='_blank'>
+            <a href="https://siteparaimobiliarias.com" target='_blank'>
               <button className='btn btn-primary p-6 text-md md:text-xl'>
                 <ShinyText text="✨ Veja o que sua empresa pode ter!" disabled={false} speed={3} className='text-primary-content/80' />
               </button>
