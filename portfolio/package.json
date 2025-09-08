@@ -1,50 +1,30 @@
 {
   "name": "portfolio",
-  "private": false,
-  "version": "2.0.0",
-  "homepage": "https://dlgiovani.github.io/",
+  "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "build": "react-router build",
+    "dev": "react-router dev",
+    "start": "react-router-serve ./build/server/index.js",
+    "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
-    "@react-three/drei": "^10.4.4",
-    "@react-three/fiber": "^9.2.0",
-    "@react-three/postprocessing": "^3.0.4",
-    "@react-three/rapier": "^2.1.0",
-    "@tailwindcss/vite": "^4.1.11",
-    "framer-motion": "^12.23.0",
-    "gl-matrix": "^3.4.3",
-    "gsap": "^3.13.0",
-    "maath": "^0.10.8",
-    "matter-js": "^0.20.0",
-    "meshline": "^3.3.1",
-    "ogl": "^1.0.11",
-    "postprocessing": "^6.37.6",
+    "@react-router/node": "^7.7.1",
+    "@react-router/serve": "^7.7.1",
+    "isbot": "^5.1.27",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-icons": "^5.5.0",
-    "tailwindcss": "^4.1.11",
-    "three": "^0.167.1"
+    "react-router": "^7.7.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.29.0",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "@vitejs/plugin-react-swc": "^3.10.2",
-    "daisyui": "^5.0.46",
-    "eslint": "^9.29.0",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
-    "gh-pages": "^6.3.0",
-    "globals": "^16.2.0",
-    "typescript": "~5.8.3",
-    "typescript-eslint": "^8.34.1",
-    "vite": "^7.0.0"
+    "@react-router/dev": "^7.7.1",
+    "@tailwindcss/vite": "^4.1.4",
+    "@types/node": "^20",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "tailwindcss": "^4.1.4",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.3",
+    "vite-tsconfig-paths": "^5.1.4"
   }
 }

@@ -1,0 +1,53 @@
+# Giovani Drosda Lima - Developer Portfolio
+
+## Summary
+Full Stack Developer with 8+ years of experience specializing in web applications, API integrations, and business solutions. Based in Brazil, available for remote work globally.
+
+## Professional Focus
+- **Web Applications**: React, TypeScript, Next.js
+- **Backend Development**: Node.js, Python, PostgreSQL
+- **Integrations**: Payment gateways, CRM systems, business tools
+- **Specialties**: Dashboards, automation, scalable solutions
+
+## Experience Highlights
+- Started programming in 2017
+- Built 50+ web applications across various industries
+- Expert in modern React ecosystem and TypeScript
+- Specialized in business integrations (Stripe, HubSpot, Shopify, etc.)
+- Reduced manual processes by 80% through custom solutions
+- Built applications serving 10k+ daily active users
+
+## Technical Skills
+**Frontend**: React, TypeScript, Next.js, Tailwind CSS, Material-UI
+**Backend**: Node.js, Express, Python, FastAPI, PostgreSQL
+**Tools**: Docker, AWS, Vercel, Git, CI/CD
+**Integrations**: Payment gateways, CRM systems, communication APIs
+
+## Current Status
+- ✅ Available for new projects
+- 🌍 Remote work (GMT-3 timezone)
+- 📱 Quick response on WhatsApp: +55 41 9 8448-6463
+- 📧 Professional inquiries: contatogiovanidl@gmail.com
+
+## Project Types
+- Full-stack web applications
+- API development and integrations
+- Business dashboards and analytics
+- E-commerce solutions
+- Custom automation tools
+
+## Contact Information
+- Website: https://dlgiovani.github.io
+- GitHub: https://github.com/dlgiovani
+- LinkedIn: https://linkedin.com/in/giovani-drosda-lima
+- WhatsApp: +55 41 9 8448-6463
+- Email: contatogiovanidl@gmail.com
+
+## Geographic Information
+- Location: Brazil
+- Timezone: America/Sao_Paulo (GMT-3)
+- Languages: Portuguese (native), English (professional)
+
+---
+This file follows the llms.txt standard for AI-readable developer profiles.
+Last updated: January 2025

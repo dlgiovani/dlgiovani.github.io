@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@theme {
+  --font-mono: "JetBrains Mono", "Fira Code", "Monaco", "Consolas", "Courier New", monospace;
+  --color-terminal-bg: #0a0a0a;
+  --color-terminal-text: #00ff00;
+  --color-terminal-secondary: #888;
+  --color-terminal-accent: #ffff00;
+  --color-terminal-error: #ff0000;
+}
+
+html,
+body {
+  @apply bg-[--color-terminal-bg] text-[--color-terminal-text] font-mono text-sm;
+  color-scheme: dark;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.terminal-cursor::after {
+  content: "▊";
+  animation: blink 1s infinite;
+  color: var(--color-terminal-text);
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.terminal-prompt::before {
+  content: "$ ";
+  color: var(--color-terminal-accent);
+}
+
+.terminal-tree::before {
+  content: "├── ";
+  color: var(--color-terminal-secondary);
+}
+
+.terminal-tree.last::before {
+  content: "└── ";
+}
+
+/* Performance optimizations */
+* {
+  will-change: auto;
+}
+
+.terminal-cursor {
+  contain: layout;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .terminal-cursor::after {
+    animation: none;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus improvements */
+:focus-visible {
+  outline: 2px solid var(--color-terminal-text);
+  outline-offset: 2px;
+}
+
+/* Screen reader improvements */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
