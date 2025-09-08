@@ -168,4 +168,33 @@ export interface Translation {
     intermediate: string;
     beginner: string;
   };
+  terminal: {
+    commands: {
+      help: string;
+      about: string;
+      work: string;
+      skills: string;
+      contact: string;
+      weather: string;
+      time: string;
+      giofetch: string;
+      clear: string;
+      pwd: string;
+      whoami: string;
+      echo: string;
+      date: string;
+      fortune: string;
+      theme: string;
+    };
+    outputs: {
+      navigatingTo: string;
+      fetchingWeather: string;
+      weatherUsage: string;
+      weatherError: string;
+      commandNotFound: string;
+      typeHelp: string;
+      availableCommands: string;
+      tryCommands: string;
+    };
+  };
 }

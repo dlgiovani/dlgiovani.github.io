@@ -68,11 +68,20 @@ interface CommandOutputProps {
 
 export function CommandOutput({ command, output, delay = 0, className = "" }: CommandOutputProps) {
   return (
-    <div className={`space-y-2 ${className}`}>
-      <div className="terminal-prompt">
+    <div 
+      className={`space-y-2 ${className}`}
+      role="group"
+      aria-label={`Terminal command: ${command}`}
+    >
+      <div className="terminal-prompt" role="text" aria-label={`Executing command: ${command}`}>
         <TypingText text={command} delay={delay} />
       </div>
-      <div className="ml-2 text-[--color-terminal-secondary]">
+      <div 
+        className="ml-2 text-[--color-terminal-secondary]"
+        role="status"
+        aria-label="Command output"
+        aria-live="polite"
+      >
         <TypingText 
           text={output} 
           delay={delay + (command.length * 50) + 500}

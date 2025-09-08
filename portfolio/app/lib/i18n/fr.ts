@@ -226,5 +226,34 @@ export const fr: Translation = {
     advanced: "Avancé",
     intermediate: "Intermédiaire",
     beginner: "Débutant"
+  },
+  terminal: {
+    commands: {
+      help: "Afficher les commandes disponibles",
+      about: "Aller à la page à propos",
+      work: "Aller à la page travail",
+      skills: "Aller à la page compétences",
+      contact: "Aller à la page contact",
+      weather: "Obtenir la météo d'une ville (weather [ville])",
+      time: "Afficher l'heure actuelle",
+      giofetch: "Afficher les informations système",
+      clear: "Effacer l'historique des commandes",
+      pwd: "Afficher le répertoire actuel",
+      whoami: "Afficher l'utilisateur actuel",
+      echo: "Afficher du texte (echo [texte])",
+      date: "Afficher la date actuelle",
+      fortune: "Obtenir une citation aléatoire de développeur",
+      theme: "Changer le thème du terminal (theme [nom-du-thème])"
+    },
+    outputs: {
+      navigatingTo: "Navigation vers la page {0}...",
+      fetchingWeather: "Récupération de la météo pour {0}...",
+      weatherUsage: "Usage : weather [ville]\nExemple : weather london",
+      weatherError: "Erreur : Impossible d'obtenir la météo pour {0}",
+      commandNotFound: "Commande non trouvée : {0}\nTapez 'help' pour les commandes disponibles.",
+      typeHelp: "Tapez 'help' pour les commandes disponibles.",
+      availableCommands: "Commandes disponibles :",
+      tryCommands: "💡 Essayez des commandes comme : help, giofetch, weather london, time"
+    }
   }
 };

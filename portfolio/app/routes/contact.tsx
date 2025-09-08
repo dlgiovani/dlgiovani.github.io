@@ -1,13 +1,18 @@
 import type { Route } from "./+types/contact";
-import { Terminal } from "../components/Terminal";
+import { InteractiveTerminal } from "../components/InteractiveTerminal";
 import { CommandOutput } from "../components/TypingText";
+import { detectLanguage, removeLanguagePrefix, getTranslation } from "../lib/i18n";
+import { useLocation } from "react-router";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ location }: Route.MetaArgs) {
+  const currentLang = detectLanguage(location.pathname);
+  const t = getTranslation(currentLang);
+  
   return [
-    { title: "Contact - Giovani Drosda Lima" },
-    { name: "description", content: "Get in touch with Giovani Drosda Lima. Available for freelance projects, consultations, and full-stack development opportunities." },
-    { property: "og:title", content: "Contact - Giovani Drosda Lima" },
-    { property: "og:description", content: "Get in touch with Giovani Drosda Lima. Available for freelance projects, consultations, and full-stack development opportunities." },
+    { title: t.contact.title },
+    { name: "description", content: t.contact.description },
+    { property: "og:title", content: t.contact.title },
+    { property: "og:description", content: t.contact.description },
   ];
 }
 
@@ -24,30 +29,84 @@ export default function Contact() {
   };
 
   return (
-    <Terminal>
-      <div className="space-y-8">
-        <CommandOutput 
-          command="whoami && echo 'Status: Available for new projects'"
-          output={`giovani
-Status: Available for new projects`}
-          delay={0}
-        />
+    <InteractiveTerminal>
+      {({ t }) => (
+        <div className="space-y-8">
+          <CommandOutput 
+            command="whoami && echo 'Status: Available for new projects'"
+            output={`giovani
+${t.contact.availability.status}`}
+            delay={0}
+          />
 
-        <CommandOutput 
-          command="cat ~/contact/availability.txt"
-          output={`# Current Availability: Open 🟢
+          <CommandOutput 
+            command="cat ~/contact/availability.txt"
+            output={`# ${t.contact.availability.title}
 
 Looking for:
-• Full-stack development projects
-• API integrations and automation
-• Business dashboard development  
-• Technical consulting
-• Long-term partnerships
+${t.contact.availability.looking.map(item => `• ${item}`).join('\n')}
 
-Timezone: America/Sao_Paulo (GMT-3)
-Response time: Usually within 24 hours`}
-          delay={2000}
-        />
+${t.contact.availability.timezone}
+${t.contact.availability.response}`}
+            delay={2000}
+          />
+
+          <div className="mt-8 space-y-2">
+            <div className="terminal-prompt">
+              <span>cat ~/contact/quick-links.txt</span>
+            </div>
+            <div className="ml-2 text-[--color-terminal-secondary] space-y-1">
+              <div>Quick Contact Links:</div>
+              <div className="space-y-1 mt-2">
+                <div>
+                  <span className="text-[--color-terminal-accent]">📱 WhatsApp:</span>{' '}
+                  <a 
+                    href="https://api.whatsapp.com/send/?phone=5541984486463&text=Hi%20Giovani!%20I%20found%20your%20portfolio%20and%20would%20like%20to%20connect.&utm_source=portfolio"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="terminal-link hover:text-[--color-terminal-text] transition-colors underline focus:outline-none focus:ring-2 focus:ring-[--color-terminal-text] focus:ring-opacity-50 rounded"
+                    aria-label="Contact via WhatsApp"
+                  >
+                    +55 41 9 8448-6463
+                  </a>
+                </div>
+                <div>
+                  <span className="text-[--color-terminal-accent]">📧 Email:</span>{' '}
+                  <a 
+                    href="mailto:contatogiovanidl@gmail.com?subject=Portfolio%20Contact&body=Hi%20Giovani,%0A%0AI%20found%20your%20portfolio%20and%20would%20like%20to%20connect.%0A%0A&utm_source=portfolio"
+                    className="terminal-link hover:text-[--color-terminal-text] transition-colors underline focus:outline-none focus:ring-2 focus:ring-[--color-terminal-text] focus:ring-opacity-50 rounded"
+                    aria-label="Send email"
+                  >
+                    contatogiovanidl@gmail.com
+                  </a>
+                </div>
+                <div>
+                  <span className="text-[--color-terminal-accent]">🐙 GitHub:</span>{' '}
+                  <a 
+                    href="https://github.com/dlgiovani?utm_source=portfolio"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="terminal-link hover:text-[--color-terminal-text] transition-colors underline focus:outline-none focus:ring-2 focus:ring-[--color-terminal-text] focus:ring-opacity-50 rounded"
+                    aria-label="Visit GitHub profile"
+                  >
+                    github.com/dlgiovani
+                  </a>
+                </div>
+                <div>
+                  <span className="text-[--color-terminal-accent]">💼 LinkedIn:</span>{' '}
+                  <a 
+                    href="https://www.linkedin.com/in/giovani-drosda-lima/?utm_source=portfolio"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="terminal-link hover:text-[--color-terminal-text] transition-colors underline focus:outline-none focus:ring-2 focus:ring-[--color-terminal-text] focus:ring-opacity-50 rounded"
+                    aria-label="Visit LinkedIn profile"
+                  >
+                    linkedin.com/in/giovani-drosda-lima
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
 
         <CommandOutput 
           command="ls ~/contact/channels/"
@@ -63,13 +122,15 @@ linkedin.url`}
             <button
               onClick={() => handleContactClick('whatsapp')}
               className="p-4 border border-[--color-terminal-secondary] rounded hover:border-[--color-terminal-text] hover:bg-[--color-terminal-text]/5 transition-all text-left group"
+              aria-label="Contact via WhatsApp"
+              type="button"
             >
               <div className="terminal-prompt mb-2">
                 <span>cat whatsapp.link</span>
               </div>
               <div className="ml-2 text-[--color-terminal-secondary] group-hover:text-[--color-terminal-text]">
-                <div className="text-[--color-terminal-accent]">📱 WhatsApp</div>
-                <div className="text-xs">Quick response • Direct message</div>
+                <div className="text-[--color-terminal-accent]">📱 {t.contact.channels.whatsapp.title}</div>
+                <div className="text-xs">{t.contact.channels.whatsapp.description}</div>
                 <div className="text-xs mt-1">+55 41 9 8448-6463</div>
               </div>
             </button>
@@ -77,13 +138,15 @@ linkedin.url`}
             <button
               onClick={() => handleContactClick('email')}
               className="p-4 border border-[--color-terminal-secondary] rounded hover:border-[--color-terminal-text] hover:bg-[--color-terminal-text]/5 transition-all text-left group"
+              aria-label="Send email"
+              type="button"
             >
               <div className="terminal-prompt mb-2">
                 <span>cat email.addr</span>
               </div>
               <div className="ml-2 text-[--color-terminal-secondary] group-hover:text-[--color-terminal-text]">
-                <div className="text-[--color-terminal-accent]">📧 Email</div>
-                <div className="text-xs">Professional • Detailed discussions</div>
+                <div className="text-[--color-terminal-accent]">📧 {t.contact.channels.email.title}</div>
+                <div className="text-xs">{t.contact.channels.email.description}</div>
                 <div className="text-xs mt-1">contatogiovanidl@gmail.com</div>
               </div>
             </button>
@@ -91,13 +154,15 @@ linkedin.url`}
             <button
               onClick={() => handleContactClick('github')}
               className="p-4 border border-[--color-terminal-secondary] rounded hover:border-[--color-terminal-text] hover:bg-[--color-terminal-text]/5 transition-all text-left group"
+              aria-label="Visit GitHub profile"
+              type="button"
             >
               <div className="terminal-prompt mb-2">
                 <span>cat github.url</span>
               </div>
               <div className="ml-2 text-[--color-terminal-secondary] group-hover:text-[--color-terminal-text]">
-                <div className="text-[--color-terminal-accent]">🐙 GitHub</div>
-                <div className="text-xs">Code samples • Open source</div>
+                <div className="text-[--color-terminal-accent]">🐙 {t.contact.channels.github.title}</div>
+                <div className="text-xs">{t.contact.channels.github.description}</div>
                 <div className="text-xs mt-1">github.com/dlgiovani</div>
               </div>
             </button>
@@ -105,45 +170,43 @@ linkedin.url`}
             <button
               onClick={() => handleContactClick('linkedin')}
               className="p-4 border border-[--color-terminal-secondary] rounded hover:border-[--color-terminal-text] hover:bg-[--color-terminal-text]/5 transition-all text-left group"
+              aria-label="Visit LinkedIn profile"
+              type="button"
             >
               <div className="terminal-prompt mb-2">
                 <span>cat linkedin.url</span>
               </div>
               <div className="ml-2 text-[--color-terminal-secondary] group-hover:text-[--color-terminal-text]">
-                <div className="text-[--color-terminal-accent]">💼 LinkedIn</div>
-                <div className="text-xs">Professional network • Career</div>
+                <div className="text-[--color-terminal-accent]">💼 {t.contact.channels.linkedin.title}</div>
+                <div className="text-xs">{t.contact.channels.linkedin.description}</div>
                 <div className="text-xs mt-1">linkedin.com/in/giovani-drosda-lima</div>
               </div>
             </button>
           </div>
         </div>
 
-        <CommandOutput 
-          command="cat project-inquiry.template"
-          output={`When reaching out, please include:
+          <CommandOutput 
+            command="cat project-inquiry.template"
+            output={`${t.contact.inquiry.title}
 
-• Brief description of your project
-• Timeline and budget range (if applicable)
-• Preferred communication method
-• Any specific technologies required
+${t.contact.inquiry.include.map(item => `• ${item}`).join('\n')}
 
 I'll respond with:
-• Project feasibility assessment
-• Estimated timeline and approach
-• Next steps for collaboration`}
-          delay={6000}
-        />
+${t.contact.inquiry.response.map(item => `• ${item}`).join('\n')}`}
+            delay={6000}
+          />
 
         <div className="mt-12 p-4 border border-[--color-terminal-secondary] rounded">
-          <div className="text-[--color-terminal-accent] mb-2">Quick Response Promise:</div>
+          <div className="text-[--color-terminal-accent] mb-2">{t.contact.promise.title}</div>
           <div className="text-[--color-terminal-secondary] space-y-1">
-            <div>🚀 WhatsApp: Usually within 2-4 hours</div>
-            <div>📧 Email: Within 24 hours</div>
-            <div>💼 LinkedIn: Within 48 hours</div>
-            <div>🐙 GitHub: For technical discussions</div>
+            <div>{t.contact.promise.whatsapp}</div>
+            <div>{t.contact.promise.email}</div>
+            <div>{t.contact.promise.linkedin}</div>
+            <div>{t.contact.promise.github}</div>
           </div>
         </div>
-      </div>
-    </Terminal>
+        </div>
+      )}
+    </InteractiveTerminal>
   );
 }

@@ -1,77 +1,69 @@
 import type { Route } from "./+types/about";
-import { Terminal } from "../components/Terminal";
+import { InteractiveTerminal } from "../components/InteractiveTerminal";
 import { CommandOutput } from "../components/TypingText";
+import { detectLanguage, getTranslation } from "../lib/i18n";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ location }: Route.MetaArgs) {
+  const lang = detectLanguage(location.pathname);
+  const t = getTranslation(lang);
+  
   return [
-    { title: "About - Giovani Drosda Lima" },
-    { name: "description", content: "Learn about Giovani's journey as a Full Stack Developer, from starting in 2017 to specializing in web applications and business solutions." },
-    { property: "og:title", content: "About - Giovani Drosda Lima" },
-    { property: "og:description", content: "Learn about Giovani's journey as a Full Stack Developer, from starting in 2017 to specializing in web applications and business solutions." },
+    { title: t.about.title },
+    { name: "description", content: t.about.description },
+    { property: "og:title", content: t.about.title },
+    { property: "og:description", content: t.about.description },
+    { property: "og:locale", content: lang === 'en' ? 'en_US' : lang === 'pt' ? 'pt_BR' : 'fr_CA' },
   ];
 }
 
 export default function About() {
   return (
-    <Terminal>
-      <div className="space-y-8">
-        <CommandOutput 
-          command="cd ~/about && cat personal.md"
-          output={`# About Me
+    <InteractiveTerminal>
+      {({ t }) => (
+        <div className="space-y-8">
+          <CommandOutput 
+            command="cd ~/about && cat personal.md"
+            output={`# ${t.about.personal.title}
 
-Hey! I'm Giovani, a passionate Full Stack Developer from Brazil.
+${t.about.personal.intro}
 
-## My Journey
+## ${t.about.personal.journey}
 
-Started coding in 2017 and fell in love with the web platform's potential:
-- Runs anywhere with internet access
-- Instant deployment and updates
-- Universal accessibility
+${t.about.personal.specialization}`}
+            delay={0}
+          />
 
-I've specialized in building web applications that solve real business problems,
-focusing on integrations, dashboards, and solutions that help businesses grow.`}
-          delay={0}
-        />
+          <CommandOutput 
+            command="cat philosophy.txt"
+            output={`${t.about.philosophy.title}
 
-        <CommandOutput 
-          command="cat philosophy.txt"
-          output={`Why Web Development?
+${t.about.philosophy.content}
 
-The web is the most democratic platform ever created. With just a browser
-and internet connection, anyone can access powerful applications that were
-once limited to expensive desktop software.
+${t.about.philosophy.beliefs.map(belief => `• ${belief}`).join('\n')}`}
+            delay={3000}
+          />
 
-I believe in:
-• Building solutions that actually matter
-• Clean, maintainable code
-• User-first design thinking
-• Continuous learning and adaptation`}
-          delay={3000}
-        />
+          <CommandOutput 
+            command="cat current-focus.log"
+            output={`${t.about.currentFocus.title}
 
-        <CommandOutput 
-          command="cat current-focus.log"
-          output={`Current Focus Areas:
-
-[2024-2025] Modern React applications with TypeScript
-[2024-2025] API integrations and microservices
-[2024-2025] Business intelligence dashboards
-[2024-2025] Performance optimization and scalability
+${t.about.currentFocus.areas.map((area, i) => `[2024-2025] ${area}`).join('\n')}
 
 Always exploring new technologies while maintaining production reliability.`}
-          delay={6000}
-        />
+            delay={6000}
+          />
 
-        <div className="mt-12 p-4 border border-[--color-terminal-secondary] rounded">
-          <div className="text-[--color-terminal-accent]">Quick Stats:</div>
-          <div className="ml-4 text-[--color-terminal-secondary] space-y-1 mt-2">
-            <div>📅 Coding since: 2017</div>
-            <div>🌍 Location: Brazil</div>
-            <div>💼 Focus: Web Applications & Integrations</div>
-            <div>🎯 Goal: Building solutions that make a difference</div>
+          <div className="mt-12 p-4 border border-[--color-terminal-secondary] rounded">
+            <div className="text-[--color-terminal-accent]">{t.about.quickStats.title}</div>
+            <div className="ml-4 text-[--color-terminal-secondary] space-y-1 mt-2">
+              <div>📅 {t.about.quickStats.coding}</div>
+              <div>🌍 {t.about.quickStats.location}</div>
+              <div>💼 {t.about.quickStats.focus}</div>
+              <div>🎯 {t.about.quickStats.goal}</div>
+            </div>
           </div>
         </div>
-      </div>
-    </Terminal>
+      )}
+    </InteractiveTerminal>
   );
 }

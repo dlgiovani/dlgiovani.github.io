@@ -3,16 +3,19 @@
 @theme {
   --font-mono: "JetBrains Mono", "Fira Code", "Monaco", "Consolas", "Courier New", monospace;
   --color-terminal-bg: #0a0a0a;
-  --color-terminal-text: #00ff00;
-  --color-terminal-secondary: #888;
-  --color-terminal-accent: #ffff00;
-  --color-terminal-error: #ff0000;
+  --color-terminal-text: #e5e5e5;
+  --color-terminal-secondary: #a3a3a3;
+  --color-terminal-accent: #22d3ee;
+  --color-terminal-error: #ef4444;
+  --color-terminal-cursor: #22d3ee;
+  --color-terminal-link: #60a5fa;
+  --color-terminal-link-hover: #93c5fd;
+  --color-terminal-border: #404040;
 }
 
 html,
 body {
   @apply bg-[--color-terminal-bg] text-[--color-terminal-text] font-mono text-sm;
-  color-scheme: dark;
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -24,7 +27,7 @@ body {
 .terminal-cursor::after {
   content: "▊";
   animation: blink 1s infinite;
-  color: var(--color-terminal-text);
+  color: var(--color-terminal-cursor);
 }
 
 @keyframes blink {
@@ -44,6 +47,46 @@ body {
 
 .terminal-tree.last::before {
   content: "└── ";
+}
+
+.terminal-link {
+  text-decoration: underline;
+  text-decoration-color: var(--color-terminal-link);
+  text-underline-offset: 2px;
+  transition: all 0.2s ease;
+  color: var(--color-terminal-link);
+}
+
+.terminal-link:hover {
+  color: var(--color-terminal-link-hover);
+  text-decoration-color: var(--color-terminal-link-hover);
+}
+
+.terminal-command-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-terminal-text);
+  font-family: inherit;
+  font-size: inherit;
+  width: 100%;
+  caret-color: var(--color-terminal-text);
+}
+
+.terminal-command-input::placeholder {
+  color: var(--color-terminal-secondary);
+}
+
+.command-history {
+  max-height: 60vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-terminal-secondary) transparent;
+}
+
+.command-suggestion {
+  color: var(--color-terminal-secondary);
+  opacity: 0.6;
 }
 
 /* Performance optimizations */

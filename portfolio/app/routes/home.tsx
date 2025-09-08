@@ -1,4 +1,4 @@
-import { Terminal } from "../components/Terminal";
+import { InteractiveTerminal } from "../components/InteractiveTerminal";
 import { CommandOutput } from "../components/TypingText";
 import { detectLanguage, getTranslation } from "../lib/i18n";
 import type { Route } from "./+types/home";
@@ -22,7 +22,7 @@ export default function Home() {
   const yearsOfExperience = currentYear - 2017;
 
   return (
-    <Terminal>
+    <InteractiveTerminal>
       {({ t }) => (
         <div className="space-y-8">
           {/* Header */}
@@ -78,6 +78,6 @@ export default function Home() {
           </div>
         </div>
       )}
-    </Terminal>
+    </InteractiveTerminal>
   );
 }
