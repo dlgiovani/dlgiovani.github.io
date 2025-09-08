@@ -196,5 +196,33 @@ export interface Translation {
       availableCommands: string;
       tryCommands: string;
     };
+    themes: {
+      availableThemes: string;
+      usage: string;
+      themeChanged: string;
+      themeNotFound: string;
+    };
+    fortune: {
+      quotes: string[];
+    };
+    giofetch: {
+      header: string;
+      separator: string;
+      fields: {
+        os: string;
+        host: string;
+        kernel: string;
+        uptime: string;
+        packages: string;
+        shell: string;
+        resolution: string;
+        terminal: string;
+        cpu: string;
+        memory: string;
+        disk: string;
+        location: string;
+        languages: string;
+      };
+    };
   };
 }

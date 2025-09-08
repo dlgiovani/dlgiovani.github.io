@@ -53,9 +53,9 @@ Always exploring new technologies while maintaining production reliability.`}
             delay={6000}
           />
 
-          <div className="mt-12 p-4 border border-[--color-terminal-secondary] rounded">
-            <div className="text-[--color-terminal-accent]">{t.about.quickStats.title}</div>
-            <div className="ml-4 text-[--color-terminal-secondary] space-y-1 mt-2">
+          <div className="mt-12 p-4 border border-[var(--color-terminal-secondary)] rounded">
+            <div className="text-[var(--color-terminal-accent)]">{t.about.quickStats.title}</div>
+            <div className="ml-4 text-[var(--color-terminal-secondary)] space-y-1 mt-2">
               <div>📅 {t.about.quickStats.coding}</div>
               <div>🌍 {t.about.quickStats.location}</div>
               <div>💼 {t.about.quickStats.focus}</div>

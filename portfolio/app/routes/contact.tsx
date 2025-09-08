@@ -55,50 +55,50 @@ ${t.contact.availability.response}`}
             <div className="terminal-prompt">
               <span>cat ~/contact/quick-links.txt</span>
             </div>
-            <div className="ml-2 text-[--color-terminal-secondary] space-y-1">
+            <div className="ml-2 text-[var(--color-terminal-secondary)] space-y-1">
               <div>Quick Contact Links:</div>
               <div className="space-y-1 mt-2">
                 <div>
-                  <span className="text-[--color-terminal-accent]">📱 WhatsApp:</span>{' '}
+                  <span className="text-[var(--color-terminal-accent)]">📱 WhatsApp:</span>{' '}
                   <a 
                     href="https://api.whatsapp.com/send/?phone=5541984486463&text=Hi%20Giovani!%20I%20found%20your%20portfolio%20and%20would%20like%20to%20connect.&utm_source=portfolio"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="terminal-link hover:text-[--color-terminal-text] transition-colors underline focus:outline-none focus:ring-2 focus:ring-[--color-terminal-text] focus:ring-opacity-50 rounded"
+                    className="terminal-link hover:text-[var(--color-terminal-text)] transition-colors underline focus:outline-none focus:ring-2 focus:ring-[var(--color-terminal-text)] focus:ring-opacity-50 rounded"
                     aria-label="Contact via WhatsApp"
                   >
                     +55 41 9 8448-6463
                   </a>
                 </div>
                 <div>
-                  <span className="text-[--color-terminal-accent]">📧 Email:</span>{' '}
+                  <span className="text-[var(--color-terminal-accent)]">📧 Email:</span>{' '}
                   <a 
                     href="mailto:contatogiovanidl@gmail.com?subject=Portfolio%20Contact&body=Hi%20Giovani,%0A%0AI%20found%20your%20portfolio%20and%20would%20like%20to%20connect.%0A%0A&utm_source=portfolio"
-                    className="terminal-link hover:text-[--color-terminal-text] transition-colors underline focus:outline-none focus:ring-2 focus:ring-[--color-terminal-text] focus:ring-opacity-50 rounded"
+                    className="terminal-link hover:text-[var(--color-terminal-text)] transition-colors underline focus:outline-none focus:ring-2 focus:ring-[var(--color-terminal-text)] focus:ring-opacity-50 rounded"
                     aria-label="Send email"
                   >
                     contatogiovanidl@gmail.com
                   </a>
                 </div>
                 <div>
-                  <span className="text-[--color-terminal-accent]">🐙 GitHub:</span>{' '}
+                  <span className="text-[var(--color-terminal-accent)]">🐙 GitHub:</span>{' '}
                   <a 
                     href="https://github.com/dlgiovani?utm_source=portfolio"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="terminal-link hover:text-[--color-terminal-text] transition-colors underline focus:outline-none focus:ring-2 focus:ring-[--color-terminal-text] focus:ring-opacity-50 rounded"
+                    className="terminal-link hover:text-[var(--color-terminal-text)] transition-colors underline focus:outline-none focus:ring-2 focus:ring-[var(--color-terminal-text)] focus:ring-opacity-50 rounded"
                     aria-label="Visit GitHub profile"
                   >
                     github.com/dlgiovani
                   </a>
                 </div>
                 <div>
-                  <span className="text-[--color-terminal-accent]">💼 LinkedIn:</span>{' '}
+                  <span className="text-[var(--color-terminal-accent)]">💼 LinkedIn:</span>{' '}
                   <a 
                     href="https://www.linkedin.com/in/giovani-drosda-lima/?utm_source=portfolio"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="terminal-link hover:text-[--color-terminal-text] transition-colors underline focus:outline-none focus:ring-2 focus:ring-[--color-terminal-text] focus:ring-opacity-50 rounded"
+                    className="terminal-link hover:text-[var(--color-terminal-text)] transition-colors underline focus:outline-none focus:ring-2 focus:ring-[var(--color-terminal-text)] focus:ring-opacity-50 rounded"
                     aria-label="Visit LinkedIn profile"
                   >
                     linkedin.com/in/giovani-drosda-lima
@@ -121,15 +121,15 @@ linkedin.url`}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <button
               onClick={() => handleContactClick('whatsapp')}
-              className="p-4 border border-[--color-terminal-secondary] rounded hover:border-[--color-terminal-text] hover:bg-[--color-terminal-text]/5 transition-all text-left group"
+              className="p-4 border border-[var(--color-terminal-secondary)] rounded hover:border-[var(--color-terminal-text)] hover:bg-[var(--color-terminal-text)]/5 transition-all text-left group"
               aria-label="Contact via WhatsApp"
               type="button"
             >
               <div className="terminal-prompt mb-2">
                 <span>cat whatsapp.link</span>
               </div>
-              <div className="ml-2 text-[--color-terminal-secondary] group-hover:text-[--color-terminal-text]">
-                <div className="text-[--color-terminal-accent]">📱 {t.contact.channels.whatsapp.title}</div>
+              <div className="ml-2 text-[var(--color-terminal-secondary)] group-hover:text-[var(--color-terminal-text)]">
+                <div className="text-[var(--color-terminal-accent)]">📱 {t.contact.channels.whatsapp.title}</div>
                 <div className="text-xs">{t.contact.channels.whatsapp.description}</div>
                 <div className="text-xs mt-1">+55 41 9 8448-6463</div>
               </div>
@@ -137,15 +137,15 @@ linkedin.url`}
 
             <button
               onClick={() => handleContactClick('email')}
-              className="p-4 border border-[--color-terminal-secondary] rounded hover:border-[--color-terminal-text] hover:bg-[--color-terminal-text]/5 transition-all text-left group"
+              className="p-4 border border-[var(--color-terminal-secondary)] rounded hover:border-[var(--color-terminal-text)] hover:bg-[var(--color-terminal-text)]/5 transition-all text-left group"
               aria-label="Send email"
               type="button"
             >
               <div className="terminal-prompt mb-2">
                 <span>cat email.addr</span>
               </div>
-              <div className="ml-2 text-[--color-terminal-secondary] group-hover:text-[--color-terminal-text]">
-                <div className="text-[--color-terminal-accent]">📧 {t.contact.channels.email.title}</div>
+              <div className="ml-2 text-[var(--color-terminal-secondary)] group-hover:text-[var(--color-terminal-text)]">
+                <div className="text-[var(--color-terminal-accent)]">📧 {t.contact.channels.email.title}</div>
                 <div className="text-xs">{t.contact.channels.email.description}</div>
                 <div className="text-xs mt-1">contatogiovanidl@gmail.com</div>
               </div>
@@ -153,15 +153,15 @@ linkedin.url`}
 
             <button
               onClick={() => handleContactClick('github')}
-              className="p-4 border border-[--color-terminal-secondary] rounded hover:border-[--color-terminal-text] hover:bg-[--color-terminal-text]/5 transition-all text-left group"
+              className="p-4 border border-[var(--color-terminal-secondary)] rounded hover:border-[var(--color-terminal-text)] hover:bg-[var(--color-terminal-text)]/5 transition-all text-left group"
               aria-label="Visit GitHub profile"
               type="button"
             >
               <div className="terminal-prompt mb-2">
                 <span>cat github.url</span>
               </div>
-              <div className="ml-2 text-[--color-terminal-secondary] group-hover:text-[--color-terminal-text]">
-                <div className="text-[--color-terminal-accent]">🐙 {t.contact.channels.github.title}</div>
+              <div className="ml-2 text-[var(--color-terminal-secondary)] group-hover:text-[var(--color-terminal-text)]">
+                <div className="text-[var(--color-terminal-accent)]">🐙 {t.contact.channels.github.title}</div>
                 <div className="text-xs">{t.contact.channels.github.description}</div>
                 <div className="text-xs mt-1">github.com/dlgiovani</div>
               </div>
@@ -169,15 +169,15 @@ linkedin.url`}
 
             <button
               onClick={() => handleContactClick('linkedin')}
-              className="p-4 border border-[--color-terminal-secondary] rounded hover:border-[--color-terminal-text] hover:bg-[--color-terminal-text]/5 transition-all text-left group"
+              className="p-4 border border-[var(--color-terminal-secondary)] rounded hover:border-[var(--color-terminal-text)] hover:bg-[var(--color-terminal-text)]/5 transition-all text-left group"
               aria-label="Visit LinkedIn profile"
               type="button"
             >
               <div className="terminal-prompt mb-2">
                 <span>cat linkedin.url</span>
               </div>
-              <div className="ml-2 text-[--color-terminal-secondary] group-hover:text-[--color-terminal-text]">
-                <div className="text-[--color-terminal-accent]">💼 {t.contact.channels.linkedin.title}</div>
+              <div className="ml-2 text-[var(--color-terminal-secondary)] group-hover:text-[var(--color-terminal-text)]">
+                <div className="text-[var(--color-terminal-accent)]">💼 {t.contact.channels.linkedin.title}</div>
                 <div className="text-xs">{t.contact.channels.linkedin.description}</div>
                 <div className="text-xs mt-1">linkedin.com/in/giovani-drosda-lima</div>
               </div>
@@ -196,9 +196,9 @@ ${t.contact.inquiry.response.map(item => `• ${item}`).join('\n')}`}
             delay={6000}
           />
 
-        <div className="mt-12 p-4 border border-[--color-terminal-secondary] rounded">
-          <div className="text-[--color-terminal-accent] mb-2">{t.contact.promise.title}</div>
-          <div className="text-[--color-terminal-secondary] space-y-1">
+        <div className="mt-12 p-4 border border-[var(--color-terminal-secondary)] rounded">
+          <div className="text-[var(--color-terminal-accent)] mb-2">{t.contact.promise.title}</div>
+          <div className="text-[var(--color-terminal-secondary)] space-y-1">
             <div>{t.contact.promise.whatsapp}</div>
             <div>{t.contact.promise.email}</div>
             <div>{t.contact.promise.linkedin}</div>

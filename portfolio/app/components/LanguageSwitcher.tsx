@@ -28,16 +28,16 @@ export function LanguageSwitcher() {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-1 border border-[--color-terminal-secondary] rounded hover:border-[--color-terminal-text] transition-colors focus:outline-none focus:ring-2 focus:ring-[--color-terminal-text] focus:ring-opacity-50"
+        className="flex items-center gap-2 px-3 py-1 border border-[var(--color-terminal-secondary)] rounded hover:border-[var(--color-terminal-text)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--color-terminal-text)] focus:ring-opacity-50"
         aria-label="Change language"
         aria-expanded={isOpen}
       >
-        <span className="text-[--color-terminal-accent]">🌐</span>
+        <span className="text-[var(--color-terminal-accent)]">🌐</span>
         <span className="text-xs font-mono">
           {t.common.languages[currentLang]}
         </span>
         <span 
-          className={`text-[--color-terminal-secondary] transition-transform ${
+          className={`text-[var(--color-terminal-secondary)] transition-transform ${
             isOpen ? 'rotate-180' : ''
           }`}
         >
@@ -54,15 +54,15 @@ export function LanguageSwitcher() {
           />
           
           {/* Dropdown */}
-          <div className="absolute top-full right-0 mt-1 z-20 bg-[--color-terminal-bg] border border-[--color-terminal-secondary] rounded shadow-lg min-w-[140px]">
+          <div className="absolute top-full right-0 mt-1 z-20 bg-[var(--color-terminal-bg)] border border-[var(--color-terminal-secondary)] rounded shadow-lg min-w-[140px]">
             {supportedLanguages.map((lang) => (
               <button
                 key={lang}
                 onClick={() => handleLanguageChange(lang)}
-                className={`w-full px-3 py-2 text-left text-xs font-mono hover:bg-[--color-terminal-text]/10 transition-colors first:rounded-t last:rounded-b ${
+                className={`w-full px-3 py-2 text-left text-xs font-mono hover:bg-[var(--color-terminal-text)]/10 transition-colors first:rounded-t last:rounded-b ${
                   currentLang === lang 
-                    ? 'text-[--color-terminal-text] bg-[--color-terminal-text]/5' 
-                    : 'text-[--color-terminal-secondary]'
+                    ? 'text-[var(--color-terminal-text)] bg-[var(--color-terminal-text)]/5' 
+                    : 'text-[var(--color-terminal-secondary)]'
                 }`}
                 disabled={currentLang === lang}
               >
@@ -74,7 +74,7 @@ export function LanguageSwitcher() {
                   </span>
                   <span>{t.common.languages[lang]}</span>
                   {currentLang === lang && (
-                    <span className="ml-auto text-[--color-terminal-accent]">✓</span>
+                    <span className="ml-auto text-[var(--color-terminal-accent)]">✓</span>
                   )}
                 </div>
               </button>

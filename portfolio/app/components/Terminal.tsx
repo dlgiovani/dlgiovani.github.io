@@ -27,17 +27,17 @@ export function Terminal({ children }: TerminalProps) {
   }, [basePath]);
 
   return (
-    <div className="min-h-screen bg-[--color-terminal-bg] text-[--color-terminal-text] p-4 font-mono">
+    <div className="min-h-screen bg-[var(--color-terminal-bg)] text-[var(--color-terminal-text)] p-4 font-mono">
       {/* Terminal Header */}
-      <header className="mb-6 border-b border-[--color-terminal-secondary] pb-4">
+      <header className="mb-6 border-b border-[var(--color-terminal-secondary)] pb-4">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <div className="flex gap-1" role="presentation" aria-label="Terminal window controls">
-              <div className="w-3 h-3 rounded-full bg-[--color-terminal-error]" aria-label="Close"></div>
-              <div className="w-3 h-3 rounded-full bg-[--color-terminal-accent]" aria-label="Minimize"></div>
-              <div className="w-3 h-3 rounded-full bg-[--color-terminal-text]" aria-label="Maximize"></div>
+              <div className="w-3 h-3 rounded-full bg-[var(--color-terminal-error)]" aria-label="Close"></div>
+              <div className="w-3 h-3 rounded-full bg-[var(--color-terminal-accent)]" aria-label="Minimize"></div>
+              <div className="w-3 h-3 rounded-full bg-[var(--color-terminal-text)]" aria-label="Maximize"></div>
             </div>
-            <span className="text-[--color-terminal-secondary] text-xs" role="status">
+            <span className="text-[var(--color-terminal-secondary)] text-xs" role="status">
               giovani@portfolio: {currentPath}
             </span>
           </div>
@@ -49,7 +49,7 @@ export function Terminal({ children }: TerminalProps) {
           <div className="terminal-prompt" aria-hidden="true">
             <span>ls -la</span>
           </div>
-          <ul className="ml-2 space-y-1 text-[--color-terminal-secondary] list-none">
+          <ul className="ml-2 space-y-1 text-[var(--color-terminal-secondary)] list-none">
             <TerminalNavItem href={getLocalizedPath("/", currentLang)} label={t.navigation.readme} current={basePath === "/"} />
             <TerminalNavItem href={getLocalizedPath("/about", currentLang)} label={t.navigation.about} current={basePath === "/about"} />
             <TerminalNavItem href={getLocalizedPath("/work", currentLang)} label={t.navigation.work} current={basePath === "/work"} />
@@ -65,7 +65,7 @@ export function Terminal({ children }: TerminalProps) {
       </main>
 
       {/* Footer */}
-      <footer className="mt-16 pt-4 border-t border-[--color-terminal-secondary] text-[--color-terminal-secondary] text-xs">
+      <footer className="mt-16 pt-4 border-t border-[var(--color-terminal-secondary)] text-[var(--color-terminal-secondary)] text-xs">
         <div className="terminal-prompt">
           <span>echo "© 2025 Giovani Drosda Lima"</span>
         </div>
@@ -83,10 +83,10 @@ interface TerminalNavItemProps {
 
 function TerminalNavItem({ href, label, current }: TerminalNavItemProps) {
   return (
-    <li className={`terminal-tree ${current ? "text-[--color-terminal-text] font-bold" : "text-[--color-terminal-secondary]"}`}>
+    <li className={`terminal-tree ${current ? "text-[var(--color-terminal-text)] font-bold" : "text-[var(--color-terminal-secondary)]"}`}>
       <Link 
         to={href}
-        className="hover:text-[--color-terminal-text] transition-colors no-underline focus:outline-none focus:ring-2 focus:ring-[--color-terminal-text] focus:ring-opacity-50 rounded"
+        className="hover:text-[var(--color-terminal-text)] transition-colors no-underline focus:outline-none focus:ring-2 focus:ring-[var(--color-terminal-text)] focus:ring-opacity-50 rounded"
         aria-current={current ? "page" : undefined}
       >
         {label}

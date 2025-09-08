@@ -74,23 +74,23 @@ ${t.work.integrations.items.map(item => `• ${item}`).join('\n')}`}
           delay={10000}
         />
 
-        <div className="mt-12 p-4 border border-[--color-terminal-secondary] rounded">
-          <div className="text-[--color-terminal-accent]">{t.work.technologies.title}</div>
-          <div className="ml-4 text-[--color-terminal-secondary] grid grid-cols-2 gap-4 mt-2">
+        <div className="mt-12 p-4 border border-[var(--color-terminal-secondary)] rounded">
+          <div className="text-[var(--color-terminal-accent)]">{t.work.technologies.title}</div>
+          <div className="ml-4 text-[var(--color-terminal-secondary)] grid grid-cols-2 gap-4 mt-2">
             <div>
-              <div className="text-[--color-terminal-text]">Frontend:</div>
+              <div className="text-[var(--color-terminal-text)]">Frontend:</div>
               <div className="whitespace-pre-line">{t.work.technologies.frontend}</div>
             </div>
             <div>
-              <div className="text-[--color-terminal-text]">Backend:</div>
+              <div className="text-[var(--color-terminal-text)]">Backend:</div>
               <div className="whitespace-pre-line">{t.work.technologies.backend}</div>
             </div>
             <div>
-              <div className="text-[--color-terminal-text]">Tools:</div>
+              <div className="text-[var(--color-terminal-text)]">Tools:</div>
               <div className="whitespace-pre-line">{t.work.technologies.tools}</div>
             </div>
             <div>
-              <div className="text-[--color-terminal-text]">Integrations:</div>
+              <div className="text-[var(--color-terminal-text)]">Integrations:</div>
               <div className="whitespace-pre-line">{t.work.technologies.integrations}</div>
             </div>
           </div>

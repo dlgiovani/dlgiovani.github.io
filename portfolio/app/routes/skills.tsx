@@ -95,16 +95,16 @@ giovani  1005  0.1  0.4  ${t.skills.categories.softSkills[4]}`}
           />
 
         <div className="mt-12 space-y-6">
-          <div className="p-4 border border-[--color-terminal-secondary] rounded">
-            <div className="text-[--color-terminal-accent] mb-2">Skill Progression:</div>
-            <div className="text-[--color-terminal-secondary] space-y-1 text-xs">
+          <div className="p-4 border border-[var(--color-terminal-secondary)] rounded">
+            <div className="text-[var(--color-terminal-accent)] mb-2">Skill Progression:</div>
+            <div className="text-[var(--color-terminal-secondary)] space-y-1 text-xs">
               <div>{t.skills.legend}</div>
             </div>
           </div>
 
-          <div className="p-4 border border-[--color-terminal-secondary] rounded">
-            <div className="text-[--color-terminal-accent] mb-2">{t.skills.learning.title}</div>
-            <div className="ml-4 text-[--color-terminal-secondary] space-y-1">
+          <div className="p-4 border border-[var(--color-terminal-secondary)] rounded">
+            <div className="text-[var(--color-terminal-accent)] mb-2">{t.skills.learning.title}</div>
+            <div className="ml-4 text-[var(--color-terminal-secondary)] space-y-1">
               {t.skills.learning.items.map(item => (
                 <div key={item}>{item}</div>
               ))}

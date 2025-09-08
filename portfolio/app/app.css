@@ -15,7 +15,7 @@
 
 html,
 body {
-  @apply bg-[--color-terminal-bg] text-[--color-terminal-text] font-mono text-sm;
+  @apply bg-[var(--color-terminal-bg)] text-[var(--color-terminal-text)] font-mono text-sm;
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -128,4 +128,25 @@ body {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* Terminal background with image support */
+.terminal-background {
+  position: relative;
+  background-color: var(--color-terminal-bg);
+}
+
+.terminal-background::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: var(--terminal-bg-image);
+  background-position: var(--terminal-bg-position, center);
+  background-size: var(--terminal-bg-size, cover);
+  background-repeat: var(--terminal-bg-repeat, no-repeat);
+  opacity: var(--terminal-bg-opacity, 0);
+  pointer-events: none;
 }

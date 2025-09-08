@@ -247,13 +247,55 @@ export const fr: Translation = {
     },
     outputs: {
       navigatingTo: "Navigation vers la page {0}...",
-      fetchingWeather: "Récupération de la météo pour {0}...",
+      fetchingWeather: "🌤️  Récupération des données météo pour {0}...",
       weatherUsage: "Usage : weather [ville]\nExemple : weather london",
       weatherError: "Erreur : Impossible d'obtenir la météo pour {0}",
       commandNotFound: "Commande non trouvée : {0}\nTapez 'help' pour les commandes disponibles.",
       typeHelp: "Tapez 'help' pour les commandes disponibles.",
       availableCommands: "Commandes disponibles :",
       tryCommands: "💡 Essayez des commandes comme : help, giofetch, weather london, time"
+    },
+    themes: {
+      availableThemes: "Thèmes disponibles :",
+      usage: "Usage : theme [nom-du-thème]\nExemple : theme catppuccin",
+      themeChanged: "Thème changé vers : {0}",
+      themeNotFound: "Thème '{0}' non trouvé. Tapez 'theme' pour voir les thèmes disponibles."
+    },
+    fortune: {
+      quotes: [
+        "Le meilleur message d'erreur est celui qui n'apparaît jamais. - Thomas Fuchs",
+        "Le code c'est comme l'humour. Quand il faut l'expliquer, c'est mauvais. - Cory House",
+        "D'abord, résoudre le problème. Ensuite, écrire le code. - John Johnson",
+        "L'expérience est le nom que chacun donne à ses erreurs. - Oscar Wilde",
+        "Pour être irremplaçable, il faut toujours être différent. - Coco Chanel",
+        "Java est à JavaScript ce que voiture est à tapis. - Chris Heilmann",
+        "La connaissance c'est le pouvoir. - La France c'est du bacon",
+        "Parfois il vaut mieux rester au lit le lundi, plutôt que passer le reste de la semaine à débugger le code du lundi. - Dan Salomon",
+        "La perfection est atteinte non pas quand il n'y a plus rien à ajouter, mais quand il n'y a plus rien à retirer. - Antoine de Saint-Exupery",
+        "Le code ne ment jamais, les commentaires parfois oui. - Ron Jeffries",
+        "La simplicité est la sophistication ultime. - Léonard de Vinci",
+        "Faire fonctionner, faire bien, faire vite. - Kent Beck",
+        "L'ordinateur est né pour résoudre des problèmes qui n'existaient pas avant. - Bill Gates"
+      ]
+    },
+    giofetch: {
+      header: "giovani@portfolio",
+      separator: "─────────────────",
+      fields: {
+        os: "OS : Plateforme Web",
+        host: "Hôte : dlgiovani.github.io",
+        kernel: "Noyau : React Router v7",
+        uptime: "Activité : {0} années",
+        packages: "Paquets : TypeScript, Tailwind",
+        shell: "Shell : Terminal Interactif",
+        resolution: "Résolution : Réactif",
+        terminal: "Terminal : JetBrains Mono",
+        cpu: "CPU : Développeur Full Stack",
+        memory: "Mémoire : 8+ années d'expérience",
+        disk: "Disque : React, Node.js, APIs",
+        location: "Emplacement : Brésil 🇧🇷",
+        languages: "Langues : EN, PT, FR"
+      }
     }
   }
 };

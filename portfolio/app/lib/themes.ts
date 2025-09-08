@@ -13,6 +13,13 @@ export interface TerminalTheme {
     linkHover: string;
     border: string;
   };
+  backgroundImage?: {
+    url: string;
+    opacity: number;
+    position: string;
+    size: string;
+    repeat: string;
+  };
 }
 
 export const themes: Record<string, TerminalTheme> = {
@@ -47,6 +54,13 @@ export const themes: Record<string, TerminalTheme> = {
       link: '#74c7ec',
       linkHover: '#89b4fa',
       border: '#313244',
+    },
+    backgroundImage: {
+      url: '/bongocat.gif',
+      opacity: 0.1,
+      position: 'center right',
+      size: '50vw auto',
+      repeat: 'no-repeat'
     },
   },
 
@@ -239,6 +253,24 @@ export function applyTheme(theme: TerminalTheme): void {
   root.style.setProperty('--color-terminal-link', theme.colors.link);
   root.style.setProperty('--color-terminal-link-hover', theme.colors.linkHover);
   root.style.setProperty('--color-terminal-border', theme.colors.border);
+  
+  // Handle background image if present
+  if (theme.backgroundImage) {
+    const bgImage = `url('${theme.backgroundImage.url}')`;
+    
+    root.style.setProperty('--terminal-bg-image', bgImage);
+    root.style.setProperty('--terminal-bg-position', theme.backgroundImage.position);
+    root.style.setProperty('--terminal-bg-size', theme.backgroundImage.size);
+    root.style.setProperty('--terminal-bg-repeat', theme.backgroundImage.repeat);
+    root.style.setProperty('--terminal-bg-opacity', theme.backgroundImage.opacity.toString());
+  } else {
+    // Clear background image properties
+    root.style.removeProperty('--terminal-bg-image');
+    root.style.removeProperty('--terminal-bg-position');
+    root.style.removeProperty('--terminal-bg-size');
+    root.style.removeProperty('--terminal-bg-repeat');
+    root.style.removeProperty('--terminal-bg-opacity');
+  }
   
   // Update color-scheme for better browser integration
   document.documentElement.style.colorScheme = theme.isDark ? 'dark' : 'light';

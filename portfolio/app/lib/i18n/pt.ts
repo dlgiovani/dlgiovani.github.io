@@ -247,13 +247,55 @@ export const pt: Translation = {
     },
     outputs: {
       navigatingTo: "Navegando para página {0}...",
-      fetchingWeather: "Buscando clima para {0}...",
+      fetchingWeather: "🌤️  Buscando dados climáticos para {0}...",
       weatherUsage: "Uso: weather [cidade]\nExemplo: weather london",
       weatherError: "Erro: Não foi possível obter clima para {0}",
       commandNotFound: "Comando não encontrado: {0}\nDigite 'help' para comandos disponíveis.",
       typeHelp: "Digite 'help' para comandos disponíveis.",
       availableCommands: "Comandos disponíveis:",
       tryCommands: "💡 Experimente comandos como: help, giofetch, weather london, time"
+    },
+    themes: {
+      availableThemes: "Temas disponíveis:",
+      usage: "Uso: theme [nome-do-tema]\nExemplo: theme catppuccin",
+      themeChanged: "Tema alterado para: {0}",
+      themeNotFound: "Tema '{0}' não encontrado. Digite 'theme' para ver temas disponíveis."
+    },
+    fortune: {
+      quotes: [
+        "A melhor mensagem de erro é aquela que nunca aparece. - Thomas Fuchs",
+        "Código é como humor. Quando você tem que explicar, está ruim. - Cory House",
+        "Primeiro, resolva o problema. Depois, escreva o código. - John Johnson",
+        "Experiência é o nome que todos dão aos seus erros. - Oscar Wilde",
+        "Para ser insubstituível, é preciso sempre ser diferente. - Coco Chanel",
+        "Java está para JavaScript assim como carro está para carpete. - Chris Heilmann",
+        "Conhecimento é poder. - França é bacon",
+        "Às vezes vale a pena ficar na cama na segunda-feira, ao invés de passar o resto da semana debugando o código de segunda. - Dan Salomon",
+        "A perfeição é alcançada não quando não há mais nada para adicionar, mas quando não há mais nada para tirar. - Antoine de Saint-Exupery",
+        "Código nunca mente, comentários às vezes mentdem. - Ron Jeffries",
+        "Simplicidade é a máxima sofisticação. - Leonardo da Vinci",
+        "Faça funcionar, faça certo, faça rápido. - Kent Beck",
+        "O computador nasceu para resolver problemas que não existiam antes. - Bill Gates"
+      ]
+    },
+    giofetch: {
+      header: "giovani@portfolio",
+      separator: "─────────────────",
+      fields: {
+        os: "SO: Plataforma Web",
+        host: "Host: dlgiovani.github.io",
+        kernel: "Kernel: React Router v7",
+        uptime: "Ativo: {0} anos",
+        packages: "Pacotes: TypeScript, Tailwind",
+        shell: "Shell: Terminal Interativo",
+        resolution: "Resolução: Responsivo",
+        terminal: "Terminal: JetBrains Mono",
+        cpu: "CPU: Desenvolvedor Full Stack",
+        memory: "Memória: 8+ anos de experiência",
+        disk: "Disco: React, Node.js, APIs",
+        location: "Localização: Brasil 🇧🇷",
+        languages: "Idiomas: EN, PT, FR"
+      }
     }
   }
 };

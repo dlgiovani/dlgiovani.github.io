@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { detectLanguage, getLocalizedPath, getTranslation, removeLanguagePrefix } from "../lib/i18n";
+import { applyTheme, getTheme, setStoredTheme, themes } from "../lib/themes";
 import { fetchWeatherData } from "../lib/weather";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { ThemeSwitcher } from "./ThemeSwitcher";
-import { themes, getTheme, applyTheme, setStoredTheme } from "../lib/themes";
 
 interface CommandOutput {
   command: string;
@@ -97,13 +97,40 @@ export function InteractiveTerminal({ children }: InteractiveTerminalProps) {
           output = t.terminal.outputs.weatherUsage;
         } else {
           const city = args.join(' ');
-          try {
-            output = t.terminal.outputs.fetchingWeather.replace("{0}", city);
-            const weather = await fetchWeatherData(city);
-            output = weather;
-          } catch (error) {
-            output = t.terminal.outputs.weatherError.replace("{0}", city);
-          }
+          
+          // Show loading state immediately
+          const loadingEntry: CommandOutput = {
+            command: cmd,
+            output: t.terminal.outputs.fetchingWeather.replace("{0}", city),
+            timestamp: new Date()
+          };
+          setCommandHistory(prev => [...prev, loadingEntry]);
+          
+          // Fetch weather data asynchronously
+          fetchWeatherData(city)
+            .then(weather => {
+              // Update the loading entry with the result
+              setCommandHistory(prev => 
+                prev.map(entry => 
+                  entry === loadingEntry 
+                    ? { ...entry, output: weather }
+                    : entry
+                )
+              );
+            })
+            .catch(error => {
+              // Update the loading entry with error
+              setCommandHistory(prev => 
+                prev.map(entry => 
+                  entry === loadingEntry 
+                    ? { ...entry, output: t.terminal.outputs.weatherError.replace("{0}", city) }
+                    : entry
+                )
+              );
+            });
+          
+          // Return early to avoid adding another entry
+          return;
         }
         break;
 
@@ -116,22 +143,22 @@ UTC: ${now.toISOString()}`;
 
       case "giofetch":
         const yearExp = new Date().getFullYear() - 2017;
-        output = `                    ..                    
-                 .PPPPP.                  giovani@portfolio
-               .PP.   .PP.                ─────────────────
-              .P'       'P.               OS: Web Platform
-             .P'         'P.              Host: dlgiovani.github.io  
-            .P'           'P.             Kernel: React Router v7
-           .P'             'P.            Uptime: ${yearExp} years
-          .P'               'P.           Packages: TypeScript, Tailwind
-         .P'                 'P.          Shell: Interactive Terminal
-        .PPPPPPPPPPPPPPPPPPPPP.           Resolution: Responsive
-       .P'                   'P.          Terminal: JetBrains Mono
-      .P'                     'P.         CPU: Full Stack Developer
-     .P'                       'P.        Memory: 8+ years experience
-    .P'                         'P.       Disk: React, Node.js, APIs
-   .PPPPPPPPPPPPPPPPPPPPPPPPPPPPP.        Location: Brazil 🇧🇷
-                                          Languages: EN, PT, FR`;
+        output = `   ██████╗                          
+  ██╔════╝                          ${t.terminal.giofetch.header}
+  ██║  ███╗                         ${t.terminal.giofetch.separator}
+  ██║   ██║                         ${t.terminal.giofetch.fields.os}
+  ╚██████╔╝                         ${t.terminal.giofetch.fields.host}
+   ╚═════╝                          ${t.terminal.giofetch.fields.kernel}
+⠀⠀⠀⠀⠀⠀⠀⠀⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀              ${t.terminal.giofetch.fields.uptime.replace('{0}', yearExp.toString())}
+⠀⣀⡀⣀⠤⠒⠊⠉⠀⠙⠒⢤⣴⣲⡀⠀⠀⠀              ${t.terminal.giofetch.fields.packages}
+⠀⣇⠉⢀⣀⠀⠀⠀⠀⠀⠤⠸⠀⠃⠇⠀⠀⠀              ${t.terminal.giofetch.fields.shell}
+⠀⡜⠰⢻⠣⡇⠗⠈⣋⣁⠤⣴⣒⣶⠤⡄⠀⠀              ${t.terminal.giofetch.fields.resolution}
+⢼⡠⠤⠴⣾⠿⢟⠛⡏⠉⢯⠀⢳⣀⣦⣸⣦⡀              ${t.terminal.giofetch.fields.terminal}
+⠀⠀⠀⠘⣌⢦⢬⣷⣺⠶⠾⠟⠛⢛⣉⣉⡤⠇              ${t.terminal.giofetch.fields.cpu}
+⠀⠀⠀⠀⠈⠾⠭⠤⠤⠤⠐⠒⠉⠁⠀⠀⠀⠀              ${t.terminal.giofetch.fields.memory}
+                                     ${t.terminal.giofetch.fields.disk}
+                                     ${t.terminal.giofetch.fields.location}
+                                     ${t.terminal.giofetch.fields.languages}`;
         break;
 
       case "pwd":
@@ -148,7 +175,8 @@ UTC: ${now.toISOString()}`;
 
       case "date":
         const dateNow = new Date();
-        output = dateNow.toLocaleDateString('en-US', {
+        const localeMap = { en: 'en-US', pt: 'pt-BR', fr: 'fr-FR' };
+        output = dateNow.toLocaleDateString(localeMap[currentLang], {
           weekday: 'long',
           year: 'numeric',
           month: 'long',
@@ -157,37 +185,23 @@ UTC: ${now.toISOString()}`;
         break;
 
       case "fortune":
-        const quotes = [
-          "The best error message is the one that never shows up. - Thomas Fuchs",
-          "Code is like humor. When you have to explain it, it's bad. - Cory House",
-          "First, solve the problem. Then, write the code. - John Johnson",
-          "Experience is the name everyone gives to their mistakes. - Oscar Wilde",
-          "In order to be irreplaceable, one must always be different. - Coco Chanel",
-          "Java is to JavaScript what car is to Carpet. - Chris Heilmann",
-          "Knowledge is power. - France is bacon",
-          "Sometimes it pays to stay in bed on Monday, rather than spending the rest of the week debugging Monday's code. - Dan Salomon",
-          "Perfection is achieved not when there is nothing more to add, but rather when there is nothing more to take away. - Antoine de Saint-Exupery",
-          "Code never lies, comments sometimes do. - Ron Jeffries",
-          "Simplicity is the ultimate sophistication. - Leonardo da Vinci",
-          "Make it work, make it right, make it fast. - Kent Beck",
-          "The computer was born to solve problems that did not exist before. - Bill Gates"
-        ];
+        const quotes = t.terminal.fortune.quotes;
         const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
         output = randomQuote;
         break;
 
       case "theme":
         if (args.length === 0) {
-          const themeList = Object.values(themes).map(t => `  ${t.name.padEnd(12)} - ${t.displayName}`).join('\n');
-          output = `Available themes:\n${themeList}\n\nUsage: theme [theme-name]\nExample: theme catppuccin`;
+          const themeList = Object.values(themes).map(theme => `  ${theme.name.padEnd(12)} - ${theme.displayName}`).join('\n');
+          output = `${t.terminal.themes.availableThemes}\n${themeList}\n\n${t.terminal.themes.usage}`;
         } else {
           const themeName = args[0];
           if (themes[themeName]) {
             applyTheme(getTheme(themeName));
             setStoredTheme(themeName);
-            output = `Theme changed to: ${themes[themeName].displayName}`;
+            output = t.terminal.themes.themeChanged.replace('{0}', themes[themeName].displayName);
           } else {
-            output = `Theme '${themeName}' not found. Type 'theme' to see available themes.`;
+            output = t.terminal.themes.themeNotFound.replace('{0}', themeName);
           }
         }
         break;
@@ -238,20 +252,20 @@ UTC: ${now.toISOString()}`;
   };
 
   return (
-    <div 
-      className="min-h-screen bg-[--color-terminal-bg] text-[--color-terminal-text] p-4 font-mono"
+    <div
+      className="min-h-screen text-[var(--color-terminal-text)] p-4 font-mono terminal-background"
       role="main"
       aria-label="Interactive terminal portfolio"
     >
-      <header className="mb-6 border-b border-[--color-terminal-secondary] pb-4">
+      <header className="mb-6 border-b border-[var(--color-terminal-secondary)] pb-4">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <div className="flex gap-1" role="presentation" aria-label="Terminal window controls">
-              <div className="w-3 h-3 rounded-full bg-[--color-terminal-error]" aria-label="Close"></div>
-              <div className="w-3 h-3 rounded-full bg-[--color-terminal-accent]" aria-label="Minimize"></div>
-              <div className="w-3 h-3 rounded-full bg-[--color-terminal-text]" aria-label="Maximize"></div>
+              <div className="w-3 h-3 rounded-full bg-[var(--color-terminal-error)]" aria-label="Close"></div>
+              <div className="w-3 h-3 rounded-full bg-[var(--color-terminal-accent)]" aria-label="Minimize"></div>
+              <div className="w-3 h-3 rounded-full bg-[var(--color-terminal-text)]" aria-label="Maximize"></div>
             </div>
-            <span className="text-[--color-terminal-secondary] text-xs" role="status">
+            <span className="text-[var(--color-terminal-secondary)] text-xs" role="status">
               giovani@portfolio: {currentPath}
             </span>
           </div>
@@ -265,7 +279,7 @@ UTC: ${now.toISOString()}`;
           <div className="terminal-prompt" aria-hidden="true">
             <span>ls -la</span>
           </div>
-          <ul className="ml-2 space-y-1 text-[--color-terminal-secondary] list-none">
+          <ul className="ml-2 space-y-1 text-[var(--color-terminal-secondary)] list-none">
             <TerminalNavItem href={getLocalizedPath("/", currentLang)} label={t.navigation.readme} current={basePath === "/"} />
             <TerminalNavItem href={getLocalizedPath("/about", currentLang)} label={t.navigation.about} current={basePath === "/about"} />
             <TerminalNavItem href={getLocalizedPath("/work", currentLang)} label={t.navigation.work} current={basePath === "/work"} />
@@ -276,11 +290,11 @@ UTC: ${now.toISOString()}`;
       </header>
 
       {isDesktop && (
-        <section 
+        <section
           className="mb-6 space-y-2"
           aria-label="Terminal command interface"
         >
-          <div 
+          <div
             className="command-history"
             role="log"
             aria-label="Command history"
@@ -291,8 +305,8 @@ UTC: ${now.toISOString()}`;
                 <div className="terminal-prompt" aria-label={`Command: ${entry.command}`}>
                   <span>{entry.command}</span>
                 </div>
-                <div 
-                  className="ml-2 text-[--color-terminal-secondary] whitespace-pre-line"
+                <div
+                  className="ml-2 text-[var(--color-terminal-secondary)] whitespace-pre font-mono"
                   role="status"
                   aria-label="Command output"
                 >
@@ -325,8 +339,8 @@ UTC: ${now.toISOString()}`;
         {typeof children === 'function' ? children({ t }) : children}
       </main>
 
-      <footer 
-        className="mt-16 pt-4 border-t border-[--color-terminal-secondary] text-[--color-terminal-secondary] text-xs"
+      <footer
+        className="mt-16 pt-4 border-t border-[var(--color-terminal-secondary)] text-[var(--color-terminal-secondary)] text-xs"
         role="contentinfo"
         aria-label="Site footer"
       >
@@ -335,8 +349,8 @@ UTC: ${now.toISOString()}`;
         </div>
         <div className="ml-2">© 2025 Giovani Drosda Lima</div>
         {isDesktop && (
-          <div 
-            className="ml-2 mt-2 text-[--color-terminal-secondary] opacity-60"
+          <div
+            className="ml-2 mt-2 text-[var(--color-terminal-secondary)] opacity-60"
             id="command-help"
             aria-label="Terminal usage tip"
           >
@@ -356,10 +370,10 @@ interface TerminalNavItemProps {
 
 function TerminalNavItem({ href, label, current }: TerminalNavItemProps) {
   return (
-    <li className={`terminal-tree ${current ? "text-[--color-terminal-text] font-bold" : "text-[--color-terminal-secondary]"}`}>
+    <li className={`terminal-tree ${current ? "text-[var(--color-terminal-text)] font-bold" : "text-[var(--color-terminal-secondary)]"}`}>
       <a
         href={href}
-        className={`terminal-link hover:text-[--color-terminal-text] transition-colors focus:outline-none focus:ring-2 focus:ring-[--color-terminal-text] focus:ring-opacity-50 rounded ${current ? "text-[--color-terminal-text]" : ""}`}
+        className={`terminal-link hover:text-[var(--color-terminal-text)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--color-terminal-text)] focus:ring-opacity-50 rounded ${current ? "text-[var(--color-terminal-text)]" : ""}`}
         aria-current={current ? "page" : undefined}
       >
         {label}

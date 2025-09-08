@@ -77,7 +77,7 @@ export function CommandOutput({ command, output, delay = 0, className = "" }: Co
         <TypingText text={command} delay={delay} />
       </div>
       <div 
-        className="ml-2 text-[--color-terminal-secondary]"
+        className="ml-2 text-[var(--color-terminal-secondary)]"
         role="status"
         aria-label="Command output"
         aria-live="polite"

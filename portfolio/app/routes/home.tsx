@@ -62,17 +62,17 @@ export default function Home() {
           </div>
 
           {/* Navigation Hint */}
-          <div className="mt-12 p-4 border border-[--color-terminal-secondary] rounded">
+          <div className="mt-12 p-4 border border-[var(--color-terminal-secondary)] rounded">
             <div className="terminal-prompt mb-2">
               <span>{t.home.navigation.hint}</span>
           </div>
-            <div className="ml-2 text-[--color-terminal-secondary] space-y-1">
+            <div className="ml-2 text-[var(--color-terminal-secondary)] space-y-1">
               <div>{t.home.navigation.title}</div>
               <div className="ml-4 space-y-1">
-                <div>• <span className="text-[--color-terminal-text]">{t.navigation.about}</span> - {t.home.navigation.about}</div>
-                <div>• <span className="text-[--color-terminal-text]">{t.navigation.work}</span> - {t.home.navigation.work}</div>
-                <div>• <span className="text-[--color-terminal-text]">{t.navigation.skills}</span> - {t.home.navigation.skills}</div>
-                <div>• <span className="text-[--color-terminal-text]">{t.navigation.contact}</span> - {t.home.navigation.contact}</div>
+                <div>• <span className="text-[var(--color-terminal-text)]">{t.navigation.about}</span> - {t.home.navigation.about}</div>
+                <div>• <span className="text-[var(--color-terminal-text)]">{t.navigation.work}</span> - {t.home.navigation.work}</div>
+                <div>• <span className="text-[var(--color-terminal-text)]">{t.navigation.skills}</span> - {t.home.navigation.skills}</div>
+                <div>• <span className="text-[var(--color-terminal-text)]">{t.navigation.contact}</span> - {t.home.navigation.contact}</div>
               </div>
             </div>
           </div>

@@ -247,13 +247,55 @@ export const en: Translation = {
     },
     outputs: {
       navigatingTo: "Navigating to {0} page...",
-      fetchingWeather: "Fetching weather for {0}...",
+      fetchingWeather: "🌤️  Fetching weather data for {0}...",
       weatherUsage: "Usage: weather [city]\nExample: weather london",
       weatherError: "Error: Could not fetch weather for {0}",
       commandNotFound: "Command not found: {0}\nType 'help' for available commands.",
       typeHelp: "Type 'help' for available commands.",
       availableCommands: "Available commands:",
       tryCommands: "💡 Try typing commands like: help, giofetch, weather london, time"
+    },
+    themes: {
+      availableThemes: "Available themes:",
+      usage: "Usage: theme [theme-name]\nExample: theme catppuccin",
+      themeChanged: "Theme changed to: {0}",
+      themeNotFound: "Theme '{0}' not found. Type 'theme' to see available themes."
+    },
+    fortune: {
+      quotes: [
+        "The best error message is the one that never shows up. - Thomas Fuchs",
+        "Code is like humor. When you have to explain it, it's bad. - Cory House",
+        "First, solve the problem. Then, write the code. - John Johnson",
+        "Experience is the name everyone gives to their mistakes. - Oscar Wilde",
+        "In order to be irreplaceable, one must always be different. - Coco Chanel",
+        "Java is to JavaScript what car is to Carpet. - Chris Heilmann",
+        "Knowledge is power. - France is bacon",
+        "Sometimes it pays to stay in bed on Monday, rather than spending the rest of the week debugging Monday's code. - Dan Salomon",
+        "Perfection is achieved not when there is nothing more to add, but rather when there is nothing more to take away. - Antoine de Saint-Exupery",
+        "Code never lies, comments sometimes do. - Ron Jeffries",
+        "Simplicity is the ultimate sophistication. - Leonardo da Vinci",
+        "Make it work, make it right, make it fast. - Kent Beck",
+        "The computer was born to solve problems that did not exist before. - Bill Gates"
+      ]
+    },
+    giofetch: {
+      header: "giovani@portfolio",
+      separator: "─────────────────",
+      fields: {
+        os: "OS: Web Platform",
+        host: "Host: dlgiovani.github.io",
+        kernel: "Kernel: React Router v7",
+        uptime: "Uptime: {0} years",
+        packages: "Packages: TypeScript, Tailwind",
+        shell: "Shell: Interactive Terminal",
+        resolution: "Resolution: Responsive",
+        terminal: "Terminal: JetBrains Mono",
+        cpu: "CPU: Full Stack Developer",
+        memory: "Memory: 8+ years experience",
+        disk: "Disk: React, Node.js, APIs",
+        location: "Location: Brazil 🇧🇷",
+        languages: "Languages: EN, PT, FR"
+      }
     }
   }
 };

@@ -8,13 +8,13 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
-import { detectLanguage, supportedLanguages, getLocalizedPath, removeLanguagePrefix } from "./lib/i18n";
 import "./app.css";
+import { detectLanguage, getLocalizedPath, removeLanguagePrefix, supportedLanguages } from "./lib/i18n";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
-    rel: "preconnect", 
+    rel: "preconnect",
     href: "https://fonts.gstatic.com",
     crossOrigin: "anonymous",
   },
@@ -29,13 +29,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const currentPath = typeof window !== 'undefined' ? window.location.pathname : '/';
   const basePath = removeLanguagePrefix(currentPath);
   const currentLang = detectLanguage(currentPath);
-  
+
   const langMap: Record<string, string> = {
     'en': 'en-US',
-    'pt': 'pt-BR', 
+    'pt': 'pt-BR',
     'fr': 'fr-CA'
   };
-  
+
   return (
     <html lang={langMap[currentLang] || 'en-US'}>
       <head>
@@ -48,7 +48,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta property="og:site_name" content="Giovani Drosda Lima - Developer Portfolio" />
         <meta name="twitter:card" content="summary" />
         <link rel="canonical" href={`https://dlgiovani.github.io${getLocalizedPath(basePath, currentLang)}`} />
-        
+
         {/* Hreflang attributes for multilingual SEO */}
         {supportedLanguages.map((lang) => (
           <link
@@ -63,7 +63,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           hrefLang="x-default"
           href={`https://dlgiovani.github.io${getLocalizedPath(basePath, 'en')}`}
         />
-        
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -72,12 +72,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
               "@type": "Person",
               name: "Giovani Drosda Lima",
               jobTitle: "Full Stack Developer",
-              url: "https://dlgiovani.github.io",
+              url: "https://dlgiovani.dev",
               sameAs: [
+                "https://dlgiovani.github.io",
                 "https://github.com/dlgiovani",
                 "https://linkedin.com/in/giovani-drosda-lima"
               ],
-              knowsAbout: ["React", "TypeScript", "Node.js", "Full Stack Development"],
+              knowsAbout: ["React", "TypeScript", "Python", "FastAPI", "Node.js", "Full Stack Development"],
               address: { "@type": "PostalAddress", addressCountry: "BR" }
             })
           }}
@@ -85,7 +86,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="bg-[--color-terminal-bg] text-[--color-terminal-text]">
+      <body className="bg-[var(--color-terminal-bg)] text-[var(--color-terminal-text)]">
         {children}
         <ScrollRestoration />
         <Scripts />
