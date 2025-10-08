@@ -1,0 +1,70 @@
+---
+const title = "Giovani's Pages"
+import Image from "astro/components/Image.astro"
+import "../css/erable.css"
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="stylesheet" href="css/main.css">
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body>
+		<nav>
+			<Image loading="eager" src="/icon-48.png" alt="Giovani" width="40" height="40">
+		</nav>
+		<main>
+			<p>Welcome to</p>
+			<h1>{title}</h1>
+			<br />
+			<p>My portfolio and blog.</p>
+
+			<section>
+				<nav>
+					<ul>
+						<li>
+							<a href="https://github.com/dlgiovani"
+							target="_blank">
+								GitHub
+							</a>
+						</li>
+						<li>
+							<a href="https://www.npmjs.com/~dlgiovani"
+							target="_blank">
+								npm
+							</a>
+						</li>
+						<li>
+							<a href="https://www.linkedin.com/in/giovani-drosda-lima/"
+							target="_blank">
+								LinkedIn
+							</a>
+						</li>
+						<li>
+							<a href="mailto://contatogiovanidl@gmail.com"
+							target="_blank">
+								Gmail
+							</a>
+						</li>
+						<li>
+							<a href="https://medium.com/@gdrosdalima"
+							target="_blank">
+								Medium
+							</a>
+						</li>
+						<li>
+							<a href="https://instagram.com/dlgiovani"
+							target="_blank">
+								Instagram
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</section>
+		</main>
+	</body>
+</html>

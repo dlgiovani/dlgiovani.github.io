@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+:root,
+:root[data-theme="dark"]:has(#dark-mode-toggle:checked) {
+
+    --bg: #eaeaea;
+    --fg: #212121;
+
+    --link: #0784b5;
+    --visited: #0784b5;
+
+    --pc: #fca;
+    --sc: #cca;
+}
+
+:root[data-theme="dark"]:has(#dark-mode-toggle:not(:checked)),
+:root:has(#dark-mode-toggle:checked) {
+
+    --bg: #212121;
+    --fg: #e3e3e3;
+
+    --link: #aaf;
+    --visited: #d8f;
+
+    --pc: #a42;
+    --sc: #442;
+}
+
+body {
+    box-sizing: border-box;
+
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+    font-variation-settings:
+        "wdth" 100;
+
+    width: fit-content;
+    margin: 2rem auto auto auto;
+    padding: .4rem;
+
+    background-color: var(--bg);
+    color: var(--fg);
+}
+
+main {
+    margin-top: 25vh;
+
+    @media screen and (min-width: 768px) {
+        width: 80dvw;
+    }
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg);
+    position: fixed;
+
+    &>ul {
+        display: flex;
+        justify-content: stretch;
+        flex-wrap: wrap;
+
+        gap: 2rem;
+
+        &>li {
+            width: fit-content;
+        }
+    }
+}
+
+section {
+    padding: .5rem;
+}
+
+h1 {
+    margin: 0;
+
+    /* Visual correction */
+    transform: translateX(-4px);
+
+    @media screen and (min-width: 768px) {
+        font-size: 4rem;
+    }
+}
+
+p {
+    margin: 0;
+    max-width: 75ch;
+    font-size: 1.2rem;
+
+    &:has(+ h1) {
+        font-size: 2rem;
+    }
+}
+
+ul:has(a) {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+label {
+    text-wrap: nowrap;
+
+    &:has(> input[type="checkbox"]) {
+        user-select: none;
+    }
+}
+
+a {
+    &:link {
+        color: var(--link);
+    }
+
+    &:visited {
+        color: var(--visited)
+    }
+}
+
+/*
+    Inside a parent, there may be a space for an aside tag.
+    This tag should be rendered aside (duh) the content.
+*/
+* {
+    &:has(> aside:only-of-type) {
+        display: grid;
+
+        @media screen and (min-width: 768px) {
+            grid-template-columns: 1fr 250px;
+            grid-template-rows: auto auto;
+        }
+
+        &>aside {
+            grid-row: 1 / -1;
+            position: relative;
+            top: 0;
+
+            &>ul {
+                position: sticky;
+                top: 0;
+            }
+
+            @media screen and (min-width: 768px) {
+                grid-column: 2;
+            }
+
+        }
+    }
+}
+
+footer {
+
+    &>p {
+        max-width: none;
+    }
+
+}
+
+table,
+th,
+td,
+caption {
+    border: 1px solid;
+    border-collapse: collapse;
+}
+
+caption {
+    background-color: var(--pc);
+}
+
+table {
+    width: 100%;
+}
+
+tfoot {
+    background-color: var(--sc);
+}
