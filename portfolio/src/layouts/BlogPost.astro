@@ -1,0 +1,29 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+    title: string;
+    date: Date;
+    language?: string;
+}
+
+const { title, date, language } = Astro.props;
+---
+
+<BaseLayout title={title}>
+    <article>
+        <h1>{title}</h1>
+        <time
+            >{
+                date.toLocaleDateString(language || "en-CN", {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                })
+            }</time
+        >
+
+        <slot />
+    </article>
+</BaseLayout>

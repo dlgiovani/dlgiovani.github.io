@@ -50,13 +50,28 @@ main {
     @media screen and (min-width: 768px) {
         width: 80dvw;
     }
+
+    &>section:first-of-type {
+        margin-bottom: 20vh;
+    }
+}
+
+body>nav {
+    /* The only (maybe first, in the future) nav directly under body should be positioned as fixed */
+    position: fixed;
+    z-index: 1000;
+    background: var(--bg);
+    width: 100vw;
+    top: 0;
+    left: 0;
+    padding-top: 1rem;
+    padding-left: 10vw;
 }
 
 nav {
     display: flex;
     align-items: center;
     background-color: var(--bg);
-    position: fixed;
 
     &>ul {
         display: flex;
@@ -73,6 +88,66 @@ nav {
 
 section {
     padding: .5rem;
+}
+
+section:has(a):has(article) {
+    display: grid;
+
+    grid-template-columns: 1fr;
+    gap: 2rem;
+
+    @media screen and (min-width: 768px) {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    @media screen and (min-width: 1280px) {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+
+    &>a:has(article) {
+        display: flex;
+        color: var(--fg) !important;
+        text-decoration: none;
+        width: 100%;
+
+        &:hover {
+            &>article>h2 {
+                text-decoration: underline;
+                color: var(--link);
+            }
+        }
+
+        &>article {
+            text-align: left;
+            width: 100%;
+
+            &>img {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 16/9;
+                border-radius: 1.2rem;
+            }
+        }
+    }
+}
+
+article {
+    position: relative;
+
+    &>img {
+        object-fit: cover;
+    }
+}
+
+main>article {
+    &>h1 {
+        margin-bottom: 1rem;
+    }
+
+    &>p:first-of-type {
+        margin-top: 2rem;
+    }
 }
 
 h1 {
@@ -151,8 +226,11 @@ a {
 }
 
 footer {
+    margin-top: 5vh;
+    bottom: 1rem;
 
     &>p {
+        font-size: .8rem;
         max-width: none;
     }
 

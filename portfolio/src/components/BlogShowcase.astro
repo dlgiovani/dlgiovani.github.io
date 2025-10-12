@@ -1,0 +1,21 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+
+const blogEntries = await getCollection("blog");
+const showcase = blogEntries.slice(0, 4);
+---
+
+<>
+    {
+        showcase.map(entry => (
+            <a href={`/blog/${entry.slug}/`}>
+                <article>
+                    <Image loading="eager" src={entry.data.cover} alt={entry.data.title} inferSize={true} />
+                    <h2>{entry.data.title}</h2>
+                    <p>{entry.data.description}</p>
+                </article>
+            </a>
+        ))
+    }
+</>
