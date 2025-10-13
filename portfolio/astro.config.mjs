@@ -8,4 +8,13 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   integrations: [react(), sitemap()],
+  markdown: {
+    shikiConfig: {
+      themes: {
+        light: 'nord',
+        dark: 'nord',
+      },
+      wrap: true,
+    },
+  },
 });

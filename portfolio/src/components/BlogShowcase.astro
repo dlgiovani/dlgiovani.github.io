@@ -2,11 +2,16 @@
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 
+const { qty } = Astro.props;
+
 const blogEntries = await getCollection("blog");
-const showcase = blogEntries.slice(0, 4);
+const showcase = blogEntries.sort((a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf());
+if (qty >= 0) {
+    showcase.slice(qty);
+}
 ---
 
-<>
+<section>
     {
         showcase.map(entry => (
             <a href={`/blog/${entry.slug}/`}>
@@ -14,8 +19,16 @@ const showcase = blogEntries.slice(0, 4);
                     <Image loading="eager" src={entry.data.cover} alt={entry.data.title} inferSize={true} />
                     <h2>{entry.data.title}</h2>
                     <p>{entry.data.description}</p>
+                    <time>
+                        {entry.data.date.toLocaleDateString(entry.data.language || "en-CN", {
+                            weekday: "long",
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                        })}
+                    </time>
                 </article>
             </a>
         ))
     }
-</>
+</section>

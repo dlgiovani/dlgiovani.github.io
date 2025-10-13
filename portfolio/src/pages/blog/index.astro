@@ -1,26 +1,10 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-
-const allPosts = await getCollection('blog');
-// Sort by date, newest first
-const sortedPosts = allPosts.sort((a: any, b: any) => 
-  b.data.date.valueOf() - a.data.date.valueOf()
-);
+import BlogShowcase from "../../components/BlogShowcase.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="Blog">
-  <h1>Blog Posts</h1>
-  
-  <ul>
-    {sortedPosts.map((post: CollectionEntry<'blog'>) => (
-      <li>
-        <a href={`/blog/${post.slug}/`}>
-          <h2>{post.data.title}</h2>
-          <time>{post.data.date.toLocaleDateString()}</time>
-          <p>{post.data.description}</p>
-        </a>
-      </li>
-    ))}
-  </ul>
+    <h1>Blog Posts</h1>
+
+    <BlogShowcase qty={-1} />
 </BaseLayout>

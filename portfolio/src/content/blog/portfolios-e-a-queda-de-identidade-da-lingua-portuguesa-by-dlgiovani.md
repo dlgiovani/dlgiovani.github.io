@@ -21,7 +21,7 @@ Pois uma primeira etapa decente é separá-la em sílabas. Vamos fazer isso com 
 
 > POR · T · FÓ · LI · O
 
-(Perceba que a construção PORT · FÓ · LIO não foi preferida aqui devido ao encontro consonantal imperfeito)\
+(Perceba que as construções PORT · FÓ · [...] não foram preferidas aqui devido ao encontro consonantal imperfeito)\
 \
 Pode ela ser tanto uma paroxítona com ditongo crescente quanto proparoxítona terminada em hiato. Realmente, deve ser acentuada. Mas há algo estranho nessa separação silábica, e eu imagino que seja um detalhe bem perceptível: temos uma letra “T” isolada no meio da palavra.\
 \

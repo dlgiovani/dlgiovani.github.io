@@ -1,16 +1,20 @@
 ---
+import { Image } from "astro:assets";
 import BaseLayout from "./BaseLayout.astro";
 
 interface Props {
     title: string;
     date: Date;
     language?: string;
+    cover?: string;
+    image_credit?: {text: string, url: string | null} | null;
 }
 
-const { title, date, language } = Astro.props;
+const { title, date, language, cover, image_credit } = Astro.props;
 ---
 
 <BaseLayout title={title}>
+    <aside id="blog-menu"></aside>
     <article>
         <h1>{title}</h1>
         <time
@@ -23,7 +27,47 @@ const { title, date, language } = Astro.props;
                 })
             }</time
         >
-
+        {cover ?
+        <>
+            <Image loading="eager" src={cover} alt={title} inferSize={true} />
+            {image_credit?.text ?
+                <a href={image_credit.url}>{image_credit.text}</a>
+                : <></>
+            }
+        </>
+        : <></>
+        }
         <slot />
     </article>
 </BaseLayout>
+
+<script>
+    // the blog is written in markdown and there ain't no tags like this in .md
+    document.querySelectorAll('a')
+    .forEach(function(elem) {
+        if (elem.getAttribute('href')?.startsWith('http')) {
+            elem.setAttribute('target', '_blank');
+            elem.setAttribute('rel', 'noopener noreferrer');
+        }
+    })
+</script>
+<script>
+    const aside = document.getElementById("blog-menu")
+    const elements = document.querySelectorAll('*');
+    const ul_node = document.createElement('ol');
+    for (let i = 0; i < elements.length -1; i++) {
+        if (elements[i+1].tagName.toLowerCase() == 'h2') {
+            const li_node = document.createElement('li');
+            const anchor = elements[i];
+            const title = elements[i+1]
+            anchor.setAttribute('id', title.textContent);
+            const a_node = document.createElement('a');
+            a_node.setAttribute('href', `#${title.textContent}`)
+            const textNode = document.createTextNode(title.textContent);
+            a_node.appendChild(textNode);
+            li_node.appendChild(a_node);
+            ul_node.appendChild(li_node);
+        }
+    };
+    aside?.appendChild(ul_node);
+</script>

@@ -13,7 +13,6 @@ const { title } = Astro.props;
     <head>
         <meta charset="utf-8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="stylesheet" href="css/main.css" />
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
@@ -21,6 +20,17 @@ const { title } = Astro.props;
     <body>
         <nav>
             <Image loading="eager" src="/icon-48.png" alt="Giovani" width="40" height="40" />
+            <ul>
+                <li>
+                    <a href="/"> Home </a>
+                </li>
+                <li>
+                    <a href="/blog"> Blog </a>
+                </li>
+                <li>
+                    <a href="/#about"> About </a>
+                </li>
+            </ul>
         </nav>
 
         <main>
@@ -28,7 +38,25 @@ const { title } = Astro.props;
         </main>
 
         <footer>
-            <p>&copy; 2025 dlgiovani, made with 🧠</p>
+            <hr />
+            <section>
+                <h2>Giovani's Pages</h2>
+                <clock></clock>
+            </section>
+            <section>
+                <p>&copy; 2025 dlgiovani, made with 🧠</p>
+                <p>
+                    Source code
+                    <a
+                        href="https://github.com/dlgiovani/dlgiovani.github.io/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        available on GitHub
+                    </a>
+                </p>
+            </section>
         </footer>
     </body>
 </html>
+<script></script>
