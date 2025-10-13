@@ -52,9 +52,13 @@ const { title, date, language, cover, image_credit } = Astro.props;
     })
 </script>
 <script>
-    const aside = document.getElementById("blog-menu")
-    const elements = document.querySelectorAll('*');
+    // aside anchors
+    document.addEventListener('DOMContentLoaded', () => {
+        const aside = document.getElementById("blog-menu");
+        const main = document.querySelector('main');
+    const elements = main?.querySelectorAll('*');
     const ul_node = document.createElement('ol');
+    if (!elements) return;
     for (let i = 0; i < elements.length -1; i++) {
         if (elements[i+1].tagName.toLowerCase() == 'h2') {
             const li_node = document.createElement('li');
@@ -70,4 +74,5 @@ const { title, date, language, cover, image_credit } = Astro.props;
         }
     };
     aside?.appendChild(ul_node);
+});
 </script>
