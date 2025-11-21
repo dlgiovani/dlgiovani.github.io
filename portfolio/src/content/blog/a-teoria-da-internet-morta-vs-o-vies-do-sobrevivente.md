@@ -8,6 +8,7 @@ image_credit: {
     text: "Foto por 烧不酥在上海 老的",
     url: "https://unsplash.com/@geraltyichen?utm_source=dlgiovani.dev&utm_medium=referral"
 }
+language: "pt-BR"
 ---
 Alguns textos feitos por IA são absurdamente fáceis de identificar. Expressões como “X não é apenas Y — é Z”, alinhadas a outras bandeiras, convencem o leitor mais aguçado de que aquela sequência de palavras não é o resultado de dedos de carne e osso num teclado.
 
