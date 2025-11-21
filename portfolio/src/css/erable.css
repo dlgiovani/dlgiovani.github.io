@@ -65,7 +65,7 @@ body {
 main {
     margin-top: 25vh;
 
-    width: 85dvw;
+    width: 100dvw;
 
     @media screen and (min-width: 768px) {
         width: 80dvw;

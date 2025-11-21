@@ -7,7 +7,7 @@ interface Props {
     date: Date;
     language?: string;
     cover?: string;
-    image_credit?: {text: string, url: string | null} | null;
+    image_credit?: {text: string, url?: string | undefined} | undefined;
 }
 
 const { title, date, language, cover, image_credit } = Astro.props;
@@ -29,7 +29,8 @@ const { title, date, language, cover, image_credit } = Astro.props;
         >
         {cover ?
         <>
-            <Image loading="eager" src={cover} alt={title} inferSize={true} />
+            <Image loading="eager" src={cover} alt={title} inferSize={true}
+           width={100} height={100} />
             {image_credit?.text ?
                 <a href={image_credit.url}>{image_credit.text}</a>
                 : <></>
