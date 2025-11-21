@@ -3,7 +3,11 @@ title: "“Portfólios” e a queda de identidade da Língua Portuguesa"
 description: "Ao estudar idiomas de outros lugares e tempos, percebe-se neles um fenômeno curioso, resultado do encontro de culturas (e linguagens): a troca de palavras. [...]"
 date: 2025-09-13
 tags: ["Language"]
-cover: "https://cdn.pixabay.com/photo/2016/11/29/08/17/bible-1868359_1280.jpg"
+cover: "/blog/dictionary.webp"
+image_credit: {
+    text: "Photo by Pisit Heng on Unsplash",
+    url: "https://unsplash.com/photos/opened-book-on-brown-table-FQvadXmA524?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+    }
 language: "pt-BR"
 ---
 

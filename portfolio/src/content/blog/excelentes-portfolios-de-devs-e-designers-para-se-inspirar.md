@@ -3,7 +3,7 @@ title: "Excelentes Portifólios de Devs e Designers para se Inspirar em 2024"
 description: "Uma coletânea cuidadosamente selecionada dos melhores portfolios que encontrei no último ano."
 date: 2024-09-22
 tags: ["potfolios", "webdev"]
-cover: "https://images.pexels.com/photos/3183162/pexels-photo-3183162.jpeg"
+cover: "/blog/identify-your-topic-design.webp"
 image_credit: {
     text: "Foto por fauxels",
     url: "https://www.pexels.com/photo/photo-of-person-writing-on-notebook-3183162/"

@@ -3,7 +3,7 @@ title: "Built-In Chrome AI: Making the assistant remember the previous conversat
 description: "[DEPRECATED] Since a recent update, there is a better method to make the assistant context aware. Check the official docs."
 date: 2024-03-25
 tags: ["Chrome", "AI"]
-cover: "https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg"
+cover: "/blog/ai-robot.webp"
 image_credit: {
     text: "Photo by Alex Knight",
     url: "https://www.pexels.com/photo/high-angle-photo-of-robot-2599244/"

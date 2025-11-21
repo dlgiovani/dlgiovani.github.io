@@ -16,7 +16,14 @@ if (qty >= 0) {
         showcase.map(entry => (
             <a href={`/blog/${entry.slug}/`}>
                 <article>
-                    <Image loading="eager" src={entry.data.cover} alt={entry.data.title} inferSize={true} />
+                    <Image
+                        loading="eager"
+                        src={entry.data.cover}
+                        alt={entry.data.title}
+                        inferSize={true}
+                        width={270}
+                        height={150}
+                    />
                     <h2>{entry.data.title}</h2>
                     <p>{entry.data.description}</p>
                     <time>

@@ -3,7 +3,7 @@ title: "O Jeito Certo de Economizar e Comprar com Segurança na Internet"
 description: "Um guia prático para fazer compras online de forma segura e econômica, evitando golpes e aproveitando as melhores oportunidades."
 date: 2024-07-04
 tags: ["E-commerce", "Segurança Online", "Economia"]
-cover: "https://cdn-images-1.medium.com/max/960/0*bChIFVneVNhLFjOF"
+cover: "/blog/economiza-brasil.webp"
 image_credit: {
     text: "Photo by Mimi Thian",
     url: "https://unsplash.com/@mimithian?utm_source=medium&utm_medium=referral"

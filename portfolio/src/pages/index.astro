@@ -5,75 +5,108 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title={title}>
-	<main>
-		<p>Welcome to</p>
-		<h1>{title}</h1>
-		<br />
-		<p>My portfolio and blog.</p>
+    <main>
+        <p>Welcome to</p>
+        <h1>{title}</h1>
+        <br />
+        <p>My portfolio and blog.</p>
 
-		<section>
-			<nav>
-				<ul>
-					<li>
-						<a href="https://github.com/dlgiovani" target="_blank"> GitHub </a>
-					</li>
-					<li>
-						<a href="https://www.npmjs.com/~dlgiovani" target="_blank"> npm </a>
-					</li>
-					<li>
-						<a href="https://www.linkedin.com/in/giovani-drosda-lima/" target="_blank"> LinkedIn </a>
-					</li>
-					<li>
-						<a href="https://medium.com/@gdrosdalima" target="_blank"> Medium </a>
-					</li>
-					<li>
-						<a href="https://instagram.com/dlgiovani" target="_blank"> Instagram </a>
-					</li>
-				</ul>
-			</nav>
-		</section>
+        <section>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://github.com/dlgiovani" target="_blank">
+                            GitHub
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="https://www.npmjs.com/~dlgiovani"
+                            target="_blank"
+                        >
+                            npm
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="https://www.linkedin.com/in/giovani-drosda-lima/"
+                            target="_blank"
+                        >
+                            LinkedIn
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="https://medium.com/@gdrosdalima"
+                            target="_blank"
+                        >
+                            Medium
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="https://instagram.com/dlgiovani"
+                            target="_blank"
+                        >
+                            Instagram
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </section>
 
-		<section>
-			<h2>Recent Posts</h2>
-			<BlogShowcase qty={4} />
-			<a href="/blog">
-				<button>Read All -></button>
-			</a>
-		</section>
+        <section>
+            <h2>Recent Posts</h2>
+            <BlogShowcase qty={4} />
+            <a href="/blog">
+                <button>Read All -></button>
+            </a>
+        </section>
 
-		<section id="about">
-			<section>
-				<h2>About Me</h2>
-				<p>
-					I develop integrations and SOA websites/systems for a living. I also advocate for the <a
-						href="https://dlgiovani.github.io/erable"
-						target="_blank">free web</a
-					>.
-				</p>
-				<p>
-					My current goals are to settle in a new, peaceful place where I can build and help the local
-					community, and to keep learning more about my craft.
-				</p>
-				<p>The "dl" part of my nickname comes from the initial letters of my surnames.</p>
-				<p>
-					<i>This portfolio will soon have translations to other languages, such as portuguese and french!</i>
-				</p>
-				<a href="/curriculi-giovani-drosda-lima.pdf" target="_blank">
-					<button> See my resume -> </button>
-				</a>
-			</section>
-			<section>
-				<h2>Contact Me</h2>
-				<p>
-					To prevent spam from bots, there isn't a button to send me an e-mail. But you can reach me at
-					contatogiovanidl&#64;gmail.com :)
-				</p>
-				<p>
-					You can alternatively send me a message on <a href="https://instagram.com/dlgiovani" target="_blank"
-						>Instagram</a
-					>.
-				</p>
-			</section>
-		</section>
-	</main>
+        <section id="about">
+            <section>
+                <h2>About Me</h2>
+                <p>
+                    I develop integrations and SOA websites/systems for a
+                    living. I also advocate for the <a
+                        href="https://dlgiovani.github.io/erable"
+                        target="_blank">free web</a
+                    >.
+                </p>
+                <p>
+                    My current goals are to settle in a new, peaceful place
+                    where I can build and help the local community, and to keep
+                    learning more about my craft.
+                </p>
+                <p>
+                    The "dl" part of my nickname comes from the initial letters
+                    of my surnames.
+                </p>
+                <p>
+                    <i
+                        >This portfolio will soon have translations to other
+                        languages, such as portuguese and french!</i
+                    >
+                </p>
+                <a href="/curriculi-giovani-drosda-lima.pdf" target="_blank">
+                    <button> See my resume -> </button>
+                </a>
+            </section>
+            <section>
+                <h2>Contact Me</h2>
+                <p>
+                    To prevent spam from bots, there isn't a button to send me
+                    an e-mail. But you can reach me at <code
+                        >contato [at] dlgiovani.dev</code
+                    > :)
+                </p>
+                <p>
+                    You can alternatively send me a message on <a
+                        href="https://instagram.com/dlgiovani"
+                        target="_blank">Instagram</a
+                    >.
+                </p>
+            </section>
+        </section>
+    </main>
 </BaseLayout>

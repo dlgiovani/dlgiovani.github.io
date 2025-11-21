@@ -17,4 +17,5 @@ export default defineConfig({
       wrap: true,
     },
   },
+  site: "https://dlgiovani.github.io"
 });
