@@ -253,6 +253,10 @@ p {
     }
 }
 
+em {
+    font-style: italic;
+}
+
 ul:has(a) {
     list-style-type: none;
     padding-left: 0;
@@ -394,13 +398,4 @@ footer figure figcaption {
 footer figure figcaption span {
     font-size: 0.8rem;
     opacity: 0.8;
-}
-
-code {
-    background-color: var(--sc);
-    font-family: monospace;
-    font-size: 1rem;
-    font-weight: 500;
-    word-spacing: -0.3rem;
-    padding: 0 0.2rem;
 }
