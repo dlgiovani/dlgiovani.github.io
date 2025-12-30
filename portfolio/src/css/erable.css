@@ -399,3 +399,10 @@ footer figure figcaption span {
     font-size: 0.8rem;
     opacity: 0.8;
 }
+
+code:not([class]):not(pre > code) {
+    background-color: var(--sc);
+    font-family: monospace;
+    padding: 0 0.2rem;
+    font-weight: 500;
+}

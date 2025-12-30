@@ -3,11 +3,11 @@ title: "Uma simples fórmula que desmistifica gráficos 3D"
 description: "É possível gerar gráficos 'tridimensionais' em planos bidimensionais ao brincar com a perspectiva. É mexendo com truques que enganam a percepção humana que softwares conseguem passar a impressão de profundidade."
 date: 2025-12-29
 tags: ["Gráficos", "2D", "3D"]
-cover: "/blog/humanoid-robot.webp"
-image_credit: {
-    text: "Foto por ",
-    url: ""
-}
+cover: "/blog/simple-3D/explicacao-geometrica.jpeg"
+# image_credit: {
+#     text: "Foto por ",
+#     url: ""
+# }
 language: "pt-BR"
 ---
 
@@ -56,6 +56,10 @@ Ou seja, no nosso plano cartesiano bidimensional, a segunda garrafa estaria mais
 
 Como garrafas têm tamanho, não são apenas pontos, a segunda garrafa também estaria um pouco menor, por extensão do mesmo princípio. Isso fará mais sentido em breve.
 
+## Um detalhe importante
+
+Na tela de um navegador, a origem é definida como o ponto mais acima e mais à esquerda. O eixo `x` então aumenta para a direita, e o `y` aumenta **para baixo**. Esta é a convenção para as janelas. Portanto, devemos mapear os valores corretamente e inverter o eixo vertical.
+
 ## Qual a intuição?
 
 De maneira intuitiva, soa correto que coisas mais distantes do observador devem se aproximar do centro (pense em montanhas enormes que parecem estar no centro da sua visão, por mais que elas se estendam por quilômetros lado a lado), e que essa razão depende da distância.
@@ -82,8 +86,9 @@ const FOREGROUND = "#00FF00";
 
 const FPS = 60;
 
-game.width = 800;
-game.height = 800;
+
+game.width = Math.min(window.screen.width, 800);
+game.height = Math.min(window.screen.width, 800);
 
 const ctx = game.getContext("2d");
 
@@ -92,7 +97,7 @@ function clear() {
   ctx.fillRect(0, 0, game.width, game.height);
 }
 
-function screen(p) {
+function toScreen(p) {
   return {
     x: ((p.x + 1) * game.width) / 2,
     y: ((p.y * -1 + 1) * game.height) / 2,
@@ -100,7 +105,7 @@ function screen(p) {
 }
 
 function point({ x, y }) {
-  const pointSize = 10;
+  const pointSize = 5;
   ctx.fillStyle = FOREGROUND;
   ctx.fillRect(x - pointSize / 2, y - pointSize / 2, pointSize, pointSize);
 }
@@ -121,14 +126,14 @@ function project({ x, y, z }) {
 }
 
 const vertices = [
-  { x: -0.05, y: 0.25, z: 0.25 },
+  { x: -0.25, y: 0.25, z: 0.25 },
   { x: 0.25, y: 0.25, z: 0.25 },
-  { x: 0.25, y: -0.15, z: 0.25 },
+  { x: 0.25, y: -0.25, z: 0.25 },
   { x: -0.25, y: -0.25, z: 0.25 },
 
-  { x: -0.05, y: 0.25, z: -0.25 },
+  { x: -0.25, y: 0.25, z: -0.25 },
   { x: 0.25, y: 0.25, z: -0.25 },
-  { x: 0.25, y: -0.25, z: -0.35 },
+  { x: 0.25, y: -0.25, z: -0.25 },
   { x: -0.25, y: -0.25, z: -0.25 },
 ];
 
@@ -158,21 +163,42 @@ function translate_z({ x, y, z }, dz) {
 let dz = 1;
 let angle = 0;
 
+
+function increment_dz(dt) {
+  dz += .25 * dt;
+}
+
+function decrement_dz(dt) {
+  dz -= .25 * dt;
+}
+
+let action = increment_dz;
+
 function frame() {
   const dt = 1 / FPS;
-  // dz += 1 * dt;
-  angle += Math.PI * dt;
+
+  if (dz > 1.4) {
+    action = decrement_dz;
+  }
+  
+  if (dz < .4) {
+    action = increment_dz;
+  }
+  
+  action(dt);
+
+  angle += Math.PI/3 * dt;
   clear();
-  // for (const v of vertices) {
-  //   point(screen(project(translate_z(rotate_xz(v, angle), dz))));
-  // }
+  for (const v of vertices) {
+    point(toScreen(project(translate_z(rotate_xz(v, angle), dz))));
+  }
   for (const f of faces) {
     for (let i = 0; i < f.length; ++i) {
       const a = vertices[f[i]];
       const b = vertices[f[(i + 1) % f.length]];
       line(
-        screen(project(translate_z(rotate_xz(a, angle), dz))),
-        screen(project(translate_z(rotate_xz(b, angle), dz))),
+        toScreen(project(translate_z(rotate_xz(a, angle), dz))),
+        toScreen(project(translate_z(rotate_xz(b, angle), dz))),
       );
     }
   }
@@ -191,8 +217,9 @@ const FOREGROUND = "#00FF00";
 
 const FPS = 60;
 
-game.width = 800;
-game.height = 800;
+
+game.width = Math.min(window.screen.width, 800);
+game.height = Math.min(window.screen.width, 800);
 
 const ctx = game.getContext("2d");
 
@@ -201,7 +228,7 @@ function clear() {
   ctx.fillRect(0, 0, game.width, game.height);
 }
 
-function screen(p) {
+function toScreen(p) {
   return {
     x: ((p.x + 1) * game.width) / 2,
     y: ((p.y * -1 + 1) * game.height) / 2,
@@ -209,7 +236,7 @@ function screen(p) {
 }
 
 function point({ x, y }) {
-  const pointSize = 10;
+  const pointSize = 5;
   ctx.fillStyle = FOREGROUND;
   ctx.fillRect(x - pointSize / 2, y - pointSize / 2, pointSize, pointSize);
 }
@@ -230,14 +257,14 @@ function project({ x, y, z }) {
 }
 
 const vertices = [
-  { x: -0.05, y: 0.25, z: 0.25 },
+  { x: -0.25, y: 0.25, z: 0.25 },
   { x: 0.25, y: 0.25, z: 0.25 },
-  { x: 0.25, y: -0.15, z: 0.25 },
+  { x: 0.25, y: -0.25, z: 0.25 },
   { x: -0.25, y: -0.25, z: 0.25 },
 
-  { x: -0.05, y: 0.25, z: -0.25 },
+  { x: -0.25, y: 0.25, z: -0.25 },
   { x: 0.25, y: 0.25, z: -0.25 },
-  { x: 0.25, y: -0.25, z: -0.35 },
+  { x: 0.25, y: -0.25, z: -0.25 },
   { x: -0.25, y: -0.25, z: -0.25 },
 ];
 
@@ -267,38 +294,42 @@ function translate_z({ x, y, z }, dz) {
 let dz = 1;
 let angle = 0;
 
+
 function increment_dz(dt) {
-  dz += 1 * dt;
+  dz += .25 * dt;
 }
 
 function decrement_dz(dt) {
-  dz -= 1 * dt;
+  dz -= .25 * dt;
 }
 
 let action = increment_dz;
 
 function frame() {
   const dt = 1 / FPS;
-  // dz += 1 * dt;
-  action(dt);
-  if (dz > 3) {
+
+  if (dz > 1.4) {
     action = decrement_dz;
   }
-  if (dz < 1.1) {
+  
+  if (dz < .4) {
     action = increment_dz;
   }
-  angle += Math.PI * dt;
+  
+  action(dt);
+
+  angle += Math.PI/3 * dt;
   clear();
-  // for (const v of vertices) {
-  //   point(screen(project(translate_z(rotate_xz(v, angle), dz))));
-  // }
+  for (const v of vertices) {
+    point(toScreen(project(translate_z(rotate_xz(v, angle), dz))));
+  }
   for (const f of faces) {
     for (let i = 0; i < f.length; ++i) {
       const a = vertices[f[i]];
       const b = vertices[f[(i + 1) % f.length]];
       line(
-        screen(project(translate_z(rotate_xz(a, angle), dz))),
-        screen(project(translate_z(rotate_xz(b, angle), dz))),
+        toScreen(project(translate_z(rotate_xz(a, angle), dz))),
+        toScreen(project(translate_z(rotate_xz(b, angle), dz))),
       );
     }
   }
@@ -306,3 +337,8 @@ function frame() {
 }
 setTimeout(frame, 1000 / FPS);
 </script>
+
+
+## Veja mais
+
+Veja mais sobre isso no [vídeo](https://www.youtube.com/watch?v=qjWkNZ0SXfo) do canal Tsoding (em inglês).
