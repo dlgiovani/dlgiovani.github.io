@@ -115,24 +115,46 @@ const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
     color: var(--muted); margin-top: 6px;
   }
   .top-chart { display: flex; flex-direction: column; gap: 10px; }
-  .top-row {
+
+  /* :global needed — injected via innerHTML */
+  :global(.top-row) {
     display: grid; grid-template-columns: 90px 1fr 40px;
     align-items: center; gap: 12px;
     font-family: var(--mono); font-size: 13px;
   }
-  .top-row .name { text-transform: capitalize; }
-  .top-row .bar { height: 100%; background: var(--accent); opacity: 0.85; transform-origin: left; }
-  .top-row .count { color: var(--muted); text-align: right; font-size: 12px; }
+  :global(.top-row .name) { text-transform: capitalize; }
+  :global(.bar-track) { height: 6px; background: var(--surface); position: relative; }
+  :global(.top-row .bar) { height: 100%; background: var(--accent); opacity: 0.85; transform-origin: left; }
+  :global(.top-row .count) { color: var(--muted); text-align: right; font-size: 12px; }
 
-  .guest-list { display: flex; flex-direction: column; }
-  .guest-entry {
-    padding: 16px 0; border-top: var(--border);
-    display: grid; grid-template-columns: 1fr auto; gap: 12px;
+  .guest-list { display: flex; flex-direction: column; margin-bottom: 8px; }
+
+  /* :global needed — these classes are injected via innerHTML and don't get Astro's scope attr */
+  :global(.guest-entry) {
+    padding: 20px 0;
+    border-top: var(--border);
   }
-  .guest-entry .who { font-family: var(--serif); font-size: 16px; }
-  .guest-entry .who .from { font-family: var(--sans); color: var(--muted); font-size: 12px; margin-left: 6px; }
-  .guest-entry .msg { margin-top: 4px; font-family: var(--serif); font-size: 17px; line-height: 1.4; font-style: italic; }
-  .guest-entry .when { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  :global(.guest-entry:last-child) { border-bottom: var(--border); }
+  :global(.guest-msg) {
+    font-family: var(--serif);
+    font-size: 18px;
+    line-height: 1.45;
+    font-style: italic;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  :global(.guest-foot) {
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+  :global(.guest-name) { color: var(--ink); font-weight: 500; }
+  :global(.guest-city) { margin-left: 6px; }
+  :global(.guest-when) { margin-left: auto; }
 
   .guest-form { margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .guest-form .row { grid-column: 1 / -1; display: flex; gap: 8px; }
@@ -221,11 +243,11 @@ const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
       if (guestEl && guests.length) {
         guestEl.innerHTML = guests.map(g => `
           <div class="guest-entry">
-            <div>
-              <div class="who">${g.name}<span class="from">· from ${g.city ?? '?'}</span></div>
-              <div class="msg">"${g.message}"</div>
+            <div class="guest-msg">“${g.message}”</div>
+            <div class="guest-foot">
+              <span class="guest-name">${g.name}</span>${g.city ? `<span class="guest-city">&middot; ${g.city}</span>` : ''}
+              <span class="guest-when">${timeAgo(g.submitted_at)}</span>
             </div>
-            <div class="when">${timeAgo(g.submitted_at)}</div>
           </div>
         `).join('');
         guestEl.classList.remove('loading');
