@@ -1,0 +1,117 @@
+---
+import { ticker } from '../../config/ticker';
+import type { Locale } from '../../types/i18n';
+import { useTranslations } from '../../i18n/ui';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const items = [...ticker, ...ticker];
+const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
+---
+
+<div class="ticker" id="ticker">
+  <div class="ticker-track" id="ticker-track">
+    {items.map((item) => {
+      const deltaClass = !item.delta ? 'flat'
+        : item.delta.startsWith('+') ? 'up'
+        : item.delta.startsWith('-') ? 'down' : 'flat';
+      const label = item.kind === 'git' ? t('ticker.commits_label')
+        : item.kind === 'fact' ? t('ticker.random_label')
+        : item.label;
+      return (
+        <span class="ticker-item">
+          <span class="ticker-kind">{item.kind}</span>
+          <span class="ticker-label">{label}</span>
+          <span class="ticker-value"
+            {...(item.liveKey ? { 'data-ticker-key': item.liveKey } : {})}
+            {...(item.kind === 'fact' ? { 'data-ticker-fact': '' } : {})}
+          >{item.value}</span>
+          {item.delta && <span class={`ticker-delta ${deltaClass}`}>{item.delta}</span>}
+        </span>
+      );
+    })}
+  </div>
+</div>
+
+<style>
+  .ticker {
+    width: 100%;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+    overflow: hidden;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .ticker-track {
+    display: inline-flex;
+    gap: 0;
+    padding: 14px 0;
+    white-space: nowrap;
+    animation: tickerScroll 67s linear infinite;
+  }
+  .ticker:hover .ticker-track { animation-play-state: paused; }
+  @keyframes tickerScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .ticker-item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 0 22px;
+    border-right: 1px solid var(--line-soft);
+  }
+  .ticker-kind  { font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .ticker-label { color: var(--ink); font-weight: 500; }
+  .ticker-value { color: var(--ink); }
+  .ticker-delta { font-size: 11px; }
+  .ticker-delta.up   { color: var(--up); }
+  .ticker-delta.down { color: var(--down); }
+  .ticker-delta.flat { color: var(--muted); }
+</style>
+
+<script define:vars={{ API }}>
+  const api = API;
+
+  function formatPrice(key, value) {
+    if (key === 'BTC_USD' || key === 'ETH_USD') {
+      return '$' + value.toLocaleString('en-US', { maximumFractionDigits: 0 });
+    }
+    return value.toFixed(4);
+  }
+
+  async function loadTicker() {
+    try {
+      const data = await fetch(`${api}/api/ticker`).then(r => r.json());
+      for (const [key, value] of Object.entries(data)) {
+        const els = document.querySelectorAll(`[data-ticker-key="${key}"]`);
+        els.forEach(el => { el.textContent = formatPrice(key, value); });
+      }
+    } catch { /* keep placeholder values */ }
+  }
+
+  loadTicker();
+
+  async function loadFact() {
+    try {
+      const data = await fetch('https://uselessfacts.jsph.pl/api/v2/facts/random?language=en').then(r => r.json());
+      if (data.text) {
+        document.querySelectorAll('[data-ticker-fact]').forEach(el => { el.textContent = data.text; });
+      }
+    } catch { /* keep placeholder */ }
+  }
+
+  loadFact();
+
+  window.addEventListener('tweakchange', (e) => {
+    const detail = e.detail;
+    if ('tickerSpeed' in detail) {
+      const speed = Number(detail.tickerSpeed);
+      const dur = Math.max(20, 80 / Math.max(speed, 0.1));
+      const track = document.getElementById('ticker-track');
+      if (track) track.style.animationDuration = dur + 's';
+    }
+  });
+</script>

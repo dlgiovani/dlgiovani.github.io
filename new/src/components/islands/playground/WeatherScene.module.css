@@ -1,0 +1,38 @@
+.scene {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  height: 120px;
+  background: #87ceeb;
+  display: flex;
+  align-items: flex-end;
+  padding: 1rem;
+}
+.clear   { background: linear-gradient(180deg, #87ceeb 0%, #fffde7 100%); }
+.rain    { background: linear-gradient(180deg, #607d8b 0%, #90a4ae 100%); }
+.snow    { background: linear-gradient(180deg, #b0bec5 0%, #eceff1 100%); }
+.wind    { background: linear-gradient(180deg, #78909c 0%, #b0bec5 100%); }
+.thunder { background: linear-gradient(180deg, #37474f 0%, #607d8b 100%); }
+
+.particles { position: absolute; inset: 0; pointer-events: none; }
+.particle  { position: absolute; width: 2px; height: 2px; border-radius: 50%; }
+
+.prainfall { background: #aaa; width: 1px; height: 12px; animation: rainFall linear infinite; }
+.psnow     { background: #fff; border-radius: 50%; width: 6px; height: 6px; animation: snowFall linear infinite; }
+.pwind     { background: rgba(255,255,255,0.6); width: 40px; height: 2px; border-radius: 1px; animation: windBlow linear infinite; }
+.pthunder  { background: #f0f; opacity: 0.7; width: 1px; height: 20px; animation: rainFall linear infinite; }
+
+.label {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.3);
+  backdrop-filter: blur(4px);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.emoji { font-size: 1.2rem; }

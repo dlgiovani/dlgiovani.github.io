@@ -1,0 +1,294 @@
+---
+import SectionHeader from '../static/SectionHeader.astro';
+import type { Locale } from '../../types/i18n';
+import { useTranslations } from '../../i18n/ui';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
+---
+
+<section id="signals" class="sec sec-signals">
+  <SectionHeader
+    kicker={t('signals.kicker')}
+    title={t('signals.title')}
+    lead={t('signals.lead')}
+  />
+
+  <div class="signals-grid">
+    <div>
+      <div class="card-block">
+        <h3>{t('signals.visitors_title')}</h3>
+        <div class="sub">{t('signals.visitors_since')}</div>
+        <div class="counter-row">
+          <div class="counter">
+            <div class="v loading" id="sig-total">—</div>
+            <div class="l">{t('signals.counter_total')}</div>
+          </div>
+          <div class="counter">
+            <div class="v loading" id="sig-today">—</div>
+            <div class="l">{t('signals.counter_today')}</div>
+          </div>
+          <div class="counter">
+            <div class="v loading" id="sig-cities">—</div>
+            <div class="l">{t('signals.counter_cities')}</div>
+          </div>
+          <div class="counter">
+            <div class="v loading" id="sig-countries">—</div>
+            <div class="l">{t('signals.counter_countries')}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-block card-block--spaced">
+        <h3>{t('signals.pokemon_title')}</h3>
+        <div class="sub">{t('signals.pokemon_sub')}</div>
+        <div class="top-chart loading" id="sig-picks">
+          {Array.from({ length: 8 }).map(() => (
+            <div class="top-row skeleton">
+              <span class="name skel-bar"></span>
+              <div class="bar-track"><div class="bar skel-bar" style="width:60%"></div></div>
+              <span class="count skel-bar"></span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="card-block">
+      <h3>{t('signals.guestbook_title')}</h3>
+      <div class="sub">{t('signals.guestbook_sub')}</div>
+
+      <div class="guest-list loading" id="sig-guestbook">
+        {Array.from({ length: 3 }).map(() => (
+          <div class="guest-entry skeleton">
+            <div>
+              <div class="who skel-bar" style="width:120px;height:14px"></div>
+              <div class="msg skel-bar" style="width:80%;height:14px;margin-top:6px"></div>
+            </div>
+            <div class="when skel-bar" style="width:28px;height:11px"></div>
+          </div>
+        ))}
+      </div>
+
+      <form class="guest-form" id="guest-form">
+        <input placeholder={t('signals.guestbook_name_ph')} name="name" required />
+        <input placeholder={t('signals.guestbook_city_ph')} name="city" />
+        <textarea placeholder={t('signals.guestbook_msg_ph')} name="msg" required></textarea>
+        <div class="row">
+          <button type="submit" data-label-default={t('signals.guestbook_submit')} data-label-sent={t('signals.guestbook_sent')}>
+            {t('signals.guestbook_submit')}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sec-signals .signals-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    margin-top: 48px;
+  }
+  .card-block { border: var(--border); padding: 28px; background: var(--surface); }
+  .card-block--spaced { margin-top: 20px; }
+  .card-block h3 { font-family: var(--serif); font-size: 26px; font-weight: 400; margin: 0 0 6px 0; }
+  .card-block .sub {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--muted); letter-spacing: 0.04em;
+    margin-bottom: 24px;
+  }
+  .counter-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .counter { padding: 18px 0; border-top: var(--border); }
+  .counter .v {
+    font-family: var(--serif);
+    font-size: clamp(38px, 4.6vw, 60px);
+    line-height: 1; letter-spacing: -0.02em;
+  }
+  .counter .l {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); margin-top: 6px;
+  }
+  .top-chart { display: flex; flex-direction: column; gap: 10px; }
+  .top-row {
+    display: grid; grid-template-columns: 90px 1fr 40px;
+    align-items: center; gap: 12px;
+    font-family: var(--mono); font-size: 13px;
+  }
+  .top-row .name { text-transform: capitalize; }
+  .top-row .bar { height: 100%; background: var(--accent); opacity: 0.85; transform-origin: left; }
+  .top-row .count { color: var(--muted); text-align: right; font-size: 12px; }
+
+  .guest-list { display: flex; flex-direction: column; }
+  .guest-entry {
+    padding: 16px 0; border-top: var(--border);
+    display: grid; grid-template-columns: 1fr auto; gap: 12px;
+  }
+  .guest-entry .who { font-family: var(--serif); font-size: 16px; }
+  .guest-entry .who .from { font-family: var(--sans); color: var(--muted); font-size: 12px; margin-left: 6px; }
+  .guest-entry .msg { margin-top: 4px; font-family: var(--serif); font-size: 17px; line-height: 1.4; font-style: italic; }
+  .guest-entry .when { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+
+  .guest-form { margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .guest-form .row { grid-column: 1 / -1; display: flex; gap: 8px; }
+  .guest-form input, .guest-form textarea {
+    font-family: var(--mono); font-size: 13px; padding: 10px 12px;
+    background: var(--paper); border: var(--border);
+    color: var(--ink); outline: none; width: 100%;
+  }
+  .guest-form input:focus, .guest-form textarea:focus { border-color: var(--accent); }
+  .guest-form textarea { resize: vertical; min-height: 60px; grid-column: 1 / -1; }
+  .guest-form button {
+    font-family: var(--mono); font-size: 12px;
+    padding: 10px 18px; background: var(--ink); color: var(--paper);
+    border: none; cursor: pointer; letter-spacing: 0.05em;
+    transition: background 0.15s;
+  }
+  .guest-form button:hover { background: var(--accent); }
+  .guest-form button.sent { background: var(--accent); }
+  .guest-form button:disabled { opacity: 0.6; cursor: not-allowed; }
+  .guest-already { font-family: var(--mono); font-size: 12px; color: var(--muted); padding-top: 16px; }
+
+  .loading { opacity: 0.5; }
+  .skel-bar {
+    display: inline-block; background: var(--line-soft);
+    border-radius: 2px; animation: shimmer 1.4s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { opacity: 0.4; }
+    50%       { opacity: 0.9; }
+  }
+
+  @media (max-width: 768px) {
+    .sec-signals .signals-grid { grid-template-columns: 1fr; gap: 32px; }
+    .counter-row { grid-template-columns: 1fr 1fr; }
+    .guest-form { grid-template-columns: 1fr; }
+    .guest-form .row { grid-column: 1; }
+  }
+</style>
+
+<script define:vars={{ API }}>
+  const api = API;
+
+  function timeAgo(dateStr) {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const min = Math.floor(diff / 60000);
+    if (min < 60) return `${min}m`;
+    const hr = Math.floor(min / 60);
+    if (hr < 24) return `${hr}h`;
+    return `${Math.floor(hr / 24)}d`;
+  }
+
+  async function loadSignals() {
+    try {
+      const [sig, picks, guests] = await Promise.all([
+        fetch(`${api}/api/signals`).then(r => r.json()),
+        fetch(`${api}/api/picks`).then(r => r.json()),
+        fetch(`${api}/api/guestbook`).then(r => r.json()),
+      ]);
+
+      // counters
+      const total = document.getElementById('sig-total');
+      const today = document.getElementById('sig-today');
+      const cities = document.getElementById('sig-cities');
+      const countries = document.getElementById('sig-countries');
+      if (total) { total.textContent = sig.total.toLocaleString(); total.classList.remove('loading'); }
+      if (today) { today.textContent = sig.today.toLocaleString(); today.classList.remove('loading'); }
+      if (cities) { cities.textContent = sig.cities.toLocaleString(); cities.classList.remove('loading'); }
+      if (countries) { countries.textContent = sig.countries.toLocaleString(); countries.classList.remove('loading'); }
+
+      // picks chart
+      const picksEl = document.getElementById('sig-picks');
+      if (picksEl && picks.length) {
+        const max = picks[0].count;
+        picksEl.innerHTML = picks.map(p => `
+          <div class="top-row">
+            <span class="name">${p.name}</span>
+            <div class="bar-track"><div class="bar" style="width:${(p.count / max * 100).toFixed(1)}%"></div></div>
+            <span class="count">${p.count}</span>
+          </div>
+        `).join('');
+        picksEl.classList.remove('loading');
+      }
+
+      // guestbook
+      const guestEl = document.getElementById('sig-guestbook');
+      if (guestEl && guests.length) {
+        guestEl.innerHTML = guests.map(g => `
+          <div class="guest-entry">
+            <div>
+              <div class="who">${g.name}<span class="from">· from ${g.city ?? '?'}</span></div>
+              <div class="msg">"${g.message}"</div>
+            </div>
+            <div class="when">${timeAgo(g.submitted_at)}</div>
+          </div>
+        `).join('');
+        guestEl.classList.remove('loading');
+      }
+    } catch {
+      // backend unavailable — clear loading class so dashes show at full opacity
+      document.querySelectorAll('.v.loading, .top-chart.loading, .guest-list.loading')
+        .forEach(el => el.classList.remove('loading'));
+    }
+  }
+
+  async function recordVisit() {
+    try {
+      await fetch(`${api}/api/visit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
+      });
+    } catch { /* fire-and-forget */ }
+  }
+
+  loadSignals();
+  recordVisit();
+
+  // guestbook dedup — replace form with notice if already submitted
+  if (localStorage.getItem('gb_sent')) {
+    const formEl = document.getElementById('guest-form');
+    if (formEl) formEl.outerHTML = '<p class="guest-already">you already left a mark — thanks.</p>';
+  }
+
+  // guestbook form
+  const form = document.getElementById('guest-form');
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('button');
+    const data = new FormData(form);
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(`${api}/api/guestbook`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: data.get('name'),
+          city: data.get('city') || undefined,
+          message: data.get('msg'),
+        }),
+      });
+      if (!res.ok) throw new Error(res.statusText);
+
+      localStorage.setItem('gb_sent', '1');
+      btn.textContent = btn.dataset.labelSent ?? '✓ sent — thanks.';
+      btn.classList.add('sent');
+      form.reset();
+
+      setTimeout(() => {
+        form.outerHTML = '<p class="guest-already">you already left a mark — thanks.</p>';
+        loadSignals();
+      }, 3000);
+    } catch {
+      btn.disabled = false;
+      btn.textContent = 'something went wrong — try again';
+      setTimeout(() => { btn.textContent = btn.dataset.labelDefault ?? 'leave a mark →'; }, 2500);
+    }
+  });
+</script>

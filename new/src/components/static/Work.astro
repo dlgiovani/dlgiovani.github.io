@@ -1,0 +1,104 @@
+---
+import { work } from "../../config/work";
+import { useTranslations } from "../../i18n/ui";
+import type { Locale } from "../../types/i18n";
+import SectionHeader from "./SectionHeader.astro";
+
+interface Props {
+    locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section id="work" class="sec sec-work">
+    <div class="head-row">
+        <SectionHeader kicker={t("work.kicker")} title={t("work.title")} />
+    </div>
+
+    <div class="work-table">
+        {
+            work.map((w, i) => (
+                <div class="work-row">
+                    <div class="work-yr">{w.yr}</div>
+                    <div class="work-role">
+                        {t(`work.entry_${i}_role`)}
+                        <span class="org">{w.org}</span>
+                    </div>
+                    <div class="work-note">{t(`work.entry_${i}_note`)}</div>
+                </div>
+            ))
+        }
+    </div>
+</section>
+
+<style>
+    .sec-work .head-row {
+        margin-bottom: 56px;
+    }
+    .work-table {
+        display: grid;
+        grid-template-columns: 120px 1fr 1.3fr;
+    }
+    .work-row {
+        display: contents;
+    }
+    .work-row > * {
+        padding: 28px 0;
+        border-top: var(--border);
+        font-size: 15px;
+        line-height: 1.5;
+    }
+    .work-row:last-child > * {
+        border-bottom: var(--border);
+    }
+    .work-yr {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--muted);
+        letter-spacing: 0.02em;
+        padding-right: 24px;
+    }
+    .work-role {
+        font-family: var(--serif);
+        font-size: 20px !important;
+        line-height: 1.2 !important;
+        padding-right: 24px;
+    }
+    .work-role .org {
+        display: block;
+        font-family: var(--sans);
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 4px;
+        letter-spacing: 0.02em;
+    }
+    .work-note {
+        color: var(--ink);
+    }
+
+    @media (max-width: 768px) {
+        .work-table {
+            grid-template-columns: 1fr;
+        }
+        .work-row {
+            display: block;
+            border-top: var(--border);
+            padding: 20px 0;
+        }
+        .work-row > * {
+            padding: 0;
+            border: none !important;
+        }
+        .work-yr {
+            margin-bottom: 4px;
+        }
+        .work-role {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        .work-row:last-child {
+            border-bottom: var(--border);
+        }
+    }
+</style>

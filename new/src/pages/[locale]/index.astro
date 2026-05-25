@@ -1,0 +1,44 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/interactive/Hero.astro';
+import Ticker from '../../components/interactive/Ticker.astro';
+import About from '../../components/static/About.astro';
+import Work from '../../components/static/Work.astro';
+import CodeSection from '../../components/static/CodeSection.astro';
+import Signals from '../../components/interactive/Signals.astro';
+import Footer from '../../components/static/Footer.astro';
+import { Playground } from '../../components/islands/playground/Playground';
+import { TweaksPanel } from '../../components/islands/TweaksPanel';
+import LangThemeBar from '../../components/interactive/LangThemeBar.astro';
+import { WEATHER_EFFECTS } from '../../config/pokemon';
+import type { Locale } from '../../types/i18n';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'pt' } }];
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const apiUrl = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
+---
+
+<Base title={undefined} locale={locale}>
+  <Ticker locale={locale} />
+  <Hero locale={locale} />
+  <About locale={locale} />
+  <Work locale={locale} />
+  <CodeSection locale={locale} />
+
+  <div id="playground-mount">
+    <Playground
+      client:visible
+      weatherEffects={WEATHER_EFFECTS}
+      apiUrl={apiUrl}
+    />
+  </div>
+
+  <Signals locale={locale} />
+  <Footer locale={locale} />
+
+  <TweaksPanel client:load />
+  <LangThemeBar locale={locale} />
+</Base>

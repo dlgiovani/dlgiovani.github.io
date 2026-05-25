@@ -1,0 +1,81 @@
+@import './tokens.css';
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+.sec {
+  padding: 0 var(--pad-x);
+  margin: var(--sec-gap) auto 0;
+  max-width: 1480px;
+}
+
+.sec-head { margin-bottom: 56px; }
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.sec-title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(40px, 5vw, 72px);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  margin: 0;
+  max-width: 16ch;
+}
+
+.sec-lead {
+  margin: 20px 0 0 0;
+  font-family: var(--serif);
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.4;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+.visually-hidden {
+  position: absolute;
+  left: -9999px;
+}
+
+/* ── Utility classes ─────────────────────────────────────────────── */
+
+.font-serif  { font-family: var(--serif); }
+.font-sans   { font-family: var(--sans);  }
+.font-mono   { font-family: var(--mono);  }
+
+.text-muted  { color: var(--muted); }
+.text-accent { color: var(--accent); }
+
+/* Superscript unit suffix (e.g. "d" in "24d streak") */
+.stat-unit {
+  font-size: 0.5em;
+  color: var(--muted);
+}
+
+/* Generic horizontal bar track for charts */
+.bar-track {
+  position: relative;
+  height: 10px;
+  background: color-mix(in oklch, var(--ink) 6%, transparent);
+}

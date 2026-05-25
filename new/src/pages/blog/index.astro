@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import BlogShowcase from '../../components/static/BlogShowcase.astro';
+import Footer from '../../components/static/Footer.astro';
+---
+
+<Base title="Blog">
+  <nav class="site-nav" aria-label="Main navigation">
+    <a href="/">← Home</a>
+  </nav>
+  <main class="blog-main">
+    <h1>Blog</h1>
+    <BlogShowcase qty={-1} />
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .site-nav { padding: 1rem 10vw; border-bottom: 1px solid var(--border); }
+  .site-nav a { color: var(--muted); text-decoration: none; font-size: 0.9rem; }
+  .site-nav a:hover { color: var(--ink); }
+  .blog-main { padding: 4rem 10vw; }
+  .blog-main h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; margin-bottom: 2rem; }
+</style>

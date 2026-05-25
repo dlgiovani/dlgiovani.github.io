@@ -1,0 +1,38 @@
+---
+import { fetchGithubData } from '../../lib/api/github';
+
+const { langs } = await fetchGithubData();
+---
+
+<div class="lang-bar-wrap">
+  <div class="lang-bar">
+    {langs.map(l => (
+      <div
+        class="lang-seg"
+        style={`flex: ${l.pct}; background: ${l.color}`}
+        title={`${l.name} ${l.pct}%`}
+      />
+    ))}
+  </div>
+  <ul class="lang-legend">
+    {langs.map(l => (
+      <li>
+        <span class="dot" style={`background:${l.color}`}></span>
+        {l.name} <span class="pct">{l.pct}%</span>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .lang-bar-wrap { display: flex; flex-direction: column; gap: var(--space-sm); }
+  .lang-bar { display: flex; height: 10px; border-radius: 5px; overflow: hidden; gap: 2px; }
+  .lang-seg { height: 100%; }
+  .lang-legend {
+    display: flex; flex-wrap: wrap; gap: var(--space-sm);
+    list-style: none; padding: 0; font-size: 0.85rem; color: var(--muted);
+  }
+  .lang-legend li { display: flex; align-items: center; gap: 4px; }
+  .dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .pct { opacity: 0.7; }
+</style>

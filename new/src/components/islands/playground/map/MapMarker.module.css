@@ -1,0 +1,4 @@
+.markerGroup { cursor: default; }
+.dot   { fill: var(--accent, #0784b5); }
+.pulse { fill: var(--accent, #0784b5); opacity: 0.4; animation: markerPulse 2s ease-in-out infinite; }
+.label { font-size: 8px; fill: var(--ink, #212121); pointer-events: none; }

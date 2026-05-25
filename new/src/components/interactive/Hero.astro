@@ -1,0 +1,204 @@
+---
+import type { Locale } from '../../types/i18n';
+import { useTranslations } from '../../i18n/ui';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<header class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-stars"></div>
+  <div class="hero-apod" id="hero-apod"></div>
+  <div class="hero-veil"></div>
+
+  <div class="hero-top">
+    <div class="hero-handle">dlgiovani<span class="handle-suffix">.dev</span></div>
+    <nav class="hero-nav">
+      <a href="#about">{t('hero.nav_about')}</a>
+      <a href="#work">{t('hero.nav_work')}</a>
+      <a href="#code">{t('hero.nav_code')}</a>
+      <a href="#playground">{t('hero.nav_playground')}</a>
+      <a href="#signals">{t('hero.nav_guestbook')}</a>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="hero-eyebrow" id="hero-eyebrow">{t('hero.eyebrow')} · <span id="hero-date"></span></div>
+    <h1 class="hero-title">
+      {t('hero.title_1')}<em>{t('hero.title_em')}</em><br/>
+      {t('hero.title_2')}<br/>
+      {t('hero.title_3')}
+    </h1>
+    <p class="hero-sub">{t('hero.subtitle')}</p>
+  </div>
+
+  <div class="hero-foot">
+    <div class="meta" id="hero-apod-meta">{t('hero.apod_credit')}</div>
+    <div class="scroll">
+      <span>{t('hero.scroll')}</span>
+      <span class="bar"></span>
+    </div>
+  </div>
+</header>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 86vh;
+    padding: var(--pad-y) var(--pad-x);
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    color: #f5f3ec;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: -2;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(60,50,120,0.6), transparent 60%),
+      radial-gradient(ellipse at 80% 70%, rgba(180,80,40,0.35), transparent 65%),
+      radial-gradient(ellipse at 50% 50%, #1a1830 0%, #060614 70%, #000 100%);
+  }
+  .hero-stars {
+    position: absolute; inset: 0; z-index: -2;
+    background-image:
+      radial-gradient(1px 1px at 12% 18%, #fff, transparent),
+      radial-gradient(1px 1px at 24% 62%, #d9d9ff, transparent),
+      radial-gradient(1.5px 1.5px at 41% 28%, #fff, transparent),
+      radial-gradient(1px 1px at 58% 81%, #fff, transparent),
+      radial-gradient(1px 1px at 71% 22%, #ffe2c2, transparent),
+      radial-gradient(1.5px 1.5px at 83% 56%, #fff, transparent),
+      radial-gradient(1px 1px at 91% 14%, #c8d8ff, transparent),
+      radial-gradient(1px 1px at 8% 86%, #fff, transparent),
+      radial-gradient(1px 1px at 33% 44%, #fff, transparent),
+      radial-gradient(1px 1px at 49% 9%,  #fff, transparent),
+      radial-gradient(1px 1px at 64% 38%, #fff, transparent),
+      radial-gradient(1px 1px at 17% 49%, #ddd, transparent),
+      radial-gradient(1px 1px at 78% 88%, #fff, transparent);
+    opacity: 0.8;
+  }
+  .hero-apod {
+    position: absolute; inset: 0; z-index: -1;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+  .hero-apod.on { opacity: 0.85; }
+  .hero-veil {
+    position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.2) 35%, rgba(0,0,0,0.55) 100%);
+  }
+
+  .hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+  .hero-handle { font-weight: 500; }
+  .handle-suffix { opacity: 0.6; }
+  .hero-nav { display: flex; gap: 28px; }
+  .hero-nav a { color: rgba(245,243,236,0.8); text-decoration: none; }
+  .hero-nav a:hover { color: #fff; }
+
+  .hero-body {
+    align-self: center;
+    max-width: 980px;
+  }
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(245,243,236,0.65);
+    margin-bottom: 28px;
+  }
+  .hero-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(48px, 8.6vw, 132px);
+    line-height: 0.96;
+    letter-spacing: -0.02em;
+    margin: 0 0 28px 0;
+    color: #fbf9f2;
+  }
+  .hero-title em { font-style: italic; color: #f0d8b2; }
+  .hero-sub {
+    font-family: var(--sans);
+    font-size: clamp(15px, 1.3vw, 19px);
+    line-height: 1.5;
+    color: rgba(245,243,236,0.82);
+    max-width: 560px;
+    margin: 0;
+  }
+
+  .hero-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 20px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: rgba(245,243,236,0.65);
+    letter-spacing: 0.04em;
+  }
+  .hero-foot .meta { max-width: 320px; line-height: 1.55; }
+  .hero-foot .scroll { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .hero-foot .scroll .bar {
+    width: 1px; height: 36px;
+    background: linear-gradient(180deg, rgba(245,243,236,0.6), rgba(245,243,236,0));
+  }
+  .apod-title { color: #fbf9f2; }
+
+  @media (max-width: 768px) {
+    .hero-nav { gap: 16px; flex-wrap: wrap; justify-content: flex-end; max-width: 60%; }
+    .hero-foot .meta { display: none; }
+  }
+  @media (max-width: 480px) {
+    .hero-nav { display: none; }
+    .hero-foot { justify-content: flex-end; }
+  }
+</style>
+
+<script>
+  const dateEl = document.getElementById('hero-date');
+  if (dateEl) {
+    dateEl.textContent = new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: '2-digit' });
+  }
+
+  const apodEl = document.getElementById('hero-apod') as HTMLDivElement;
+  const metaEl = document.getElementById('hero-apod-meta') as HTMLDivElement;
+  const apodCredit = metaEl?.textContent ?? '';
+  let apodEnabled = false;
+
+  async function loadApod() {
+    if (!apodEnabled) return;
+    try {
+      const res = await fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY');
+      if (!res.ok) return;
+      const d = await res.json() as { media_type: string; hdurl?: string; url: string; title: string; date: string };
+      if (!d || d.media_type !== 'image') return;
+      apodEl.style.backgroundImage = `url(${d.hdurl || d.url})`;
+      apodEl.classList.add('on');
+      metaEl.innerHTML = `backdrop: NASA APOD · <span class="apod-title">${d.title}</span> · ${d.date}`;
+    } catch { /* fallback to star field */ }
+  }
+
+  window.addEventListener('tweakchange', (e: Event) => {
+    const detail = (e as CustomEvent).detail as Record<string, unknown>;
+    if ('apod' in detail) {
+      apodEnabled = Boolean(detail.apod);
+      if (!apodEnabled) {
+        apodEl.classList.remove('on');
+        metaEl.textContent = apodCredit;
+      } else {
+        loadApod();
+      }
+    }
+  });
+</script>

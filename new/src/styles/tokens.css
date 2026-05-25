@@ -1,0 +1,48 @@
+/* Design tokens — exact match to Portfolio.html */
+:root {
+  --paper:      #f4f4f0;
+  --ink:        #0a0a0a;
+  --muted:      #737373;
+  --line:       #d8d6cf;
+  --line-soft:  #e6e4dc;
+  --surface:    #ffffff;
+  --accent:     #2a5d9f;
+  --play-bg:    #ecebe5;
+  --up:         #1f7c3a;
+  --down:       #b73329;
+
+  --serif: 'Instrument Serif', 'Newsreader', Georgia, serif;
+  --sans:  'IBM Plex Sans', system-ui, sans-serif;
+  --mono:  'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
+
+  --pad-x: clamp(28px, 8vw, 140px);
+  --pad-y: clamp(80px, 9vw, 140px);
+  --sec-gap: clamp(80px, 12vw, 180px);
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+
+  --radius: 2px;
+  --border: 1px solid var(--line);
+  --subtle: var(--line-soft);
+}
+
+html[data-theme="dark"] {
+  --paper:      #0e0e10;
+  --ink:        #f1efe8;
+  --muted:      #8c887e;
+  --line:       #25252a;
+  --line-soft:  #1a1a1e;
+  --surface:    #16161a;
+  --accent:     #6b9adf;
+  --play-bg:    #131317;
+}
+
+html[data-density="compact"] {
+  --pad-x: clamp(20px, 5vw, 90px);
+  --pad-y: clamp(56px, 6vw, 96px);
+  --sec-gap: clamp(56px, 8vw, 120px);
+}

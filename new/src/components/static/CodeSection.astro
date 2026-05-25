@@ -1,0 +1,178 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import type { Locale } from '../../types/i18n';
+import { useTranslations } from '../../i18n/ui';
+import { fetchGithubData } from '../../lib/api/github';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const { heatmap, langs, stats } = await fetchGithubData();
+
+const cellSize = 11;
+const gap = 2;
+const weeks = heatmap.length;
+const svgWidth = weeks * (cellSize + gap);
+const svgHeight = 7 * (cellSize + gap);
+---
+
+<section id="code" class="sec sec-code">
+  <SectionHeader
+    kicker={t('code.kicker')}
+    title={t('code.title')}
+    lead={t('code.lead')}
+  />
+
+  <div class="stats">
+    <div class="stat">
+      <div class="n">{stats.commits.toLocaleString()}</div>
+      <div class="l">{t('code.stat_commits')}</div>
+    </div>
+    <div class="stat">
+      <div class="n">{stats.repos}</div>
+      <div class="l">{t('code.stat_repos')}</div>
+    </div>
+    <div class="stat">
+      <div class="n">{stats.streak}<span class="stat-unit">d</span></div>
+      <div class="l">{t('code.stat_streak')}</div>
+    </div>
+    <div class="stat">
+      <div class="n">{stats.avgPerDay}<span class="stat-unit">/d</span></div>
+      <div class="l">{t('code.stat_avg')}</div>
+    </div>
+  </div>
+
+  <div class="heatmap-card">
+    <div class="top">
+      <h3>{t('code.heatmap_title')}</h3>
+      <span class="src">{t('code.heatmap_src')}</span>
+    </div>
+    <svg
+      class="heatmap-svg"
+      width="100%"
+      viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+      preserveAspectRatio="xMinYMin meet"
+    >
+      {heatmap.map((col, w) =>
+        col.map((v, d) => {
+          const opacity = v === 0 ? 0.06 : 0.18 + v * 0.21;
+          return (
+            <rect
+              x={w * (cellSize + gap)}
+              y={d * (cellSize + gap)}
+              width={cellSize}
+              height={cellSize}
+              fill="var(--accent)"
+              style={`fill-opacity:${opacity}`}
+              rx={1.5}
+            />
+          );
+        })
+      )}
+    </svg>
+    <div class="heatmap-key">
+      <span>{t('code.legend_less')}</span>
+      <span class="swatch swatch-1"></span>
+      <span class="swatch swatch-2"></span>
+      <span class="swatch swatch-3"></span>
+      <span class="swatch swatch-4"></span>
+      <span class="swatch swatch-5"></span>
+      <span>{t('code.legend_more')}</span>
+    </div>
+  </div>
+
+  <div class="langs">
+    <div>
+      <h3>{t('code.langs_title')}</h3>
+      <div class="langs-bar">
+        {langs.map(l => (
+          <div class="seg"
+               style={`width:${l.pct}%;background:${l.color}`}
+               title={`${l.name} · ${l.pct}%`}>
+          </div>
+        ))}
+      </div>
+      <div class="langs-legend">
+        {langs.map(l => (
+          <div class="row">
+            <span class="dot" style={`background:${l.color}`}></span>
+            <span>{l.name}</span>
+            <span class="pct">{l.pct}%</span>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="langs-aside">
+      <p set:html={t('code.langs_aside_1')} />
+      <p class="aside-note" set:html={t('code.langs_aside_2')} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .sec-code .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    margin-top: 36px;
+    margin-bottom: 48px;
+  }
+  .stat .n {
+    font-family: var(--serif);
+    font-size: clamp(38px, 4.8vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .stat .l {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); margin-top: 6px;
+  }
+  .heatmap-card {
+    border: var(--border); padding: 32px; background: var(--surface);
+  }
+  .heatmap-card .top {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 24px;
+  }
+  .heatmap-card h3 {
+    font-family: var(--serif); font-size: 22px; font-weight: 400; margin: 0;
+  }
+  .heatmap-card .src { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .heatmap-svg { display: block; }
+  .heatmap-key {
+    display: flex; align-items: center; gap: 6px; margin-top: 18px;
+    font-family: var(--mono); font-size: 11px; color: var(--muted);
+  }
+  .heatmap-key .swatch { width: 11px; height: 11px; border-radius: 1.5px; background: var(--accent); }
+  .swatch-1 { opacity: 0.06; }
+  .swatch-2 { opacity: 0.27; }
+  .swatch-3 { opacity: 0.48; }
+  .swatch-4 { opacity: 0.69; }
+  .swatch-5 { opacity: 0.90; }
+
+  .langs { margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+  .langs h3 { font-family: var(--serif); font-size: 22px; font-weight: 400; margin: 0 0 24px 0; }
+  .langs-bar {
+    display: flex; height: 14px;
+    border: var(--border); background: var(--surface);
+    overflow: hidden; margin-bottom: 18px;
+  }
+  .langs-bar .seg { height: 100%; }
+  .langs-legend { display: flex; flex-direction: column; gap: 10px; }
+  .langs-legend .row {
+    display: grid; grid-template-columns: 14px 1fr auto;
+    align-items: center; gap: 12px; font-size: 14px;
+  }
+  .langs-legend .dot { width: 10px; height: 10px; border-radius: var(--radius); }
+  .langs-legend .pct { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .langs-aside p { font-family: var(--serif); font-size: 20px; line-height: 1.4; margin: 0 0 16px 0; }
+  .langs-aside .aside-note { font-family: var(--sans); font-size: 14px; color: var(--muted); }
+
+  @media (max-width: 768px) {
+    .sec-code .stats { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .langs { grid-template-columns: 1fr; gap: 32px; }
+    .heatmap-card { padding: 20px; overflow-x: auto; }
+  }
+</style>

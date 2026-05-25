@@ -1,0 +1,2 @@
+.wrap { width: 100%; overflow-x: auto; border-radius: 0.75rem; border: 1px solid var(--border); }
+.svg  { width: 100%; height: auto; display: block; }

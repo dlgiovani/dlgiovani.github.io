@@ -1,0 +1,77 @@
+---
+import type { Locale } from '../../types/i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+---
+
+<div class="ltbar" id="ltbar">
+  <button class="ltbar-theme" id="ltbar-theme-btn" aria-label="Toggle theme">☀</button>
+  <span class="ltbar-sep">|</span>
+  <a href="/"    class:list={['ltbar-lang', { active: locale === 'en' }]}>EN</a>
+  <span class="ltbar-sep">·</span>
+  <a href="/pt/" class:list={['ltbar-lang', { active: locale === 'pt' }]}>PT</a>
+</div>
+
+<script>
+  const btn = document.getElementById('ltbar-theme-btn');
+  const html = document.documentElement;
+
+  const stored = localStorage.getItem('tweak_theme');
+  if (stored) html.setAttribute('data-theme', stored);
+
+  function syncIcon() {
+    if (btn) btn.textContent = html.getAttribute('data-theme') === 'dark' ? '☽' : '☀';
+  }
+  syncIcon();
+
+  btn?.addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('tweak_theme', next);
+    window.dispatchEvent(new CustomEvent('tweakchange', { detail: { theme: next } }));
+    syncIcon();
+  });
+
+  window.addEventListener('tweakchange', (e) => {
+    const ev = e as CustomEvent;
+    if (ev.detail?.theme) syncIcon();
+  });
+</script>
+
+<style>
+  .ltbar {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    font-family: var(--mono);
+    background: var(--paper);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  .ltbar-theme {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .ltbar-lang {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .ltbar-lang:hover,
+  .ltbar-lang.active {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .ltbar-sep { color: var(--muted); }
+</style>

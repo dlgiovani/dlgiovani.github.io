@@ -1,0 +1,27 @@
+---
+interface Props { skills: string[] }
+const { skills } = Astro.props;
+---
+
+<ul class="skills-grid">
+  {skills.map(s => <li>{s}</li>)}
+</ul>
+
+<style>
+  .skills-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+  .skills-grid li {
+    padding: 4px 14px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.9rem;
+    color: var(--muted);
+    background: var(--subtle);
+  }
+</style>

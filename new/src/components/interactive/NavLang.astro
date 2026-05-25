@@ -1,0 +1,19 @@
+---
+import type { Locale } from '../../types/i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+---
+
+<nav class="nav-lang" aria-label="Language switcher">
+  <a href="/"    class:list={['lang-link', { active: locale === 'en' }]}>EN</a>
+  <span class="sep">|</span>
+  <a href="/pt/" class:list={['lang-link', { active: locale === 'pt' }]}>PT</a>
+</nav>
+
+<style>
+  .nav-lang { display: flex; align-items: center; gap: var(--space-xs); font-size: 0.85rem; }
+  .lang-link { color: rgba(255,255,255,0.6); text-decoration: none; }
+  .lang-link:hover, .lang-link.active { color: #fff; }
+  .lang-link.active { font-weight: 600; }
+  .sep { color: rgba(255,255,255,0.3); }
+</style>
