@@ -1,5 +1,4 @@
 ---
-import { work } from "../../config/work";
 import { useTranslations } from "../../i18n/ui";
 import type { Locale } from "../../types/i18n";
 import SectionHeader from "./SectionHeader.astro";
@@ -18,12 +17,12 @@ const t = useTranslations(locale);
 
     <div class="work-table">
         {
-            work.map((w, i) => (
+            [0, 1, 2, 3].map((i) => (
                 <div class="work-row">
-                    <div class="work-yr">{w.yr}</div>
+                    <div class="work-yr">{t(`work.entry_${i}_yr`)}</div>
                     <div class="work-role">
                         {t(`work.entry_${i}_role`)}
-                        <span class="org">{w.org}</span>
+                        <span class="org">{t(`work.entry_${i}_org`)}</span>
                     </div>
                     <div class="work-note">{t(`work.entry_${i}_note`)}</div>
                 </div>
