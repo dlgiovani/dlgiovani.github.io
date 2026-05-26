@@ -1,6 +1,7 @@
 ---
 import '../styles/base.css';
 import { siteUrl, siteName } from '../config/site';
+import { siteTheme, headlineFonts } from '../config/theme';
 import type { Locale } from '../types/i18n';
 
 interface Props {
@@ -23,7 +24,8 @@ const canonicalPt = siteUrl + '/pt/';
 ---
 
 <!doctype html>
-<html lang={locale} data-theme="light" data-density="cozy">
+<html lang={locale} data-theme={siteTheme.defaultTheme} data-density={siteTheme.defaultDensity}
+      style={`--accent:${siteTheme.defaultAccent};--serif:${headlineFonts[siteTheme.defaultHeadlineFont]};`}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

@@ -2,15 +2,17 @@
 import { ticker } from '../../config/ticker';
 import type { Locale } from '../../types/i18n';
 import { useTranslations } from '../../i18n/ui';
+import { siteTheme } from '../../config/theme';
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 const items = [...ticker, ...ticker];
 const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
+const tickerDuration = Math.max(20, 80 / Math.max(siteTheme.tickerSpeed, 0.1));
 ---
 
 <div class="ticker" id="ticker">
-  <div class="ticker-track" id="ticker-track">
+  <div class="ticker-track" id="ticker-track" style={`animation-duration:${tickerDuration}s`}>
     {items.map((item) => {
       const deltaClass = !item.delta ? 'flat'
         : item.delta.startsWith('+') ? 'up'
@@ -104,14 +106,4 @@ const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
   }
 
   loadFact();
-
-  window.addEventListener('tweakchange', (e) => {
-    const detail = e.detail;
-    if ('tickerSpeed' in detail) {
-      const speed = Number(detail.tickerSpeed);
-      const dur = Math.max(20, 80 / Math.max(speed, 0.1));
-      const track = document.getElementById('ticker-track');
-      if (track) track.style.animationDuration = dur + 's';
-    }
-  });
 </script>

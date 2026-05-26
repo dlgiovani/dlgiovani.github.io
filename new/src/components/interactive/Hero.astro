@@ -1,10 +1,12 @@
 ---
 import type { Locale } from '../../types/i18n';
 import { useTranslations } from '../../i18n/ui';
+import { siteTheme } from '../../config/theme';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const t = useTranslations(locale);
+const apodEnabled = siteTheme.apod;
 ---
 
 <header class="hero" id="hero">
@@ -165,40 +167,23 @@ const t = useTranslations(locale);
   }
 </style>
 
-<script>
+<script define:vars={{ apodEnabled }}>
   const dateEl = document.getElementById('hero-date');
   if (dateEl) {
     dateEl.textContent = new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: '2-digit' });
   }
 
-  const apodEl = document.getElementById('hero-apod') as HTMLDivElement;
-  const metaEl = document.getElementById('hero-apod-meta') as HTMLDivElement;
-  const apodCredit = metaEl?.textContent ?? '';
-  let apodEnabled = false;
-
-  async function loadApod() {
-    if (!apodEnabled) return;
-    try {
-      const res = await fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY');
-      if (!res.ok) return;
-      const d = await res.json() as { media_type: string; hdurl?: string; url: string; title: string; date: string };
-      if (!d || d.media_type !== 'image') return;
-      apodEl.style.backgroundImage = `url(${d.hdurl || d.url})`;
-      apodEl.classList.add('on');
-      metaEl.innerHTML = `backdrop: NASA APOD · <span class="apod-title">${d.title}</span> · ${d.date}`;
-    } catch { /* fallback to star field */ }
+  if (apodEnabled) {
+    const apodEl = document.getElementById('hero-apod');
+    const metaEl = document.getElementById('hero-apod-meta');
+    fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY')
+      .then(r => r.ok ? r.json() : null)
+      .then(d => {
+        if (!d || d.media_type !== 'image') return;
+        apodEl.style.backgroundImage = 'url(' + (d.hdurl || d.url) + ')';
+        apodEl.classList.add('on');
+        metaEl.innerHTML = 'backdrop: NASA APOD · <span class="apod-title">' + d.title + '</span> · ' + d.date;
+      })
+      .catch(() => {});
   }
-
-  window.addEventListener('tweakchange', (e: Event) => {
-    const detail = (e as CustomEvent).detail as Record<string, unknown>;
-    if ('apod' in detail) {
-      apodEnabled = Boolean(detail.apod);
-      if (!apodEnabled) {
-        apodEl.classList.remove('on');
-        metaEl.textContent = apodCredit;
-      } else {
-        loadApod();
-      }
-    }
-  });
 </script>

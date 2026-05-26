@@ -28,13 +28,7 @@ const { locale } = Astro.props;
     const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', next);
     localStorage.setItem('tweak_theme', next);
-    window.dispatchEvent(new CustomEvent('tweakchange', { detail: { theme: next } }));
     syncIcon();
-  });
-
-  window.addEventListener('tweakchange', (e) => {
-    const ev = e as CustomEvent;
-    if (ev.detail?.theme) syncIcon();
   });
 </script>
 

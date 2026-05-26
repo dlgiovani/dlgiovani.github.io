@@ -2,27 +2,35 @@
    Two tabs:
      1. Pokémon × Weather  — search poké + city → live weather → animated card
      2. World map           — submitted picks plotted by city
-   The Pokémon card has 3 style variants (Pokédex device / TCG / Flat),
-   cycled via the `cardStyle` tweakchange event. */
+   The Pokémon card has 3 style variants (Pokédex device / TCG / Flat). */
 
 import * as React from 'react';
-import './playground.css';
 import { type CityResult } from '../../../lib/api/geocoding';
 import { getPokemonByName } from '../../../lib/api/pokeapi';
 import { fetchWeatherForCoords, type WeatherData } from '../../../lib/api/weather';
 import { typeColor } from '../../../lib/pokemon-utils';
 import type { PokemonStat, Pokemon as PokemonType } from '../../../types/pokemon';
 import { CitySearch } from './CitySearch';
+import './playground.css';
 import { PokemonSearch } from './PokemonSearch';
 
 /* ── Local types ────────────────────────────────────────────────────── */
 
 interface WeatherEffect { boosts: Record<string, number>; debuffs: Record<string, number>; mood: string; vibe: string; emoji: string; }
 type WeatherEffects = Record<string, WeatherEffect>;
+
+interface PgStrings {
+  kicker: string; title_1: string; title_2: string; title_em: string; lead: string;
+  tab_weather: string; tab_map: string; step_pokemon: string; step_city: string;
+  save_label: string; save_done: string; loading_pokemon: string;
+  map_title: string; map_loading: string; map_empty_list: string; map_empty_map: string; map_top: string;
+}
+
 interface PlaygroundProps {
   weatherEffects: WeatherEffects;
   cardStyle?: string;
   apiUrl?: string;
+  strings?: PgStrings;
 }
 
 /* ── Helpers ────────────────────────────────────────────────────────── */
@@ -269,7 +277,7 @@ function latLonToXY(lat: number, lon: number): { x: number; y: number } {
   return { x: (lon + 180) / 360 * 100, y: (90 - lat) / 180 * 100 };
 }
 
-function MapTab({ apiUrl }: { apiUrl: string }) {
+function MapTab({ apiUrl, strings }: { apiUrl: string; strings: PgStrings }) {
   const [pins, setPins] = React.useState<CityPin[]>([]);
   const [hover, setHover] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(true);
@@ -339,7 +347,7 @@ function MapTab({ apiUrl }: { apiUrl: string }) {
                   <div className="pulse" />
                   <div className="tip">
                     {c.city}<br />
-                    top: <b>{c.top_pokemon}</b> ({c.count})
+                    {strings.map_top}<b>{c.top_pokemon}</b> ({c.count})
                   </div>
                 </div>
               );
@@ -347,7 +355,7 @@ function MapTab({ apiUrl }: { apiUrl: string }) {
           </div>
         </div>
         {!loading && pins.length === 0 && (
-          <div className="map-empty">no picks yet — be the first →</div>
+          <div className="map-empty">{strings.map_empty_map}</div>
         )}
         <div className="map-zoom-controls">
           <button onClick={() => setZoom(z => Math.min(5, +(z + 0.5).toFixed(2)))}>+</button>
@@ -362,12 +370,12 @@ function MapTab({ apiUrl }: { apiUrl: string }) {
       </div>
 
       <div className="map-side">
-        <h4>where players are</h4>
+        <h4>{strings.map_title}</h4>
         <div className="list">
           {loading
-            ? <div className="map-notice">loading…</div>
+            ? <div className="map-notice">{strings.map_loading}</div>
             : pins.length === 0
-              ? <div className="map-notice">submit a pick to appear here</div>
+              ? <div className="map-notice">{strings.map_empty_list}</div>
               : pins.map(c => (
                 <div className="map-row" key={c.city}
                   onMouseEnter={() => setHover(c.city)}
@@ -375,7 +383,7 @@ function MapTab({ apiUrl }: { apiUrl: string }) {
                   style={{ background: hover === c.city ? 'color-mix(in oklch, var(--accent) 8%, transparent)' : 'transparent' }}>
                   <div>
                     <div className="city">{c.city}</div>
-                    <div className="top">top: {c.top_pokemon}</div>
+                    <div className="top">{strings.map_top}{c.top_pokemon}</div>
                   </div>
                   <div className="count">{c.count}</div>
                 </div>
@@ -394,7 +402,18 @@ function MapTab({ apiUrl }: { apiUrl: string }) {
 const LISBON = { lat: 38.7167, lon: -9.1333 };
 const DEFAULT_WEATHER: WeatherData = { temp: 20, kind: 'sunny', desc: 'pleasant' };
 
-export function Playground({ weatherEffects, cardStyle: initialCardStyle = 'flat', apiUrl = 'http://localhost:8000' }: PlaygroundProps) {
+const DEFAULT_STRINGS: PgStrings = {
+  kicker: '04 — playground', title_1: 'Things I built', title_2: 'that you can ', title_em: 'poke',
+  lead: 'The point of the integration work is what it lets you do. Below: a Pokémon × weather toy. Two tabs.',
+  tab_weather: 'pokémon × weather', tab_map: 'world map of picks',
+  step_pokemon: '1 · pick a pokémon', step_city: '2 · your city',
+  save_label: 'send my pick to the wall (anonymous). helps the map grow.',
+  save_done: '✓ saved · thanks. see the map tab →', loading_pokemon: 'loading pokémon…',
+  map_title: 'where players are', map_loading: 'loading…',
+  map_empty_list: 'submit a pick to appear here', map_empty_map: 'no picks yet — be the first →', map_top: 'top: ',
+};
+
+export function Playground({ weatherEffects, cardStyle: initialCardStyle = 'flat', apiUrl = 'http://localhost:8000', strings = DEFAULT_STRINGS }: PlaygroundProps) {
   const [selectedPokemon, setSelectedPokemon] = React.useState<PokemonType | null>(null);
   const [weather, setWeather] = React.useState<WeatherData>(DEFAULT_WEATHER);
   const [cityLabel, setCityLabel] = React.useState('Lisbon');
@@ -416,14 +435,6 @@ export function Playground({ weatherEffects, cardStyle: initialCardStyle = 'flat
     fetchWeatherForCoords(LISBON.lat, LISBON.lon).then(setWeather);
   }, []);
 
-  React.useEffect(() => {
-    const handler = (e: Event) => {
-      const detail = (e as CustomEvent).detail as Record<string, unknown>;
-      if ('cardStyle' in detail) setCardStyle(String(detail.cardStyle));
-    };
-    window.addEventListener('tweakchange', handler);
-    return () => window.removeEventListener('tweakchange', handler);
-  }, []);
 
   const handleCitySelect = React.useCallback((city: CityResult) => {
     setCityLabel(city.name);
@@ -443,39 +454,42 @@ export function Playground({ weatherEffects, cardStyle: initialCardStyle = 'flat
         <div className="pg-intro">
           <div>
             <div className="sec-head">
-              <div className="kicker">04 — playground</div>
+              <div className="kicker">{strings.kicker}</div>
             </div>
             <h2>
-              Things I built<br />that you can <em>poke</em>.
+              {strings.title_1}<br />{strings.title_2}<em>{strings.title_em}</em>.
             </h2>
           </div>
-          <p className="pg-lead">
-            The point of the integration work isn't the integration — it's what it lets
-            you do. Below: a small toy that wires up the Pokémon API to a weather feed,
-            uses both to compute a result, and (if you opt in) tells me where you played
-            from. Two tabs.
-          </p>
+          <p className="pg-lead">{strings.lead}</p>
         </div>
 
         <div className="pg-tabs">
           <button className={`pg-tab ${tab === 'weather' ? 'active' : ''}`}
             onClick={() => setTab('weather')}>
-            <span className="n">01</span>pokémon × weather
+            <span className="n">01</span>{strings.tab_weather}
           </button>
           <button className={`pg-tab ${tab === 'map' ? 'active' : ''}`}
             onClick={() => setTab('map')}>
-            <span className="n">02</span>world map of picks
+            <span className="n">02</span>{strings.tab_map}
           </button>
         </div>
 
         {tab === 'weather' && (
           <div className="pg-stage">
             <div className="pg-controls">
-              <h4>1 · pick a pokémon</h4>
+              <h4>{strings.step_pokemon}</h4>
               <PokemonSearch onSelect={setSelectedPokemon} />
 
-              <h4>2 · your city</h4>
+              <h4>{strings.step_city}</h4>
               <CitySearch onSelect={handleCitySelect} />
+
+              {/* <h4>3 · card style</h4>
+              <div className="style-btns">
+                {(['flat', 'pokedex', 'tcg'] as const).map(s => (
+                  <button key={s} className={`style-btn${cardStyle === s ? ' active' : ''}`}
+                    onClick={() => setCardStyle(s)}>{s}</button>
+                ))}
+              </div> */}
 
               <div className="save-row">
                 <label>
@@ -500,15 +514,12 @@ export function Playground({ weatherEffects, cardStyle: initialCardStyle = 'flat
                           }),
                         })
                           .then(() => localStorage.setItem('pg_pick', JSON.stringify({ name: selectedPokemon.name, city: cityLabel })))
-                          .catch(() => {});
+                          .catch(() => { });
                       }
                     }} />
-                  <span>
-                    send my pick to the wall (anonymous — only city + pokémon).
-                    helps the map grow.
-                  </span>
+                  <span>{strings.save_label}</span>
                 </label>
-                {saved && <div className="saved">✓ saved · thanks. see the map tab →</div>}
+                {saved && <div className="saved">{strings.save_done}</div>}
               </div>
             </div>
 
@@ -520,15 +531,13 @@ export function Playground({ weatherEffects, cardStyle: initialCardStyle = 'flat
                   </div>
                 </WeatherScene>
               ) : (
-                <div className="pg-card-placeholder">
-                  loading pokémon…
-                </div>
+                <div className="pg-card-placeholder">{strings.loading_pokemon}</div>
               )}
             </div>
           </div>
         )}
 
-        {tab === 'map' && <MapTab apiUrl={apiUrl} />}
+        {tab === 'map' && <MapTab apiUrl={apiUrl} strings={strings} />}
       </div>
     </section>
   );

@@ -8,12 +8,33 @@ import CodeSection from '../components/static/CodeSection.astro';
 import Signals from '../components/interactive/Signals.astro';
 import Footer from '../components/static/Footer.astro';
 import { Playground } from '../components/islands/playground/Playground';
-import { TweaksPanel } from '../components/islands/TweaksPanel';
 import LangThemeBar from '../components/interactive/LangThemeBar.astro';
 import { WEATHER_EFFECTS } from '../config/pokemon';
+import { siteTheme } from '../config/theme';
+import { useTranslations } from '../i18n/ui';
 
 const locale = 'en';
 const apiUrl = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
+const t = useTranslations(locale);
+const pgStrings = {
+  kicker:          t('playground.kicker'),
+  title_1:         t('playground.title_1'),
+  title_2:         t('playground.title_2'),
+  title_em:        t('playground.title_em'),
+  lead:            t('playground.lead'),
+  tab_weather:     t('playground.tab_weather'),
+  tab_map:         t('playground.tab_map'),
+  step_pokemon:    t('playground.step_pokemon'),
+  step_city:       t('playground.step_city'),
+  save_label:      t('playground.save_label'),
+  save_done:       t('playground.save_done'),
+  loading_pokemon: t('playground.loading_pokemon'),
+  map_title:       t('playground.map_title'),
+  map_loading:     t('playground.map_loading'),
+  map_empty_list:  t('playground.map_empty_list'),
+  map_empty_map:   t('playground.map_empty_map'),
+  map_top:         t('playground.map_top'),
+};
 ---
 
 <Base title={undefined} locale={locale}>
@@ -28,12 +49,13 @@ const apiUrl = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
       client:visible
       weatherEffects={WEATHER_EFFECTS}
       apiUrl={apiUrl}
+      cardStyle={siteTheme.defaultCardStyle}
+      strings={pgStrings}
     />
   </div>
 
   <Signals locale={locale} />
   <Footer locale={locale} />
 
-  <TweaksPanel client:load />
   <LangThemeBar locale={locale} />
 </Base>

@@ -1,132 +1,185 @@
 ---
-import { Image } from 'astro:assets';
-import SectionHeader from './SectionHeader.astro';
-import type { Locale } from '../../types/i18n';
-import { useTranslations } from '../../i18n/ui';
-import { skills } from '../../config/skills';
-import { person } from '../../config/person';
-import portrait from '../../assets/portrait.jpeg';
+import { Image } from "astro:assets";
+import portrait from "../../assets/portrait.png";
+import { person } from "../../config/person";
+import { skills } from "../../config/skills";
+import { useTranslations } from "../../i18n/ui";
+import type { Locale } from "../../types/i18n";
+import SectionHeader from "./SectionHeader.astro";
 
-interface Props { locale: Locale }
+interface Props {
+    locale: Locale;
+}
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 ---
 
 <section id="about" class="sec sec-about">
-  <div class="about-portrait">
-    <div class="frame">
-      <Image src={portrait} alt={person.name} class="portrait-img" />
-    </div>
-    <div class="cap">
-      <span>{person.handle}</span>
-      <span>{person.location}</span>
-    </div>
-  </div>
-
-  <div class="about-body">
-    <SectionHeader kicker={t('about.kicker')} />
-    <p set:html={t('about.bio_1')} />
-    <p set:html={t('about.bio_2')} />
-
-    <div class="about-meta">
-      <div>
-        <h4>{t('about.now_label')}</h4>
-        <ul>
-          <li>· {t('about.now_0')}</li>
-          <li>· {t('about.now_1')}</li>
-          <li>· {t('about.now_2')}</li>
-          <li>· {t('about.now_3')}</li>
-        </ul>
-      </div>
-      <div>
-        <h4>{t('about.links_label')}</h4>
-        <ul class="links">
-          <li>· <a href={person.links.github} target="_blank" rel="noopener noreferrer">github / {person.handle}</a></li>
-          <li>· <a href={person.links.linkedin} target="_blank" rel="noopener noreferrer">linkedin / {person.handle}</a></li>
-          <li>· <a href={`mailto:${person.email}`}>{person.email}</a></li>
-          <li>· <a href={person.links.resume} target="_blank" rel="noopener noreferrer">resume.pdf</a></li>
-        </ul>
-      </div>
-      <div class="full-col">
-        <h4>{t('about.stack_label')}</h4>
-        <div class="skills-wrap">
-          {skills.map(s => <span class="skill">{s}</span>)}
+    <div class="about-portrait">
+        <div class="frame">
+            <Image src={portrait} alt={person.name} class="portrait-img" />
         </div>
-      </div>
+        <div class="cap">
+            <span>{person.handle}</span>
+            <span>{person.location}</span>
+        </div>
     </div>
-  </div>
+
+    <div class="about-body">
+        <SectionHeader kicker={t("about.kicker")} />
+        <p set:html={t("about.bio_1")} />
+        <p set:html={t("about.bio_2")} />
+
+        <div class="about-meta">
+            <div>
+                <h4>{t("about.now_label")}</h4>
+                <ul>
+                    <li>· {t("about.now_0")}</li>
+                    <li>· {t("about.now_1")}</li>
+                    <li>· {t("about.now_2")}</li>
+                    <li>· {t("about.now_3")}</li>
+                </ul>
+            </div>
+            <div>
+                <h4>{t("about.links_label")}</h4>
+                <ul class="links">
+                    <li>
+                        · <a href={person.links.github} target="_blank" rel="noopener noreferrer"
+                            >github / {person.handle}</a
+                        >
+                    </li>
+                    <li>
+                        · <a href={person.links.linkedin} target="_blank" rel="noopener noreferrer"
+                            >linkedin / {person.handle}</a
+                        >
+                    </li>
+                    <li>· <a href={`mailto:${person.email}`}>{person.email}</a></li>
+                    <li>· <a href={person.links.resume} target="_blank" rel="noopener noreferrer">resume.pdf</a></li>
+                </ul>
+            </div>
+            <div class="full-col">
+                <h4>{t("about.stack_label")}</h4>
+                <div class="skills-wrap">
+                    {skills.map(s => <span class="skill">{s}</span>)}
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 <style>
-  .sec-about {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 72px;
-    align-items: start;
-  }
-  .about-portrait { position: sticky; top: 40px; }
-  .about-portrait .frame {
-    aspect-ratio: 4/5;
-    border: var(--border);
-    overflow: hidden;
-  }
-  .portrait-img {
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: center top;
-    display: block;
-  }
-  .about-portrait .cap {
-    margin-top: 10px;
-    font-family: var(--mono); font-size: 11px; color: var(--muted);
-    display: flex; justify-content: space-between;
-  }
-  .about-body p {
-    font-family: var(--serif);
-    font-size: clamp(22px, 2.2vw, 30px);
-    line-height: 1.35;
-    font-weight: 400;
-    letter-spacing: -0.005em;
-    margin: 0 0 28px 0;
-    text-wrap: pretty;
-  }
-  .about-body p em { font-style: italic; color: var(--ink); }
-  .about-meta {
-    margin-top: 56px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px 56px;
-  }
-  .about-meta h4 {
-    font-family: var(--mono);
-    font-size: 10.5px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin: 0 0 14px 0;
-    font-weight: 500;
-  }
-  .about-meta ul {
-    list-style: none; padding: 0; margin: 0;
-    display: flex; flex-direction: column; gap: 6px;
-    font-size: 15px; line-height: 1.5;
-  }
-  .full-col { grid-column: 1 / -1; }
-  .skills-wrap { display: flex; flex-wrap: wrap; gap: 6px 0; }
-  .skill {
-    font-family: var(--mono); font-size: 12px;
-    padding: 4px 10px; margin-right: 6px; margin-bottom: 6px;
-    border: var(--border); color: var(--ink); background: var(--surface);
-  }
-  .links a {
-    color: var(--ink); text-decoration: none;
-    border-bottom: var(--border); padding-bottom: 1px;
-  }
-  .links a:hover { border-bottom-color: var(--accent); color: var(--accent); }
+    .sec-about {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 72px;
+        align-items: start;
+    }
+    .about-portrait {
+        position: sticky;
+        top: 40px;
+    }
+    .about-portrait .frame {
+        aspect-ratio: 4/5;
+        border: var(--border);
+        overflow: hidden;
+    }
+    .portrait-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+        display: block;
+    }
+    .about-portrait .cap {
+        margin-top: 10px;
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--muted);
+        display: flex;
+        justify-content: space-between;
+    }
+    .about-body p {
+        font-family: var(--serif);
+        font-size: clamp(22px, 2.2vw, 30px);
+        line-height: 1.35;
+        font-weight: 400;
+        letter-spacing: -0.005em;
+        margin: 0 0 28px 0;
+        text-wrap: pretty;
+    }
+    .about-body p em {
+        font-style: italic;
+        color: var(--ink);
+    }
+    .about-meta {
+        margin-top: 56px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px 56px;
+    }
+    .about-meta h4 {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin: 0 0 14px 0;
+        font-weight: 500;
+    }
+    .about-meta ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        font-size: 15px;
+        line-height: 1.5;
+    }
+    .full-col {
+        grid-column: 1 / -1;
+    }
+    .skills-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 0;
+    }
+    .skill {
+        font-family: var(--mono);
+        font-size: 12px;
+        padding: 4px 10px;
+        margin-right: 6px;
+        margin-bottom: 6px;
+        border: var(--border);
+        color: var(--ink);
+        background: var(--surface);
+    }
+    .links a {
+        color: var(--ink);
+        text-decoration: none;
+        border-bottom: var(--border);
+        padding-bottom: 1px;
+    }
+    .links a:hover {
+        border-bottom-color: var(--accent);
+        color: var(--accent);
+    }
 
-  @media (max-width: 768px) {
-    .sec-about { grid-template-columns: 1fr; gap: 40px; }
-    .about-portrait { position: static; max-width: 260px; }
-    .about-meta { grid-template-columns: 1fr; gap: 32px; }
-    .full-col { grid-column: 1; }
-  }
+    @media (max-width: 768px) {
+        .sec-about {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+        .about-portrait {
+            position: static;
+            max-width: 260px;
+        }
+        .about-meta {
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+        .full-col {
+            grid-column: 1;
+        }
+    }
 </style>
