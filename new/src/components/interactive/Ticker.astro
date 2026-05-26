@@ -106,4 +106,21 @@ const tickerDuration = Math.max(20, 80 / Math.max(siteTheme.tickerSpeed, 0.1));
   }
 
   loadFact();
+
+  async function loadGithubTicker() {
+    try {
+      const data = await fetch(`${api}/api/github-stats`).then(r => r.ok ? r.json() : null);
+      if (!data) return;
+      const count = data?.stats?.commits_today ?? 0;
+      document.querySelectorAll('.ticker-item').forEach(item => {
+        const kindEl = item.querySelector('.ticker-kind');
+        const valueEl = item.querySelector('.ticker-value');
+        if (kindEl?.textContent?.trim() === 'git' && valueEl) {
+          valueEl.textContent = String(count);
+        }
+      });
+    } catch { /* keep placeholder */ }
+  }
+
+  loadGithubTicker();
 </script>

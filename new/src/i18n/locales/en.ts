@@ -79,6 +79,7 @@ const en = {
     guestbook_sent: '✓ sent — thanks.',
     guestbook_update: 'update your mark →',
     guestbook_updated: '✓ updated — thanks.',
+    guestbook_more: 'load more →',
   },
   footer: {
     cta_prefix: 'Got an ',
@@ -114,6 +115,13 @@ const en = {
     map_empty_list: 'submit a pick to appear here',
     map_empty_map: 'no picks yet — be the first →',
     map_top: 'top: ',
+    card_no_wx_effect: 'no weather effect on this type.',
+    card_basic: 'basic · NO. ',
+    card_boosted_by: 'boosted by',
+    card_opener: 'a reliable opener.',
+    card_weakness: 'weakness: see chart',
+    card_retreat: 'retreat: ●●',
+    card_specimen: 'specimen',
   },
 } as const;
 

@@ -1,340 +1,617 @@
 ---
-import SectionHeader from '../static/SectionHeader.astro';
-import type { Locale } from '../../types/i18n';
-import { useTranslations } from '../../i18n/ui';
+import SectionHeader from "../static/SectionHeader.astro";
+import type { Locale } from "../../types/i18n";
+import { useTranslations } from "../../i18n/ui";
 
-interface Props { locale: Locale }
+interface Props {
+    locale: Locale;
+}
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
+const API = import.meta.env.PUBLIC_API_URL ?? "http://localhost:8000";
 ---
 
 <section id="signals" class="sec sec-signals">
-  <SectionHeader
-    kicker={t('signals.kicker')}
-    title={t('signals.title')}
-    lead={t('signals.lead')}
-  />
+    <SectionHeader kicker={t("signals.kicker")} title={t("signals.title")} lead={t("signals.lead")} />
 
-  <div class="signals-grid">
-    <div>
-      <div class="card-block">
-        <h3>{t('signals.visitors_title')}</h3>
-        <div class="sub">{t('signals.visitors_since')}</div>
-        <div class="counter-row">
-          <div class="counter">
-            <div class="v loading" id="sig-total">—</div>
-            <div class="l">{t('signals.counter_total')}</div>
-          </div>
-          <div class="counter">
-            <div class="v loading" id="sig-today">—</div>
-            <div class="l">{t('signals.counter_today')}</div>
-          </div>
-          <div class="counter">
-            <div class="v loading" id="sig-cities">—</div>
-            <div class="l">{t('signals.counter_cities')}</div>
-          </div>
-          <div class="counter">
-            <div class="v loading" id="sig-countries">—</div>
-            <div class="l">{t('signals.counter_countries')}</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card-block card-block--spaced">
-        <h3>{t('signals.pokemon_title')}</h3>
-        <div class="sub">{t('signals.pokemon_sub')}</div>
-        <div class="top-chart loading" id="sig-picks">
-          {Array.from({ length: 8 }).map(() => (
-            <div class="top-row skeleton">
-              <span class="name skel-bar"></span>
-              <div class="bar-track"><div class="bar skel-bar" style="width:60%"></div></div>
-              <span class="count skel-bar"></span>
+    <div class="signals-grid">
+        <div>
+            <div class="card-block">
+                <h3>{t("signals.visitors_title")}</h3>
+                <div class="sub">{t("signals.visitors_since")}</div>
+                <div class="counter-row">
+                    <div class="counter">
+                        <div class="v loading" id="sig-total">—</div>
+                        <div class="l">{t("signals.counter_total")}</div>
+                    </div>
+                    <div class="counter">
+                        <div class="v loading" id="sig-today">—</div>
+                        <div class="l">{t("signals.counter_today")}</div>
+                    </div>
+                    <div class="counter">
+                        <div class="v loading" id="sig-cities">—</div>
+                        <div class="l">{t("signals.counter_cities")}</div>
+                    </div>
+                    <div class="counter">
+                        <div class="v loading" id="sig-countries">—</div>
+                        <div class="l">{t("signals.counter_countries")}</div>
+                    </div>
+                </div>
             </div>
-          ))}
-        </div>
-      </div>
-    </div>
 
-    <div class="card-block">
-      <h3>{t('signals.guestbook_title')}</h3>
-      <div class="sub">{t('signals.guestbook_sub')}</div>
-
-      <div class="guest-list loading" id="sig-guestbook">
-        {Array.from({ length: 3 }).map(() => (
-          <div class="guest-entry skeleton">
-            <div>
-              <div class="who skel-bar" style="width:120px;height:14px"></div>
-              <div class="msg skel-bar" style="width:80%;height:14px;margin-top:6px"></div>
+            <div class="card-block card-block--spaced">
+                <h3>{t("signals.pokemon_title")}</h3>
+                <div class="sub">{t("signals.pokemon_sub")}</div>
+                <div class="top-chart loading" id="sig-picks">
+                    {
+                        Array.from({ length: 8 }).map(() => (
+                            <div class="top-row skeleton">
+                                <span class="name skel-bar" />
+                                <div class="bar-track">
+                                    <div class="bar skel-bar" style="width:60%" />
+                                </div>
+                                <span class="count skel-bar" />
+                            </div>
+                        ))
+                    }
+                </div>
+                <div class="pick-pagination" id="pick-pagination" style="display:none">
+                    <button id="pick-prev" aria-label="previous">←</button>
+                    <span id="pick-page"></span>
+                    <button id="pick-next" aria-label="next">→</button>
+                </div>
             </div>
-            <div class="when skel-bar" style="width:28px;height:11px"></div>
-          </div>
-        ))}
-      </div>
-
-      <form class="guest-form" id="guest-form">
-        <input placeholder={t('signals.guestbook_name_ph')} name="name" required />
-        <input placeholder={t('signals.guestbook_city_ph')} name="city" />
-        <textarea placeholder={t('signals.guestbook_msg_ph')} name="msg" required></textarea>
-        <div class="row">
-          <button type="submit"
-            data-label-default={t('signals.guestbook_submit')}
-            data-label-sent={t('signals.guestbook_sent')}
-            data-label-update={t('signals.guestbook_update')}
-            data-label-updated={t('signals.guestbook_updated')}>
-            {t('signals.guestbook_submit')}
-          </button>
         </div>
-      </form>
+
+        <div class="card-block">
+            <h3>{t("signals.guestbook_title")}</h3>
+            <div class="sub">{t("signals.guestbook_sub")}</div>
+
+            <div class="guest-list loading" id="sig-guestbook">
+                {
+                    Array.from({ length: 3 }).map(() => (
+                        <div class="guest-entry skeleton">
+                            <div>
+                                <div class="who skel-bar" style="width:120px;height:14px" />
+                                <div class="msg skel-bar" style="width:80%;height:14px;margin-top:6px" />
+                            </div>
+                            <div class="when skel-bar" style="width:28px;height:11px" />
+                        </div>
+                    ))
+                }
+            </div>
+
+            <div class="guest-pagination" id="guest-pagination" style="display:none">
+                <button id="guest-prev" aria-label="previous page">←</button>
+                <span id="guest-page">1</span>
+                <button id="guest-next" aria-label="next page">→</button>
+            </div>
+
+            <form class="guest-form" id="guest-form">
+                <input placeholder={t("signals.guestbook_name_ph")} name="name" required />
+                <input placeholder={t("signals.guestbook_city_ph")} name="city" />
+                <textarea placeholder={t("signals.guestbook_msg_ph")} name="msg" required></textarea>
+                <div class="row">
+                    <button
+                        type="submit"
+                        data-label-default={t("signals.guestbook_submit")}
+                        data-label-sent={t("signals.guestbook_sent")}
+                        data-label-update={t("signals.guestbook_update")}
+                        data-label-updated={t("signals.guestbook_updated")}
+                    >
+                        {t("signals.guestbook_submit")}
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
 </section>
 
 <style>
-  .sec-signals .signals-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 56px;
-    margin-top: 48px;
-  }
-  .card-block { border: var(--border); padding: 28px; background: var(--surface); }
-  .card-block--spaced { margin-top: 20px; }
-  .card-block h3 { font-family: var(--serif); font-size: 26px; font-weight: 400; margin: 0 0 6px 0; }
-  .card-block .sub {
-    font-family: var(--mono); font-size: 11px;
-    color: var(--muted); letter-spacing: 0.04em;
-    margin-bottom: 24px;
-  }
-  .counter-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .counter { padding: 18px 0; border-top: var(--border); }
-  .counter .v {
-    font-family: var(--serif);
-    font-size: clamp(38px, 4.6vw, 60px);
-    line-height: 1; letter-spacing: -0.02em;
-  }
-  .counter .l {
-    font-family: var(--mono); font-size: 11px;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--muted); margin-top: 6px;
-  }
-  .top-chart { display: flex; flex-direction: column; gap: 10px; }
+    .sec-signals .signals-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 56px;
+        margin-top: 48px;
+    }
+    .card-block {
+        border: var(--border);
+        padding: 28px;
+        background: var(--surface);
+    }
+    .card-block--spaced {
+        margin-top: 20px;
+    }
+    .card-block h3 {
+        font-family: var(--serif);
+        font-size: 26px;
+        font-weight: 400;
+        margin: 0 0 6px 0;
+    }
+    .card-block .sub {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--muted);
+        letter-spacing: 0.04em;
+        margin-bottom: 24px;
+    }
+    .counter-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+    }
+    .counter {
+        padding: 18px 0;
+        border-top: var(--border);
+    }
+    .counter .v {
+        font-family: var(--serif);
+        font-size: clamp(38px, 4.6vw, 60px);
+        line-height: 1;
+        letter-spacing: -0.02em;
+    }
+    .counter .l {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-top: 6px;
+    }
+    .top-chart {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
 
-  /* :global needed — injected via innerHTML */
-  :global(.top-row) {
-    display: grid; grid-template-columns: 90px 1fr 40px;
-    align-items: center; gap: 12px;
-    font-family: var(--mono); font-size: 13px;
-  }
-  :global(.top-row .name) { text-transform: capitalize; }
-  :global(.bar-track) { height: 6px; background: var(--surface); position: relative; }
-  :global(.top-row .bar) { height: 100%; background: var(--accent); opacity: 0.85; transform-origin: left; }
-  :global(.top-row .count) { color: var(--muted); text-align: right; font-size: 12px; }
+    /* :global needed — injected via innerHTML */
+    :global(.top-row) {
+        display: grid;
+        grid-template-columns: 90px 1fr 40px;
+        align-items: center;
+        gap: 12px;
+        font-family: var(--mono);
+        font-size: 13px;
+    }
+    :global(.top-row .name) {
+        text-transform: capitalize;
+    }
+    :global(.bar-track) {
+        height: 6px;
+        background: var(--line-soft);
+        position: relative;
+    }
+    :global(.top-row .bar) {
+        height: 100%;
+        background: var(--accent);
+        opacity: 0.85;
+        transform-origin: left;
+    }
+    :global(.top-row .count) {
+        color: var(--muted);
+        text-align: right;
+        font-size: 12px;
+    }
 
-  .guest-list { display: flex; flex-direction: column; margin-bottom: 8px; }
+    .guest-list {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 8px;
+    }
 
-  /* :global needed — these classes are injected via innerHTML and don't get Astro's scope attr */
-  :global(.guest-entry) {
-    padding: 20px 0;
-    border-top: var(--border);
-  }
-  :global(.guest-entry:last-child) { border-bottom: var(--border); }
-  :global(.guest-msg) {
-    font-family: var(--serif);
-    font-size: 18px;
-    line-height: 1.45;
-    font-style: italic;
-    color: var(--ink);
-    margin-bottom: 12px;
-  }
-  :global(.guest-foot) {
-    display: flex;
-    align-items: baseline;
-    gap: 0;
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.02em;
-  }
-  :global(.guest-name) { color: var(--ink); font-weight: 500; }
-  :global(.guest-city) { margin-left: 6px; }
-  :global(.guest-when) { margin-left: auto; }
+    /* :global needed — these classes are injected via innerHTML and don't get Astro's scope attr */
+    :global(.guest-entry) {
+        padding: 20px 0;
+        border-top: var(--border);
+    }
+    :global(.guest-entry:last-child) {
+        border-bottom: var(--border);
+    }
+    :global(.guest-msg) {
+        font-family: var(--serif);
+        font-size: 18px;
+        line-height: 1.45;
+        font-style: italic;
+        color: var(--ink);
+        margin-bottom: 12px;
+    }
+    :global(.guest-foot) {
+        display: flex;
+        align-items: baseline;
+        gap: 0;
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--muted);
+        letter-spacing: 0.02em;
+    }
+    :global(.guest-name) {
+        color: var(--ink);
+        font-weight: 500;
+    }
+    :global(.guest-city) {
+        margin-left: 6px;
+    }
+    :global(.guest-when) {
+        margin-left: auto;
+    }
 
-  .guest-form { margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .guest-form .row { grid-column: 1 / -1; display: flex; gap: 8px; }
-  .guest-form input, .guest-form textarea {
-    font-family: var(--mono); font-size: 13px; padding: 10px 12px;
-    background: var(--paper); border: var(--border);
-    color: var(--ink); outline: none; width: 100%;
-  }
-  .guest-form input:focus, .guest-form textarea:focus { border-color: var(--accent); }
-  .guest-form textarea { resize: vertical; min-height: 60px; grid-column: 1 / -1; }
-  .guest-form button {
-    font-family: var(--mono); font-size: 12px;
-    padding: 10px 18px; background: var(--ink); color: var(--paper);
-    border: none; cursor: pointer; letter-spacing: 0.05em;
-    transition: background 0.15s;
-  }
-  .guest-form button:hover { background: var(--accent); }
-  .guest-form button.sent { background: var(--accent); }
-  .guest-form button:disabled { opacity: 0.6; cursor: not-allowed; }
-  .guest-already { font-family: var(--mono); font-size: 12px; color: var(--muted); padding-top: 16px; }
+    .guest-form {
+        margin-top: 24px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+    .guest-form .row {
+        grid-column: 1 / -1;
+        display: flex;
+        gap: 8px;
+    }
+    .guest-form input,
+    .guest-form textarea {
+        font-family: var(--mono);
+        font-size: 13px;
+        padding: 10px 12px;
+        background: var(--paper);
+        border: var(--border);
+        color: var(--ink);
+        outline: none;
+        width: 100%;
+    }
+    .guest-form input:focus,
+    .guest-form textarea:focus {
+        border-color: var(--accent);
+    }
+    .guest-form textarea {
+        resize: vertical;
+        min-height: 60px;
+        grid-column: 1 / -1;
+    }
+    .guest-form button {
+        font-family: var(--mono);
+        font-size: 12px;
+        padding: 10px 18px;
+        background: var(--ink);
+        color: var(--paper);
+        border: none;
+        cursor: pointer;
+        letter-spacing: 0.05em;
+        transition: background 0.15s;
+    }
+    .guest-form button:hover {
+        background: var(--accent);
+    }
+    .guest-form button.sent {
+        background: var(--accent);
+    }
+    .guest-form button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
 
-  .loading { opacity: 0.5; }
-  .skel-bar {
-    display: inline-block; background: var(--line-soft);
-    border-radius: 2px; animation: shimmer 1.4s ease-in-out infinite;
-  }
-  @keyframes shimmer {
-    0%, 100% { opacity: 0.4; }
-    50%       { opacity: 0.9; }
-  }
+    .pick-pagination,
+    .guest-pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        margin-top: 12px;
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--muted);
+    }
+    .pick-pagination button,
+    .guest-pagination button {
+        background: transparent;
+        border: var(--border);
+        color: var(--ink);
+        padding: 4px 12px;
+        cursor: pointer;
+        font-family: var(--mono);
+        font-size: 12px;
+        line-height: 1;
+    }
+    .pick-pagination button:disabled,
+    .guest-pagination button:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
+    .pick-pagination button:hover:not(:disabled),
+    .guest-pagination button:hover:not(:disabled) {
+        border-color: var(--accent);
+        color: var(--accent);
+    }
 
-  @media (max-width: 768px) {
-    .sec-signals .signals-grid { grid-template-columns: 1fr; gap: 32px; }
-    .counter-row { grid-template-columns: 1fr 1fr; }
-    .guest-form { grid-template-columns: 1fr; }
-    .guest-form .row { grid-column: 1; }
-  }
+    .loading {
+        opacity: 0.5;
+    }
+    .skel-bar {
+        display: inline-block;
+        background: var(--line-soft);
+        border-radius: 2px;
+        animation: shimmer 1.4s ease-in-out infinite;
+    }
+    @keyframes shimmer {
+        0%,
+        100% {
+            opacity: 0.4;
+        }
+        50% {
+            opacity: 0.9;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .sec-signals .signals-grid {
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+        .counter-row {
+            grid-template-columns: 1fr 1fr;
+        }
+        .guest-form {
+            grid-template-columns: 1fr;
+        }
+        .guest-form .row {
+            grid-column: 1;
+        }
+    }
 </style>
 
 <script define:vars={{ API }}>
-  const api = API;
+    const api = API;
 
-  function timeAgo(dateStr) {
-    const diff = Date.now() - new Date(dateStr).getTime();
-    const min = Math.floor(diff / 60000);
-    if (min < 60) return `${min}m`;
-    const hr = Math.floor(min / 60);
-    if (hr < 24) return `${hr}h`;
-    return `${Math.floor(hr / 24)}d`;
-  }
-
-  async function loadSignals() {
-    try {
-      const [sig, picks, guests] = await Promise.all([
-        fetch(`${api}/api/signals`).then(r => r.json()),
-        fetch(`${api}/api/picks`).then(r => r.json()),
-        fetch(`${api}/api/guestbook`).then(r => r.json()),
-      ]);
-
-      // counters
-      const total = document.getElementById('sig-total');
-      const today = document.getElementById('sig-today');
-      const cities = document.getElementById('sig-cities');
-      const countries = document.getElementById('sig-countries');
-      if (total) { total.textContent = sig.total.toLocaleString(); total.classList.remove('loading'); }
-      if (today) { today.textContent = sig.today.toLocaleString(); today.classList.remove('loading'); }
-      if (cities) { cities.textContent = sig.cities.toLocaleString(); cities.classList.remove('loading'); }
-      if (countries) { countries.textContent = sig.countries.toLocaleString(); countries.classList.remove('loading'); }
-
-      // picks chart
-      const picksEl = document.getElementById('sig-picks');
-      if (picksEl && picks.length) {
-        const max = picks[0].count;
-        picksEl.innerHTML = picks.map(p => `
-          <div class="top-row">
-            <span class="name">${p.name}</span>
-            <div class="bar-track"><div class="bar" style="width:${(p.count / max * 100).toFixed(1)}%"></div></div>
-            <span class="count">${p.count}</span>
-          </div>
-        `).join('');
-        picksEl.classList.remove('loading');
-      }
-
-      // guestbook
-      const guestEl = document.getElementById('sig-guestbook');
-      if (guestEl && guests.length) {
-        guestEl.innerHTML = guests.map(g => `
-          <div class="guest-entry">
-            <div class="guest-msg">“${g.message}”</div>
-            <div class="guest-foot">
-              <span class="guest-name">${g.name}</span>${g.city ? `<span class="guest-city">&middot; ${g.city}</span>` : ''}
-              <span class="guest-when">${timeAgo(g.submitted_at)}</span>
-            </div>
-          </div>
-        `).join('');
-        guestEl.classList.remove('loading');
-      }
-    } catch {
-      // backend unavailable — clear loading class so dashes show at full opacity
-      document.querySelectorAll('.v.loading, .top-chart.loading, .guest-list.loading')
-        .forEach(el => el.classList.remove('loading'));
+    function esc(s) {
+        return String(s ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;");
     }
-  }
 
-  loadSignals();
+    function timeAgo(dateStr) {
+        const diff = Date.now() - new Date(dateStr).getTime();
+        const min = Math.floor(diff / 60000);
+        if (min < 60) return `${min}m`;
+        const hr = Math.floor(min / 60);
+        if (hr < 24) return `${hr}h`;
+        return `${Math.floor(hr / 24)}d`;
+    }
 
-  // pre-fill form if user has a saved mark (supports editing)
-  const savedMark = JSON.parse(localStorage.getItem('gb_mark') || 'null');
-  const formEl = document.getElementById('guest-form');
-  const submitBtn = formEl?.querySelector('button');
-  if (savedMark && formEl && submitBtn) {
-    formEl.querySelector('[name="name"]').value = savedMark.name ?? '';
-    formEl.querySelector('[name="city"]').value = savedMark.city ?? '';
-    formEl.querySelector('[name="msg"]').value  = savedMark.message ?? '';
-    submitBtn.textContent = submitBtn.dataset.labelUpdate ?? 'update your mark →';
-    submitBtn.dataset.labelDefault = submitBtn.dataset.labelUpdate;
-    submitBtn.dataset.labelSent    = submitBtn.dataset.labelUpdated;
-  } else if (localStorage.getItem('gb_sent')) {
-    // legacy key (no entry ID) — just hide the form
-    if (formEl) formEl.outerHTML = '<p class="guest-already">you already left a mark — thanks.</p>';
-  }
+    function renderGuestEntries(entries) {
+        return entries
+            .map(
+                g => `
+      <div class="guest-entry">
+        <div class="guest-msg">"${esc(g.message)}"</div>
+        <div class="guest-foot">
+          <span class="guest-name">${esc(g.name)}</span>${g.city ? `<span class="guest-city">&middot; ${esc(g.city)}</span>` : ""}
+          <span class="guest-when">${timeAgo(g.submitted_at)}</span>
+        </div>
+      </div>
+    `,
+            )
+            .join("");
+    }
 
-  // guestbook form
-  const form = document.getElementById('guest-form');
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const btn = form.querySelector('button');
-    const data = new FormData(form);
-    btn.disabled = true;
+    // ── Guestbook pagination ──────────────────────────────────────────────────
 
-    const currentMark = JSON.parse(localStorage.getItem('gb_mark') || 'null');
-    const isUpdate = !!currentMark;
-    const url    = isUpdate ? `${api}/api/guestbook/${currentMark.id}` : `${api}/api/guestbook`;
-    const method = isUpdate ? 'PATCH' : 'POST';
-    const payload = {
-      name:    data.get('name'),
-      city:    data.get('city') || undefined,
-      message: data.get('msg'),
-    };
+    const _PAGE = 5;
+    let _guestPage = 0;
+    let _guestHasMore = false;
 
-    try {
-      const res = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) throw new Error(res.statusText);
-      const result = await res.json();
-
-      localStorage.setItem('gb_mark', JSON.stringify({
-        id:      result.id,
-        name:    payload.name,
-        city:    payload.city ?? null,
-        message: payload.message,
-      }));
-
-      btn.textContent = btn.dataset.labelSent ?? '✓ sent — thanks.';
-      btn.classList.add('sent');
-
-      setTimeout(() => {
-        btn.disabled = false;
-        btn.classList.remove('sent');
-        // after first submit, switch button to update mode
-        if (!isUpdate) {
-          btn.textContent = btn.dataset.labelUpdate ?? 'update your mark →';
-          btn.dataset.labelDefault = btn.dataset.labelUpdate;
-          btn.dataset.labelSent    = btn.dataset.labelUpdated;
-        } else {
-          btn.textContent = btn.dataset.labelDefault;
+    async function loadGuestbook(page) {
+        const guestEl = document.getElementById("sig-guestbook");
+        const paginationEl = document.getElementById("guest-pagination");
+        const prevBtn = document.getElementById("guest-prev");
+        const nextBtn = document.getElementById("guest-next");
+        const pageLabel = document.getElementById("guest-page");
+        try {
+            const data = await fetch(`${api}/api/guestbook?skip=${page * _PAGE}`).then(r => (r.ok ? r.json() : null));
+            if (!data) return;
+            _guestHasMore = data.has_more;
+            if (guestEl) {
+                guestEl.innerHTML = renderGuestEntries(data.entries);
+                guestEl.classList.remove("loading");
+            }
+            if (pageLabel) pageLabel.textContent = `${page + 1}`;
+            if (paginationEl) paginationEl.style.display = "flex";
+            if (prevBtn) prevBtn.disabled = page === 0;
+            if (nextBtn) nextBtn.disabled = !_guestHasMore;
+        } catch {
+            /* backend unavailable */
         }
-        loadSignals();
-      }, 2000);
-    } catch {
-      btn.disabled = false;
-      btn.textContent = 'something went wrong — try again';
-      setTimeout(() => { btn.textContent = btn.dataset.labelDefault ?? 'leave a mark →'; }, 2500);
     }
-  });
+
+    // ── Picks pagination ──────────────────────────────────────────────────────
+
+    const _PICKS_PER_PAGE = 8;
+    let _allPicks = [];
+    let _picksPage = 0;
+
+    function renderPicksPage(page) {
+        const picksEl = document.getElementById("sig-picks");
+        const paginationEl = document.getElementById("pick-pagination");
+        const prevBtn = document.getElementById("pick-prev");
+        const nextBtn = document.getElementById("pick-next");
+        const pageLabel = document.getElementById("pick-page");
+
+        const slice = _allPicks.slice(page * _PICKS_PER_PAGE, (page + 1) * _PICKS_PER_PAGE);
+        if (!picksEl || !slice.length) return;
+
+        const max = slice[0].count;
+        picksEl.innerHTML = slice
+            .map(
+                p => `
+      <div class="top-row">
+        <span class="name">${esc(p.name)}</span>
+        <div class="bar-track"><div class="bar" style="width:${((p.count / max) * 100).toFixed(1)}%"></div></div>
+        <span class="count">${p.count}</span>
+      </div>
+    `,
+            )
+            .join("");
+        picksEl.classList.remove("loading");
+
+        const totalPages = Math.ceil(_allPicks.length / _PICKS_PER_PAGE);
+        if (pageLabel) pageLabel.textContent = `${page + 1} / ${totalPages}`;
+        if (prevBtn) prevBtn.disabled = page === 0;
+        if (nextBtn) nextBtn.disabled = page >= totalPages - 1;
+    }
+
+    // ── Load signals + picks ──────────────────────────────────────────────────
+
+    async function loadSignals() {
+        try {
+            const [sig, picks] = await Promise.all([
+                fetch(`${api}/api/signals`).then(r => (r.ok ? r.json() : null)),
+                fetch(`${api}/api/picks`).then(r => (r.ok ? r.json() : null)),
+            ]);
+
+            if (sig) {
+                const total = document.getElementById("sig-total");
+                const today = document.getElementById("sig-today");
+                const cities = document.getElementById("sig-cities");
+                const countries = document.getElementById("sig-countries");
+                if (total) {
+                    total.textContent = sig.total.toLocaleString();
+                    total.classList.remove("loading");
+                }
+                if (today) {
+                    today.textContent = sig.today.toLocaleString();
+                    today.classList.remove("loading");
+                }
+                if (cities) {
+                    cities.textContent = sig.cities.toLocaleString();
+                    cities.classList.remove("loading");
+                }
+                if (countries) {
+                    countries.textContent = sig.countries.toLocaleString();
+                    countries.classList.remove("loading");
+                }
+            }
+
+            if (picks && picks.length) {
+                _allPicks = picks;
+                _picksPage = 0;
+                renderPicksPage(0);
+
+                const paginationEl = document.getElementById("pick-pagination");
+                if (paginationEl && _allPicks.length > _PICKS_PER_PAGE) {
+                    paginationEl.style.display = "flex";
+                }
+            }
+        } catch {
+            document.querySelectorAll(".v.loading, .top-chart.loading").forEach(el => el.classList.remove("loading"));
+        }
+    }
+
+    loadSignals();
+    loadGuestbook(0);
+
+    // Picks pagination buttons
+    document.getElementById("pick-prev")?.addEventListener("click", () => {
+        _picksPage--;
+        renderPicksPage(_picksPage);
+    });
+    document.getElementById("pick-next")?.addEventListener("click", () => {
+        _picksPage++;
+        renderPicksPage(_picksPage);
+    });
+
+    // Guestbook pagination buttons
+    document.getElementById("guest-prev")?.addEventListener("click", () => {
+        _guestPage--;
+        loadGuestbook(_guestPage);
+    });
+    document.getElementById("guest-next")?.addEventListener("click", () => {
+        _guestPage++;
+        loadGuestbook(_guestPage);
+    });
+
+    // pre-fill form if user has a saved mark
+    let savedMark = null;
+    try {
+        savedMark = JSON.parse(localStorage.getItem("gb_mark") || "null");
+    } catch {
+        /* corrupt key */
+    }
+    const formEl = document.getElementById("guest-form");
+    const submitBtn = formEl?.querySelector("button");
+    if (savedMark && formEl && submitBtn) {
+        formEl.querySelector('[name="name"]').value = savedMark.name ?? "";
+        formEl.querySelector('[name="city"]').value = savedMark.city ?? "";
+        formEl.querySelector('[name="msg"]').value = savedMark.message ?? "";
+        submitBtn.textContent = submitBtn.dataset.labelUpdate ?? "update your mark →";
+        submitBtn.dataset.labelDefault = submitBtn.dataset.labelUpdate;
+        submitBtn.dataset.labelSent = submitBtn.dataset.labelUpdated;
+    }
+
+    // guestbook form
+    const form = document.getElementById("guest-form");
+    form?.addEventListener("submit", async e => {
+        e.preventDefault();
+        const btn = form.querySelector("button");
+        const data = new FormData(form);
+        btn.disabled = true;
+
+        let currentMark = null;
+        try {
+            currentMark = JSON.parse(localStorage.getItem("gb_mark") || "null");
+        } catch {
+            /* corrupt key */
+        }
+        const isUpdate = !!currentMark;
+        const url = isUpdate ? `${api}/api/guestbook/${currentMark.id}` : `${api}/api/guestbook`;
+        const method = isUpdate ? "PATCH" : "POST";
+        const payload = {
+            name: data.get("name"),
+            city: data.get("city") || undefined,
+            message: data.get("msg"),
+        };
+
+        try {
+            const res = await fetch(url, {
+                method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+            if (!res.ok) throw new Error(res.statusText);
+            const result = await res.json();
+
+            localStorage.setItem(
+                "gb_mark",
+                JSON.stringify({
+                    id: result.id,
+                    name: payload.name,
+                    city: payload.city ?? null,
+                    message: payload.message,
+                }),
+            );
+
+            btn.textContent = btn.dataset.labelSent ?? "✓ sent — thanks.";
+            btn.classList.add("sent");
+
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.classList.remove("sent");
+                if (!isUpdate) {
+                    btn.textContent = btn.dataset.labelUpdate ?? "update your mark →";
+                    btn.dataset.labelDefault = btn.dataset.labelUpdate;
+                    btn.dataset.labelSent = btn.dataset.labelUpdated;
+                } else {
+                    btn.textContent = btn.dataset.labelDefault;
+                }
+                _guestPage = 0;
+                loadGuestbook(0);
+            }, 2000);
+        } catch {
+            btn.disabled = false;
+            btn.textContent = "something went wrong — try again";
+            setTimeout(() => {
+                btn.textContent = btn.dataset.labelDefault ?? "leave a mark →";
+            }, 2500);
+        }
+    });
 </script>

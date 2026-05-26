@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import httpx
 from fastapi import APIRouter, HTTPException
@@ -59,12 +59,21 @@ def _calc_streak(weeks: list) -> int:
 
 
 def _calc_avg_this_month(weeks: list) -> int:
-    today = datetime.utcnow()
+    today = datetime.now(timezone.utc)
     ym = f"{today.year}-{today.month:02d}"
     days = [d for w in weeks for d in w["contributionDays"] if d["date"].startswith(ym)]
     if not days:
         return 0
     return round(sum(d["contributionCount"] for d in days) / len(days))
+
+
+def _calc_today(weeks: list) -> int:
+    today_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    for w in reversed(weeks):
+        for d in reversed(w["contributionDays"]):
+            if d["date"] == today_str:
+                return d["contributionCount"]
+    return 0
 
 
 def _build_langs(repos: list) -> list[LangEntry]:
@@ -110,6 +119,7 @@ async def _fetch_github() -> GithubDataResponse:
             repos=user["repositories"]["totalCount"],
             streak=_calc_streak(weeks),
             avg_per_day=_calc_avg_this_month(weeks),
+            commits_today=_calc_today(weeks),
         ),
     )
 
@@ -123,7 +133,7 @@ async def _update_cache() -> None:
     try:
         data = await _fetch_github()
         _cache = data
-        _cache_time = datetime.utcnow()
+        _cache_time = datetime.now(timezone.utc)
         log.info("[github] Cache refreshed")
     except Exception as exc:
         log.error("[github] Refresh failed: %s", exc)
@@ -132,14 +142,14 @@ async def _update_cache() -> None:
 async def get_or_refresh() -> GithubDataResponse:
     """For the HTTP endpoint — raises HTTPException on failure."""
     global _cache, _cache_time
-    if _cache and _cache_time and datetime.utcnow() - _cache_time < _CACHE_TTL:
+    if _cache and _cache_time and datetime.now(timezone.utc) - _cache_time < _CACHE_TTL:
         return _cache
     if not settings.github_pat:
         raise HTTPException(status_code=503, detail="GITHUB_PAT not configured")
     try:
         data = await _fetch_github()
         _cache = data
-        _cache_time = datetime.utcnow()
+        _cache_time = datetime.now(timezone.utc)
         return _cache
     except Exception as exc:
         raise HTTPException(status_code=502, detail=str(exc)) from exc

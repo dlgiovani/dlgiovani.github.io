@@ -18,7 +18,7 @@ async def get_picks(db: AsyncSession = Depends(get_db)):
             select(PokemonPick.pokemon_name, func.count().label("count"))
             .group_by(PokemonPick.pokemon_name)
             .order_by(func.count().desc())
-            .limit(8)
+            .limit(30)
         )
     ).all()
     return [PokemonPickItem(name=row.pokemon_name, count=row.count) for row in rows]
@@ -26,45 +26,55 @@ async def get_picks(db: AsyncSession = Depends(get_db)):
 
 @router.get("/by-city", response_model=list[PokemonPickByCity])
 async def get_picks_by_city(db: AsyncSession = Depends(get_db)):
-    # Only cities that have coordinates stored
+    from sqlalchemy import literal_column
+    # Single query: count picks per (city, pokemon), rank by count within each city, keep rank=1
+    per_city_pokemon = (
+        select(
+            PokemonPick.city,
+            PokemonPick.lat,
+            PokemonPick.lon,
+            PokemonPick.pokemon_name,
+            func.count().label("cnt"),
+        )
+        .where(
+            PokemonPick.city.isnot(None),
+            PokemonPick.lat.isnot(None),
+            PokemonPick.lon.isnot(None),
+        )
+        .group_by(PokemonPick.city, PokemonPick.lat, PokemonPick.lon, PokemonPick.pokemon_name)
+        .subquery()
+    )
+    ranked = (
+        select(
+            per_city_pokemon,
+            func.row_number().over(
+                partition_by=per_city_pokemon.c.city,
+                order_by=per_city_pokemon.c.cnt.desc(),
+            ).label("rn"),
+            func.sum(per_city_pokemon.c.cnt).over(
+                partition_by=per_city_pokemon.c.city,
+            ).label("city_total"),
+        )
+        .subquery()
+    )
     rows = (
         await db.execute(
-            select(
-                PokemonPick.city,
-                PokemonPick.lat,
-                PokemonPick.lon,
-                func.count().label("count"),
-            )
-            .where(PokemonPick.city.isnot(None))
-            .where(PokemonPick.lat.isnot(None))
-            .where(PokemonPick.lon.isnot(None))
-            .group_by(PokemonPick.city, PokemonPick.lat, PokemonPick.lon)
-            .order_by(func.count().desc())
+            select(ranked)
+            .where(ranked.c.rn == 1)
+            .order_by(ranked.c.city_total.desc())
+            .limit(50)
         )
     ).all()
-
-    result = []
-    for row in rows:
-        # Find most common pokemon for this city
-        top = (
-            await db.execute(
-                select(PokemonPick.pokemon_name, func.count().label("c"))
-                .where(PokemonPick.city == row.city)
-                .group_by(PokemonPick.pokemon_name)
-                .order_by(func.count().desc())
-                .limit(1)
-            )
-        ).first()
-        result.append(
-            PokemonPickByCity(
-                city=row.city,
-                lat=row.lat,
-                lon=row.lon,
-                top_pokemon=top.pokemon_name if top else "?",
-                count=row.count,
-            )
+    return [
+        PokemonPickByCity(
+            city=row.city,
+            lat=row.lat,
+            lon=row.lon,
+            top_pokemon=row.pokemon_name,
+            count=row.city_total,
         )
-    return result
+        for row in rows
+    ]
 
 
 @router.post("", status_code=204)

@@ -49,6 +49,11 @@ class GuestbookEntryOut(BaseModel):
     model_config = {"from_attributes": True}
 
 
+class GuestbookPage(BaseModel):
+    entries: list[GuestbookEntryOut]
+    has_more: bool
+
+
 class GuestbookEntryCreate(BaseModel):
     name: str = Field(min_length=1, max_length=80)
     city: str | None = Field(default=None, max_length=100)
@@ -66,6 +71,7 @@ class GithubStatsOut(BaseModel):
     repos: int
     streak: int
     avg_per_day: int
+    commits_today: int
 
 
 class GithubDataResponse(BaseModel):

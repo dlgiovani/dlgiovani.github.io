@@ -24,6 +24,13 @@ interface PgStrings {
   tab_weather: string; tab_map: string; step_pokemon: string; step_city: string;
   save_label: string; save_done: string; loading_pokemon: string;
   map_title: string; map_loading: string; map_empty_list: string; map_empty_map: string; map_top: string;
+  card_no_wx_effect?: string;
+  card_basic?: string;
+  card_boosted_by?: string;
+  card_opener?: string;
+  card_weakness?: string;
+  card_retreat?: string;
+  card_specimen?: string;
 }
 
 interface PlaygroundProps {
@@ -88,9 +95,10 @@ interface CardProps {
   city: string;
   weather: WeatherData;
   stats: AdjustedStats;
+  strings: PgStrings;
 }
 
-function CardPokedex({ pkmn, city, weather, stats }: CardProps) {
+function CardPokedex({ pkmn, city, weather, stats, strings }: CardProps) {
   const hp = getStat(pkmn.stats, 'hp');
   const atk = getStat(pkmn.stats, 'attack');
   const def = getStat(pkmn.stats, 'defense');
@@ -132,7 +140,7 @@ function CardPokedex({ pkmn, city, weather, stats }: CardProps) {
         </div>
 
         <div className="px-effect">
-          {stats.buffs.length === 0 && <div>no weather effect on this type.</div>}
+          {stats.buffs.length === 0 && <div>{strings.card_no_wx_effect ?? 'no weather effect on this type.'}</div>}
           {stats.buffs.map((b, i) => (
             <div key={i} className={b.pct >= 0 ? 'up' : 'down'}>
               · {b.type} {b.pct >= 0 ? '+' : ''}{Math.round(b.pct * 100)}% &nbsp;<span className="px-weather-note">({weather.desc})</span>
@@ -158,11 +166,13 @@ function CardPokedex({ pkmn, city, weather, stats }: CardProps) {
    CARD VARIANT 2 — TCG-inspired card
    =================================================================== */
 
-function CardTCG({ pkmn, city, weather, stats }: CardProps) {
+function CardTCG({ pkmn, city, weather, stats, strings }: CardProps) {
   const dominant = pkmn.types[0];
   const domColor = typeColor(dominant);
   const atk = getStat(pkmn.stats, 'attack');
   const hp = getStat(pkmn.stats, 'hp');
+  const noWxEffect = strings.card_no_wx_effect ?? 'no weather effect on this type.';
+  const boostedBy  = strings.card_boosted_by   ?? 'boosted by';
   return (
     <div className="tcg" style={{ ['--dom' as string]: domColor }}>
       <div className="tcg-head">
@@ -172,7 +182,7 @@ function CardTCG({ pkmn, city, weather, stats }: CardProps) {
 
       <div className="tcg-art">
         <img src={pkmn.artwork} alt={pkmn.name} />
-        <div className="stage">basic · NO. {String(pkmn.id).padStart(3, '0')}</div>
+        <div className="stage">{strings.card_basic ?? 'basic · NO. '}{String(pkmn.id).padStart(3, '0')}</div>
       </div>
 
       <div className="tcg-meta">
@@ -195,8 +205,8 @@ function CardTCG({ pkmn, city, weather, stats }: CardProps) {
             </div>
             <div className="tcg-aeffect">
               {stats.buffs.length
-                ? `boosted by ${stats.vibe || weather.kind} (${stats.buffs.map(b => `${b.type}${b.pct >= 0 ? '+' : ''}${Math.round(b.pct * 100)}%`).join(', ')})`
-                : 'weather has no effect on this type.'}
+                ? `${boostedBy} ${stats.vibe || weather.kind} (${stats.buffs.map(b => `${b.type}${b.pct >= 0 ? '+' : ''}${Math.round(b.pct * 100)}%`).join(', ')})`
+                : noWxEffect}
             </div>
           </div>
           <div className="tcg-adamage">{atk}</div>
@@ -208,14 +218,14 @@ function CardTCG({ pkmn, city, weather, stats }: CardProps) {
           </div>
           <div>
             <div className="tcg-aname">tackle</div>
-            <div className="tcg-aeffect">a reliable opener.</div>
+            <div className="tcg-aeffect">{strings.card_opener ?? 'a reliable opener.'}</div>
           </div>
           <div className="tcg-adamage">{Math.round(atk * 0.4)}</div>
         </div>
 
         <div className="tcg-foot">
-          <span>weakness: see chart</span>
-          <span>retreat: ●●</span>
+          <span>{strings.card_weakness ?? 'weakness: see chart'}</span>
+          <span>{strings.card_retreat ?? 'retreat: ●●'}</span>
         </div>
       </div>
     </div>
@@ -226,7 +236,7 @@ function CardTCG({ pkmn, city, weather, stats }: CardProps) {
    CARD VARIANT 3 — Modern flat (matches editorial style)
    =================================================================== */
 
-function CardFlat({ pkmn, city, weather, stats }: CardProps) {
+function CardFlat({ pkmn, city, weather, stats, strings }: CardProps) {
   const hp = getStat(pkmn.stats, 'hp');
   const atk = getStat(pkmn.stats, 'attack');
   const def = getStat(pkmn.stats, 'defense');
@@ -238,7 +248,7 @@ function CardFlat({ pkmn, city, weather, stats }: CardProps) {
       </div>
 
       <div className="flat-side">
-        <div className="num">specimen</div>
+        <div className="num">{strings.card_specimen ?? 'specimen'}</div>
         <h3>{pkmn.name}</h3>
         <div className="flat-types">
           {pkmn.types.map(t => (
@@ -253,7 +263,7 @@ function CardFlat({ pkmn, city, weather, stats }: CardProps) {
         <div className="flat-wx">
           <div className="where">{city.toUpperCase()} · {weather.temp}°C · {weather.desc} {stats.emoji}</div>
           <div className="flat-effects">
-            {stats.buffs.length === 0 && <div className="none">no effect on these types.</div>}
+            {stats.buffs.length === 0 && <div className="none">{strings.card_no_wx_effect ?? 'no effect on these types.'}</div>}
             {stats.buffs.map((b, i) => (
               <div key={i} className={b.pct >= 0 ? 'up' : 'down'}>
                 {b.type} {b.pct >= 0 ? '+' : ''}{Math.round(b.pct * 100)}%
@@ -411,6 +421,10 @@ const DEFAULT_STRINGS: PgStrings = {
   save_done: '✓ saved · thanks. see the map tab →', loading_pokemon: 'loading pokémon…',
   map_title: 'where players are', map_loading: 'loading…',
   map_empty_list: 'submit a pick to appear here', map_empty_map: 'no picks yet — be the first →', map_top: 'top: ',
+  card_no_wx_effect: 'no weather effect on this type.',
+  card_basic: 'basic · NO. ', card_boosted_by: 'boosted by',
+  card_opener: 'a reliable opener.', card_weakness: 'weakness: see chart',
+  card_retreat: 'retreat: ●●', card_specimen: 'specimen',
 };
 
 export function Playground({ weatherEffects, cardStyle: initialCardStyle = 'flat', apiUrl = 'http://localhost:8000', strings = DEFAULT_STRINGS }: PlaygroundProps) {
@@ -527,7 +541,7 @@ export function Playground({ weatherEffects, cardStyle: initialCardStyle = 'flat
               {selectedPokemon && stats ? (
                 <WeatherScene kind={weather.kind}>
                   <div className="wx-inner-pad">
-                    <Card pkmn={selectedPokemon} city={cityLabel} weather={weather} stats={stats} />
+                    <Card pkmn={selectedPokemon} city={cityLabel} weather={weather} stats={stats} strings={strings} />
                   </div>
                 </WeatherScene>
               ) : (

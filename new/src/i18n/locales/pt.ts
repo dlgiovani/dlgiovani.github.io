@@ -81,6 +81,7 @@ const pt: UI = {
     guestbook_sent: '✓ enviado — obrigado.',
     guestbook_update: 'atualizar minha marca →',
     guestbook_updated: '✓ atualizado — obrigado.',
+    guestbook_more: 'carregar mais →',
   },
   footer: {
     cta_prefix: 'Tem uma ',
@@ -116,6 +117,13 @@ const pt: UI = {
     map_empty_list: 'envie um pick para aparecer aqui',
     map_empty_map: 'nenhum pick ainda — seja o primeiro →',
     map_top: 'top: ',
+    card_no_wx_effect: 'sem efeito climático neste tipo.',
+    card_basic: 'básico · Nº ',
+    card_boosted_by: 'potenciado por',
+    card_opener: 'um começo confiável.',
+    card_weakness: 'fraqueza: ver tabela',
+    card_retreat: 'recuo: ●●',
+    card_specimen: 'espécime',
   },
 };
 
