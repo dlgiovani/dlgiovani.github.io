@@ -7,7 +7,7 @@ const pt: UI = {
     title_em: 'integrações',
     title_2: 'para você focar',
     title_3: 'no que importa.',
-    subtitle: 'Engenheiro de software trabalhando nas costuras entre sistemas: APIs, webhooks, filas de mensagens, a cola chata que mantém tudo funcionando. Role para ver.',
+    subtitle: 'Desenvolvedor de software e consultor de TI, trabalhando nas costuras entre sistemas: APIs, webhooks, filas de mensagens, a cola chata que mantém tudo funcionando. Role para ver.',
     nav_about: 'sobre',
     nav_work: 'trabalho',
     nav_code: 'código',
