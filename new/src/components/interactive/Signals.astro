@@ -78,7 +78,11 @@ const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
         <input placeholder={t('signals.guestbook_city_ph')} name="city" />
         <textarea placeholder={t('signals.guestbook_msg_ph')} name="msg" required></textarea>
         <div class="row">
-          <button type="submit" data-label-default={t('signals.guestbook_submit')} data-label-sent={t('signals.guestbook_sent')}>
+          <button type="submit"
+            data-label-default={t('signals.guestbook_submit')}
+            data-label-sent={t('signals.guestbook_sent')}
+            data-label-update={t('signals.guestbook_update')}
+            data-label-updated={t('signals.guestbook_updated')}>
             {t('signals.guestbook_submit')}
           </button>
         </div>
@@ -259,22 +263,21 @@ const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
     }
   }
 
-  async function recordVisit() {
-    try {
-      await fetch(`${api}/api/visit`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({}),
-      });
-    } catch { /* fire-and-forget */ }
-  }
-
   loadSignals();
-  recordVisit();
 
-  // guestbook dedup — replace form with notice if already submitted
-  if (localStorage.getItem('gb_sent')) {
-    const formEl = document.getElementById('guest-form');
+  // pre-fill form if user has a saved mark (supports editing)
+  const savedMark = JSON.parse(localStorage.getItem('gb_mark') || 'null');
+  const formEl = document.getElementById('guest-form');
+  const submitBtn = formEl?.querySelector('button');
+  if (savedMark && formEl && submitBtn) {
+    formEl.querySelector('[name="name"]').value = savedMark.name ?? '';
+    formEl.querySelector('[name="city"]').value = savedMark.city ?? '';
+    formEl.querySelector('[name="msg"]').value  = savedMark.message ?? '';
+    submitBtn.textContent = submitBtn.dataset.labelUpdate ?? 'update your mark →';
+    submitBtn.dataset.labelDefault = submitBtn.dataset.labelUpdate;
+    submitBtn.dataset.labelSent    = submitBtn.dataset.labelUpdated;
+  } else if (localStorage.getItem('gb_sent')) {
+    // legacy key (no entry ID) — just hide the form
     if (formEl) formEl.outerHTML = '<p class="guest-already">you already left a mark — thanks.</p>';
   }
 
@@ -286,27 +289,48 @@ const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
     const data = new FormData(form);
     btn.disabled = true;
 
+    const currentMark = JSON.parse(localStorage.getItem('gb_mark') || 'null');
+    const isUpdate = !!currentMark;
+    const url    = isUpdate ? `${api}/api/guestbook/${currentMark.id}` : `${api}/api/guestbook`;
+    const method = isUpdate ? 'PATCH' : 'POST';
+    const payload = {
+      name:    data.get('name'),
+      city:    data.get('city') || undefined,
+      message: data.get('msg'),
+    };
+
     try {
-      const res = await fetch(`${api}/api/guestbook`, {
-        method: 'POST',
+      const res = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: data.get('name'),
-          city: data.get('city') || undefined,
-          message: data.get('msg'),
-        }),
+        body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error(res.statusText);
+      const result = await res.json();
 
-      localStorage.setItem('gb_sent', '1');
+      localStorage.setItem('gb_mark', JSON.stringify({
+        id:      result.id,
+        name:    payload.name,
+        city:    payload.city ?? null,
+        message: payload.message,
+      }));
+
       btn.textContent = btn.dataset.labelSent ?? '✓ sent — thanks.';
       btn.classList.add('sent');
-      form.reset();
 
       setTimeout(() => {
-        form.outerHTML = '<p class="guest-already">you already left a mark — thanks.</p>';
+        btn.disabled = false;
+        btn.classList.remove('sent');
+        // after first submit, switch button to update mode
+        if (!isUpdate) {
+          btn.textContent = btn.dataset.labelUpdate ?? 'update your mark →';
+          btn.dataset.labelDefault = btn.dataset.labelUpdate;
+          btn.dataset.labelSent    = btn.dataset.labelUpdated;
+        } else {
+          btn.textContent = btn.dataset.labelDefault;
+        }
         loadSignals();
-      }, 3000);
+      }, 2000);
     } catch {
       btn.disabled = false;
       btn.textContent = 'something went wrong — try again';

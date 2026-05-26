@@ -17,11 +17,6 @@ class SignalsResponse(BaseModel):
     countries: int
 
 
-class VisitCreate(BaseModel):
-    city: str | None = None
-    lat: float | None = None
-    lon: float | None = None
-
 
 class PokemonPickItem(BaseModel):
     name: str
@@ -45,6 +40,7 @@ class PokemonPickCreate(BaseModel):
 
 
 class GuestbookEntryOut(BaseModel):
+    id: int
     name: str
     city: str | None
     message: str

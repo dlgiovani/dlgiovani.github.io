@@ -14,17 +14,6 @@ class TickerCache(Base):
     updated_at: Mapped[datetime] = mapped_column(server_default=func.now(), onupdate=func.now())
 
 
-class Visit(Base):
-    __tablename__ = "visits"
-
-    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
-    city: Mapped[str | None] = mapped_column(Text)
-    country: Mapped[str | None] = mapped_column(Text)
-    country_code: Mapped[str | None] = mapped_column(String(2))
-    lat: Mapped[float | None] = mapped_column(Float)
-    lon: Mapped[float | None] = mapped_column(Float)
-    visited_at: Mapped[datetime] = mapped_column(server_default=func.now())
-
 
 class PokemonPick(Base):
     __tablename__ = "pokemon_picks"

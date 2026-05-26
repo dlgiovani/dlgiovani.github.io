@@ -176,14 +176,27 @@ const apodEnabled = siteTheme.apod;
   if (apodEnabled) {
     const apodEl = document.getElementById('hero-apod');
     const metaEl = document.getElementById('hero-apod-meta');
-    fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY')
-      .then(r => r.ok ? r.json() : null)
-      .then(d => {
-        if (!d || d.media_type !== 'image') return;
-        apodEl.style.backgroundImage = 'url(' + (d.hdurl || d.url) + ')';
-        apodEl.classList.add('on');
-        metaEl.innerHTML = 'backdrop: NASA APOD · <span class="apod-title">' + d.title + '</span> · ' + d.date;
-      })
-      .catch(() => {});
+    const today  = new Date().toISOString().slice(0, 10);
+
+    function applyApod(d) {
+      if (!d || d.media_type !== 'image') return;
+      apodEl.style.backgroundImage = 'url(' + (d.hdurl || d.url) + ')';
+      apodEl.classList.add('on');
+      metaEl.innerHTML = 'backdrop: NASA APOD · <span class="apod-title">' + d.title + '</span> · ' + d.date;
+    }
+
+    const cached = JSON.parse(localStorage.getItem('apod_cache') || 'null');
+    if (cached && cached.cachedOn === today) {
+      applyApod(cached);
+    } else {
+      fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY')
+        .then(r => r.ok ? r.json() : null)
+        .then(d => {
+          if (!d) return;
+          localStorage.setItem('apod_cache', JSON.stringify({ ...d, cachedOn: today }));
+          applyApod(d);
+        })
+        .catch(() => {});
+    }
   }
 </script>

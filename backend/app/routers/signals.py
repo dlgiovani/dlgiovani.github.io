@@ -1,13 +1,13 @@
 from datetime import date, datetime
 
-from fastapi import APIRouter, Depends, Request, Response
-from sqlalchemy import distinct, func, select
+from fastapi import APIRouter, Depends
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..database import get_db
-from ..limiter import limiter
-from ..models import Visit
-from ..schemas import SignalsResponse, VisitCreate
+from ..geo import city_to_country
+from ..models import GuestbookEntry, PokemonPick
+from ..schemas import SignalsResponse
 
 router = APIRouter(prefix="/api", tags=["signals"])
 
@@ -16,34 +16,27 @@ router = APIRouter(prefix="/api", tags=["signals"])
 async def get_signals(db: AsyncSession = Depends(get_db)):
     today_start = datetime.combine(date.today(), datetime.min.time())
 
-    total = await db.scalar(select(func.count()).select_from(Visit))
-    today = await db.scalar(
-        select(func.count()).select_from(Visit).where(Visit.visited_at >= today_start)
-    )
-    cities = await db.scalar(
-        select(func.count(distinct(Visit.city))).select_from(Visit).where(Visit.city.isnot(None))
-    )
-    countries = await db.scalar(
-        select(func.count(distinct(Visit.country_code)))
-        .select_from(Visit)
-        .where(Visit.country_code.isnot(None))
-    )
+    gb_total = await db.scalar(select(func.count()).select_from(GuestbookEntry)) or 0
+    pk_total = await db.scalar(select(func.count()).select_from(PokemonPick))   or 0
+    gb_today = await db.scalar(
+        select(func.count()).select_from(GuestbookEntry).where(GuestbookEntry.submitted_at >= today_start)
+    ) or 0
+    pk_today = await db.scalar(
+        select(func.count()).select_from(PokemonPick).where(PokemonPick.picked_at >= today_start)
+    ) or 0
+
+    gb_cities = (await db.scalars(
+        select(GuestbookEntry.city).where(GuestbookEntry.city.isnot(None)).distinct()
+    )).all()
+    pk_cities = (await db.scalars(
+        select(PokemonPick.city).where(PokemonPick.city.isnot(None)).distinct()
+    )).all()
+    all_cities = set(gb_cities) | set(pk_cities)
+    countries  = len({city_to_country(c) for c in all_cities} - {None})
 
     return SignalsResponse(
-        total=total or 0,
-        today=today or 0,
-        cities=cities or 0,
-        countries=countries or 0,
+        total=gb_total + pk_total,
+        today=gb_today + pk_today,
+        cities=len(all_cities),
+        countries=countries,
     )
-
-
-@router.post("/visit", status_code=204)
-@limiter.limit("5/minute")
-async def record_visit(
-    request: Request,
-    body: VisitCreate,
-    db: AsyncSession = Depends(get_db),
-):
-    db.add(Visit(city=body.city, lat=body.lat, lon=body.lon))
-    await db.commit()
-    return Response(status_code=204)
