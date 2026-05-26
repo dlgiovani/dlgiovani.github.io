@@ -1,112 +1,68 @@
 ---
-const title = "Giovani's Pages";
-import BlogShowcase from "../components/BlogShowcase.astro";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import Base from '../layouts/Base.astro';
+import Hero from '../components/interactive/Hero.astro';
+import Ticker from '../components/interactive/Ticker.astro';
+import About from '../components/static/About.astro';
+import Work from '../components/static/Work.astro';
+import CodeSection from '../components/static/CodeSection.astro';
+import Signals from '../components/interactive/Signals.astro';
+import Footer from '../components/static/Footer.astro';
+import { Playground } from '../components/islands/playground/Playground';
+import LangThemeBar from '../components/interactive/LangThemeBar.astro';
+import { WEATHER_EFFECTS } from '../config/pokemon';
+import { siteTheme } from '../config/theme';
+import { useTranslations } from '../i18n/ui';
+
+const locale = 'en';
+const apiUrl = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
+const t = useTranslations(locale);
+const pgStrings = {
+  kicker:          t('playground.kicker'),
+  title_1:         t('playground.title_1'),
+  title_2:         t('playground.title_2'),
+  title_em:        t('playground.title_em'),
+  lead:            t('playground.lead'),
+  tab_weather:     t('playground.tab_weather'),
+  tab_map:         t('playground.tab_map'),
+  step_pokemon:    t('playground.step_pokemon'),
+  step_city:       t('playground.step_city'),
+  save_label:      t('playground.save_label'),
+  save_done:       t('playground.save_done'),
+  loading_pokemon: t('playground.loading_pokemon'),
+  map_title:       t('playground.map_title'),
+  map_loading:     t('playground.map_loading'),
+  map_empty_list:  t('playground.map_empty_list'),
+  map_empty_map:      t('playground.map_empty_map'),
+  map_top:            t('playground.map_top'),
+  card_no_wx_effect:  t('playground.card_no_wx_effect'),
+  card_basic:         t('playground.card_basic'),
+  card_boosted_by:    t('playground.card_boosted_by'),
+  card_opener:        t('playground.card_opener'),
+  card_weakness:      t('playground.card_weakness'),
+  card_retreat:       t('playground.card_retreat'),
+  card_specimen:      t('playground.card_specimen'),
+};
 ---
 
-<BaseLayout title={title}>
-    <main>
-        <p>Welcome to</p>
-        <h1>{title}</h1>
-        <br />
-        <p>My portfolio and blog.</p>
+<Base title={undefined} locale={locale}>
+  <Ticker locale={locale} />
+  <Hero locale={locale} />
+  <About locale={locale} />
+  <Work locale={locale} />
+  <CodeSection locale={locale} />
 
-        <section>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="https://github.com/dlgiovani" target="_blank">
-                            GitHub
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="https://www.npmjs.com/~dlgiovani"
-                            target="_blank"
-                        >
-                            npm
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="https://www.linkedin.com/in/giovani-drosda-lima/"
-                            target="_blank"
-                        >
-                            LinkedIn
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="https://medium.com/@gdrosdalima"
-                            target="_blank"
-                        >
-                            Medium
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="https://instagram.com/dlgiovani"
-                            target="_blank"
-                        >
-                            Instagram
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </section>
+  <div id="playground-mount">
+    <Playground
+      client:visible
+      weatherEffects={WEATHER_EFFECTS}
+      apiUrl={apiUrl}
+      cardStyle={siteTheme.defaultCardStyle}
+      strings={pgStrings}
+    />
+  </div>
 
-        <section>
-            <h2>Recent Posts</h2>
-            <BlogShowcase qty={4} />
-            <a href="/blog">
-                <button>Read All -></button>
-            </a>
-        </section>
+  <Signals locale={locale} />
+  <Footer locale={locale} />
 
-        <section id="about">
-            <section>
-                <h2>About Me</h2>
-                <p>
-                    I develop integrations and state-of-the-art websites/systems
-                    for a living. I also advocate for the <a
-                        href="https://dlgiovani.github.io/erable"
-                        target="_blank">free web</a
-                    >.
-                </p>
-                <p>
-                    My current goals are to settle in a new, peaceful place
-                    where I can build and help the local community, and to keep
-                    learning more about my craft.
-                </p>
-                <p>
-                    The "dl" part of my nickname comes from the initial letters
-                    of my surnames.
-                </p>
-                <p>
-                    <i
-                        >This portfolio will soon have translations to other
-                        languages, such as portuguese and french!</i
-                    >
-                </p>
-                <a href="/curriculi-giovani-drosda-lima.pdf" target="_blank">
-                    <button> See my resume -> </button>
-                </a>
-            </section>
-            <section>
-                <h2>Contact Me</h2>
-                <p>
-                    To prevent spam from bots, there isn't a button to send me
-                    an e-mail. But you can reach me at <code
-                        >contato [at] dlgiovani.dev</code
-                    > :)
-                </p>
-                <p>
-                    You can alternatively send me a message on <a
-                        href="https://instagram.com/dlgiovani"
-                        target="_blank">Instagram</a
-                    >.
-                </p>
-            </section>
-        </section>
-    </main>
-</BaseLayout>
+  <LangThemeBar locale={locale} />
+</Base>
