@@ -9,6 +9,7 @@ from sqlalchemy import func, select, update
 from .config import settings
 from .database import SessionLocal
 from .models import TickerCache
+from .routers.github import _update_cache as refresh_github
 
 log = logging.getLogger(__name__)
 
@@ -114,7 +115,8 @@ async def maybe_refresh_on_start() -> None:
 
 
 def start_scheduler() -> None:
-    scheduler.add_job(refresh_fx, "interval", minutes=_INTERVAL_MINUTES, id="fx", replace_existing=True)
+    scheduler.add_job(refresh_fx,     "interval", minutes=_INTERVAL_MINUTES, id="fx",     replace_existing=True)
     scheduler.add_job(refresh_crypto, "interval", minutes=_INTERVAL_MINUTES, id="crypto", replace_existing=True)
+    scheduler.add_job(refresh_github, "interval", hours=1,                   id="github", replace_existing=True)
     scheduler.start()
-    log.info("Scheduler started (FX + crypto every %d min)", _INTERVAL_MINUTES)
+    log.info("Scheduler started (FX + crypto every %d min, GitHub every 1h)", _INTERVAL_MINUTES)

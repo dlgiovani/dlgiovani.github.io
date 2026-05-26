@@ -53,3 +53,22 @@ class GuestbookEntryCreate(BaseModel):
     name: str = Field(min_length=1, max_length=80)
     city: str | None = Field(default=None, max_length=100)
     message: str = Field(min_length=1, max_length=500)
+
+
+class LangEntry(BaseModel):
+    name: str
+    pct: int
+    color: str
+
+
+class GithubStatsOut(BaseModel):
+    commits: int
+    repos: int
+    streak: int
+    avg_per_day: int
+
+
+class GithubDataResponse(BaseModel):
+    heatmap: list[list[int]]
+    langs: list[LangEntry]
+    stats: GithubStatsOut

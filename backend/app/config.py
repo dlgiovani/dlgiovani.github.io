@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     database_url: str
     freecryptoapi_key: str
     exchangerateapi_key: str
+    github_pat: str = ''
     allowed_origins: str = "https://dlgiovani.github.io,http://localhost:4321"
 
     @property
