@@ -29,7 +29,7 @@ const API = import.meta.env.PUBLIC_API_URL ?? "http://localhost:8000";
             <div class="l">{t("code.stat_streak")}</div>
         </div>
         <div class="stat">
-            <div class="n" id="stat-avg">—<span class="stat-unit">/d</span></div>
+            <div class="n" id="stat-avg">—<span class="stat-unit">/mo</span></div>
             <div class="l">{t("code.stat_avg")}</div>
         </div>
     </div>
@@ -77,7 +77,7 @@ const API = import.meta.env.PUBLIC_API_URL ?? "http://localhost:8000";
         if (commits) commits.textContent = d.stats.commits.toLocaleString();
         if (repos) repos.textContent = d.stats.repos;
         if (streak) streak.innerHTML = d.stats.streak + '<span class="stat-unit">d</span>';
-        if (avg) avg.innerHTML = d.stats.avg_per_day + '<span class="stat-unit">/d</span>';
+        if (avg) avg.innerHTML = d.stats.avg_per_month + '<span class="stat-unit">/mo</span>';
 
         const cs = 11,
             gap = 2;

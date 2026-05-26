@@ -56,7 +56,7 @@ const pt: UI = {
     stat_commits: 'commits · 365d',
     stat_repos: 'repos públicos',
     stat_streak: 'sequência atual',
-    stat_avg: 'média este mês',
+    stat_avg: 'média / mês',
     legend_less: 'menos',
     legend_more: 'mais',
   },

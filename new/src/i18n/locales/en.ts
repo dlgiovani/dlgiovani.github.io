@@ -54,7 +54,7 @@ const en = {
     stat_commits: 'commits · 365d',
     stat_repos: 'public repos',
     stat_streak: 'current streak',
-    stat_avg: 'avg this month',
+    stat_avg: 'avg / month',
     legend_less: 'less',
     legend_more: 'more',
   },

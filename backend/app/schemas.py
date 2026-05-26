@@ -70,7 +70,7 @@ class GithubStatsOut(BaseModel):
     commits: int
     repos: int
     streak: int
-    avg_per_day: int
+    avg_per_month: int
     commits_today: int
 
 
