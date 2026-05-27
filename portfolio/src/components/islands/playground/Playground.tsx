@@ -6,9 +6,9 @@
 
 import * as React from 'react';
 import { type CityResult } from '../../../lib/api/geocoding';
-import { getPokemonByName } from '../../../lib/api/pokeapi';
+import { fetchAllNames, getPokemonByName } from '../../../lib/api/pokeapi';
 import { fetchWeatherForCoords, type WeatherData } from '../../../lib/api/weather';
-import { typeColor } from '../../../lib/pokemon-utils';
+import { spriteUrl, typeColor } from '../../../lib/pokemon-utils';
 import type { PokemonStat, Pokemon as PokemonType } from '../../../types/pokemon';
 import { CitySearch } from './CitySearch';
 import './playground.css';
@@ -23,7 +23,7 @@ interface PgStrings {
   kicker: string; title_1: string; title_2: string; title_em: string; lead: string;
   tab_weather: string; tab_map: string; step_pokemon: string; step_city: string;
   save_label: string; save_done: string; loading_pokemon: string;
-  map_title: string; map_loading: string; map_empty_list: string; map_empty_map: string; map_top: string;
+  map_title: string; map_loading: string; map_empty_list: string; map_empty_map: string; map_top: string; map_top_picks?: string;
   card_no_wx_effect?: string;
   card_basic?: string;
   card_boosted_by?: string;
@@ -281,7 +281,8 @@ function CardFlat({ pkmn, city, weather, stats, strings }: CardProps) {
    MAP TAB
    =================================================================== */
 
-interface CityPin { city: string; lat: number; lon: number; top_pokemon: string; count: number; }
+interface PinEntry { name: string; count: number; }
+interface CityPin { city: string; lat: number; lon: number; total: number; picks: PinEntry[]; }
 
 function latLonToXY(lat: number, lon: number): { x: number; y: number } {
   return { x: (lon + 180) / 360 * 100, y: (90 - lat) / 180 * 100 };
@@ -289,6 +290,7 @@ function latLonToXY(lat: number, lon: number): { x: number; y: number } {
 
 function MapTab({ apiUrl, strings }: { apiUrl: string; strings: PgStrings }) {
   const [pins, setPins] = React.useState<CityPin[]>([]);
+  const [sprites, setSprites] = React.useState<Record<string, string>>({});
   const [hover, setHover] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [zoom, setZoom] = React.useState(1);
@@ -296,11 +298,27 @@ function MapTab({ apiUrl, strings }: { apiUrl: string; strings: PgStrings }) {
   const [dragging, setDragging] = React.useState(false);
   const canvasRef = React.useRef<HTMLDivElement>(null);
   const dragRef = React.useRef<{ sx: number; sy: number; px: number; py: number } | null>(null);
+  const zoomRef = React.useRef(zoom);
+  const panRef = React.useRef(pan);
+  React.useEffect(() => { zoomRef.current = zoom; }, [zoom]);
+  React.useEffect(() => { panRef.current = pan; }, [pan]);
 
   React.useEffect(() => {
     fetch(`${apiUrl}/api/picks/by-city`)
       .then(r => r.json())
-      .then((data: CityPin[]) => { setPins(data); setLoading(false); })
+      .then(async (data: CityPin[]) => {
+        setPins(data);
+        setLoading(false);
+        const uniqueNames = [...new Set(data.map(c => c.picks[0]?.name).filter(Boolean))] as string[];
+        const allNames = await fetchAllNames();
+        const nameToId = new Map(allNames.map(p => [p.name, p.id]));
+        const spriteMap: Record<string, string> = {};
+        for (const name of uniqueNames) {
+          const id = nameToId.get(name);
+          if (id) spriteMap[name] = spriteUrl(id);
+        }
+        setSprites(spriteMap);
+      })
       .catch(() => setLoading(false));
   }, [apiUrl]);
 
@@ -309,11 +327,19 @@ function MapTab({ apiUrl, strings }: { apiUrl: string; strings: PgStrings }) {
     if (!el) return;
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
-      setZoom(z => {
-        const nz = Math.min(5, Math.max(1, +(z + (e.deltaY < 0 ? 0.25 : -0.25)).toFixed(2)));
-        if (nz === 1) setPan({ x: 0, y: 0 });
-        return nz;
-      });
+      const rect = el.getBoundingClientRect();
+      // Mouse position relative to canvas centre (the transform-origin of map-inner)
+      const mx = e.clientX - rect.left - rect.width / 2;
+      const my = e.clientY - rect.top - rect.height / 2;
+      const z = zoomRef.current;
+      const { x: px, y: py } = panRef.current;
+      const nz = Math.min(15, Math.max(1, +(z + (e.deltaY < 0 ? 0.5 : -0.5)).toFixed(2)));
+      if (nz === z) return;
+      if (nz === 1) { setZoom(1); setPan({ x: 0, y: 0 }); return; }
+      // Keep the map point under the cursor fixed after scaling
+      const ratio = nz / z;
+      setZoom(nz);
+      setPan({ x: mx * (1 - ratio) + px * ratio, y: my * (1 - ratio) + py * ratio });
     };
     el.addEventListener('wheel', onWheel, { passive: false });
     return () => el.removeEventListener('wheel', onWheel);
@@ -343,21 +369,27 @@ function MapTab({ apiUrl, strings }: { apiUrl: string; strings: PgStrings }) {
       >
         <div className="map-inner" style={{ transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})` }}>
           <img src="/world-map.svg" aria-hidden="true" className="map-svg-bg" />
+          <img src="/world-states.svg" aria-hidden="true" className="map-svg-states" />
           <div className="map-markers">
             {pins.map((c) => {
               const { x, y } = latLonToXY(c.lat, c.lon);
               const markerClass = `marker${hover === c.city ? ' active' : hover ? ' dim' : ''}`;
+              const topName = c.picks[0]?.name;
+              const topSprite = topName ? sprites[topName] : undefined;
               return (
                 <div key={c.city}
                   className={markerClass}
                   style={{ left: x + '%', top: y + '%', transform: `translate(-50%, -50%) scale(${+(1 / zoom).toFixed(4)})` }}
                   onMouseEnter={() => setHover(c.city)}
                   onMouseLeave={() => setHover(null)}>
-                  <div className="dot" />
+                  {topSprite
+                    ? <img className="map-sprite" src={topSprite} alt={topName} />
+                    : <div className="dot" />}
                   <div className="pulse" />
                   <div className="tip">
-                    {c.city}<br />
-                    {strings.map_top}<b>{c.top_pokemon}</b> ({c.count})
+                    <span className="tip-city">{c.city} ({c.total})</span>
+                    <span className="tip-label">{strings.map_top_picks ?? 'top picks'}</span>
+                    {c.picks.map(p => <span key={p.name} className="tip-pick">{p.name} ({p.count})</span>)}
                   </div>
                 </div>
               );
@@ -368,10 +400,10 @@ function MapTab({ apiUrl, strings }: { apiUrl: string; strings: PgStrings }) {
           <div className="map-empty">{strings.map_empty_map}</div>
         )}
         <div className="map-zoom-controls">
-          <button onClick={() => setZoom(z => Math.min(5, +(z + 0.5).toFixed(2)))}>+</button>
+          <button onClick={() => setZoom(z => Math.min(15, +(z + 1).toFixed(2)))}>+</button>
           <button onClick={() => {
             setZoom(z => {
-              const nz = Math.max(1, +(z - 0.5).toFixed(2));
+              const nz = Math.max(1, +(z - 1).toFixed(2));
               if (nz === 1) setPan({ x: 0, y: 0 });
               return nz;
             });
@@ -393,9 +425,9 @@ function MapTab({ apiUrl, strings }: { apiUrl: string; strings: PgStrings }) {
                   style={{ background: hover === c.city ? 'color-mix(in oklch, var(--accent) 8%, transparent)' : 'transparent' }}>
                   <div>
                     <div className="city">{c.city}</div>
-                    <div className="top">{strings.map_top}{c.top_pokemon}</div>
+                    <div className="top">{strings.map_top}{c.picks[0]?.name ?? ''}</div>
                   </div>
-                  <div className="count">{c.count}</div>
+                  <div className="count">{c.total}</div>
                 </div>
               ))
           }
@@ -420,7 +452,7 @@ const DEFAULT_STRINGS: PgStrings = {
   save_label: 'send my pick to the wall (anonymous). helps the map grow.',
   save_done: '✓ saved · thanks. see the map tab →', loading_pokemon: 'loading pokémon…',
   map_title: 'where players are', map_loading: 'loading…',
-  map_empty_list: 'submit a pick to appear here', map_empty_map: 'no picks yet — be the first →', map_top: 'top: ',
+  map_empty_list: 'submit a pick to appear here', map_empty_map: 'no picks yet — be the first →', map_top: 'top: ', map_top_picks: 'top picks',
   card_no_wx_effect: 'no weather effect on this type.',
   card_basic: 'basic · NO. ', card_boosted_by: 'boosted by',
   card_opener: 'a reliable opener.', card_weakness: 'weakness: see chart',

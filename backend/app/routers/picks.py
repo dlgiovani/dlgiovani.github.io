@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from ..database import get_db
 from ..limiter import limiter
 from ..models import PokemonPick
-from ..schemas import PokemonPickByCity, PokemonPickCreate, PokemonPickItem
+from ..schemas import PokemonPickByCity, PokemonPickCreate, PokemonPickEntry, PokemonPickItem
 
 router = APIRouter(prefix="/api/picks", tags=["picks"])
 
@@ -60,21 +60,20 @@ async def get_picks_by_city(db: AsyncSession = Depends(get_db)):
     rows = (
         await db.execute(
             select(ranked)
-            .where(ranked.c.rn == 1)
-            .order_by(ranked.c.city_total.desc())
-            .limit(50)
+            .where(ranked.c.rn <= 3)
+            .order_by(ranked.c.city_total.desc(), ranked.c.city, ranked.c.rn)
         )
     ).all()
-    return [
-        PokemonPickByCity(
-            city=row.city,
-            lat=row.lat,
-            lon=row.lon,
-            top_pokemon=row.pokemon_name,
-            count=row.city_total,
-        )
-        for row in rows
-    ]
+    cities: dict[str, dict] = {}
+    for row in rows:
+        if row.city not in cities:
+            cities[row.city] = {
+                "city": row.city, "lat": row.lat, "lon": row.lon,
+                "total": row.city_total, "picks": [],
+            }
+        cities[row.city]["picks"].append(PokemonPickEntry(name=row.pokemon_name, count=row.cnt))
+    result = sorted(cities.values(), key=lambda x: -x["total"])[:50]
+    return [PokemonPickByCity(**c) for c in result]
 
 
 @router.post("", status_code=204)

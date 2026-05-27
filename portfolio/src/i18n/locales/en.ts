@@ -115,6 +115,7 @@ const en = {
     map_empty_list: 'submit a pick to appear here',
     map_empty_map: 'no picks yet — be the first →',
     map_top: 'top: ',
+    map_top_picks: 'top picks',
     card_no_wx_effect: 'no weather effect on this type.',
     card_basic: 'basic · NO. ',
     card_boosted_by: 'boosted by',

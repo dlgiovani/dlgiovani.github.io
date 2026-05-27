@@ -23,12 +23,17 @@ class PokemonPickItem(BaseModel):
     count: int
 
 
+class PokemonPickEntry(BaseModel):
+    name: str
+    count: int
+
+
 class PokemonPickByCity(BaseModel):
     city: str
     lat: float
     lon: float
-    top_pokemon: str
-    count: int
+    total: int
+    picks: list[PokemonPickEntry]
 
 
 class PokemonPickCreate(BaseModel):

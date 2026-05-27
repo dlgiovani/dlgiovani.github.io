@@ -117,6 +117,7 @@ const pt: UI = {
     map_empty_list: 'envie um pick para aparecer aqui',
     map_empty_map: 'nenhum pick ainda — seja o primeiro →',
     map_top: 'top: ',
+    map_top_picks: 'principais escolhas',
     card_no_wx_effect: 'sem efeito climático neste tipo.',
     card_basic: 'básico · Nº ',
     card_boosted_by: 'potenciado por',
