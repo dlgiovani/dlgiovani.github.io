@@ -1,0 +1,15 @@
+[Unit]
+Description=dlgiovani.dev API
+After=network.target postgresql-14.service
+
+[Service]
+User=opc
+WorkingDirectory=/home/opc/websites/dlgiovani.dev/backend
+ExecStart=/opt/dlgiovani-venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000 --workers 2
+Restart=always
+RestartSec=5
+Environment=PYTHONPATH=/home/opc/websites/dlgiovani.dev/backend
+EnvironmentFile=/home/opc/websites/dlgiovani.dev/backend/.env
+
+[Install]
+WantedBy=multi-user.target
