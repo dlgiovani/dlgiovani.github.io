@@ -780,6 +780,7 @@
   background-color: var(--surface);
   cursor: grab;
   user-select: none;
+  touch-action: none;
 }
 
 .map-canvas.dragging {
@@ -967,7 +968,8 @@
 
 .tip-pick {}
 
-.marker:hover .tip {
+.marker:hover .tip,
+.marker.active .tip {
   opacity: 1;
 }
 

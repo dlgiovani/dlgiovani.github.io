@@ -356,6 +356,68 @@ function MapTab({ apiUrl, strings }: { apiUrl: string; strings: PgStrings }) {
     return () => { window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onUp); };
   }, []);
 
+  React.useEffect(() => {
+    const el = canvasRef.current;
+    if (!el) return;
+    const ts = {
+      panStart: null as { tx: number; ty: number; px: number; py: number } | null,
+      pinchDist: 0,
+      pinchMid: { x: 0, y: 0 },
+      pinchPan: { x: 0, y: 0 },
+      pinchZoom: 1,
+    };
+    const onTouchStart = (e: TouchEvent) => {
+      if ((e.target as HTMLElement).closest('.map-zoom-controls')) return;
+      e.preventDefault();
+      if (e.touches.length === 1) {
+        ts.panStart = { tx: e.touches[0].clientX, ty: e.touches[0].clientY, px: panRef.current.x, py: panRef.current.y };
+        ts.pinchDist = 0;
+        setDragging(true);
+      } else if (e.touches.length === 2) {
+        ts.panStart = null;
+        const [t1, t2] = [e.touches[0], e.touches[1]];
+        ts.pinchDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+        const rect = el.getBoundingClientRect();
+        ts.pinchMid = {
+          x: (t1.clientX + t2.clientX) / 2 - rect.left - rect.width / 2,
+          y: (t1.clientY + t2.clientY) / 2 - rect.top - rect.height / 2,
+        };
+        ts.pinchPan = { ...panRef.current };
+        ts.pinchZoom = zoomRef.current;
+      }
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+      if (e.touches.length === 1 && ts.panStart) {
+        setPan({ x: ts.panStart.px + e.touches[0].clientX - ts.panStart.tx, y: ts.panStart.py + e.touches[0].clientY - ts.panStart.ty });
+      } else if (e.touches.length === 2 && ts.pinchDist > 0) {
+        const [t1, t2] = [e.touches[0], e.touches[1]];
+        const newDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+        const ratio = newDist / ts.pinchDist;
+        const nz = Math.min(15, Math.max(1, +(ts.pinchZoom * ratio).toFixed(2)));
+        if (nz === 1) { setZoom(1); setPan({ x: 0, y: 0 }); return; }
+        const zRatio = nz / ts.pinchZoom;
+        setZoom(nz);
+        setPan({ x: ts.pinchMid.x * (1 - zRatio) + ts.pinchPan.x * zRatio, y: ts.pinchMid.y * (1 - zRatio) + ts.pinchPan.y * zRatio });
+      }
+    };
+    const onTouchEnd = (e: TouchEvent) => {
+      if (e.touches.length === 0) { ts.panStart = null; setDragging(false); }
+      else if (e.touches.length === 1) {
+        ts.panStart = { tx: e.touches[0].clientX, ty: e.touches[0].clientY, px: panRef.current.x, py: panRef.current.y };
+        ts.pinchDist = 0;
+      }
+    };
+    el.addEventListener('touchstart', onTouchStart, { passive: false });
+    el.addEventListener('touchmove', onTouchMove, { passive: false });
+    el.addEventListener('touchend', onTouchEnd, { passive: false });
+    return () => {
+      el.removeEventListener('touchstart', onTouchStart);
+      el.removeEventListener('touchmove', onTouchMove);
+      el.removeEventListener('touchend', onTouchEnd);
+    };
+  }, []);
+
   return (
     <div className="map-tab">
       <div
@@ -381,7 +443,8 @@ function MapTab({ apiUrl, strings }: { apiUrl: string; strings: PgStrings }) {
                   className={markerClass}
                   style={{ left: x + '%', top: y + '%', transform: `translate(-50%, -50%) scale(${+(1 / zoom).toFixed(4)})` }}
                   onMouseEnter={() => setHover(c.city)}
-                  onMouseLeave={() => setHover(null)}>
+                  onMouseLeave={() => setHover(null)}
+                  onClick={() => setHover(h => h === c.city ? null : c.city)}>
                   {topSprite
                     ? <img className="map-sprite" src={topSprite} alt={topName} />
                     : <div className="dot" />}
