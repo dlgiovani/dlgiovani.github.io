@@ -7,6 +7,7 @@ interface Props { locale: Locale }
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 const apodEnabled = siteTheme.apod;
+const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
 ---
 
 <header class="hero" id="hero">
@@ -167,7 +168,7 @@ const apodEnabled = siteTheme.apod;
   }
 </style>
 
-<script define:vars={{ apodEnabled }}>
+<script define:vars={{ apodEnabled, API }}>
   const dateEl = document.getElementById('hero-date');
   if (dateEl) {
     dateEl.textContent = new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: '2-digit' });
@@ -180,19 +181,28 @@ const apodEnabled = siteTheme.apod;
 
     function applyApod(d) {
       if (!d || d.media_type !== 'image') return;
-      apodEl.style.backgroundImage = 'url(' + (d.hdurl || d.url) + ')';
+      apodEl.style.backgroundImage = 'url(' + d.url + ')';
       apodEl.classList.add('on');
       metaEl.innerHTML = 'backdrop: NASA APOD · <span class="apod-title">' + d.title + '</span> · ' + d.date;
+      if (d.hdurl) {
+        const img = new Image();
+        img.onload = () => { apodEl.style.backgroundImage = 'url(' + d.hdurl + ')'; };
+        img.src = d.hdurl;
+      }
     }
 
     const cached = JSON.parse(localStorage.getItem('apod_cache') || 'null');
-    if (cached && cached.cachedOn === today) {
+    const isFresh = cached && cached.date === today;
+
+    if (isFresh) {
       applyApod(cached);
     } else {
-      fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY')
+      if (cached) applyApod(cached); // show stale while fetching
+      fetch(`${API}/api/apod`)
         .then(r => r.ok ? r.json() : null)
-        .then(d => {
-          if (!d) return;
+        .then(meta => {
+          if (!meta) return;
+          const d = { ...meta, url: `${API}/api/apod/thumb`, hdurl: `${API}/api/apod/image` };
           localStorage.setItem('apod_cache', JSON.stringify({ ...d, cachedOn: today }));
           applyApod(d);
         })

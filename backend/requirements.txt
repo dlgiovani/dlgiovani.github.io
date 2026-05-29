@@ -1,3 +1,4 @@
+Pillow
 fastapi==0.115.12
 uvicorn[standard]==0.34.3
 sqlalchemy[asyncio]==2.0.41

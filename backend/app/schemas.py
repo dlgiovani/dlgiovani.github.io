@@ -75,8 +75,10 @@ class GithubStatsOut(BaseModel):
     commits: int
     repos: int
     streak: int
+    max_streak: int
     avg_per_month: int
     commits_today: int
+    commits_total: int
 
 
 class GithubDataResponse(BaseModel):

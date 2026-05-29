@@ -1,4 +1,5 @@
 ---
+import { execSync } from 'node:child_process';
 import type { Locale } from '../../types/i18n';
 import { useTranslations } from '../../i18n/ui';
 import { person } from '../../config/person';
@@ -6,6 +7,12 @@ import { person } from '../../config/person';
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const t = useTranslations(locale);
+
+const year = new Date().getFullYear();
+let lastCommitAgo = '?';
+try {
+  lastCommitAgo = execSync('git log -1 --format="%ar"').toString().trim();
+} catch { /* no-op */ }
 ---
 
 <footer class="footer">
@@ -19,8 +26,8 @@ const t = useTranslations(locale);
   </div>
 
   <div class="colophon">
-    <span>{t('footer.colophon')}</span>
-    <span>{t('footer.last_commit')}</span>
+    <span>© {year} dlgiovani.dev · {t('footer.made_with')}</span>
+    <span>{t('footer.last_commit')} · {lastCommitAgo}</span>
   </div>
 </footer>
 

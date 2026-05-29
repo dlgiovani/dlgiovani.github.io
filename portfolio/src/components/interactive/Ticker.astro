@@ -111,7 +111,7 @@ const tickerDuration = Math.max(20, 80 / Math.max(siteTheme.tickerSpeed, 0.1));
     try {
       const data = await fetch(`${api}/api/github-stats`).then(r => r.ok ? r.json() : null);
       if (!data) return;
-      const count = data?.stats?.commits_today ?? 0;
+      const count = data?.stats?.commits_total ?? 0;
       document.querySelectorAll('.ticker-item').forEach(item => {
         const kindEl = item.querySelector('.ticker-kind');
         const valueEl = item.querySelector('.ticker-value');

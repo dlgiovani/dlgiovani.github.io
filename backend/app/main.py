@@ -10,7 +10,8 @@ from slowapi.middleware import SlowAPIMiddleware
 
 from .config import settings
 from .limiter import limiter
-from .routers import guestbook, github, picks, signals, ticker
+from .routers import apod, guestbook, github, picks, signals, ticker
+from .routers.apod import refresh as refresh_apod
 from .routers.github import _update_cache as refresh_github
 from .scheduler import maybe_refresh_on_start, start_scheduler
 
@@ -22,6 +23,7 @@ async def lifespan(app: FastAPI):
     start_scheduler()
     await maybe_refresh_on_start()
     await refresh_github()
+    await refresh_apod()
     yield
 
 
@@ -37,6 +39,7 @@ app.add_middleware(
 app.add_middleware(SlowAPIMiddleware)
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
+app.include_router(apod.router)
 app.include_router(ticker.router)
 app.include_router(signals.router)
 app.include_router(picks.router)

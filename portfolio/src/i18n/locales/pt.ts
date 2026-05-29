@@ -55,7 +55,7 @@ const pt: UI = {
     langs_aside_2: "Não está aqui: JSON e arquivos de configuração, mais shell do que eu gostaria, C/C++ e o ocasional Processing recreacional.",
     stat_commits: 'commits · 365d',
     stat_repos: 'repos públicos',
-    stat_streak: 'sequência atual',
+    stat_streak: 'maior sequência',
     stat_avg: 'média / mês',
     legend_less: 'menos',
     legend_more: 'mais',
@@ -87,8 +87,8 @@ const pt: UI = {
     cta_prefix: 'Tem uma ',
     cta_em: 'integração',
     cta_suffix: 'se recusando a funcionar?',
-    colophon: '© 2025 dlgiovani.dev · feito com abas demais abertas',
-    last_commit: 'último commit · 2h atrás',
+    made_with: 'feito com cérebro e cafezinho',
+    last_commit: 'último commit do site',
   },
   blog: {
     title: 'Blog',
@@ -96,7 +96,7 @@ const pt: UI = {
     read_post: 'Ler post',
   },
   ticker: {
-    commits_label: 'commits hoje',
+    commits_label: 'commits',
     random_label: 'aleatório',
   },
   playground: {

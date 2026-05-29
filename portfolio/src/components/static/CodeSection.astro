@@ -76,7 +76,7 @@ const API = import.meta.env.PUBLIC_API_URL ?? "http://localhost:8000";
 
         if (commits) commits.textContent = d.stats.commits.toLocaleString();
         if (repos) repos.textContent = d.stats.repos;
-        if (streak) streak.innerHTML = d.stats.streak + '<span class="stat-unit">d</span>';
+        if (streak) streak.innerHTML = d.stats.max_streak + '<span class="stat-unit">d</span>';
         if (avg) avg.innerHTML = d.stats.avg_per_month + '<span class="stat-unit">/mo</span>';
 
         const cs = 11,

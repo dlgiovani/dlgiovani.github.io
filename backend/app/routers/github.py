@@ -13,6 +13,7 @@ _QUERY = """
 query($login: String!) {
   user(login: $login) {
     contributionsCollection {
+      contributionYears
       contributionCalendar {
         weeks {
           contributionDays { date contributionCount }
@@ -56,6 +57,27 @@ def _calc_streak(weeks: list) -> int:
         else:
             break
     return streak
+
+
+def _calc_max_streak(weeks: list) -> int:
+    days = [d for w in weeks for d in w["contributionDays"]]
+    best = cur = 0
+    for d in days:
+        if d["contributionCount"] > 0:
+            cur += 1
+            best = max(best, cur)
+        else:
+            cur = 0
+    return best
+
+
+def _build_totals_query(years: list[int]) -> str:
+    parts = "\n    ".join(
+        f'y{y}: contributionsCollection(from: "{y}-01-01T00:00:00Z", to: "{y}-12-31T23:59:59Z") '
+        f'{{ contributionCalendar {{ totalContributions }} }}'
+        for y in years
+    )
+    return f"query($login: String!) {{\n  user(login: $login) {{\n    {parts}\n  }}\n}}"
 
 
 def _calc_avg_per_month(weeks: list) -> int:
@@ -106,12 +128,31 @@ async def _fetch_github() -> GithubDataResponse:
         r.raise_for_status()
         body = r.json()
 
-    if "errors" in body:
-        raise ValueError(body["errors"][0]["message"])
+        if "errors" in body:
+            raise ValueError(body["errors"][0]["message"])
 
-    user  = body["data"]["user"]
-    weeks = user["contributionsCollection"]["contributionCalendar"]["weeks"]
-    all_days = [d for w in weeks for d in w["contributionDays"]]
+        user  = body["data"]["user"]
+        weeks = user["contributionsCollection"]["contributionCalendar"]["weeks"]
+        all_days = [d for w in weeks for d in w["contributionDays"]]
+        years: list[int] = user["contributionsCollection"].get("contributionYears", [])
+
+        commits_total = sum(d["contributionCount"] for d in all_days)
+        if years:
+            try:
+                r2 = await client.post(
+                    "https://api.github.com/graphql",
+                    json={"query": _build_totals_query(years), "variables": {"login": "dlgiovani"}},
+                    headers={"Authorization": f"Bearer {settings.github_pat}"},
+                )
+                body2 = r2.json()
+                if "data" in body2:
+                    u2 = body2["data"]["user"]
+                    commits_total = sum(
+                        u2.get(f"y{y}", {}).get("contributionCalendar", {}).get("totalContributions", 0)
+                        for y in years
+                    )
+            except Exception as exc:
+                log.warning("[github] all-time totals fetch failed, using window sum: %s", exc)
 
     return GithubDataResponse(
         heatmap=_build_heatmap(weeks),
@@ -120,8 +161,10 @@ async def _fetch_github() -> GithubDataResponse:
             commits=sum(d["contributionCount"] for d in all_days),
             repos=user["repositories"]["totalCount"],
             streak=_calc_streak(weeks),
+            max_streak=_calc_max_streak(weeks),
             avg_per_month=_calc_avg_per_month(weeks),
             commits_today=_calc_today(weeks),
+            commits_total=commits_total,
         ),
     )
 

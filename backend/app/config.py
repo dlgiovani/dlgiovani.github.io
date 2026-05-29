@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     freecryptoapi_key: str
     exchangerateapi_key: str
     github_pat: str = ''
+    nasa_api_key: str = 'DEMO_KEY'
     allowed_origins: str = "https://dlgiovani.github.io,http://localhost:4321"
 
     @property

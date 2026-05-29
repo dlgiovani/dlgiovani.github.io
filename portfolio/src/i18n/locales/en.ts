@@ -53,7 +53,7 @@ const en = {
     langs_aside_2: "What's not shown: C/C++, JSON and config files, recreational Processing and more shell than I'd like.",
     stat_commits: 'commits · 365d',
     stat_repos: 'public repos',
-    stat_streak: 'current streak',
+    stat_streak: 'best streak',
     stat_avg: 'avg / month',
     legend_less: 'less',
     legend_more: 'more',
@@ -85,8 +85,8 @@ const en = {
     cta_prefix: 'Got an ',
     cta_em: 'integration',
     cta_suffix: "that's refusing to behave?",
-    colophon: '© 2025 dlgiovani.dev · made with too many tabs open',
-    last_commit: 'last commit · 2h ago',
+    made_with: 'made with brains and warm coffee',
+    last_commit: 'last website commit',
   },
   blog: {
     title: 'Blog',
@@ -94,7 +94,7 @@ const en = {
     read_post: 'Read post',
   },
   ticker: {
-    commits_label: 'commits today',
+    commits_label: 'commits',
     random_label: 'random',
   },
   playground: {
