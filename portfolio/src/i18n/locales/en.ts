@@ -5,7 +5,7 @@ const en = {
     title_em: 'integrations',
     title_2: 'so you can focus',
     title_3: 'on what matters.',
-    subtitle: 'Software engineer working at the seams between systems — APIs, webhooks, message queues, the boring glue that keeps everything running. Scroll for proof.',
+    subtitle: 'Software developer working at the seams between systems — APIs, webhooks, message queues, the boring glue that keeps everything running. Scroll for proof.',
     nav_about: 'about',
     nav_work: 'work',
     nav_code: 'code',
