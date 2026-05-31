@@ -209,6 +209,12 @@ const pt: UI = {
     section_competence_lead: 'Avaliado exclusivamente com base no registro documentado. N/D indica ausência de histórico de governo — recusa deliberada de fabricar avaliação a partir de ausência de dados.',
     section_videos_lead: 'Entrevistas e debates em veículos públicos.',
     youth_appeal_label: 'Apelo a jovens (16–35a)',
+    credit_default_title: 'Taxa de Inadimplência — Carteira Total (>90 dias)',
+    credit_default_subtitle: 'BCB SGS 21082 · carteira total · inadimplência >90 dias',
+    credit_default_source: 'Fonte: Banco Central do Brasil — API de dados abertos SGS, série 21082',
+    credit_default_axis_y: '% da carteira',
+    credit_default_pandemic_note: '2,11% (dez/2020) — Mínima do período',
+    credit_default_high_note: 'Máxima recente',
   },
 };
 

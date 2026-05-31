@@ -207,6 +207,12 @@ const en = {
     section_competence_lead: 'Assessed against the documented record only. N/A indicates no governing record — a deliberate refusal to manufacture an assessment from absence of data.',
     section_videos_lead: 'Interviews and debates from public outlets.',
     youth_appeal_label: 'Youth appeal (16–35y)',
+    credit_default_title: 'Credit Default Rate — Total Portfolio (>90 days)',
+    credit_default_subtitle: 'BCB SGS 21082 · carteira total · inadimplência >90 dias',
+    credit_default_source: 'Source: Banco Central do Brasil — SGS open-data API, series 21082',
+    credit_default_axis_y: '% of portfolio',
+    credit_default_pandemic_note: '2.11% (Dec 2020) — period low',
+    credit_default_high_note: 'Current high',
   },
 } as const;
 

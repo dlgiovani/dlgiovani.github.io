@@ -205,7 +205,31 @@ MBL co-founders Kim Kataguiri (the party's most prominent officeholder and autho
 | Corporate distress (Serasa) | n/a (pre-2005 law / early series) | **Record judicial reorganizations** 2023–25 (2,466 in 2025); **falências fell** to 698 (−19%) | Falências **fell 3 straight yrs** 2020–22 | **N/A** |
 | External context | **Commodity supercycle tailwind** | High Selic (~14%+) headwind | **COVID-19 pandemic** | **N/A** |
 
-> *Note on the unemployment row:* the **headline rate (taxa de desocupação)** follows the international (ILO) standard and excludes "discouraged" workers and counts any paid activity as employment, so it understates slack. IBGE therefore also publishes the broader **taxa de subutilização** (unemployed + underemployed-by-hours + discouraged + potential labor force). At Q1 2026 the headline rate was **6.1%** (6.6M unemployed) while subutilização stood at **14.3%** (2.7M discouraged) — the gap is the honest measure of remaining labor-market slack, not evidence of "manipulation" (see §2b). *Seasonal caveat:* Brazilian unemployment is routinely higher in Q1 (post-holiday end of temporary retail jobs) than in Q4, so the Q1 2026 6.1% is not directly comparable to a Q4 reading; it had been a series-low ~5.1% in Q4 2025. Comparable subutilização figures are not cited for earlier periods here, so the headline-vs-broad contrast is shown only for the current quarter.
+> *Note on the unemployment row:* the **headline rate (taxa de desocupação)** follows the international (ILO) standard and excludes "discouraged" workers and counts any paid activity as employment, so it understates slack. IBGE therefore also publishes the broader **taxa de subutilização** (unemployed + underemployed-by-hours + discouraged + potential labor force). At Q1 2026 the headline rate was **6.1%** (6.6M unemployed) while subutilização stood at **14.3%** (2.7M discouraged) — the gap is the honest measure of remaining labor-market slack, not evidence of "manipulation" (see §2b). *Trajectory matters more than the level:* on an annual basis, subutilização **peaked at 28.2% in 2020 and 27.2% in 2021 (Bolsonaro/COVID), was 24.4% even pre-pandemic in 2019, fell to 20.8% (2022), then declined every year of Lula's third term — 18.0% (2023), 16.2% (2024), 14.5% (2025, the series low since 2012)** (IBGE PNAD Contínua annual releases). So the broad measure is currently at its lowest on record and falling, not high — the same direction as the headline rate. *Seasonal caveat:* Brazilian unemployment is routinely higher in Q1 (post-holiday end of temporary retail jobs) than in Q4, so the Q1 2026 headline 6.1% is not directly comparable to a Q4 reading (it had been ~5.1% in Q4 2025); the same seasonality applies to subutilização.
+
+### Credit default (*inadimplência*) over time — by government [CONFIRMED, Banco Central]
+Source: **Banco Central do Brasil, SGS series 21082** — *Inadimplência da carteira de crédito — Total* (% of the National Financial System credit portfolio with at least one installment **>90 days overdue**, including both free and directed credit). Pulled month-by-month from the BCB open-data API; December values shown as the year-end reading.
+
+| Year-end | Inadimplência (total) | Government (at year-end) |
+|---|---|---|
+| 2011 | 3.54% | Dilma |
+| 2012 | 3.55% | Dilma |
+| 2013 | 2.86% | Dilma |
+| 2014 | 2.73% | Dilma |
+| 2015 | 3.37% | Dilma |
+| 2016 | 3.70% *(peaked 3.84% in Oct)* | Temer |
+| 2017 | 3.24% *(**series-era high 4.04% in May**)* | Temer |
+| 2018 | 2.87% | Temer |
+| 2019 | 2.94% | Bolsonaro |
+| 2020 | **2.11% (series low)** | Bolsonaro |
+| 2021 | 2.30% | Bolsonaro |
+| 2022 | 2.99% | Bolsonaro |
+| 2023 | 3.18% | Lula 3 |
+| 2024 | 2.95% | Lula 3 |
+| 2025 | 4.02% | Lula 3 |
+| Feb 2026 | **4.26% (highest in the whole series)** | Lula 3 |
+
+> **Three caveats that must travel with this data:** (1) **The series begins in March 2011** — there is *no* 21082 data for 2000–2010. Pre-2011 default figures come from a **different, now-superseded BC methodology** and cannot be spliced onto this line without a visible break; this dossier therefore does **not** assert a continuous "since 2000" series. (2) **The 2020 low (2.11%) is partly artificial** — it reflects pandemic emergency-credit deferrals and debt *repactuações* that suppressed *measured* default, not households suddenly paying better; it should not be read as a clean "Bolsonaro achievement." (3) **This is the *carteira total* series** (includes subsidized directed credit, which drags the average down). The higher figures sometimes seen in the press (~5.5–5.9%) are the **crédito livre** series, which excludes directed credit and runs higher; the all-time *livre* peak was ~5.9% in May 2017. The two are different series and must not be mixed on one axis. *(Note: Serasa/SPC "CPFs negativados" counts — e.g. ~45M→60M→~81M — are a different metric entirely, a count of individuals rather than a % of portfolio, and would need their own separate chart and independent verification.)*
 
 ### Table B — Ideological Positioning (analytical judgment)
 | Axis | Lula | Flávio Bolsonaro | Renan Santos |
@@ -254,6 +278,7 @@ MBL co-founders Kim Kataguiri (the party's most prominent officeholder and autho
 
 **Tabelas Comparativas:**
 - **Tabela A — Desempenho de Mandato** (Indicador; Lula 2003–2010; Lula 2023–2025; Jair Bolsonaro 2019–2022; Renan Santos) — linhas: Crescimento médio anual do PIB; Desemprego (*taxa de desocupação vs. taxa de subutilização*); Inflação; IDH; Poder de compra do salário mínimo; *Estresse empresarial (falências/recuperações judiciais)*; *Contexto externo*
+- **Inadimplência ao longo do tempo, por governo** (Banco Central, série SGS 21082 — carteira total, atraso >90 dias, 2011–2026; com ressalvas sobre início da série, mínima artificial de 2020 e diferença entre carteira total e crédito livre)
 - **Tabela B — Posicionamento Ideológico** (Política externa: multilateral ←→ nacionalista; Estado de Direito: institucionalista ←→ tendências autoritárias; Política ambiental: verde ←→ extrativista)
 - **Tabela C — Avaliação de Competência e Liderança** (Experiência executiva; Gestão de crises; Eficácia legislativa; Qualidade da equipe; Comunicação e confiança pública)
 

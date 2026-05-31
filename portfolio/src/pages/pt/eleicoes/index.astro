@@ -1,13 +1,14 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import { useTranslations } from '../../../i18n/ui';
-import { candidates, mandateTable, ideologyTable, methodology } from '../../../data/eleicoes';
+import { candidates, mandateTable, ideologyTable, methodology, creditDefaultSeries, govPeriods } from '../../../data/eleicoes';
 import EleicaoHero     from '../../../components/eleicoes/EleicaoHero.astro';
 import EleicaoNav      from '../../../components/eleicoes/EleicaoNav.astro';
 import CandidateCard   from '../../../components/eleicoes/CandidateCard.astro';
 import ProposalGrid    from '../../../components/eleicoes/ProposalGrid.astro';
 import ScoreCard       from '../../../components/eleicoes/ScoreCard.astro';
-import MandateTable    from '../../../components/islands/eleicoes/MandateTable';
+import MandateTable         from '../../../components/islands/eleicoes/MandateTable';
+import CreditDefaultChart   from '../../../components/islands/eleicoes/CreditDefaultChart';
 import ScandalCards    from '../../../components/islands/eleicoes/ScandalCards';
 import IdeologyChart   from '../../../components/islands/eleicoes/IdeologyChart';
 import VideoSection    from '../../../components/islands/eleicoes/VideoSection';
@@ -108,6 +109,28 @@ const scandalLabels = {
       locale={locale}
       labels={mandateLabels}
     />
+
+    <!-- Gráfico de inadimplência -->
+    <div style="margin-top:var(--sec-gap)">
+      <div class="sub-section-head" style="margin-bottom:var(--space-lg)">
+        <p class="sub-section-kicker">{t('eleicoes.credit_default_subtitle')}</p>
+        <h3 class="sub-section-title" style="font-size:clamp(16px,1.8vw,22px)">{t('eleicoes.credit_default_title')}</h3>
+      </div>
+      <CreditDefaultChart
+        client:visible
+        series={creditDefaultSeries}
+        periods={govPeriods}
+        locale={locale}
+        labels={{
+          title:          t('eleicoes.credit_default_title'),
+          subtitle:       t('eleicoes.credit_default_subtitle'),
+          source:         t('eleicoes.credit_default_source'),
+          axisY:          t('eleicoes.credit_default_axis_y'),
+          pandemicNote:   t('eleicoes.credit_default_pandemic_note'),
+          highNote:       t('eleicoes.credit_default_high_note'),
+        }}
+      />
+    </div>
 
     {[lula, flavio, renan].map(c => (
       <div
