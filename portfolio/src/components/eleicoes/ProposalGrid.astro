@@ -1,0 +1,53 @@
+---
+import type { Candidate } from '../../data/eleicoes';
+import type { Locale } from '../../types/i18n';
+import { useTranslations } from '../../i18n/ui';
+
+interface Props {
+  candidate: Candidate;
+  locale: Locale;
+}
+
+const { candidate: c, locale } = Astro.props;
+const t = useTranslations(locale);
+
+const likelihoodClass: Record<string, string> = {
+  'HIGH':        'badge-high',
+  'HIGH–MEDIUM': 'badge-high',
+  'MEDIUM':      'badge-medium',
+  'LOW–MEDIUM':  'badge-low',
+  'LOW':         'badge-low',
+};
+
+const likelihoodLabel: Record<string, string> = {
+  'HIGH':        t('eleicoes.likelihood_high'),
+  'HIGH–MEDIUM': t('eleicoes.likelihood_high_medium'),
+  'MEDIUM':      t('eleicoes.likelihood_medium'),
+  'LOW–MEDIUM':  t('eleicoes.likelihood_low_medium'),
+  'LOW':         t('eleicoes.likelihood_low'),
+};
+---
+
+<div class={`candidate-${c.id}`} style={`--c-candidate:${c.candidateColor}`}>
+  <div class="candidate-section-label">
+    <span class="candidate-section-name">{c.shortName}</span>
+    <span class="candidate-section-party">{c.party}</span>
+  </div>
+
+  <div>
+    {c.proposals.map(p => (
+      <div class="proposal-row">
+        <span class="proposal-area">{p.area[locale]}</span>
+        <div>
+          <p class="proposal-position">{p.position[locale]}</p>
+          <p class="proposal-justification">{p.justification[locale]}</p>
+        </div>
+        <div class="proposal-likelihood">
+          <span class={`badge ${likelihoodClass[p.likelihood] ?? 'badge-medium'}`}>
+            {likelihoodLabel[p.likelihood] ?? p.likelihood}
+          </span>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>

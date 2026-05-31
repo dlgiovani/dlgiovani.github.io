@@ -1,0 +1,58 @@
+---
+import type { Locale } from '../../types/i18n';
+import { useTranslations } from '../../i18n/ui';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const links = [
+  { href: '#profiles',    label: t('eleicoes.nav_profiles') },
+  { href: '#mandates',    label: t('eleicoes.nav_mandates') },
+  { href: '#proposals',   label: t('eleicoes.nav_proposals') },
+  { href: '#scandals',    label: t('eleicoes.nav_scandals') },
+  { href: '#ideology',    label: t('eleicoes.nav_ideology') },
+  { href: '#competence',  label: t('eleicoes.nav_competence') },
+  { href: '#connections', label: t('eleicoes.nav_connections') },
+  { href: '#media',       label: t('eleicoes.nav_media') },
+  { href: '#videos',      label: t('eleicoes.nav_videos') },
+  { href: '#methodology', label: t('eleicoes.nav_methodology') },
+];
+---
+
+<div class="elex-nav-spacer" id="elex-nav-spacer"></div>
+<nav class="elex-nav" id="elex-nav" aria-label="Page sections">
+  {links.map(l => (
+    <a href={l.href} class="elex-nav-link">{l.label}</a>
+  ))}
+</nav>
+
+<script>
+  const navLinks = [...document.querySelectorAll<HTMLAnchorElement>('.elex-nav-link')];
+  const sectionIds = navLinks.map(l => l.getAttribute('href')!.slice(1));
+  const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+
+  function setActive(id: string) {
+    navLinks.forEach(l => {
+      l.classList.toggle('active', l.getAttribute('href') === `#${id}`);
+    });
+    // Scroll active link into view within the nav
+    const active = document.querySelector<HTMLElement>(`.elex-nav-link[href="#${id}"]`);
+    active?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  }
+
+  // Activate first section by default
+  if (sectionIds[0]) setActive(sectionIds[0]);
+
+  const obs = new IntersectionObserver(
+    (entries) => {
+      const visible = entries.filter(e => e.isIntersecting);
+      if (!visible.length) return;
+      visible.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      setActive(visible[0].target.id);
+    },
+    { rootMargin: '-40px 0px -55% 0px', threshold: 0 }
+  );
+
+  sections.forEach(s => obs.observe(s));
+</script>

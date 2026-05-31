@@ -1,0 +1,55 @@
+---
+import type { Candidate } from '../../data/eleicoes';
+import type { Locale } from '../../types/i18n';
+import { useTranslations } from '../../i18n/ui';
+
+interface Props {
+  candidate: Candidate;
+  locale: Locale;
+}
+
+const { candidate: c, locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<div
+  class={`candidate-${c.id}`}
+  style={`--c-candidate:${c.candidateColor}`}
+>
+  <div class="candidate-accent-bar"></div>
+
+  <div style="padding:var(--space-lg) 0">
+    <div style="display:flex;align-items:baseline;gap:var(--space-md);flex-wrap:wrap;margin-bottom:var(--space-md)">
+      <h3 class="candidate-section-name" style="font-size:clamp(18px,2vw,24px)">{c.fullName}</h3>
+      <span class="candidate-section-party">{c.party}</span>
+    </div>
+
+    <p class="elex-datestamp" style="margin-bottom:var(--space-xs)">{c.partyFull[locale]}</p>
+    <p style="font-family:var(--sans);font-size:13px;color:var(--muted);margin-bottom:var(--space-sm);line-height:1.4">
+      {c.currentOffice[locale]}
+    </p>
+    <p class="elex-datestamp" style="margin-bottom:var(--space-lg)">{c.born[locale]}</p>
+
+    {c.candidacyNote && (
+      <div class="badge badge-hypothesis" style="margin-bottom:var(--space-lg);white-space:normal;line-height:1.4;font-size:9px">
+        {c.candidacyNote[locale]}
+      </div>
+    )}
+
+    {!c.mandates[0]?.noMandate ? null : (
+      <div class="badge badge-no-mandate" style="margin-bottom:var(--space-lg)">
+        {t('eleicoes.badge_no_mandate')}
+      </div>
+    )}
+
+    <!-- Career timeline -->
+    <ul class="timeline-list">
+      {c.timeline.map(ev => (
+        <li class="timeline-item">
+          <span class="timeline-year">{ev.year}</span>
+          <span class="timeline-event">{ev.event[locale]}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>

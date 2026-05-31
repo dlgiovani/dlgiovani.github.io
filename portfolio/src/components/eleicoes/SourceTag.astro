@@ -1,0 +1,23 @@
+---
+import type { Source } from '../../data/eleicoes';
+import type { Locale } from '../../types/i18n';
+import { useTranslations } from '../../i18n/ui';
+
+interface Props {
+  source: Source;
+  locale: Locale;
+}
+
+const { source, locale } = Astro.props;
+const t = useTranslations(locale);
+
+const leaningLabel: Record<string, string> = {
+  left:   t('eleicoes.leaning_left'),
+  center: t('eleicoes.leaning_center'),
+  right:  t('eleicoes.leaning_right'),
+};
+---
+
+<span class={`src-tag src-${source.leaning}`} title={leaningLabel[source.leaning]}>
+  {source.name}
+</span>

@@ -1,0 +1,362 @@
+---
+import Base from '../../layouts/Base.astro';
+import { useTranslations } from '../../i18n/ui';
+import { candidates, mandateTable, ideologyTable, methodology } from '../../data/eleicoes';
+import EleicaoHero     from '../../components/eleicoes/EleicaoHero.astro';
+import EleicaoNav      from '../../components/eleicoes/EleicaoNav.astro';
+import CandidateCard   from '../../components/eleicoes/CandidateCard.astro';
+import ProposalGrid    from '../../components/eleicoes/ProposalGrid.astro';
+import ScoreCard       from '../../components/eleicoes/ScoreCard.astro';
+import MandateTable    from '../../components/islands/eleicoes/MandateTable';
+import ScandalCards    from '../../components/islands/eleicoes/ScandalCards';
+import IdeologyChart   from '../../components/islands/eleicoes/IdeologyChart';
+import VideoSection    from '../../components/islands/eleicoes/VideoSection';
+import SourceTag       from '../../components/eleicoes/SourceTag.astro';
+import Footer          from '../../components/static/Footer.astro';
+import LangThemeBar    from '../../components/interactive/LangThemeBar.astro';
+import type { Locale } from '../../types/i18n';
+import '../../styles/eleicoes.css';
+
+const locale: Locale = 'en';
+const t = useTranslations(locale);
+
+const lula   = candidates.find(c => c.id === 'lula')!;
+const flavio = candidates.find(c => c.id === 'flavio')!;
+const renan  = candidates.find(c => c.id === 'renan')!;
+
+const scandalData = candidates.map(c => ({
+  id: c.id,
+  fullName: c.fullName,
+  shortName: c.shortName,
+  candidateColor: c.candidateColor,
+  scandals: c.scandals,
+}));
+
+const videoData = candidates.map(c => ({
+  id: c.id,
+  fullName: c.fullName,
+  shortName: c.shortName,
+  candidateColor: c.candidateColor,
+  videos: c.videos,
+}));
+
+const ideologyCandidates = candidates.map(c => ({
+  id: c.id,
+  color: c.candidateColor,
+  shortName: c.shortName,
+}));
+
+const mandateLabels = {
+  indicator:   t('eleicoes.table_indicator'),
+  lula1:       t('eleicoes.table_lula1'),
+  lula3:       t('eleicoes.table_lula3'),
+  bolsonaro:   t('eleicoes.table_bolsonaro'),
+  renan:       t('eleicoes.table_renan'),
+  contextLabel: t('eleicoes.mandate_context_label'),
+  lulaColor:   lula.candidateColor,
+  flavioColor: flavio.candidateColor,
+  renanColor:  renan.candidateColor,
+};
+
+const scandalLabels = {
+  confirmed:      t('eleicoes.label_confirmed_section'),
+  alleged:        t('eleicoes.label_alleged_section'),
+  noneConfirmed:  t('eleicoes.label_none_confirmed'),
+  noneAlleged:    t('eleicoes.label_none_alleged'),
+  sources:        t('eleicoes.label_sources'),
+  outcome:        t('eleicoes.label_outcome'),
+  annulmentLabel: t('eleicoes.annulment_label'),
+  badgeConfirmed: t('eleicoes.badge_confirmed'),
+  badgeAlleged:   t('eleicoes.badge_alleged'),
+  leaningLeft:    t('eleicoes.leaning_left'),
+  leaningCenter:  t('eleicoes.leaning_center'),
+  leaningRight:   t('eleicoes.leaning_right'),
+};
+---
+
+<Base
+  title={t('eleicoes.page_title')}
+  description={t('eleicoes.page_description')}
+  locale={locale}
+>
+  <EleicaoNav locale={locale} />
+  <EleicaoHero locale={locale} />
+
+  <!-- ── Profiles ──────────────────────────────────────────────────── -->
+  <section class="sec" id="profiles">
+    <div class="sec-head">
+      <p class="kicker">{t('eleicoes.kicker')} — 01</p>
+      <h2 class="sec-title">{t('eleicoes.section_profiles')}</h2>
+    </div>
+    <div class="candidates-grid">
+      <CandidateCard candidate={lula}   locale={locale} />
+      <CandidateCard candidate={flavio} locale={locale} />
+      <CandidateCard candidate={renan}  locale={locale} />
+    </div>
+  </section>
+
+  <!-- ── Mandates ───────────────────────────────────────────────────── -->
+  <section class="sec" id="mandates">
+    <div class="sec-head">
+      <p class="kicker">{t('eleicoes.kicker')} — 02</p>
+      <h2 class="sec-title">{t('eleicoes.section_mandates')}</h2>
+    </div>
+
+    <MandateTable
+      client:visible
+      rows={mandateTable}
+      locale={locale}
+      labels={mandateLabels}
+    />
+
+    <!-- Mandate detail per candidate -->
+    {[lula, flavio, renan].map(c => (
+      <div
+        class={`candidate-${c.id}`}
+        style={`--c-candidate:${c.candidateColor};margin-top:var(--sec-gap)`}
+      >
+        <div class="candidate-section-label">
+          <span class="candidate-section-name">{c.fullName}</span>
+          <span class="candidate-section-party">{c.party}</span>
+        </div>
+
+        {c.mandates.map(m => (
+          <div style="margin-bottom:var(--space-xl)">
+            <div class="sub-section-head">
+              <p class="sub-section-kicker">{m.period[locale]}</p>
+              <h3 class="sub-section-title" style="font-size:clamp(18px,2vw,24px)">{m.label[locale]}</h3>
+            </div>
+
+            {m.noMandate ? (
+              <p class="elex-lead">{m.contextNote?.[locale]}</p>
+            ) : (
+              <>
+                {m.contextNote && (
+                  <div class="context-box">
+                    <strong>{t('eleicoes.mandate_context_label')}:</strong> {m.contextNote[locale]}
+                  </div>
+                )}
+
+                {m.indicators.length > 0 && (
+                  <div class="indicator-grid">
+                    {m.indicators.map(ind => (
+                      <div class="indicator-cell">
+                        <p class="indicator-label">{ind.label[locale]}</p>
+                        <p class="indicator-value">{ind.value[locale]}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-xl);margin-top:var(--space-lg)">
+                  <div>
+                    <p class="sub-section-kicker" style="margin-bottom:var(--space-sm)">{t('eleicoes.mandate_achievements')}</p>
+                    <ul style="list-style:none;padding:0;margin:0">
+                      {m.achievements.map(a => (
+                        <li style="font-family:var(--sans);font-size:13px;line-height:1.5;padding:var(--space-xs) 0;border-bottom:1px solid var(--line-soft);color:var(--ink)">
+                          {a[locale]}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="sub-section-kicker" style="margin-bottom:var(--space-sm)">{t('eleicoes.mandate_failures')}</p>
+                    <ul style="list-style:none;padding:0;margin:0">
+                      {m.failures.map(f => (
+                        <li style="font-family:var(--sans);font-size:13px;line-height:1.5;padding:var(--space-xs) 0;border-bottom:1px solid var(--line-soft);color:var(--ink)">
+                          {f[locale]}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        ))}
+      </div>
+    ))}
+  </section>
+
+  <!-- ── Proposals ──────────────────────────────────────────────────── -->
+  <section class="sec" id="proposals">
+    <div class="sec-head">
+      <p class="kicker">{t('eleicoes.kicker')} — 03</p>
+      <h2 class="sec-title">{t('eleicoes.section_proposals')}</h2>
+      <p class="sec-lead" style="margin-top:var(--space-md)">{t('eleicoes.section_proposals_lead')}</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:var(--sec-gap)">
+      <ProposalGrid candidate={lula}   locale={locale} />
+      <ProposalGrid candidate={flavio} locale={locale} />
+      <ProposalGrid candidate={renan}  locale={locale} />
+    </div>
+  </section>
+
+  <!-- ── Scandals ───────────────────────────────────────────────────── -->
+  <section class="sec" id="scandals">
+    <div class="sec-head">
+      <p class="kicker">{t('eleicoes.kicker')} — 04</p>
+      <h2 class="sec-title">{t('eleicoes.section_scandals')}</h2>
+      <p class="sec-lead" style="margin-top:var(--space-md)">{t('eleicoes.section_scandals_lead')}</p>
+    </div>
+    <ScandalCards
+      client:visible
+      candidates={scandalData}
+      locale={locale}
+      labels={scandalLabels}
+    />
+  </section>
+
+  <!-- ── Ideology ───────────────────────────────────────────────────── -->
+  <section class="sec" id="ideology">
+    <div class="sec-head">
+      <p class="kicker">{t('eleicoes.kicker')} — 05</p>
+      <h2 class="sec-title">{t('eleicoes.section_ideology')}</h2>
+      <p class="sec-lead" style="margin-top:var(--space-md)">{t('eleicoes.section_ideology_lead')}</p>
+    </div>
+    <IdeologyChart
+      client:visible
+      rows={ideologyTable}
+      locale={locale}
+      candidates={ideologyCandidates}
+      labels={{ axis: t('eleicoes.table_axis') }}
+    />
+  </section>
+
+  <!-- ── Competence ─────────────────────────────────────────────────── -->
+  <section class="sec" id="competence">
+    <div class="sec-head">
+      <p class="kicker">{t('eleicoes.kicker')} — 06</p>
+      <h2 class="sec-title">{t('eleicoes.section_competence')}</h2>
+      <p class="sec-lead" style="margin-top:var(--space-md)">{t('eleicoes.section_competence_lead')}</p>
+    </div>
+    <ScoreCard locale={locale} />
+  </section>
+
+  <!-- ── Connections ────────────────────────────────────────────────── -->
+  <section class="sec" id="connections">
+    <div class="sec-head">
+      <p class="kicker">{t('eleicoes.kicker')} — 07</p>
+      <h2 class="sec-title">{t('eleicoes.section_connections')}</h2>
+    </div>
+    <div class="connections-grid">
+      {[lula, flavio, renan].map(c => (
+        <div class={`candidate-${c.id}`} style={`--c-candidate:${c.candidateColor}`}>
+          <div class="candidate-section-label">
+            <span class="candidate-section-name">{c.shortName}</span>
+            <span class="candidate-section-party">{c.party}</span>
+          </div>
+
+          <p class="sub-section-kicker" style="margin-bottom:var(--space-sm)">{t('eleicoes.label_allies')}</p>
+          <div style="margin-bottom:var(--space-lg)">
+            {c.connections.allies.map(a => (
+              <div class="connection-item">
+                <p class="connection-name">{a.name}</p>
+                <p class="connection-role">{a.role[locale]}</p>
+              </div>
+            ))}
+          </div>
+
+          {c.connections.controversial.length > 0 && (
+            <>
+              <p class="sub-section-kicker" style="margin-bottom:var(--space-sm)">{t('eleicoes.label_controversial')}</p>
+              <div style="margin-bottom:var(--space-lg)">
+                {c.connections.controversial.map(a => (
+                  <div class="connection-item">
+                    <p class="connection-name">
+                      {a.name}
+                      {a.status && (
+                        <span
+                          class={`badge ${a.status === 'CONFIRMED' ? 'badge-confirmed' : 'badge-alleged'}`}
+                          style="margin-left:var(--space-xs)"
+                        >
+                          {a.status === 'CONFIRMED' ? t('eleicoes.badge_confirmed') : t('eleicoes.badge_alleged')}
+                        </span>
+                      )}
+                    </p>
+                    <p class="connection-role">{a.role[locale]}</p>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          <div class="media-row">
+            <p><strong>{t('eleicoes.label_media_favorable')}:</strong> {c.connections.media.favorable.join(' · ')}</p>
+            <p><strong>{t('eleicoes.label_media_critical')}:</strong> {c.connections.media.critical.join(' · ')}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── Media scandals ─────────────────────────────────────────────── -->
+  <section class="sec" id="media">
+    <div class="sec-head">
+      <p class="kicker">{t('eleicoes.kicker')} — 08</p>
+      <h2 class="sec-title">{t('eleicoes.section_media')}</h2>
+    </div>
+    <div class="candidates-grid">
+      {[lula, flavio, renan].map(c => (
+        <div class={`candidate-${c.id}`} style={`--c-candidate:${c.candidateColor}`}>
+          <div class="candidate-section-label">
+            <span class="candidate-section-name">{c.shortName}</span>
+            <span class="candidate-section-party">{c.party}</span>
+          </div>
+          {c.mediaScandals.map(ms => (
+            <div class="media-scandal-card">
+              <div class="media-scandal-meta">
+                <span class="media-scandal-date">{ms.date}</span>
+                <span class={`badge ${ms.tag[locale].toLowerCase().includes('confirm') ? 'badge-confirmed' : 'badge-alleged'}`}>
+                  {ms.tag[locale]}
+                </span>
+                <SourceTag source={ms.source} locale={locale} />
+              </div>
+              <h4 class="media-scandal-headline">{ms.headline[locale]}</h4>
+              <p class="media-scandal-body">{ms.summary[locale]}</p>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── Videos ─────────────────────────────────────────────────────── -->
+  <section class="sec" id="videos">
+    <div class="sec-head">
+      <p class="kicker">{t('eleicoes.kicker')} — 09</p>
+      <h2 class="sec-title">{t('eleicoes.section_videos')}</h2>
+      <p class="sec-lead" style="margin-top:var(--space-md)">{t('eleicoes.section_videos_lead')}</p>
+    </div>
+    <VideoSection
+      client:visible
+      candidates={videoData}
+      locale={locale}
+      emptyLabel={t('eleicoes.video_empty')}
+    />
+  </section>
+
+  <!-- ── Methodology ────────────────────────────────────────────────── -->
+  <section class="sec" id="methodology">
+    <div class="sec-head">
+      <p class="kicker">{t('eleicoes.kicker')} — 10</p>
+      <h2 class="sec-title">{t('eleicoes.section_methodology')}</h2>
+    </div>
+    <details class="methodology-details">
+      <summary>
+        {t('eleicoes.methodology_toggle')}
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M4 6l4 4 4-4"/>
+        </svg>
+      </summary>
+      <div class="methodology-body">
+        {methodology[locale].split('\n\n').map(p => (
+          <p>{p}</p>
+        ))}
+      </div>
+    </details>
+  </section>
+
+  <Footer locale={locale} />
+  <LangThemeBar locale={locale} />
+</Base>

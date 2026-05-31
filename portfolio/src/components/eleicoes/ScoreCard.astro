@@ -1,0 +1,42 @@
+---
+import type { Locale } from '../../types/i18n';
+import { useTranslations } from '../../i18n/ui';
+import { competenceTable, candidates } from '../../data/eleicoes';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const lula   = candidates.find(c => c.id === 'lula')!;
+const flavio = candidates.find(c => c.id === 'flavio')!;
+const renan  = candidates.find(c => c.id === 'renan')!;
+---
+
+<div style="overflow-x:auto">
+  <table class="scorecard">
+    <thead>
+      <tr>
+        <th style="width:180px">{t('eleicoes.table_dimension')}</th>
+        <th>
+          <span style={`color:${lula.candidateColor}`}>{t('eleicoes.table_lula')}</span>
+        </th>
+        <th>
+          <span style={`color:${flavio.candidateColor}`}>{t('eleicoes.table_flavio')}</span>
+        </th>
+        <th>
+          <span style={`color:${renan.candidateColor}`}>{renan.shortName} (Missão)</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {competenceTable.map(row => (
+        <tr>
+          <td class="td-dim scorecard">{row.dimension[locale]}</td>
+          <td class={`level-${row.lula.level}`}>{row.lula.assessment[locale]}</td>
+          <td class={`level-${row.flavio.level}`}>{row.flavio.assessment[locale]}</td>
+          <td class={`level-${row.renan.level}`}>{row.renan.assessment[locale]}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

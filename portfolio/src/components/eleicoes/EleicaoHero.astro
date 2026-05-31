@@ -1,0 +1,46 @@
+---
+import type { Locale } from '../../types/i18n';
+import { useTranslations } from '../../i18n/ui';
+import { polling } from '../../data/eleicoes';
+import { candidates } from '../../data/eleicoes';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const lula   = candidates.find(c => c.id === 'lula')!;
+const flavio = candidates.find(c => c.id === 'flavio')!;
+const renan  = candidates.find(c => c.id === 'renan')!;
+
+
+const poll = polling.atlasIntel;
+---
+
+<section class="sec" id="elex-hero">
+  <div class="sec-head">
+    <p class="kicker">{t('eleicoes.kicker')}</p>
+    <h1 class="sec-title">{t('eleicoes.title')}</h1>
+    <p class="sec-lead">{t('eleicoes.lead')}</p>
+    <p class="elex-datestamp" style="margin-top:var(--space-md)">{t('eleicoes.datestamp')}</p>
+  </div>
+
+  <!-- Polling snapshot -->
+  <div>
+    <p class="kicker" style="margin-bottom:var(--space-md)">{t('eleicoes.polling_title')} — {poll.label} · {poll.date[locale]}</p>
+    <div class="polling-snapshot">
+      {[
+        { candidate: lula,   pct: poll.firstRound.lula   },
+        { candidate: flavio, pct: poll.firstRound.flavio },
+        { candidate: renan,  pct: poll.firstRound.renan  },
+      ].map(({ candidate, pct }) => (
+        <div class={`polling-candidate candidate-${candidate.id}`} style={`--c-candidate:${candidate.candidateColor}`}>
+          <div class="polling-candidate-accent"></div>
+          <p class="polling-candidate-name">{candidate.shortName}</p>
+          <p class="polling-figure">{pct}<sup>%</sup></p>
+          <p class="polling-source">{t('eleicoes.polling_first_round')}</p>
+        </div>
+      ))}
+    </div>
+    <p class="elex-datestamp" style="margin-top:var(--space-sm);font-style:italic">{polling.caveat[locale]}</p>
+  </div>
+</section>
