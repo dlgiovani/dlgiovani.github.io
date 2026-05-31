@@ -609,7 +609,18 @@ export const candidates: Candidate[] = [
       },
     ],
     videos: [
-      // Add YouTube video IDs here.
+      {
+        youtubeId: 'FyNjbERRbLA',
+        title: {
+          en: 'Flávio Bolsonaro on his presidential pre-candidacy — full interview',
+          pt: 'Flávio Bolsonaro comenta pré-candidatura à Presidência; veja íntegra',
+        },
+        outlet: 'CNN 360°',
+        description: {
+          en: 'Flávio Bolsonaro discusses his presidential ambitions and platform with CNN Brasil.',
+          pt: 'Flávio Bolsonaro comenta suas ambições presidenciais e propostas com a CNN Brasil.',
+        },
+      },
     ],
   },
 
@@ -761,8 +772,30 @@ export const candidates: Candidate[] = [
       },
     ],
     videos: [
-      // Add YouTube video IDs here. Renan should have more slots than the others
-      // to balance his lower name recognition (per the editorial brief).
+      {
+        youtubeId: 'bYi5Xhrv5ps',
+        title: {
+          en: 'Renan Santos details his presidential pre-candidacy for Missão — CNN',
+          pt: 'Renan Santos detalha à CNN pré-candidatura à Presidência pelo Missão',
+        },
+        outlet: 'CNN Brasil',
+        description: {
+          en: 'Renan Santos speaks to CNN Brasil about his presidential bid under the Missão party.',
+          pt: 'Renan Santos fala à CNN Brasil sobre sua candidatura à Presidência pelo partido Missão.',
+        },
+      },
+      {
+        youtubeId: 'gVrW6a5e6Tc',
+        title: {
+          en: "Renan Santos on fighting crime and 2026: 'We will change Brazil'",
+          pt: "Renan Santos promete guerra ao crime e mira 2026: 'Vamos mudar o Brasil'",
+        },
+        outlet: 'BM&C News',
+        description: {
+          en: 'Renan Santos outlines his security agenda and political vision for 2026 in a BM&C Talks interview.',
+          pt: 'Renan Santos apresenta sua agenda de segurança e visão política para 2026 no BM&C Talks.',
+        },
+      },
     ],
   },
 ]
@@ -1102,7 +1135,7 @@ export const govPeriods: GovPeriod[] = [
   {
     id: 'dilma',
     label: { en: 'Dilma (PT)', pt: 'Dilma (PT)' },
-    start: '2011-03', end: '2016-08',
+    start: '2011-01', end: '2016-08',
     color: 'rgba(181,43,39,0.09)',
   },
   {
@@ -1120,7 +1153,7 @@ export const govPeriods: GovPeriod[] = [
   {
     id: 'lula3',
     label: { en: 'Lula 3 (PT)', pt: 'Lula 3 (PT)' },
-    start: '2023-01', end: '2026-04',
+    start: '2023-01', end: '2099-12',
     color: 'rgba(181,43,39,0.07)',
   },
 ]

@@ -329,7 +329,7 @@ const scandalLabels = {
             <div class="media-scandal-card">
               <div class="media-scandal-meta">
                 <span class="media-scandal-date">{ms.date}</span>
-                <span class={`badge ${ms.tag[locale].toLowerCase().includes('confirm') ? 'badge-confirmed' : 'badge-alleged'}`}>
+                <span class={`badge ${ms.tag.en.toLowerCase().includes('confirm') ? 'badge-confirmed' : 'badge-alleged'}`}>
                   {ms.tag[locale]}
                 </span>
                 <SourceTag source={ms.source} locale={locale} />

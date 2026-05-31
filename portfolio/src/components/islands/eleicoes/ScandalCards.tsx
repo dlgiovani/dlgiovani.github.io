@@ -156,8 +156,8 @@ export default function ScandalCards({ candidates, locale, labels }: Props) {
               {labels.noneConfirmed}
             </p>
           ) : (
-            c.scandals.confirmed.map((s, i) => (
-              <ScandalCard key={i} scandal={s} locale={locale} labels={labels} />
+            c.scandals.confirmed.map(s => (
+              <ScandalCard key={s.name.en} scandal={s} locale={locale} labels={labels} />
             ))
           )}
 
@@ -177,8 +177,8 @@ export default function ScandalCards({ candidates, locale, labels }: Props) {
               {labels.noneAlleged}
             </p>
           ) : (
-            c.scandals.alleged.map((s, i) => (
-              <ScandalCard key={i} scandal={s} locale={locale} labels={labels} />
+            c.scandals.alleged.map(s => (
+              <ScandalCard key={s.name.en} scandal={s} locale={locale} labels={labels} />
             ))
           )}
         </div>

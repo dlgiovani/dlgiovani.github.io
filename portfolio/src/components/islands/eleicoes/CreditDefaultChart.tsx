@@ -38,6 +38,7 @@ function dateLabel(date: string): string {
 }
 
 export default function CreditDefaultChart({ series, periods, locale, labels }: Props) {
+  if (!series.length) return null;
   const total = series.length;
   const pointsStr = series.map((d, i) => `${toX(i, total).toFixed(1)},${toY(d.value).toFixed(1)}`).join(' ');
 
@@ -90,6 +91,7 @@ export default function CreditDefaultChart({ series, periods, locale, labels }: 
         viewBox={`0 0 ${W} ${H}`}
         width="100%"
         preserveAspectRatio="xMidYMid meet"
+        role="img"
         style={{ display: 'block', overflow: 'visible' }}
         aria-label={labels.title}
       >

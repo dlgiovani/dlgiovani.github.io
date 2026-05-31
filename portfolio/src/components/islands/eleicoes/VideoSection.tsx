@@ -35,6 +35,7 @@ export default function VideoSection({ candidates, locale, emptyLabel }: Props) 
                     title={v.title[locale]}
                     loading="lazy"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    sandbox="allow-scripts allow-same-origin allow-presentation"
                     allowFullScreen
                   />
                 </div>

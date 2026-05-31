@@ -32,17 +32,18 @@ const links = [
   const sectionIds = navLinks.map(l => l.getAttribute('href')!.slice(1));
   const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean) as HTMLElement[];
 
-  function setActive(id: string) {
+  function setActive(id: string, scroll = true) {
     navLinks.forEach(l => {
       l.classList.toggle('active', l.getAttribute('href') === `#${id}`);
     });
-    // Scroll active link into view within the nav
-    const active = document.querySelector<HTMLElement>(`.elex-nav-link[href="#${id}"]`);
-    active?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    if (scroll) {
+      const active = document.querySelector<HTMLElement>(`.elex-nav-link[href="#${id}"]`);
+      active?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    }
   }
 
-  // Activate first section by default
-  if (sectionIds[0]) setActive(sectionIds[0]);
+  // Activate first section by default without triggering scrollIntoView on load
+  if (sectionIds[0]) setActive(sectionIds[0], false);
 
   const obs = new IntersectionObserver(
     (entries) => {
@@ -55,4 +56,5 @@ const links = [
   );
 
   sections.forEach(s => obs.observe(s));
+  document.addEventListener('astro:before-swap', () => obs.disconnect(), { once: true });
 </script>

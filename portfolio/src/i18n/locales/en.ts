@@ -190,7 +190,7 @@ const en = {
     leaning_left: 'Left',
     leaning_center: 'Center',
     leaning_right: 'Right',
-    video_empty: 'Videos coming soon',
+    video_empty: 'Videos will be added as pre-candidates give informative interviews.',
     mandate_context_label: 'Context',
     annulment_label: 'Annulment note',
     methodology_toggle: 'Read methodology & sources',

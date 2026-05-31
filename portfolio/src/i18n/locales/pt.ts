@@ -192,7 +192,7 @@ const pt: UI = {
     leaning_left: 'Esquerda',
     leaning_center: 'Centro',
     leaning_right: 'Direita',
-    video_empty: 'Vídeos em breve',
+    video_empty: 'Vídeos serão adicionados conforme os pré-candidatos concedam entrevistas informativas.',
     mandate_context_label: 'Contexto',
     annulment_label: 'Nota sobre anulação',
     methodology_toggle: 'Ler metodologia e fontes',
