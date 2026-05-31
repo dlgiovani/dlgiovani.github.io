@@ -2,9 +2,9 @@
 
 export interface BL { en: string; pt: string }
 export type LikelihoodLevel = 'HIGH' | 'MEDIUM' | 'LOW' | 'HIGH–MEDIUM' | 'LOW–MEDIUM'
-export type ScandalType    = 'CONFIRMED' | 'ALLEGED'
+export type ScandalType = 'CONFIRMED' | 'ALLEGED'
 export type PoliticalLeaning = 'left' | 'center' | 'right'
-export type CompetenceLevel  = 'high' | 'medium' | 'low' | 'na'
+export type CompetenceLevel = 'high' | 'medium' | 'low' | 'na'
 
 export interface Source {
   name: string
@@ -704,8 +704,9 @@ export const candidates: Candidate[] = [
       confirmed: [],
       alleged: [],
       noneNote: {
-        en: 'No corruption convictions, indictments, or official findings. Renan has held no public office, so there is no institutional record to investigate. The data gap is honest — do not infer wrongdoing from absence.',
-        pt: 'Nenhuma condenação, indiciamento ou apuração oficial por corrupção. Renan nunca ocupou cargo público, portanto não há histórico institucional a investigar. A lacuna de dados é honesta — não inferir irregularidade por ausência.' },
+        en: 'No corruption convictions, indictments, or official findings. Renan has held no public office, so there is no institutional record to investigate.',
+        pt: 'Nenhuma condenação, indiciamento ou apuração oficial por corrupção. Renan nunca ocupou cargo público, portanto não há histórico institucional a investigar.'
+      },
     },
     connections: {
       allies: [
@@ -728,7 +729,7 @@ export const candidates: Candidate[] = [
         date: '2026 (reported)',
         source: { name: 'Brasil de Fato / Poder360', leaning: 'left' },
         summary: { en: 'Brasil de Fato (left) reported Renan owes ~R$1.1m in União\'s Dívida Ativa (mostly FGTS across two companies). Poder360/Veja (center-right) cite only ~R$41,100 over alleged irregular dissolution of "Martin Artefatos de Metais." Renan disputes responsibility, saying the triggering facts predate his involvement. This is a civil/fiscal matter — not a criminal corruption case.', pt: 'Brasil de Fato (esquerda) reportou que Renan deve ~R$1,1 mi na Dívida Ativa da União (principalmente FGTS em duas empresas). Poder360/Veja (centro-direita) apontam apenas ~R$41.100 por suposta dissolução irregular da "Martin Artefatos de Metais". Renan contesta a responsabilidade, alegando que os fatos que geraram a dívida antecedem seu ingresso na empresa. Trata-se de matéria civil/fiscal — não é um caso de corrupção criminal.' },
-        tag: { en: 'Reported (civil/fiscal — not corruption)', pt: 'Reportado (civil/fiscal — não é corrupção)' },
+        tag: { en: 'Reported', pt: 'Reportado' },
       },
       {
         headline: { en: '"Flávio Bolsonaro has to die" (December 2025 / viral January 2026)', pt: '"Flávio Bolsonaro tem que morrer" (dezembro de 2025 / viral em janeiro de 2026)' },
@@ -771,113 +772,113 @@ export const candidates: Candidate[] = [
 export const mandateTable: MandateRow[] = [
   {
     indicator: { en: 'External context', pt: 'Contexto externo' },
-    lula1:    { en: '▲ Commodity supercycle tailwind (2003–2011)', pt: '▲ Vento favorável do superciclo das commodities (2003–2011)' },
-    lula3:    { en: '▼ High Selic (~14%+) headwind', pt: '▼ Vento contrário da Selic alta (~14%+)' },
-    bolsonaro:{ en: '▼ COVID-19 pandemic (3 of 4 years)', pt: '▼ Pandemia de COVID-19 (3 dos 4 anos)' },
-    renan:    { en: 'N/A — no mandate', pt: 'N/D — sem mandato' },
+    lula1: { en: '▲ Commodity supercycle tailwind (2003–2011)', pt: '▲ Vento favorável do superciclo das commodities (2003–2011)' },
+    lula3: { en: '▼ High Selic (~14%+) headwind', pt: '▼ Vento contrário da Selic alta (~14%+)' },
+    bolsonaro: { en: '▼ COVID-19 pandemic (3 of 4 years)', pt: '▼ Pandemia de COVID-19 (3 dos 4 anos)' },
+    renan: { en: 'N/A — no mandate', pt: 'N/D — sem mandato' },
     isContext: true,
   },
   {
     indicator: { en: 'Avg. annual GDP growth', pt: 'Crescimento médio anual do PIB' },
-    lula1:    { en: '~4.05% (Unicamp)', pt: '~4,05% (Unicamp)' },
-    lula3:    { en: '+3.4% (2024), +2.3% (2025) — IBGE', pt: '+3,4% (2024), +2,3% (2025) — IBGE' },
-    bolsonaro:{ en: '~1.12% avg (Unicamp): −3.3% (2020), +4.8% (2021), +3.0% (2022)', pt: '~1,12% médio (Unicamp): −3,3% (2020), +4,8% (2021), +3,0% (2022)' },
-    renan:    { en: 'N/A — no mandate', pt: 'N/D — sem mandato' },
+    lula1: { en: '~4.05% (Unicamp)', pt: '~4,05% (Unicamp)' },
+    lula3: { en: '+3.4% (2024), +2.3% (2025) — IBGE', pt: '+3,4% (2024), +2,3% (2025) — IBGE' },
+    bolsonaro: { en: '~1.12% avg (Unicamp): −3.3% (2020), +4.8% (2021), +3.0% (2022)', pt: '~1,12% médio (Unicamp): −3,3% (2020), +4,8% (2021), +3,0% (2022)' },
+    renan: { en: 'N/A — no mandate', pt: 'N/D — sem mandato' },
   },
   {
     indicator: { en: 'Unemployment', pt: 'Desemprego' },
-    lula1:    { en: 'Fell substantially over period (IBGE)', pt: 'Queda expressiva ao longo do período (IBGE)' },
-    lula3:    { en: 'Multi-year lows; record-high employment in 2025 (IBGE PNAD)', pt: 'Mínimas históricas; recorde de pessoas empregadas em 2025 (IBGE PNAD)' },
-    bolsonaro:{ en: 'Peak 14.9% (early 2021, COVID) → ~8.9% (mid-2022)', pt: 'Pico de 14,9% (início de 2021, COVID) → ~8,9% (meados de 2022)' },
-    renan:    { en: 'N/A — no mandate', pt: 'N/D — sem mandato' },
+    lula1: { en: 'Fell substantially over period (IBGE)', pt: 'Queda expressiva ao longo do período (IBGE)' },
+    lula3: { en: 'Multi-year lows; record-high employment in 2025 (IBGE PNAD)', pt: 'Mínimas históricas; recorde de pessoas empregadas em 2025 (IBGE PNAD)' },
+    bolsonaro: { en: 'Peak 14.9% (early 2021, COVID) → ~8.9% (mid-2022)', pt: 'Pico de 14,9% (início de 2021, COVID) → ~8,9% (meados de 2022)' },
+    renan: { en: 'N/A — no mandate', pt: 'N/D — sem mandato' },
   },
   {
     indicator: { en: 'Inflation (IPCA)', pt: 'Inflação (IPCA)' },
-    lula1:    { en: 'Mostly within target (~4% in good years)', pt: 'Majoritariamente dentro da meta (~4% nos bons anos)' },
-    lula3:    { en: 'Disinflation underway; ~3.6% projected 2026 (SPE)', pt: 'Desinflação em curso; ~3,6% projetado para 2026 (SPE/MF)' },
-    bolsonaro:{ en: 'Double-digit 2021 → ~6% 2022 (after fuel-tax cuts)', pt: 'Dois dígitos em 2021 → ~6% em 2022 (após cortes do IPI sobre combustíveis)' },
-    renan:    { en: 'N/A — no mandate', pt: 'N/D — sem mandato' },
+    lula1: { en: 'Mostly within target (~4% in good years)', pt: 'Majoritariamente dentro da meta (~4% nos bons anos)' },
+    lula3: { en: 'Disinflation underway; ~3.6% projected 2026 (SPE)', pt: 'Desinflação em curso; ~3,6% projetado para 2026 (SPE/MF)' },
+    bolsonaro: { en: 'Double-digit 2021 → ~6% 2022 (after fuel-tax cuts)', pt: 'Dois dígitos em 2021 → ~6% em 2022 (após cortes do IPI sobre combustíveis)' },
+    renan: { en: 'N/A — no mandate', pt: 'N/D — sem mandato' },
   },
   {
     indicator: { en: 'Human Development Index', pt: 'Índice de Desenvolvimento Humano (IDH)' },
-    lula1:    { en: '0.669 (2000) → 0.726 (2010, UNDP)', pt: '0,669 (2000) → 0,726 (2010, PNUD)' },
-    lula3:    { en: '~0.76, plateaued (UNDP)', pt: '~0,76, estagnado (PNUD)' },
-    bolsonaro:{ en: '~0.76, flat during term (UNDP)', pt: '~0,76, estagnado no mandato (PNUD)' },
-    renan:    { en: 'N/A — no mandate', pt: 'N/D — sem mandato' },
+    lula1: { en: '0.669 (2000) → 0.726 (2010, UNDP)', pt: '0,669 (2000) → 0,726 (2010, PNUD)' },
+    lula3: { en: '~0.76, plateaued (UNDP)', pt: '~0,76, estagnado (PNUD)' },
+    bolsonaro: { en: '~0.76, flat during term (UNDP)', pt: '~0,76, estagnado no mandato (PNUD)' },
+    renan: { en: 'N/A — no mandate', pt: 'N/D — sem mandato' },
   },
   {
     indicator: { en: 'Min. wage purchasing power', pt: 'Poder de compra do salário mínimo' },
-    lula1:    { en: '+~46% (DIEESE/Unicamp)', pt: '+~46% (DIEESE/Unicamp)' },
-    lula3:    { en: 'Real-gain policy resumed (ongoing)', pt: 'Política de ganho real retomada (em curso)' },
-    bolsonaro:{ en: '−~26% (DIEESE/Unicamp)', pt: '−~26% (DIEESE/Unicamp)' },
-    renan:    { en: 'N/A — no mandate', pt: 'N/D — sem mandato' },
+    lula1: { en: '+~46% (DIEESE/Unicamp)', pt: '+~46% (DIEESE/Unicamp)' },
+    lula3: { en: 'Real-gain policy resumed (ongoing)', pt: 'Política de ganho real retomada (em curso)' },
+    bolsonaro: { en: '−~26% (DIEESE/Unicamp)', pt: '−~26% (DIEESE/Unicamp)' },
+    renan: { en: 'N/A — no mandate', pt: 'N/D — sem mandato' },
   },
   {
     indicator: { en: 'Corporate distress (Serasa Experian)', pt: 'Estresse empresarial (Serasa Experian)' },
-    lula1:    { en: 'Pre-2005 law; early series', pt: 'Anterior à lei de 2005; série inicial' },
-    lula3:    { en: 'Record judicial reorganizations: 2,466 in 2025 (+13%); bankruptcies fell to 698 (−19%)', pt: 'Recuperações judiciais em recorde: 2.466 em 2025 (+13%); falências caíram para 698 (−19%)' },
-    bolsonaro:{ en: 'Bankruptcies fell for 3 consecutive years (2020–22) — pandemic credit support', pt: 'Falências caíram por 3 anos consecutivos (2020–22) — apoio de crédito pandêmico' },
-    renan:    { en: 'N/A — no mandate', pt: 'N/D — sem mandato' },
+    lula1: { en: 'Pre-2005 law; early series', pt: 'Anterior à lei de 2005; série inicial' },
+    lula3: { en: 'Record judicial reorganizations: 2,466 in 2025 (+13%); bankruptcies fell to 698 (−19%)', pt: 'Recuperações judiciais em recorde: 2.466 em 2025 (+13%); falências caíram para 698 (−19%)' },
+    bolsonaro: { en: 'Bankruptcies fell for 3 consecutive years (2020–22) — pandemic credit support', pt: 'Falências caíram por 3 anos consecutivos (2020–22) — apoio de crédito pandêmico' },
+    renan: { en: 'N/A — no mandate', pt: 'N/D — sem mandato' },
   },
 ]
 
 export const ideologyTable: IdeologyRow[] = [
   {
     axis: { en: 'Foreign Policy', pt: 'Política Externa' },
-    axisLeft:  { en: 'Multilateral', pt: 'Multilateral' },
+    axisLeft: { en: 'Multilateral', pt: 'Multilateral' },
     axisRight: { en: 'Nationalist', pt: 'Nacionalista' },
-    lula:   { description: { en: 'Strongly multilateral (BRICS, South-South, climate mediation)', pt: 'Fortemente multilateral (BRICS, Sul-Sul, mediação climática)' }, score: -1.8 },
+    lula: { description: { en: 'Strongly multilateral (BRICS, South-South, climate mediation)', pt: 'Fortemente multilateral (BRICS, Sul-Sul, mediação climática)' }, score: -1.8 },
     flavio: { description: { en: 'Nationalist, US/conservative-international aligned (CPAC)', pt: 'Nacionalista, alinhado com EUA e conservadores internacionais (CPAC)' }, score: 1.5 },
-    renan:  { description: { en: 'Sovereigntist / great-power nationalist (nuclear deterrence)', pt: 'Soberanista / nacionalista de grande potência (dissuasão nuclear)' }, score: 1.6 },
+    renan: { description: { en: 'Sovereigntist / great-power nationalist (nuclear deterrence)', pt: 'Soberanista / nacionalista de grande potência (dissuasão nuclear)' }, score: 1.6 },
   },
   {
     axis: { en: 'Rule of Law', pt: 'Estado de Direito' },
-    axisLeft:  { en: 'Institutionalist', pt: 'Institucionalista' },
+    axisLeft: { en: 'Institutionalist', pt: 'Institucionalista' },
     axisRight: { en: 'Authoritarian tendencies', pt: 'Tendências autoritárias' },
-    lula:   { description: { en: 'Institutionalist in rhetoric; critics cite court-friendly alliances and IBGE independence concern', pt: 'Institucionalista no discurso; críticos apontam alianças com o Judiciário e preocupação com a independência do IBGE' }, score: -0.5 },
+    lula: { description: { en: 'Institutionalist in rhetoric; critics cite court-friendly alliances and IBGE independence concern', pt: 'Institucionalista no discurso; críticos apontam alianças com o Judiciário e preocupação com a independência do IBGE' }, score: -0.5 },
     flavio: { description: { en: 'Authoritarian-leaning signals: election "monitoring" call, coup amnesty pledge, father\'s anti-democratic record', pt: 'Sinais de tendência autoritária: pedido de "monitoramento" eleitoral, promessa de anistia por golpe, histórico antidemocrático do pai' }, score: 1.5 },
-    renan:  { description: { en: 'Anti-system/hardline: "arrest or kill" faction leaders, mass incarceration model, constitution modification proposals', pt: 'Antissistema/radical: "prender ou matar" lideranças de facções, modelo de encarceramento em massa, propostas de modificação constitucional' }, score: 1.8 },
+    renan: { description: { en: 'Anti-system/hardline: "arrest or kill" faction leaders, mass incarceration model, constitution modification proposals', pt: 'Antissistema/radical: "prender ou matar" lideranças de facções, modelo de encarceramento em massa, propostas de modificação constitucional' }, score: 1.8 },
   },
   {
     axis: { en: 'Environment', pt: 'Meio Ambiente' },
-    axisLeft:  { en: 'Green', pt: 'Verde' },
+    axisLeft: { en: 'Green', pt: 'Verde' },
     axisRight: { en: 'Extractivist', pt: 'Extrativista' },
-    lula:   { description: { en: 'Green-leaning (Amazon enforcement, COP30 host) with oil tension (Margem Equatorial)', pt: 'Tendência verde (fiscalização da Amazônia, anfitrião da COP30) com tensão sobre petróleo (Margem Equatorial)' }, score: -1.0 },
+    lula: { description: { en: 'Green-leaning (Amazon enforcement, COP30 host) with oil tension (Margem Equatorial)', pt: 'Tendência verde (fiscalização da Amazônia, anfitrião da COP30) com tensão sobre petróleo (Margem Equatorial)' }, score: -1.0 },
     flavio: { description: { en: 'Extractivist (Margem Equatorial oil; criticizes "ideological" environmental licensing)', pt: 'Extrativista (petróleo na Margem Equatorial; critica licenciamento ambiental "ideológico")' }, score: 1.5 },
-    renan:  { description: { en: '"Econacionalismo" — growth-first with clean-energy self-sufficiency framing; extractivist in practice', pt: '"Econacionalismo" — crescimento em primeiro lugar com enquadramento de autossuficiência em energia limpa; extrativista na prática' }, score: 1.3 },
+    renan: { description: { en: '"Econacionalismo" — growth-first with clean-energy self-sufficiency framing; extractivist in practice', pt: '"Econacionalismo" — crescimento em primeiro lugar com enquadramento de autossuficiência em energia limpa; extrativista na prática' }, score: 1.3 },
   },
 ]
 
 export const competenceTable: CompetenceRow[] = [
   {
     dimension: { en: 'Executive experience', pt: 'Experiência executiva' },
-    lula:   { assessment: { en: 'Very high — 3 presidential terms, 80 years old', pt: 'Muito alta — 3 mandatos presidenciais, 80 anos' }, level: 'high' },
+    lula: { assessment: { en: 'Very high — 3 presidential terms, 80 years old', pt: 'Muito alta — 3 mandatos presidenciais, 80 anos' }, level: 'high' },
     flavio: { assessment: { en: 'None — legislative only; would rely on father\'s network', pt: 'Nenhuma — apenas legislativa; dependeria da rede do pai' }, level: 'na' },
-    renan:  { assessment: { en: 'None — never held elected office', pt: 'Nenhuma — nunca ocupou cargo eletivo' }, level: 'na' },
+    renan: { assessment: { en: 'None — never held elected office', pt: 'Nenhuma — nunca ocupou cargo eletivo' }, level: 'na' },
   },
   {
     dimension: { en: 'Crisis management', pt: 'Gestão de crises' },
-    lula:   { assessment: { en: 'Poor — fumbled the 2008 global financial crisis (slower response than peers; subsequent credit expansion built structural vulnerabilities); 3rd-term fiscal/FX crisis management widely criticized', pt: 'Fraca — mal administrou a crise financeira global de 2008 (resposta mais lenta que outros países; a expansão de crédito subsequente criou vulnerabilidades estruturais); gestão das crises fiscal e cambial no 3º mandato amplamente criticada' }, level: 'low' },
-    flavio: { assessment: { en: 'Untested as executive; father\'s COVID crisis management — one of the world\'s worst death tolls — was widely condemned', pt: 'Não testada como executivo; gestão da crise do COVID pelo pai — um dos piores saldos de mortes do mundo — foi amplamente condenada' }, level: 'na' },
-    renan:  { assessment: { en: 'Untested — no governing record of any kind', pt: 'Não testada — sem histórico de governo de qualquer tipo' }, level: 'na' },
+    lula: { assessment: { en: 'Poor — fumbled the 2008 global financial crisis (slower response than peers; subsequent credit expansion built structural vulnerabilities); 3rd-term fiscal/FX crisis management widely criticized', pt: 'Fraca — mal administrou a crise financeira global de 2008 (resposta mais lenta que outros países; a expansão de crédito subsequente criou vulnerabilidades estruturais); gestão das crises fiscal e cambial no 3º mandato amplamente criticada' }, level: 'low' },
+    flavio: { assessment: { en: 'Untested as executive; father\'s COVID crisis management was criticized', pt: 'Não testada como executivo; gestão da crise do COVID pelo pai foi criticada' }, level: 'na' },
+    renan: { assessment: { en: 'Untested — no governing record of any kind', pt: 'Não testada — sem histórico de governo de qualquer tipo' }, level: 'na' },
   },
   {
     dimension: { en: 'Legislative effectiveness', pt: 'Eficácia legislativa' },
-    lula:   { assessment: { en: 'High historically — built broad coalition governments; tax and fiscal reform in 3rd term', pt: 'Alta historicamente — construiu governos de coalizão ampla; reforma fiscal e tributária no 3º mandato' }, level: 'high' },
+    lula: { assessment: { en: 'High historically — built broad coalition governments; tax and fiscal reform in 3rd term', pt: 'Alta historicamente — construiu governos de coalizão ampla; reforma fiscal e tributária no 3º mandato' }, level: 'high' },
     flavio: { assessment: { en: 'Low — only 2 co-authored measures enacted as senator (Folha/Estado de Minas)', pt: 'Baixa — apenas 2 medidas coautoras sancionadas como senador (Folha/Estado de Minas)' }, level: 'low' },
-    renan:  { assessment: { en: 'N/A — no legislative seat; Missão has 1 federal deputy', pt: 'N/D — sem mandato legislativo; o Missão tem 1 deputado federal' }, level: 'na' },
+    renan: { assessment: { en: 'N/A — no legislative seat; Missão has 1 federal deputy', pt: 'N/D — sem mandato legislativo; o Missão tem 1 deputado federal' }, level: 'na' },
   },
   {
     dimension: { en: 'Team quality', pt: 'Qualidade da equipe' },
-    lula:   { assessment: { en: 'Poor — Haddad appointed Finance Minister despite not being an economist (background in political science/education policy); Pochmann at IBGE raised institutional independence concerns; Master affair tainted key allies (Mantega, Wagner)', pt: 'Fraca — Haddad nomeado ministro da Fazenda apesar de não ser economista (formação em ciências políticas/política educacional); Pochmann no IBGE levantou preocupações de independência institucional; caso Master manchou aliados-chave (Mantega, Wagner)' }, level: 'low' },
+    lula: { assessment: { en: 'Poor — Haddad appointed Finance Minister despite not being an economist (background in political science/education policy); Pochmann at IBGE raised institutional independence concerns; Master affair tainted key allies (Mantega, Wagner)', pt: 'Fraca — Haddad nomeado ministro da Fazenda apesar de não ser economista (formação em ciências políticas/política educacional); Pochmann no IBGE levantou preocupações de independência institucional; caso Master manchou aliados-chave (Mantega, Wagner)' }, level: 'low' },
     flavio: { assessment: { en: 'Thin; promises a "technical" team; heavily family-centric (Eduardo, Carlos, Michelle)', pt: 'Pouco estruturada; promete equipe "técnica"; fortemente centrada na família (Eduardo, Carlos, Michelle)' }, level: 'low' },
-    renan:  { assessment: { en: 'Small MBL cadre; no governing bench or proven technocrats', pt: 'Pequeno quadro do MBL; sem bancada de governo ou tecnocratas comprovados' }, level: 'low' },
+    renan: { assessment: { en: 'Small MBL cadre; no governing bench or proven technocrats', pt: 'Pequeno quadro do MBL; sem bancada de governo ou tecnocratas comprovados' }, level: 'low' },
   },
   {
     dimension: { en: 'Communication & public trust', pt: 'Comunicação e confiança pública' },
-    lula:   { assessment: { en: 'Strong communicator and coalition builder; ~53% rejection rate (Quaest)', pt: 'Forte comunicador e articulador de coalizões; ~53% de rejeição (Quaest)' }, level: 'medium' },
+    lula: { assessment: { en: 'Strong communicator and coalition builder; ~53% rejection rate (Quaest)', pt: 'Forte comunicador e articulador de coalizões; ~53% de rejeição (Quaest)' }, level: 'medium' },
     flavio: { assessment: { en: 'Strong with his base; ~54% rejection rate (Quaest)', pt: 'Forte com sua base; ~54% de rejeição (Quaest)' }, level: 'medium' },
-    renan:  { assessment: { en: 'Strong organic social media (~5.11% Instagram engagement, Blade/Investidor10); dominant with youth — ~24% first-round support among 16–24-year-olds (AtlasIntel/Crusoé); ~74% didn\'t know him; only ~19% rejection (Quaest)', pt: 'Forte engajamento orgânico em redes sociais (~5,11% no Instagram, Blade/Investidor10); dominante entre jovens — ~24% de intenção de voto no 1º turno entre 16–24 anos (AtlasIntel/Crusoé); ~74% não o conheciam; apenas ~19% de rejeição (Quaest)' }, level: 'medium' },
+    renan: { assessment: { en: 'Strong organic social media (~5.11% Instagram engagement, Blade/Investidor10); dominant with youth — ~24% first-round support among 16–24-year-olds (AtlasIntel/Crusoé); ~74% didn\'t know him; only ~19% rejection (Quaest)', pt: 'Forte engajamento orgânico em redes sociais (~5,11% no Instagram, Blade/Investidor10); dominante entre jovens — ~24% de intenção de voto no 1º turno entre 16–24 anos (AtlasIntel/Crusoé); ~74% não o conheciam; apenas ~19% de rejeição (Quaest)' }, level: 'medium' },
   },
 ]
 

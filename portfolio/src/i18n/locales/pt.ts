@@ -207,7 +207,7 @@ const pt: UI = {
     section_scandals_lead: 'Casos [CONFIRMADOS] resultaram em condenação, indiciamento formal ou apuração oficial. Casos [ALEGADOS] são credíveis, mas não confirmados judicialmente. Anulações processuais NÃO são absolvições no mérito — padrão aplicado igualmente a todos os candidatos.',
     section_ideology_lead: 'As posições em cada eixo são julgamentos analíticos baseados no registro documentado — não medições objetivas. Pontuações vão da esquerda (−2) à direita (+2) em cada eixo.',
     section_competence_lead: 'Avaliado exclusivamente com base no registro documentado. N/D indica ausência de histórico de governo — recusa deliberada de fabricar avaliação a partir de ausência de dados.',
-    section_videos_lead: 'Entrevistas e debates em veículos públicos. Renan Santos recebe mais espaço de vídeo para equilibrar seu menor reconhecimento público.',
+    section_videos_lead: 'Entrevistas e debates em veículos públicos.',
     youth_appeal_label: 'Apelo a jovens (16–35a)',
   },
 };

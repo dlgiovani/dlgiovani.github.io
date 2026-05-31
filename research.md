@@ -198,12 +198,14 @@ MBL co-founders Kim Kataguiri (the party's most prominent officeholder and autho
 | Indicator | Lula 2003–2010 | Lula 2023–2025 | Jair Bolsonaro 2019–2022 (Flávio's legacy) | Renan Santos |
 |---|---|---|---|---|
 | Avg annual GDP growth | ~**4.05%** (Unicamp) | +3.4% (2024), +2.3% (2025) (IBGE) | ~**1.12%** (Unicamp); 2020 ~−3.3% (COVID), 2021 ~+4.8%, 2022 ~+3.0% (World Bank) | **N/A — no mandate** |
-| Unemployment | Fell substantially over period (IBGE) | Multi-year lows; work income record-high 2025 (IBGE) | Peak **14.9%** (early 2021, COVID) → ~8.9% (mid-2022) (IBGE) | **N/A** |
+| Unemployment | Fell substantially over period (IBGE) | Headline **6.1%** (Q1 2026) — but broader **subutilização 14.3%**, with 2.7M discouraged (IBGE) | Peak **14.9%** (early 2021, COVID) → ~8.9% (mid-2022) (IBGE) | **N/A** |
 | Inflation | Mostly within target (~4% good years) | Disinflation; ~3.6% IPCA projected 2026 (SPE) | Double-digit 2021 → ~6% 2022 (IBGE) | **N/A** |
 | HDI | 0.669 (2000) → **0.726 (2010)** (UNDP) | ~0.76, plateaued (UNDP) | ~0.76, flat (UNDP) | **N/A** |
 | Min-wage purchasing power | **+~46%** (DIEESE/Unicamp) | Real-gain policy resumed | **−~26%** (DIEESE/Unicamp) | **N/A** |
 | Corporate distress (Serasa) | n/a (pre-2005 law / early series) | **Record judicial reorganizations** 2023–25 (2,466 in 2025); **falências fell** to 698 (−19%) | Falências **fell 3 straight yrs** 2020–22 | **N/A** |
 | External context | **Commodity supercycle tailwind** | High Selic (~14%+) headwind | **COVID-19 pandemic** | **N/A** |
+
+> *Note on the unemployment row:* the **headline rate (taxa de desocupação)** follows the international (ILO) standard and excludes "discouraged" workers and counts any paid activity as employment, so it understates slack. IBGE therefore also publishes the broader **taxa de subutilização** (unemployed + underemployed-by-hours + discouraged + potential labor force). At Q1 2026 the headline rate was **6.1%** (6.6M unemployed) while subutilização stood at **14.3%** (2.7M discouraged) — the gap is the honest measure of remaining labor-market slack, not evidence of "manipulation" (see §2b). *Seasonal caveat:* Brazilian unemployment is routinely higher in Q1 (post-holiday end of temporary retail jobs) than in Q4, so the Q1 2026 6.1% is not directly comparable to a Q4 reading; it had been a series-low ~5.1% in Q4 2025. Comparable subutilização figures are not cited for earlier periods here, so the headline-vs-broad contrast is shown only for the current quarter.
 
 ### Table B — Ideological Positioning (analytical judgment)
 | Axis | Lula | Flávio Bolsonaro | Renan Santos |
@@ -251,7 +253,7 @@ MBL co-founders Kim Kataguiri (the party's most prominent officeholder and autho
 - **6. Escândalos Midiáticos e Pessoais** (incl. *Mais Médicos / Cuba — exportação de trabalho, retenção salarial, isenção do Revalida, sanções dos EUA 2025*)
 
 **Tabelas Comparativas:**
-- **Tabela A — Desempenho de Mandato** (Indicador; Lula 2003–2010; Lula 2023–2025; Jair Bolsonaro 2019–2022; Renan Santos) — linhas: Crescimento médio anual do PIB; Desemprego; Inflação; IDH; Poder de compra do salário mínimo; *Estresse empresarial (falências/recuperações judiciais)*; *Contexto externo*
+- **Tabela A — Desempenho de Mandato** (Indicador; Lula 2003–2010; Lula 2023–2025; Jair Bolsonaro 2019–2022; Renan Santos) — linhas: Crescimento médio anual do PIB; Desemprego (*taxa de desocupação vs. taxa de subutilização*); Inflação; IDH; Poder de compra do salário mínimo; *Estresse empresarial (falências/recuperações judiciais)*; *Contexto externo*
 - **Tabela B — Posicionamento Ideológico** (Política externa: multilateral ←→ nacionalista; Estado de Direito: institucionalista ←→ tendências autoritárias; Política ambiental: verde ←→ extrativista)
 - **Tabela C — Avaliação de Competência e Liderança** (Experiência executiva; Gestão de crises; Eficácia legislativa; Qualidade da equipe; Comunicação e confiança pública)
 

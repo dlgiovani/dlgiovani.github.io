@@ -205,7 +205,7 @@ const en = {
     section_scandals_lead: 'Cases labeled [CONFIRMED] resulted in conviction, formal indictment, or official finding. Cases labeled [ALLEGED] are credibly reported but not court-confirmed. Procedural annulments are NOT merits acquittals — standard applied equally to all candidates.',
     section_ideology_lead: 'Positions on each axis are analytical judgments grounded in the documented record — not objective measurements. Scores run left (−2) to right (+2) on each axis.',
     section_competence_lead: 'Assessed against the documented record only. N/A indicates no governing record — a deliberate refusal to manufacture an assessment from absence of data.',
-    section_videos_lead: 'Interviews and debates from public outlets. Renan Santos receives additional video slots to balance lower public name recognition.',
+    section_videos_lead: 'Interviews and debates from public outlets.',
     youth_appeal_label: 'Youth appeal (16–35y)',
   },
 } as const;
