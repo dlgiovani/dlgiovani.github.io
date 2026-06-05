@@ -11,7 +11,7 @@ const t = useTranslations(locale);
 const year = new Date().getFullYear();
 let lastCommitAgo = '?';
 try {
-  lastCommitAgo = execSync('git log -1 --format="%ar"').toString().trim();
+  lastCommitAgo = execSync('git log -1 --format="%ad" --date=format:"%Y-%m-%d"').toString().trim();
 } catch { /* no-op */ }
 ---
 
