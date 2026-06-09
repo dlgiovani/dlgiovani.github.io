@@ -7,7 +7,7 @@ export default defineConfig({
   integrations: [react(), sitemap()],
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'pt'],
+    locales: ['en', 'pt-br'],
     routing: { prefixDefaultLocale: false },
   },
   markdown: {

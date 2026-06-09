@@ -3,7 +3,7 @@ import type { Candidate, Scandal } from '../../../data/eleicoes';
 
 interface Props {
   candidates: Pick<Candidate, 'id' | 'fullName' | 'shortName' | 'candidateColor' | 'scandals'>[];
-  locale: 'en' | 'pt';
+  locale: 'en' | 'pt-br';
   labels: {
     confirmed: string;
     alleged: string;
@@ -26,7 +26,7 @@ function ScandalCard({
   labels,
 }: {
   scandal: Scandal;
-  locale: 'en' | 'pt';
+  locale: 'en' | 'pt-br';
   labels: Props['labels'];
 }) {
   const [open, setOpen] = useState(false);

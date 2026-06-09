@@ -8,7 +8,7 @@ interface CandidateMeta {
 
 interface Props {
   rows: IdeologyRow[];
-  locale: 'en' | 'pt';
+  locale: 'en' | 'pt-br';
   candidates: CandidateMeta[];
   labels: { axis: string };
 }

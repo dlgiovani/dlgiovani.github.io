@@ -4,16 +4,16 @@ interface Props { locale: Locale }
 const { locale } = Astro.props;
 
 const pathname = Astro.url.pathname;
-const enHref = locale === 'pt' ? pathname.replace(/^\/pt/, '') || '/' : pathname;
-const ptHref = locale === 'en' ? `/pt${pathname}` : pathname;
+const enHref = locale === 'pt-br' ? pathname.replace(/^\/pt-br/, '') || '/' : pathname;
+const ptHref = locale === 'en' ? `/pt-br${pathname}` : pathname;
 ---
 
 <div class="ltbar" id="ltbar">
   <button class="ltbar-theme" id="ltbar-theme-btn" aria-label="Toggle theme">☀</button>
   <span class="ltbar-sep">|</span>
-  <a href={enHref} class:list={['ltbar-lang', { active: locale === 'en' }]}>EN</a>
+  <a href={enHref} class:list={['ltbar-lang', { active: locale === 'en' }]}>English</a>
   <span class="ltbar-sep">·</span>
-  <a href={ptHref} class:list={['ltbar-lang', { active: locale === 'pt' }]}>PT</a>
+  <a href={ptHref} class:list={['ltbar-lang', { active: locale === 'pt-br' }]}>Português</a>
 </div>
 
 <script>
@@ -45,7 +45,7 @@ const ptHref = locale === 'en' ? `/pt${pathname}` : pathname;
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.8rem;
+    font-size: 0.72rem;
     font-family: var(--mono);
     background: var(--paper);
     border: 1px solid var(--border);

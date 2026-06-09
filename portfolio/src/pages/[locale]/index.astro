@@ -15,7 +15,7 @@ import { useTranslations } from '../../i18n/ui';
 import type { Locale } from '../../types/i18n';
 
 export function getStaticPaths() {
-  return [{ params: { locale: 'pt' } }];
+  return [{ params: { locale: 'pt-br' } }];
 }
 
 const { locale } = Astro.params as { locale: Locale };

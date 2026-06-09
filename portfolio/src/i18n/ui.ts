@@ -1,8 +1,8 @@
 import type { Locale } from '../types/i18n';
 import en from './locales/en';
-import pt from './locales/pt';
+import ptBr from './locales/pt-br';
 
-const translations = { en, pt } as const;
+const translations = { en, 'pt-br': ptBr } as const;
 
 export function useTranslations(locale: Locale) {
   const ui = translations[locale] ?? translations.en;

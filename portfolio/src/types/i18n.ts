@@ -1,6 +1,6 @@
 import type en from '../i18n/locales/en';
 
-export type Locale = 'en' | 'pt';
+export type Locale = 'en' | 'pt-br';
 
 // DeepString: same structure as `en` but all leaf values widened to string.
 // This enforces the same keys without constraining translations to the English strings.

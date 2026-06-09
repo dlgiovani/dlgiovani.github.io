@@ -2,7 +2,7 @@ import type { Candidate } from '../../../data/eleicoes';
 
 interface Props {
   candidates: Pick<Candidate, 'id' | 'fullName' | 'shortName' | 'candidateColor' | 'videos'>[];
-  locale: 'en' | 'pt';
+  locale: 'en' | 'pt-br';
   emptyLabel: string;
 }
 

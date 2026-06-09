@@ -3,7 +3,7 @@ import type { DefaultDataPoint, GovPeriod } from '../../../data/eleicoes';
 interface Props {
   series: DefaultDataPoint[];
   periods: GovPeriod[];
-  locale: 'en' | 'pt';
+  locale: 'en' | 'pt-br';
   labels: {
     title: string;
     subtitle: string;

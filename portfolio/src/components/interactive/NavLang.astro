@@ -5,9 +5,9 @@ const { locale } = Astro.props;
 ---
 
 <nav class="nav-lang" aria-label="Language switcher">
-  <a href="/"    class:list={['lang-link', { active: locale === 'en' }]}>EN</a>
+  <a href="/"    class:list={['lang-link', { active: locale === 'en' }]}>English</a>
   <span class="sep">|</span>
-  <a href="/pt/" class:list={['lang-link', { active: locale === 'pt' }]}>PT</a>
+  <a href="/pt-br/" class:list={['lang-link', { active: locale === 'pt-br' }]}>Português</a>
 </nav>
 
 <style>

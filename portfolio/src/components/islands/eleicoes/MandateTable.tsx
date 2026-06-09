@@ -2,7 +2,7 @@ import type { MandateRow } from '../../../data/eleicoes';
 
 interface Props {
   rows: MandateRow[];
-  locale: 'en' | 'pt';
+  locale: 'en' | 'pt-br';
   labels: {
     indicator: string;
     lula1: string;
