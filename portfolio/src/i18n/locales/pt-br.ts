@@ -73,7 +73,7 @@ const pt: UI = {
     pokemon_title: 'pokémon favorito',
     pokemon_sub: 'agregado em todas as submissões voluntárias',
     guestbook_title: 'livro de visitas',
-    guestbook_sub: 'sem pressão. não seja estranho.',
+    guestbook_sub: 'deixe aqui sua mensagem, enturme-se :)',
     guestbook_name_ph: 'nome',
     guestbook_city_ph: 'cidade',
     guestbook_msg_ph: 'diz algo...',

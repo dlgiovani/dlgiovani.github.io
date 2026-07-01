@@ -71,7 +71,7 @@ const en = {
     pokemon_title: 'favorite pokémon',
     pokemon_sub: 'aggregated across all opt-in submissions',
     guestbook_title: 'guestbook',
-    guestbook_sub: "low-stakes. don't be a stranger.",
+    guestbook_sub: "low-stakes, be part of the group :)",
     guestbook_name_ph: 'name',
     guestbook_city_ph: 'city',
     guestbook_msg_ph: 'say something...',
