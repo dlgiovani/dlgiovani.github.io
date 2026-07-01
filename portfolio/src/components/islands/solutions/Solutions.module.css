@@ -681,12 +681,26 @@
 }
 .swatchActive { box-shadow: 0 0 0 2px var(--s-accent); }
 .boardWrap {
+  position: relative;
   border: 1px solid var(--s-line);
   border-radius: 10px;
   overflow: hidden;
   background: var(--s-art-panel);
   background-image: radial-gradient(rgba(44, 40, 34, 0.14) 1px, transparent 1px);
   background-size: 18px 18px;
+}
+/* inline editor for the text tool; matches drawShape's 15px middle-baseline text */
+.boardTextInput {
+  position: absolute;
+  transform: translateY(-50%);
+  border: 1px dashed var(--s-accent);
+  border-radius: 4px;
+  background: rgba(251, 248, 241, 0.9);
+  padding: 2px 5px;
+  font-family: var(--sans);
+  font-size: 15px;
+  outline: none;
+  min-width: 90px;
 }
 .boardCanvas {
   width: 100%;

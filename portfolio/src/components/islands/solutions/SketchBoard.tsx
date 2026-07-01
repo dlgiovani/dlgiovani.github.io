@@ -97,6 +97,9 @@ export function SketchBoard({ board, accent, s }: Props) {
   const drawingRef = useRef(false);
   const [tool, setTool] = useState<'pen' | 'box' | 'arrow' | 'text'>('pen');
   const [color, setColor] = useState(INK);
+  const [textEntry, setTextEntry] = useState<Point | null>(null);
+  const textValueRef = useRef('');
+  const textOpenRef = useRef(false);
 
   const redraw = () => {
     const ctx = ctxRef.current;
@@ -128,14 +131,27 @@ export function SketchBoard({ board, accent, s }: Props) {
     return { x: e.clientX - r.left, y: e.clientY - r.top };
   };
 
+  const commitText = (p: Point) => {
+    if (!textOpenRef.current) return;
+    textOpenRef.current = false;
+    const txt = textValueRef.current.trim();
+    if (txt) board.shapes.push({ type: 'text', x: p.x, y: p.y, text: txt, color });
+    textValueRef.current = '';
+    setTextEntry(null);
+    redraw();
+  };
+
   const onPointerDown = (e: React.PointerEvent) => {
     const p = pos(e);
     if (tool === 'text') {
-      const txt = window.prompt(`${s.bText}:`);
-      if (txt) {
-        board.shapes.push({ type: 'text', x: p.x, y: p.y, text: txt, color });
-        redraw();
-      }
+      // inline input instead of window.prompt — a blocking dialog inside
+      // pointerdown eats every following tap on mobile. If an entry is open,
+      // this tap just closes it (via the input's blur); the next tap places
+      // a new one.
+      if (textOpenRef.current) return;
+      textValueRef.current = '';
+      textOpenRef.current = true;
+      setTextEntry(p);
       return;
     }
     try {
@@ -229,6 +245,32 @@ export function SketchBoard({ board, accent, s }: Props) {
           onPointerUp={onPointerUp}
           onPointerCancel={onPointerUp}
         />
+        {textEntry && (
+          <input
+            autoFocus
+            type="text"
+            className={styles.boardTextInput}
+            style={{
+              left: textEntry.x,
+              top: textEntry.y,
+              color,
+              maxWidth: `calc(100% - ${Math.round(textEntry.x)}px - 8px)`,
+            }}
+            placeholder={s.bText}
+            onChange={(e) => {
+              textValueRef.current = e.target.value;
+            }}
+            onBlur={() => commitText(textEntry)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') commitText(textEntry);
+              if (e.key === 'Escape') {
+                textOpenRef.current = false;
+                textValueRef.current = '';
+                setTextEntry(null);
+              }
+            }}
+          />
+        )}
       </div>
       <span className={styles.hintText}>{s.boardHint}</span>
     </div>
