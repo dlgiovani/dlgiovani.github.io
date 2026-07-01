@@ -23,17 +23,17 @@ function wmoKind(code: number): string {
 
 function wmoDesc(code: number): string {
   if (code === 0)  return 'clear';
-  if (code === 1)  return 'mainly clear';
-  if (code === 2)  return 'partly cloudy';
+  if (code === 1)  return 'mainly_clear';
+  if (code === 2)  return 'partly_cloudy';
   if (code === 3)  return 'overcast';
   if (code <= 48)  return 'foggy';
   if (code <= 55)  return 'drizzle';
   if (code <= 65)  return 'rain';
-  if (code <= 67)  return 'freezing rain';
+  if (code <= 67)  return 'freezing_rain';
   if (code <= 75)  return 'snow';
-  if (code === 77) return 'snow grains';
-  if (code <= 82)  return 'rain showers';
-  if (code <= 86)  return 'snow showers';
+  if (code === 77) return 'snow_grains';
+  if (code <= 82)  return 'rain_showers';
+  if (code <= 86)  return 'snow_showers';
   if (code >= 95)  return 'thunderstorm';
   return 'cloudy';
 }
@@ -57,6 +57,6 @@ export async function fetchWeatherForCoords(lat: number, lon: number): Promise<W
     cache.set(key, result);
     return result;
   } catch {
-    return { temp: 20, kind: 'sunny', desc: 'pleasant' };
+    return { temp: 20, kind: 'sunny', desc: 'clear' };
   }
 }

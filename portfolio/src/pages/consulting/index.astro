@@ -1,0 +1,14 @@
+---
+import Base from '../../layouts/Base.astro';
+import LangThemeBar from '../../components/interactive/LangThemeBar.astro';
+import { SolutionsChooser } from '../../components/islands/solutions/SolutionsChooser';
+import en from '../../i18n/locales/en';
+
+const locale = 'en';
+const apiUrl = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
+---
+
+<Base title={en.solutions.page_title} description={en.solutions.page_desc} locale={locale}>
+  <SolutionsChooser client:load strings={en.solutions} apiUrl={apiUrl} homeHref="/" />
+  <LangThemeBar locale={locale} enHref="/consulting" ptHref="/pt-br/consultoria" />
+</Base>

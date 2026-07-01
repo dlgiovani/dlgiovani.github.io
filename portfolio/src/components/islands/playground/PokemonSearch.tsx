@@ -1,24 +1,49 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { Pokemon } from '../../../types/pokemon';
-import { fetchAllNames, getPokemonByName, type PokemonNameEntry } from '../../../lib/api/pokeapi';
+import { fetchAllNames, getPokemonByName, getPtBrNames, type PokemonNameEntry } from '../../../lib/api/pokeapi';
 import { formatPokemonName, spriteUrl } from '../../../lib/pokemon-utils';
+import type { Locale } from '../../../types/i18n';
 import styles from './PokemonSearch.module.css';
 
 interface Props {
   onSelect: (pokemon: Pokemon) => void;
   placeholder?: string;
+  apiUrl?: string;
+  locale?: Locale;
 }
 
-export function PokemonSearch({ onSelect, placeholder = 'search pokémon…' }: Props) {
+export function PokemonSearch({ onSelect, placeholder = 'search pokémon…', apiUrl = 'http://localhost:8000', locale = 'en' }: Props) {
   const [query, setQuery]       = useState('');
   const [allEntries, setAll]    = useState<PokemonNameEntry[]>([]);
   const [results, setResults]   = useState<PokemonNameEntry[]>([]);
+  const [ptNames, setPtNames]   = useState<Record<number, string>>({});
   const [loading, setLoading]   = useState(false);
   const [activeIdx, setActive]  = useState(-1);
   const [open, setOpen]         = useState(false);
+  const [hint, setHint]         = useState(true);
   const debounceRef             = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => { fetchAllNames().then(setAll); }, []);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const t = setTimeout(() => setHint(false), 2600);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    if (locale !== 'pt-br' || results.length === 0) return;
+    let cancelled = false;
+    getPtBrNames(apiUrl, results.map(r => r.id)).then(map => {
+      if (!cancelled) setPtNames(prev => ({ ...prev, ...map }));
+    });
+    return () => { cancelled = true; };
+  }, [results, locale, apiUrl]);
+
+  const displayNameFor = useCallback(
+    (entry: PokemonNameEntry) => ptNames[entry.id] ?? formatPokemonName(entry.name),
+    [ptNames],
+  );
 
   const filter = useCallback((q: string) => {
     if (!q.trim()) { setResults([]); setOpen(false); return; }
@@ -37,7 +62,7 @@ export function PokemonSearch({ onSelect, placeholder = 'search pokémon…' }: 
 
   const handleSelect = async (entry: PokemonNameEntry) => {
     setOpen(false);
-    setQuery(formatPokemonName(entry.name));
+    setQuery(displayNameFor(entry));
     setLoading(true);
     try {
       const poke = await getPokemonByName(entry.name);
@@ -59,12 +84,12 @@ export function PokemonSearch({ onSelect, placeholder = 'search pokémon…' }: 
     <div className={styles.wrap} role="combobox" aria-expanded={open} aria-haspopup="listbox">
       <input
         type="text"
-        className={styles.input}
+        className={`${styles.input} ${hint ? styles.hint : ''}`}
         placeholder={placeholder}
         value={query}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        onFocus={() => query && filter(query)}
+        onFocus={() => { setHint(false); query && filter(query); }}
         aria-label="Search Pokémon"
         aria-autocomplete="list"
         aria-controls="pokemon-listbox"
@@ -96,7 +121,7 @@ export function PokemonSearch({ onSelect, placeholder = 'search pokémon…' }: 
                 width={32}
                 height={32}
               />
-              <span>{formatPokemonName(entry.name)}</span>
+              <span>{displayNameFor(entry)}</span>
             </li>
           ))}
         </ul>

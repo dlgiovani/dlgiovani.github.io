@@ -1,11 +1,12 @@
 ---
 import type { Locale } from '../../types/i18n';
-interface Props { locale: Locale }
-const { locale } = Astro.props;
+// href overrides support pages whose slug differs per locale (e.g. /consulting vs /pt-br/consultoria)
+interface Props { locale: Locale; enHref?: string; ptHref?: string }
+const { locale, enHref: enOverride, ptHref: ptOverride } = Astro.props;
 
 const pathname = Astro.url.pathname;
-const enHref = locale === 'pt-br' ? pathname.replace(/^\/pt-br/, '') || '/' : pathname;
-const ptHref = locale === 'en' ? `/pt-br${pathname}` : pathname;
+const enHref = enOverride ?? (locale === 'pt-br' ? pathname.replace(/^\/pt-br/, '') || '/' : pathname);
+const ptHref = ptOverride ?? (locale === 'en' ? `/pt-br${pathname}` : pathname);
 ---
 
 <div class="ltbar" id="ltbar">
@@ -34,12 +35,33 @@ const ptHref = locale === 'en' ? `/pt-br${pathname}` : pathname;
     localStorage.setItem('tweak_theme', next);
     syncIcon();
   });
+
+  const enLink = document.querySelector('.ltbar-lang:not([href*="pt-br"])');
+  const ptLink = document.querySelector('.ltbar-lang[href*="pt-br"]');
+
+  enLink?.addEventListener('click', () => localStorage.setItem('lang_pref', 'en'));
+  ptLink?.addEventListener('click', () => localStorage.setItem('lang_pref', 'pt-br'));
+
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const fireflyEls = [btn, enLink, ptLink].filter((el): el is Element => el !== null);
+    let step = 0;
+    const totalSteps = fireflyEls.length * 3;
+    const fireflyInterval = setInterval(() => {
+      fireflyEls.forEach(el => el.classList.remove('ltbar-firefly'));
+      if (step >= totalSteps) {
+        clearInterval(fireflyInterval);
+        return;
+      }
+      fireflyEls[step % fireflyEls.length].classList.add('ltbar-firefly');
+      step++;
+    }, 700);
+  }
 </script>
 
 <style>
   .ltbar {
     position: fixed;
-    top: 16px;
+    top: 55px;
     right: 16px;
     z-index: 200;
     display: flex;
@@ -72,4 +94,14 @@ const ptHref = locale === 'en' ? `/pt-br${pathname}` : pathname;
     font-weight: 600;
   }
   .ltbar-sep { color: var(--muted); }
+
+  .ltbar-theme,
+  .ltbar-lang {
+    transition: color 0.6s ease-in-out, text-shadow 0.6s ease-in-out;
+  }
+
+  .ltbar-firefly {
+    color: var(--accent) !important;
+    text-shadow: 0 0 6px color-mix(in oklch, var(--accent) 65%, transparent);
+  }
 </style>

@@ -34,3 +34,5 @@ archive.zip
 .codspeed
 
 .env
+
+data/

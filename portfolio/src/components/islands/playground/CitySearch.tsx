@@ -1,32 +1,41 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { searchCities, type CityResult } from '../../../lib/api/geocoding';
+import type { Locale } from '../../../types/i18n';
 import styles from './CitySearch.module.css';
 
 interface Props {
   onSelect: (city: CityResult) => void;
   placeholder?: string;
+  locale?: Locale;
 }
 
-export function CitySearch({ onSelect, placeholder = 'search a city…' }: Props) {
+export function CitySearch({ onSelect, placeholder = 'search a city…', locale = 'en' }: Props) {
   const [query, setQuery]      = useState('');
   const [results, setResults]  = useState<CityResult[]>([]);
   const [loading, setLoading]  = useState(false);
   const [activeIdx, setActive] = useState(-1);
   const [open, setOpen]        = useState(false);
+  const [hint, setHint]        = useState(true);
   const debounceRef            = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const t = setTimeout(() => setHint(false), 2600);
+    return () => clearTimeout(t);
+  }, []);
 
   const search = useCallback(async (q: string) => {
     if (!q.trim()) { setResults([]); setOpen(false); return; }
     setLoading(true);
     try {
-      const found = await searchCities(q);
+      const found = await searchCities(q, locale);
       setResults(found);
       setOpen(found.length > 0);
       setActive(-1);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [locale]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const q = e.target.value;
@@ -53,11 +62,12 @@ export function CitySearch({ onSelect, placeholder = 'search a city…' }: Props
     <div className={styles.wrap} role="combobox" aria-expanded={open} aria-haspopup="listbox">
       <input
         type="text"
-        className={styles.input}
+        className={`${styles.input} ${hint ? styles.hint : ''}`}
         placeholder={placeholder}
         value={query}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
+        onFocus={() => setHint(false)}
         aria-label="Search city"
         aria-autocomplete="list"
         aria-controls="city-listbox"

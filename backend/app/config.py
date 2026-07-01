@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     exchangerateapi_key: str
     github_pat: str = ''
     nasa_api_key: str = 'DEMO_KEY'
+    admin_api_key: str = ''  # empty -> admin endpoints always reject
     allowed_origins: str = "https://dlgiovani.github.io,http://localhost:4321"
 
     @property

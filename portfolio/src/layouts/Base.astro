@@ -1,5 +1,6 @@
 ---
 import '../styles/base.css';
+import FloatingCTA from '../components/interactive/FloatingCTA.astro';
 import { siteUrl, siteName } from '../config/site';
 import { siteTheme, headlineFonts } from '../config/theme';
 import type { Locale } from '../types/i18n';
@@ -21,6 +22,9 @@ const {
 const pageTitle = title ? `${title} — dlgiovani.dev` : 'dlgiovani.dev — portfolio';
 const canonicalEn = siteUrl + '/';
 const canonicalPt = siteUrl + '/pt-br/';
+
+const path = Astro.url.pathname;
+const onSolutionsPage = path.startsWith('/consulting') || path.startsWith('/pt-br/consultoria');
 ---
 
 <!doctype html>
@@ -29,6 +33,18 @@ const canonicalPt = siteUrl + '/pt-br/';
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      (function () {
+        if (localStorage.getItem('lang_pref')) return;
+        var onPt = location.pathname.startsWith('/pt-br');
+        if (!onPt && navigator.language && navigator.language.toLowerCase().startsWith('pt')) {
+          localStorage.setItem('lang_pref', 'pt-br');
+          location.replace('/pt-br' + location.pathname);
+        } else {
+          localStorage.setItem('lang_pref', onPt ? 'pt-br' : 'en');
+        }
+      })();
+    </script>
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
@@ -55,5 +71,6 @@ const canonicalPt = siteUrl + '/pt-br/';
   </head>
   <body>
     <slot />
+    {!onSolutionsPage && <FloatingCTA locale={locale} />}
   </body>
 </html>

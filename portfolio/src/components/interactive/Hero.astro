@@ -14,6 +14,7 @@ const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
   <div class="hero-bg"></div>
   <div class="hero-stars"></div>
   <div class="hero-apod" id="hero-apod"></div>
+  <video class="hero-apod-video" id="hero-apod-video" muted loop playsinline preload="none"></video>
   <div class="hero-veil"></div>
 
   <div class="hero-top">
@@ -90,6 +91,15 @@ const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
     transition: opacity 1.2s ease;
   }
   .hero-apod.on { opacity: 0.85; }
+  .hero-apod-video {
+    position: absolute; inset: 0; z-index: -1;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+    pointer-events: none;
+  }
+  .hero-apod-video.on { opacity: 0.85; }
   .hero-veil {
     position: absolute; inset: 0; z-index: -1;
     background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.2) 35%, rgba(0,0,0,0.55) 100%);
@@ -176,11 +186,42 @@ const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
 
   if (apodEnabled) {
     const apodEl = document.getElementById('hero-apod');
+    const videoEl = document.getElementById('hero-apod-video');
     const metaEl = document.getElementById('hero-apod-meta');
-    const today  = new Date().toISOString().slice(0, 10);
+
+    function scheduleIdle(fn) {
+      if ('requestIdleCallback' in window) requestIdleCallback(fn, { timeout: 2000 });
+      else setTimeout(fn, 300);
+    }
+
+    function lowEndOrSlow() {
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true;
+      const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (conn && (conn.saveData || /2g/.test(conn.effectiveType || ''))) return true;
+      return false;
+    }
+
+    // Video days: the poster (thumb/hdurl above) always paints instantly.
+    // The actual video is only fetched afterwards, off the critical path,
+    // and only on connections/devices that can comfortably decode it —
+    // it never blocks or replaces the instant poster paint.
+    function maybeLoadVideo(d) {
+      if (!videoEl) return;
+      if (d.media_type !== 'video' || !d.has_video || lowEndOrSlow()) {
+        videoEl.classList.remove('on');
+        videoEl.removeAttribute('src');
+        return;
+      }
+      scheduleIdle(() => {
+        videoEl.oncanplay = () => { videoEl.classList.add('on'); videoEl.play().catch(() => {}); };
+        videoEl.onerror = () => { videoEl.classList.remove('on'); };
+        videoEl.src = `${API}/api/apod/video`;
+        videoEl.load();
+      });
+    }
 
     function applyApod(d) {
-      if (!d || d.media_type !== 'image') return;
+      if (!d || (d.media_type !== 'image' && d.media_type !== 'video')) return;
       apodEl.style.backgroundImage = 'url(' + d.url + ')';
       apodEl.classList.add('on');
       metaEl.innerHTML = 'backdrop: NASA APOD · <span class="apod-title">' + d.title + '</span> · ' + d.date;
@@ -189,24 +230,26 @@ const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
         img.onload = () => { apodEl.style.backgroundImage = 'url(' + d.hdurl + ')'; };
         img.src = d.hdurl;
       }
+      maybeLoadVideo(d);
     }
 
+    // localStorage only holds metadata for an instant first paint. The actual
+    // images are served by the backend with ETag/no-cache headers, so the
+    // browser's HTTP cache — not this fetch — is what makes reloads instant;
+    // this call always hits the backend to pick up a changed APOD right away.
     const cached = JSON.parse(localStorage.getItem('apod_cache') || 'null');
-    const isFresh = cached && cached.date === today;
+    if (cached) applyApod(cached);
 
-    if (isFresh) {
-      applyApod(cached);
-    } else {
-      if (cached) applyApod(cached); // show stale while fetching
-      fetch(`${API}/api/apod`)
-        .then(r => r.ok ? r.json() : null)
-        .then(meta => {
-          if (!meta) return;
-          const d = { ...meta, url: `${API}/api/apod/thumb`, hdurl: `${API}/api/apod/image` };
-          localStorage.setItem('apod_cache', JSON.stringify({ ...d, cachedOn: today }));
+    fetch(`${API}/api/apod`)
+      .then(r => r.ok ? r.json() : null)
+      .then(meta => {
+        if (!meta) return;
+        const d = { ...meta, url: `${API}/api/apod/thumb`, hdurl: `${API}/api/apod/image` };
+        if (!cached || cached.date !== d.date) {
+          localStorage.setItem('apod_cache', JSON.stringify(d));
           applyApod(d);
-        })
-        .catch(() => {});
-    }
+        }
+      })
+      .catch(() => {});
   }
 </script>

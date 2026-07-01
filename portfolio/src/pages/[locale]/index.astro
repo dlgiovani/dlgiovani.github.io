@@ -47,6 +47,43 @@ const pgStrings = {
   card_weakness:      t('playground.card_weakness'),
   card_retreat:       t('playground.card_retreat'),
   card_specimen:      t('playground.card_specimen'),
+  card_move_strike_suffix: t('playground.card_move_strike_suffix'),
+  card_move_tackle:        t('playground.card_move_tackle'),
+  pick_prompt:        t('playground.pick_prompt'),
+  pokemon_placeholder: t('playground.pokemon_placeholder'),
+  city_placeholder:   t('playground.city_placeholder'),
+  weather_kind_label: {
+    sunny: t('playground.weather_kind_label.sunny'),
+    rain: t('playground.weather_kind_label.rain'),
+    cloudy: t('playground.weather_kind_label.cloudy'),
+    snow: t('playground.weather_kind_label.snow'),
+    wind: t('playground.weather_kind_label.wind'),
+    clear_night: t('playground.weather_kind_label.clear_night'),
+  },
+  weather_desc: {
+    clear: t('playground.weather_desc.clear'),
+    mainly_clear: t('playground.weather_desc.mainly_clear'),
+    partly_cloudy: t('playground.weather_desc.partly_cloudy'),
+    overcast: t('playground.weather_desc.overcast'),
+    foggy: t('playground.weather_desc.foggy'),
+    drizzle: t('playground.weather_desc.drizzle'),
+    rain: t('playground.weather_desc.rain'),
+    freezing_rain: t('playground.weather_desc.freezing_rain'),
+    snow: t('playground.weather_desc.snow'),
+    snow_grains: t('playground.weather_desc.snow_grains'),
+    rain_showers: t('playground.weather_desc.rain_showers'),
+    snow_showers: t('playground.weather_desc.snow_showers'),
+    thunderstorm: t('playground.weather_desc.thunderstorm'),
+    cloudy: t('playground.weather_desc.cloudy'),
+  },
+  weather_mood: {
+    sunny: t('playground.weather_mood.sunny'),
+    rain: t('playground.weather_mood.rain'),
+    cloudy: t('playground.weather_mood.cloudy'),
+    snow: t('playground.weather_mood.snow'),
+    wind: t('playground.weather_mood.wind'),
+    clear_night: t('playground.weather_mood.clear_night'),
+  },
 };
 ---
 
@@ -64,6 +101,7 @@ const pgStrings = {
       apiUrl={apiUrl}
       cardStyle={siteTheme.defaultCardStyle}
       strings={pgStrings}
+      locale={locale}
     />
   </div>
 

@@ -86,10 +86,15 @@ Step 3 — System packages
   # Build tools (needed to compile some Python C extensions)
   sudo dnf install -y gcc gcc-c++ make
 
+  # ffmpeg (RPM Fusion — EL8 aarch64 is supported; not in EPEL due to codec licensing)
+  sudo dnf install -y --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm
+  sudo dnf install -y ffmpeg
+
   # Verify
   node -v           # >= 22
   python3.11 --version
   psql --version    # after Step 4
+  ffmpeg -version    # needed to transcode APOD "video of the day" entries to webm
 
 ---
 Step 4 — PostgreSQL
@@ -156,6 +161,7 @@ Create ~/dlgiovani.github.io/backend/.env  (adjust path to repo root):
   FREECRYPTOAPI_KEY=<your_key>
   EXCHANGERATEAPI_KEY=<your_key>
   GITHUB_PAT=<your_pat>
+  NASA_API_KEY=<your_key>
   ALLOWED_ORIGINS=https://dlgiovani.dev,https://www.dlgiovani.dev
 
 Run Alembic migrations:
@@ -225,6 +231,9 @@ where the repo is cloned on the server.
       index index.html;
 
       location /api/ {
+          # consulting form accepts file uploads (10MB/file cap in the app);
+          # nginx's default 1m body limit would 413 them first
+          client_max_body_size 20m;
           proxy_pass http://127.0.0.1:8000;
           proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
@@ -273,6 +282,9 @@ Step 11 — Verification checklist
   curl https://dlgiovani.dev/api/ticker
   # → {"EUR_USD":...}
 
+  curl https://dlgiovani.dev/api/apod
+  # → 503 until NASA_API_KEY is set (or the DEMO_KEY quota is exhausted), then real data
+
   curl -I https://dlgiovani.dev
   # → HTTP/2 200, content-type: text/html
 
@@ -319,6 +331,23 @@ Things to keep in mind
 
 - GITHUB_PAT: create a fine-grained PAT on GitHub with read-only access to public repositories.
   The /api/github-stats endpoint returns 503 until it is set.
+
+- NASA_API_KEY: get a free key at https://api.nasa.gov. The default DEMO_KEY is limited to
+  ~30 requests/hour/IP and will make /api/apod* return 503 once exhausted — this is the most
+  common cause of APOD outages in production. The APOD cache refreshes hourly and is persisted
+  to backend/data/apod/ so it survives restarts and is shared across uvicorn workers. If the
+  primary NASA API is unavailable (or today's entry has no still image), the backend falls back
+  to scraping https://apod.nasa.gov/apod/archivepixFull.html for the freshest available image,
+  so /api/apod* should only ever return 503 on a brand-new deployment that hasn't completed its
+  first successful fetch yet.
+
+- APOD "video of the day": self-hosted videos (direct .mp4/.webm links) are transcoded with
+  ffmpeg to a small VP9/WebM (~480p) plus a poster frame extracted from the video, served at
+  /api/apod/video and /api/apod/thumb+image respectively. ffmpeg is required for both steps —
+  if it's missing from PATH, that day's refresh fails cleanly (logged, no crash) and the site
+  keeps serving the last cached image/video until ffmpeg is installed or a new day rolls over.
+  Embedded videos (YouTube/Vimeo) aren't self-hosted or transcoded — those days fall back to
+  the archive scraper's most recent still image instead.
 
 - SELinux: if nginx returns 502 unexpectedly, check ausearch -m avc -ts recent.
   Most issues are fixed by httpd_can_network_connect (already set in Step 8).

@@ -6,10 +6,11 @@
 
 import * as React from 'react';
 import { type CityResult } from '../../../lib/api/geocoding';
-import { fetchAllNames, getPokemonByName } from '../../../lib/api/pokeapi';
+import { fetchAllNames, getPtBrNames } from '../../../lib/api/pokeapi';
 import { fetchWeatherForCoords, type WeatherData } from '../../../lib/api/weather';
 import { spriteUrl, typeColor } from '../../../lib/pokemon-utils';
 import type { PokemonStat, Pokemon as PokemonType } from '../../../types/pokemon';
+import type { Locale } from '../../../types/i18n';
 import { CitySearch } from './CitySearch';
 import './playground.css';
 import { PokemonSearch } from './PokemonSearch';
@@ -31,6 +32,14 @@ interface PgStrings {
   card_weakness?: string;
   card_retreat?: string;
   card_specimen?: string;
+  card_move_strike_suffix?: string;
+  card_move_tackle?: string;
+  pick_prompt?: string;
+  pokemon_placeholder?: string;
+  city_placeholder?: string;
+  weather_kind_label?: Record<string, string>;
+  weather_desc?: Record<string, string>;
+  weather_mood?: Record<string, string>;
 }
 
 interface PlaygroundProps {
@@ -38,6 +47,7 @@ interface PlaygroundProps {
   cardStyle?: string;
   apiUrl?: string;
   strings?: PgStrings;
+  locale?: Locale;
 }
 
 /* ── Helpers ────────────────────────────────────────────────────────── */
@@ -76,14 +86,15 @@ interface AdjustedStats {
   vibe: string | undefined;
 }
 
-function adjustedStats(pkmn: PokemonType, wxKind: string, weatherEffects: WeatherEffects): AdjustedStats {
+function adjustedStats(pkmn: PokemonType, wxKind: string, weatherEffects: WeatherEffects, strings: PgStrings): AdjustedStats {
   const w = weatherEffects[wxKind] || ({} as WeatherEffect);
   const buffs: { type: string; pct: number }[] = [];
   pkmn.types.forEach(t => {
     if (w.boosts && w.boosts[t]) buffs.push({ type: t, pct: w.boosts[t] });
     if (w.debuffs && w.debuffs[t]) buffs.push({ type: t, pct: w.debuffs[t] });
   });
-  return { buffs, mood: w.mood || 'neutral', emoji: w.emoji || '·', vibe: w.vibe };
+  const mood = strings.weather_mood?.[wxKind] ?? w.mood ?? 'neutral';
+  return { buffs, mood, emoji: w.emoji || '·', vibe: w.vibe };
 }
 
 /* ===================================================================
@@ -92,13 +103,14 @@ function adjustedStats(pkmn: PokemonType, wxKind: string, weatherEffects: Weathe
 
 interface CardProps {
   pkmn: PokemonType;
+  displayName: string;
   city: string;
   weather: WeatherData;
   stats: AdjustedStats;
   strings: PgStrings;
 }
 
-function CardPokedex({ pkmn, city, weather, stats, strings }: CardProps) {
+function CardPokedex({ pkmn, displayName, city, weather, stats, strings }: CardProps) {
   const hp = getStat(pkmn.stats, 'hp');
   const atk = getStat(pkmn.stats, 'attack');
   const def = getStat(pkmn.stats, 'defense');
@@ -119,13 +131,13 @@ function CardPokedex({ pkmn, city, weather, stats, strings }: CardProps) {
         </div>
         <div className="px-meta">
           <span>NO. {String(pkmn.id).padStart(3, '0')}</span>
-          <span>{stats.emoji} {weather.kind.replace('_', ' ')}</span>
+          <span>{stats.emoji} {strings.weather_kind_label?.[weather.kind] ?? weather.kind.replace('_', ' ')}</span>
         </div>
       </div>
 
       <div className="px-info">
-        <div className="px-name">{pkmn.name}</div>
-        <div className="px-id">in {city.toUpperCase()} · {weather.temp}°C · {weather.desc}</div>
+        <div className="px-name">{displayName}</div>
+        <div className="px-id">in {city.toUpperCase()} · {weather.temp}°C · {strings.weather_desc?.[weather.desc] ?? weather.desc}</div>
 
         <div className="px-types">
           {pkmn.types.map(t => (
@@ -166,7 +178,7 @@ function CardPokedex({ pkmn, city, weather, stats, strings }: CardProps) {
    CARD VARIANT 2 — TCG-inspired card
    =================================================================== */
 
-function CardTCG({ pkmn, city, weather, stats, strings }: CardProps) {
+function CardTCG({ pkmn, displayName, city, weather, stats, strings }: CardProps) {
   const dominant = pkmn.types[0];
   const domColor = typeColor(dominant);
   const atk = getStat(pkmn.stats, 'attack');
@@ -176,7 +188,7 @@ function CardTCG({ pkmn, city, weather, stats, strings }: CardProps) {
   return (
     <div className="tcg" style={{ ['--dom' as string]: domColor }}>
       <div className="tcg-head">
-        <div className="tcg-name">{pkmn.name}</div>
+        <div className="tcg-name">{displayName}</div>
         <div className="tcg-hp">HP <b>{hp}</b></div>
       </div>
 
@@ -201,7 +213,7 @@ function CardTCG({ pkmn, city, weather, stats, strings }: CardProps) {
           </div>
           <div>
             <div className="tcg-aname">
-              {pkmn.types[0]} strike
+              {pkmn.types[0]} {strings.card_move_strike_suffix ?? 'strike'}
             </div>
             <div className="tcg-aeffect">
               {stats.buffs.length
@@ -217,7 +229,7 @@ function CardTCG({ pkmn, city, weather, stats, strings }: CardProps) {
             <span style={{ background: '#aaa' }}>·</span>
           </div>
           <div>
-            <div className="tcg-aname">tackle</div>
+            <div className="tcg-aname">{strings.card_move_tackle ?? 'tackle'}</div>
             <div className="tcg-aeffect">{strings.card_opener ?? 'a reliable opener.'}</div>
           </div>
           <div className="tcg-adamage">{Math.round(atk * 0.4)}</div>
@@ -236,7 +248,7 @@ function CardTCG({ pkmn, city, weather, stats, strings }: CardProps) {
    CARD VARIANT 3 — Modern flat (matches editorial style)
    =================================================================== */
 
-function CardFlat({ pkmn, city, weather, stats, strings }: CardProps) {
+function CardFlat({ pkmn, displayName, city, weather, stats, strings }: CardProps) {
   const hp = getStat(pkmn.stats, 'hp');
   const atk = getStat(pkmn.stats, 'attack');
   const def = getStat(pkmn.stats, 'defense');
@@ -249,7 +261,7 @@ function CardFlat({ pkmn, city, weather, stats, strings }: CardProps) {
 
       <div className="flat-side">
         <div className="num">{strings.card_specimen ?? 'specimen'}</div>
-        <h3>{pkmn.name}</h3>
+        <h3>{displayName}</h3>
         <div className="flat-types">
           {pkmn.types.map(t => (
             <span key={t} className="flat-type" style={{ color: typeColor(t) }}>{t}</span>
@@ -261,7 +273,7 @@ function CardFlat({ pkmn, city, weather, stats, strings }: CardProps) {
           <div className="flat-stat"><div className="l">DEF</div><div className="v">{def}</div></div>
         </div>
         <div className="flat-wx">
-          <div className="where">{city.toUpperCase()} · {weather.temp}°C · {weather.desc} {stats.emoji}</div>
+          <div className="where">{city.toUpperCase()} · {weather.temp}°C · {strings.weather_desc?.[weather.desc] ?? weather.desc} {stats.emoji}</div>
           <div className="flat-effects">
             {stats.buffs.length === 0 && <div className="none">{strings.card_no_wx_effect ?? 'no effect on these types.'}</div>}
             {stats.buffs.map((b, i) => (
@@ -504,9 +516,6 @@ function MapTab({ apiUrl, strings }: { apiUrl: string; strings: PgStrings }) {
    MAIN PLAYGROUND
    =================================================================== */
 
-const LISBON = { lat: 38.7167, lon: -9.1333 };
-const DEFAULT_WEATHER: WeatherData = { temp: 20, kind: 'sunny', desc: 'pleasant' };
-
 const DEFAULT_STRINGS: PgStrings = {
   kicker: '04 — playground', title_1: 'Things I built', title_2: 'that you can ', title_em: 'poke',
   lead: 'The point of the integration work is what it lets you do. Below: a Pokémon × weather toy. Two tabs.',
@@ -520,30 +529,69 @@ const DEFAULT_STRINGS: PgStrings = {
   card_basic: 'basic · NO. ', card_boosted_by: 'boosted by',
   card_opener: 'a reliable opener.', card_weakness: 'weakness: see chart',
   card_retreat: 'retreat: ●●', card_specimen: 'specimen',
+  card_move_strike_suffix: 'strike', card_move_tackle: 'tackle',
+  pick_prompt: 'pick a pokémon and a city to see it come alive →',
+  pokemon_placeholder: 'search pokémon…', city_placeholder: 'search a city…',
+  weather_kind_label: { sunny: 'sunny', rain: 'rain', cloudy: 'cloudy', snow: 'snow', wind: 'windy', clear_night: 'clear night' },
+  weather_desc: {
+    clear: 'clear', mainly_clear: 'mainly clear', partly_cloudy: 'partly cloudy', overcast: 'overcast',
+    foggy: 'foggy', drizzle: 'drizzle', rain: 'rain', freezing_rain: 'freezing rain', snow: 'snow',
+    snow_grains: 'snow grains', rain_showers: 'rain showers', snow_showers: 'snow showers',
+    thunderstorm: 'thunderstorm', cloudy: 'cloudy',
+  },
+  weather_mood: {
+    sunny: 'feeling toasty', rain: 'puddle-jumping', cloudy: 'contemplative',
+    snow: 'shivering quietly', wind: 'feathers ruffled', clear_night: 'eyes wide open',
+  },
 };
 
-export function Playground({ weatherEffects, cardStyle: initialCardStyle = 'flat', apiUrl = 'http://localhost:8000', strings = DEFAULT_STRINGS }: PlaygroundProps) {
+export function Playground({ weatherEffects, cardStyle: initialCardStyle = 'flat', apiUrl = 'http://localhost:8000', strings = DEFAULT_STRINGS, locale = 'en' }: PlaygroundProps) {
   const [selectedPokemon, setSelectedPokemon] = React.useState<PokemonType | null>(null);
-  const [weather, setWeather] = React.useState<WeatherData>(DEFAULT_WEATHER);
-  const [cityLabel, setCityLabel] = React.useState('Lisbon');
-  const [cityCoords, setCityCoords] = React.useState({ lat: LISBON.lat, lon: LISBON.lon });
+  const [displayName, setDisplayName] = React.useState('');
+  const [weather, setWeather] = React.useState<WeatherData | null>(null);
+  const [cityLabel, setCityLabel] = React.useState('');
+  const [cityCoords, setCityCoords] = React.useState({ lat: 0, lon: 0 });
   const [tab, setTab] = React.useState<'weather' | 'map'>('weather');
-  const [saved, setSaved] = React.useState(false);
+  const [syncEnabled, setSyncEnabled] = React.useState(() => {
+    if (typeof window === 'undefined') return false;
+    return localStorage.getItem('pg_sync_enabled') === 'true';
+  });
   const [cardStyle, setCardStyle] = React.useState(initialCardStyle);
-
-  // sync saved state with localStorage whenever pokemon or city changes
-  React.useEffect(() => {
-    try {
-      const prior = JSON.parse(localStorage.getItem('pg_pick') ?? 'null');
-      setSaved(prior?.name === selectedPokemon?.name && prior?.city === cityLabel);
-    } catch { setSaved(false); }
-  }, [selectedPokemon?.name, cityLabel]);
+  const prevSyncEnabled = React.useRef(syncEnabled);
 
   React.useEffect(() => {
-    getPokemonByName('charizard').then(p => { if (p) setSelectedPokemon(p); });
-    fetchWeatherForCoords(LISBON.lat, LISBON.lon).then(setWeather);
-  }, []);
+    if (!selectedPokemon) { setDisplayName(''); return; }
+    if (locale !== 'pt-br') { setDisplayName(selectedPokemon.name); return; }
+    let cancelled = false;
+    getPtBrNames(apiUrl, [selectedPokemon.id]).then(map => {
+      if (!cancelled) setDisplayName(map[selectedPokemon.id] ?? selectedPokemon.name);
+    });
+    return () => { cancelled = true; };
+  }, [selectedPokemon, locale, apiUrl]);
 
+  const postPick = React.useCallback(() => {
+    if (!selectedPokemon || !cityLabel) return;
+    fetch(`${apiUrl}/api/picks`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        pokemon_name: selectedPokemon.name,
+        city: cityLabel,
+        lat: cityCoords.lat,
+        lon: cityCoords.lon,
+        uid: getOrCreateUid(),
+      }),
+    }).catch(() => { });
+  }, [apiUrl, selectedPokemon, cityLabel, cityCoords.lat, cityCoords.lon]);
+
+  // Auto-sync while enabled: immediate on enabling, debounced on later pokemon/city changes.
+  React.useEffect(() => {
+    if (!syncEnabled || !selectedPokemon || !cityLabel) { prevSyncEnabled.current = syncEnabled; return; }
+    const justEnabled = !prevSyncEnabled.current;
+    prevSyncEnabled.current = syncEnabled;
+    const t = setTimeout(postPick, justEnabled ? 0 : 1500);
+    return () => clearTimeout(t);
+  }, [syncEnabled, selectedPokemon?.name, cityLabel, cityCoords.lat, cityCoords.lon, postPick]);
 
   const handleCitySelect = React.useCallback((city: CityResult) => {
     setCityLabel(city.name);
@@ -551,7 +599,7 @@ export function Playground({ weatherEffects, cardStyle: initialCardStyle = 'flat
     fetchWeatherForCoords(city.lat, city.lon).then(setWeather);
   }, []);
 
-  const stats = selectedPokemon ? adjustedStats(selectedPokemon, weather.kind, weatherEffects) : null;
+  const stats = selectedPokemon && weather ? adjustedStats(selectedPokemon, weather.kind, weatherEffects, strings) : null;
 
   const Card = cardStyle === 'pokedex' ? CardPokedex
     : cardStyle === 'tcg' ? CardTCG
@@ -587,10 +635,10 @@ export function Playground({ weatherEffects, cardStyle: initialCardStyle = 'flat
           <div className="pg-stage">
             <div className="pg-controls">
               <h4>{strings.step_pokemon}</h4>
-              <PokemonSearch onSelect={setSelectedPokemon} />
+              <PokemonSearch onSelect={setSelectedPokemon} apiUrl={apiUrl} locale={locale} placeholder={strings.pokemon_placeholder} />
 
               <h4>{strings.step_city}</h4>
-              <CitySearch onSelect={handleCitySelect} />
+              <CitySearch onSelect={handleCitySelect} locale={locale} placeholder={strings.city_placeholder} />
 
               {/* <h4>3 · card style</h4>
               <div className="style-btns">
@@ -603,44 +651,27 @@ export function Playground({ weatherEffects, cardStyle: initialCardStyle = 'flat
               <div className="save-row">
                 <label>
                   <input type="checkbox"
-                    checked={saved}
+                    checked={syncEnabled}
                     onChange={(e) => {
                       const checked = e.target.checked;
-                      if (!checked) { setSaved(false); return; }
-
-                      setSaved(true);
-
-                      if (selectedPokemon) {
-                        fetch(`${apiUrl}/api/picks`, {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({
-                            pokemon_name: selectedPokemon.name,
-                            city: cityLabel,
-                            lat: cityCoords.lat,
-                            lon: cityCoords.lon,
-                            uid: getOrCreateUid(),
-                          }),
-                        })
-                          .then(() => localStorage.setItem('pg_pick', JSON.stringify({ name: selectedPokemon.name, city: cityLabel })))
-                          .catch(() => { });
-                      }
+                      setSyncEnabled(checked);
+                      localStorage.setItem('pg_sync_enabled', String(checked));
                     }} />
                   <span>{strings.save_label}</span>
                 </label>
-                {saved && <div className="saved">{strings.save_done}</div>}
+                {syncEnabled && selectedPokemon && cityLabel && <div className="saved">{strings.save_done}</div>}
               </div>
             </div>
 
             <div className="pg-card-wrap">
-              {selectedPokemon && stats ? (
+              {selectedPokemon && weather && stats ? (
                 <WeatherScene kind={weather.kind}>
                   <div className="wx-inner-pad">
-                    <Card pkmn={selectedPokemon} city={cityLabel} weather={weather} stats={stats} strings={strings} />
+                    <Card pkmn={selectedPokemon} displayName={displayName || selectedPokemon.name} city={cityLabel} weather={weather} stats={stats} strings={strings} />
                   </div>
                 </WeatherScene>
               ) : (
-                <div className="pg-card-placeholder">{strings.loading_pokemon}</div>
+                <div className="pg-card-placeholder">{strings.pick_prompt}</div>
               )}
             </div>
           </div>

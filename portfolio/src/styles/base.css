@@ -1,5 +1,9 @@
 @import './tokens.css';
 
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
 * { box-sizing: border-box; }
 
 html, body {

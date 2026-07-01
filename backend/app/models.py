@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 
-from sqlalchemy import BigInteger, Boolean, Float, String, Text, func
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import JSON, BigInteger, Boolean, Float, ForeignKey, String, Text, func
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .database import Base
 
@@ -27,6 +27,15 @@ class PokemonPick(Base):
     picked_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
 
+class PokemonTranslation(Base):
+    __tablename__ = "pokemon_translations"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True)  # PokeAPI species id
+    name_en: Mapped[str] = mapped_column(Text, nullable=False)
+    name_pt_br: Mapped[str] = mapped_column(Text, nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(server_default=func.now(), onupdate=func.now())
+
+
 class GuestbookEntry(Base):
     __tablename__ = "guestbook_entries"
 
@@ -36,3 +45,38 @@ class GuestbookEntry(Base):
     message: Mapped[str] = mapped_column(Text, nullable=False)
     approved: Mapped[bool] = mapped_column(Boolean, default=True)
     submitted_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class ConsultingRequest(Base):
+    __tablename__ = "consulting_requests"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    category: Mapped[str] = mapped_column(Text, nullable=False)
+    name: Mapped[str] = mapped_column(Text, nullable=False)
+    contact: Mapped[str] = mapped_column(Text, nullable=False)
+    company: Mapped[str | None] = mapped_column(Text)
+    message: Mapped[str | None] = mapped_column(Text)
+    extra_note: Mapped[str | None] = mapped_column(Text)
+    links: Mapped[list | None] = mapped_column(JSON)
+    submitted_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+    attachments: Mapped[list["ConsultingAttachment"]] = relationship(
+        back_populates="request", cascade="all, delete-orphan"
+    )
+
+
+class ConsultingAttachment(Base):
+    __tablename__ = "consulting_attachments"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    request_id: Mapped[int] = mapped_column(
+        BigInteger, ForeignKey("consulting_requests.id", ondelete="CASCADE"), nullable=False
+    )
+    kind: Mapped[str] = mapped_column(Text, nullable=False)  # voice | media | board
+    original_filename: Mapped[str] = mapped_column(Text, nullable=False)
+    stored_filename: Mapped[str] = mapped_column(Text, nullable=False)
+    content_type: Mapped[str] = mapped_column(Text, nullable=False)
+    size_bytes: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+    request: Mapped[ConsultingRequest] = relationship(back_populates="attachments")

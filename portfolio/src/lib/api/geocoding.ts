@@ -12,13 +12,15 @@ export interface CityResult {
 
 const cache = new Map<string, CityResult[]>();
 
-export async function searchCities(query: string): Promise<CityResult[]> {
+export async function searchCities(query: string, locale: 'en' | 'pt-br' = 'en'): Promise<CityResult[]> {
   const q = query.trim().toLowerCase();
   if (!q) return [];
-  if (cache.has(q)) return cache.get(q)!;
+  const cacheKey = `${locale}:${q}`;
+  if (cache.has(cacheKey)) return cache.get(cacheKey)!;
 
+  const lang = locale.startsWith('pt') ? 'pt' : 'en';
   try {
-    const res = await fetch(`${BASE}/search?name=${encodeURIComponent(q)}&count=8&language=en&format=json`);
+    const res = await fetch(`${BASE}/search?name=${encodeURIComponent(q)}&count=8&language=${lang}&format=json`);
     if (!res.ok) return [];
     const data = await res.json() as {
       results?: Array<{
@@ -36,7 +38,7 @@ export async function searchCities(query: string): Promise<CityResult[]> {
       lat: r.latitude,
       lon: r.longitude,
     }));
-    cache.set(q, results);
+    cache.set(cacheKey, results);
     return results;
   } catch {
     return [];

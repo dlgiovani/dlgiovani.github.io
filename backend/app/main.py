@@ -10,7 +10,7 @@ from slowapi.middleware import SlowAPIMiddleware
 
 from .config import settings
 from .limiter import limiter
-from .routers import apod, guestbook, github, picks, signals, ticker
+from .routers import apod, consulting, guestbook, github, picks, pokemon, signals, ticker
 from .routers.apod import refresh as refresh_apod
 from .routers.github import _update_cache as refresh_github
 from .scheduler import maybe_refresh_on_start, start_scheduler
@@ -34,7 +34,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.origins_list,
     allow_methods=["GET", "POST", "PATCH"],
-    allow_headers=["Content-Type"],
+    allow_headers=["Content-Type", "X-API-Key"],
 )
 app.add_middleware(SlowAPIMiddleware)
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
@@ -43,7 +43,9 @@ app.include_router(apod.router)
 app.include_router(ticker.router)
 app.include_router(signals.router)
 app.include_router(picks.router)
+app.include_router(pokemon.router)
 app.include_router(guestbook.router)
+app.include_router(consulting.router)
 app.include_router(github.router)
 
 
