@@ -14,7 +14,7 @@ const pt: UI = {
     nav_playground: 'playground',
     nav_guestbook: 'livro de visitas',
     apod_credit: 'plano de fundo: nébula estrelada',
-    scroll: 'rolar',
+    scroll: 'role a tela',
   },
   about: {
     kicker: '01 — sobre',
