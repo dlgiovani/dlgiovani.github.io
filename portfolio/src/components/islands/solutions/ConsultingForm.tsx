@@ -58,14 +58,15 @@ const ICONS: Record<ToolKey, React.ReactNode> = {
 
 interface Props {
   category: Category;
-  strings: SolutionsStrings;
+  form: SolutionsStrings['form'];
+  sandbox: SolutionsStrings['sandbox'];
   apiUrl: string;
   accent: string;
 }
 
-export function ConsultingForm({ category, strings, apiUrl, accent }: Props) {
-  const f = strings.form;
-  const sb = strings.sandbox;
+export function ConsultingForm({ category, form, sandbox, apiUrl, accent }: Props) {
+  const f = form;
+  const sb = sandbox;
 
   const [name, setName] = useState('');
   const [contact, setContact] = useState('');

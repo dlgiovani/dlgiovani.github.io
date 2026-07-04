@@ -243,7 +243,7 @@ const pt: UI = {
     heroSub: 'Menos atrito entre o seu problema e a solução. Escolha o formato que encaixa — ou me diga que nenhum encaixa.',
     leverHint: 'Vire a alavanca para ver a diferença.',
     blocks: {
-      consulting: { label: 'Consultoria', desc: 'Entender onde a minha empresa pode melhorar com tecnologia e inovação.' },
+      consulting: { label: 'Consultoria', desc: 'Quero entender onde a minha empresa pode melhorar com tecnologia e inovação.' },
       integration: { label: 'Integração', desc: 'Fazer dois ou mais sistemas conversarem, pra parar de comparar arquivos exportados na mão.' },
       automation: { label: 'Automação', desc: 'Automatizar a análise pra pular as horas tediosas na planilha.' },
       else: { label: 'Outra coisa', desc: 'Minha necessidade não está na lista — vamos conversar mesmo assim.' },

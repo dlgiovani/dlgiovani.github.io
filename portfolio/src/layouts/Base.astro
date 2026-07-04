@@ -3,6 +3,8 @@ import '../styles/base.css';
 import FloatingCTA from '../components/interactive/FloatingCTA.astro';
 import { siteUrl, siteName } from '../config/site';
 import { siteTheme, headlineFonts } from '../config/theme';
+import { altHrefs, isPtPath } from '../lib/locale-paths';
+import { parentHref } from '../components/islands/solutions/routes';
 import type { Locale } from '../types/i18n';
 
 interface Props {
@@ -10,6 +12,16 @@ interface Props {
   description?: string;
   locale?: Locale;
   ogImage?: string;
+  // Counterpart URL in each language. Defaults to a /pt-br prefix swap; pages
+  // whose slug differs per locale (e.g. work-with-me) pass explicit values.
+  altEn?: string;
+  altPt?: string;
+  // Whether this page has a counterpart in the other language. Single-language
+  // pages (e.g. blog posts) set false so the sticky-language redirect skips them.
+  mirrored?: boolean;
+  // Hostname prefix under which this page is a subdomain's landing page (nginx
+  // 301s the subdomain root here), making its language ambiguous like '/'.
+  subdomainRoot?: string;
 }
 
 const {
@@ -17,14 +29,20 @@ const {
   description = 'Software engineer working at the seams between systems · dlgiovani',
   locale = 'en',
   ogImage = '/og-image.png',
+  altEn: altEnProp,
+  altPt: altPtProp,
+  mirrored = true,
+  subdomainRoot = '',
 } = Astro.props;
 
 const pageTitle = title ? `${title} — dlgiovani.dev` : 'dlgiovani.dev — portfolio';
-const canonicalEn = siteUrl + '/';
-const canonicalPt = siteUrl + '/pt-br/';
-
 const path = Astro.url.pathname;
-const onSolutionsPage = path.startsWith('/consulting') || path.startsWith('/pt-br/consultoria');
+const defaults = altHrefs(path);
+const onPt = isPtPath(path);
+const altEn = altEnProp ?? defaults.en;
+const altPt = altPtProp ?? defaults.pt;
+const isRoot = path === '/';
+const onSolutionsPage = path.startsWith(parentHref('en')) || path.startsWith(parentHref('pt-br'));
 ---
 
 <!doctype html>
@@ -33,16 +51,31 @@ const onSolutionsPage = path.startsWith('/consulting') || path.startsWith('/pt-b
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script is:inline>
+    <script is:inline define:vars={{ altEn, altPt, mirrored, onPt, isRoot, subdomainRoot }}>
+      // Language resolution: an explicit choice (lang_choice, written only by
+      // the toggle) wins and is enforced by redirecting mismatched pages to
+      // their counterpart. With no choice yet, the URL's language stands —
+      // except language-ambiguous entry points (the root, or a subdomain's
+      // landing page), which fall back to the browser language. Redirects use
+      // replace() so switching never piles onto the back stack.
       (function () {
-        if (localStorage.getItem('lang_pref')) return;
-        var onPt = location.pathname.startsWith('/pt-br');
-        if (!onPt && navigator.language && navigator.language.toLowerCase().startsWith('pt')) {
-          localStorage.setItem('lang_pref', 'pt-br');
-          location.replace('/pt-br' + location.pathname);
-        } else {
-          localStorage.setItem('lang_pref', onPt ? 'pt-br' : 'en');
+        // Pre-2026-07 code auto-wrote lang_pref without user action; it must
+        // not be honored as an explicit choice.
+        localStorage.removeItem('lang_pref');
+        function go(target) { location.replace(target + location.search + location.hash); }
+        function enforce() {
+          var pref = localStorage.getItem('lang_choice');
+          if (mirrored && pref === 'pt-br' && !onPt) { go(altPt); return; }
+          if (mirrored && pref === 'en' && onPt) { go(altEn); return; }
+          var ambiguous = isRoot || (subdomainRoot && location.hostname.indexOf(subdomainRoot) === 0);
+          if (!pref && !onPt && ambiguous &&
+              navigator.language && navigator.language.toLowerCase().indexOf('pt') === 0) {
+            go(altPt);
+          }
         }
+        enforce();
+        // Pages restored from the back/forward cache don't re-run inline scripts.
+        window.addEventListener('pageshow', function (e) { if (e.persisted) enforce(); });
       })();
     </script>
     <meta name="generator" content={Astro.generator} />
@@ -57,9 +90,13 @@ const onSolutionsPage = path.startsWith('/consulting') || path.startsWith('/pt-b
     <meta name="twitter:card"       content="summary_large_image" />
 
     <!-- hreflang -->
-    <link rel="alternate" hreflang="en"        href={canonicalEn} />
-    <link rel="alternate" hreflang="pt-BR"      href={canonicalPt} />
-    <link rel="alternate" hreflang="x-default" href={canonicalEn} />
+    {mirrored && (
+      <>
+        <link rel="alternate" hreflang="en"        href={siteUrl + altEn} />
+        <link rel="alternate" hreflang="pt-BR"      href={siteUrl + altPt} />
+        <link rel="alternate" hreflang="x-default" href={siteUrl + altEn} />
+      </>
+    )}
 
     <link rel="icon" type="image/png" href="/icon-32.png" />
     <link rel="apple-touch-icon"      href="/icon-180.png" />

@@ -1,0 +1,97 @@
+---
+import Base from '../../../layouts/Base.astro';
+import LangThemeBar from '../../interactive/LangThemeBar.astro';
+import SolutionsHeader from './SolutionsHeader.astro';
+import { parentHref, categoryHrefs } from './routes';
+import en from '../../../i18n/locales/en';
+import pt from '../../../i18n/locales/pt-br';
+import styles from './Solutions.module.css';
+import type { Locale } from '../../../types/i18n';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+
+const strings = locale === 'pt-br' ? pt.solutions : en.solutions;
+const homeHref = locale === 'pt-br' ? '/pt-br/' : '/';
+const hrefs = categoryHrefs(locale);
+const cats = ['consulting', 'integration', 'automation'] as const;
+---
+
+<Base
+  title={strings.page_title}
+  description={strings.page_desc}
+  locale={locale}
+  altEn={parentHref('en')}
+  altPt={parentHref('pt-br')}
+>
+  <div class={styles.root}>
+    <SolutionsHeader homeHref={homeHref} />
+
+    <main class={styles.home}>
+      <p class={styles.kicker}>{strings.kicker}</p>
+      <h1 class={styles.heroTitle}>{strings.hero}</h1>
+      <p class={styles.heroSub}>{strings.heroSub}</p>
+
+      <div class={styles.cards}>
+        {cats.map((cat, i) => (
+          <a href={hrefs[cat]} class={styles.card} style={`animation-delay:${0.05 + i * 0.07}s`}>
+            <span class={styles.cardNum}>0{i + 1}</span>
+            <div class={styles.cardArt}>
+              {cat === 'consulting' && (
+                <svg width="120" height="92" viewBox="0 0 120 92">
+                  <g class={styles.dashSpin}>
+                    <path d="M34 22 L86 46" stroke-width="1.8" />
+                    <path d="M34 46 L86 22" stroke-width="1.8" />
+                    <path d="M34 70 L86 70" stroke-width="1.8" />
+                  </g>
+                  {[22, 46, 70].map((y) => (
+                    <g>
+                      <circle cx="34" cy={y} r="5" class={styles.motifFill} />
+                      <circle cx="86" cy={y} r="5" class={styles.motifFill} />
+                    </g>
+                  ))}
+                </svg>
+              )}
+              {cat === 'integration' && (
+                <svg width="120" height="92" viewBox="0 0 120 92">
+                  <rect x="14" y="34" width="20" height="26" rx="2" stroke-width="1.6" />
+                  <rect x="86" y="34" width="20" height="26" rx="2" stroke-width="1.6" />
+                  <g class={styles.flyPlane}>
+                    <path d="M74 47 L50 41 L56 47 L50 53 Z" class={styles.motifFill} />
+                  </g>
+                </svg>
+              )}
+              {cat === 'automation' && (
+                <svg width="120" height="92" viewBox="0 0 120 92">
+                  <rect x="16" y="28" width="30" height="38" rx="2" stroke-width="1.4" />
+                  <path d="M16 40 H46 M16 52 H46 M31 28 V66" stroke-width="0.9" opacity="0.5" />
+                  <rect x="74" y="28" width="30" height="38" rx="2" stroke-width="1.4" />
+                  <path d="M74 40 H104 M74 52 H104 M89 28 V66" stroke-width="0.9" opacity="0.5" />
+                  <circle cx="52" cy="47" r="2.6" class={`${styles.motifFill} ${styles.stream1}`} />
+                  <circle cx="58" cy="47" r="2.6" class={`${styles.motifFill} ${styles.stream2}`} />
+                </svg>
+              )}
+            </div>
+            <span class={styles.cardLabel}>{strings.blocks[cat].label}</span>
+            <span class={styles.cardDesc}>{strings.blocks[cat].desc}</span>
+          </a>
+        ))}
+
+        <a class={styles.cardElse} href={hrefs.else} style="animation-delay:0.26s">
+          <div class={styles.elseCircle}>
+            <svg width="30" height="30" viewBox="0 0 30 30" class={styles.elseIcon}>
+              <g>
+                <path d="M15 4 V26 M4 15 H26 M7.2 7.2 L22.8 22.8 M22.8 7.2 L7.2 22.8" />
+              </g>
+            </svg>
+            <span class={styles.elseLabel}>{strings.blocks.else.label}</span>
+            <span class={styles.elseDesc}>{strings.blocks.else.desc}</span>
+          </div>
+        </a>
+      </div>
+
+      <footer class={styles.homeFooter}>dlgiovani.dev — contato [at] dlgiovani.dev</footer>
+    </main>
+  </div>
+  <LangThemeBar locale={locale} enHref={parentHref('en')} ptHref={parentHref('pt-br')} />
+</Base>

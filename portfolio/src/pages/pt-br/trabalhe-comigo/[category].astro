@@ -1,0 +1,16 @@
+---
+import SolutionsCategoryPage from '../../../components/islands/solutions/SolutionsCategoryPage.astro';
+import { slugParams } from '../../../components/islands/solutions/routes';
+import type { Category } from '../../../components/islands/solutions/types';
+
+export function getStaticPaths() {
+  return slugParams('pt-br').map(({ slug, category }) => ({
+    params: { category: slug },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props as { category: Category };
+---
+
+<SolutionsCategoryPage locale="pt-br" category={category} />

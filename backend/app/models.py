@@ -59,6 +59,7 @@ class ConsultingRequest(Base):
     extra_note: Mapped[str | None] = mapped_column(Text)
     links: Mapped[list | None] = mapped_column(JSON)
     submitted_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    handled_at: Mapped[datetime | None] = mapped_column(nullable=True)  # null = not yet handled
 
     attachments: Mapped[list["ConsultingAttachment"]] = relationship(
         back_populates="request", cascade="all, delete-orphan"

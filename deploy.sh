@@ -6,6 +6,7 @@ set -euo pipefail
 
 REPO=/home/opc/websites/dlgiovani.dev
 FRONTEND=$REPO/portfolio
+ADMIN=$REPO/admin
 BACKEND=$REPO/backend
 VENV=/opt/dlgiovani-venv
 
@@ -20,6 +21,12 @@ npm ci --prefix "$FRONTEND"
 echo "==> Building frontend..."
 PUBLIC_API_URL=https://dlgiovani.dev npm run build --prefix "$FRONTEND"
 # dist/ is served directly by nginx — no reload needed
+
+# ── admin (admin-session.dlgiovani.dev) ────────────────────────
+echo "==> Building admin app..."
+npm ci --prefix "$ADMIN"
+npm run build --prefix "$ADMIN"
+# admin/dist/ is served directly by nginx — no reload needed
 
 # ── backend ────────────────────────────────────────────────────
 if [ ! -d "$VENV" ]; then

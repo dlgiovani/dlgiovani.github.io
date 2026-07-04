@@ -296,6 +296,59 @@ In the browser: open https://dlgiovani.dev, check:
   - [ ] /pt/ locale works
 
 ---
+Admin subdomain — admin-session.dlgiovani.dev
+
+A small React (Vite) app (repo `admin/`) to read the /trabalhe-comigo (consulting)
+form submissions and preview their media (voice notes, sketch boards, images, video, PDF).
+It is gated only by the ADMIN_API_KEY typed into the page; keep the subdomain unlinked and
+noindex'd. nginx serves the built bundle from `admin/dist` and proxies /api/ to the same
+uvicorn backend, so the app calls the API same-origin (no CORS entry needed).
+
+One-time setup:
+
+1. DNS — add an A record:
+     Type A   Name admin-session   Value <oracle-public-ip>
+   Wait for propagation (dig admin-session.dlgiovani.dev) before certbot.
+
+2. Ensure ADMIN_API_KEY is set in backend/.env (generate once):
+     python -c "import secrets; print(secrets.token_urlsafe(32))"
+   Empty key ⇒ the admin endpoints always 403. Restart the API after setting it.
+
+3. Build the admin app (Vite → admin/dist, served statically by nginx):
+     cd admin && npm ci && npm run build
+   (deploy.sh already does this on every redeploy.)
+
+4. nginx — the server block lives in deploy/nginx-dlgiovani.dev.conf. On the server,
+   add it to /etc/nginx/conf.d/ (adjust the repo path in `root`; note it points at admin/dist):
+
+     server {
+         listen 80;
+         server_name admin-session.dlgiovani.dev;
+         root /home/opc/dlgiovani.github.io/admin/dist;
+         index index.html;
+         location /api/ {
+             proxy_pass http://127.0.0.1:8000;
+             proxy_set_header Host $host;
+             proxy_set_header X-Real-IP $remote_addr;
+             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+             proxy_set_header X-Forwarded-Proto $scheme;
+         }
+         location / { try_files $uri $uri/ /index.html; }
+     }
+
+     sudo nginx -t && sudo systemctl reload nginx
+
+5. TLS:
+     sudo certbot --nginx -d admin-session.dlgiovani.dev
+
+6. Apply the migration that adds the "handled" flag (part of the normal backend redeploy):
+     cd backend && source .venv/bin/activate && alembic upgrade head
+
+Redeploy: `git pull` + `cd admin && npm ci && npm run build` (bundled into deploy.sh).
+Local dev: `cd admin && npm install && npm run dev` — Vite serves the app and proxies
+/api → http://127.0.0.1:8000 (override with BACKEND=... npm run dev).
+
+---
 Re-deploys (after this initial setup)
 
 Frontend change:

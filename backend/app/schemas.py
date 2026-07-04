@@ -88,7 +88,12 @@ class ConsultingRequestOut(BaseModel):
     extra_note: str | None
     links: list[str] | None
     submitted_at: datetime
+    handled_at: datetime | None
     attachments: list[ConsultingAttachmentOut]
+
+
+class ConsultingHandledUpdate(BaseModel):
+    handled: bool
 
 
 class ConsultingSubmitOut(BaseModel):

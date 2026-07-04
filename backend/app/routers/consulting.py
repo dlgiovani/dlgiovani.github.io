@@ -5,7 +5,7 @@ from pathlib import Path
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -13,7 +13,12 @@ from ..auth import require_api_key
 from ..database import get_db
 from ..limiter import limiter
 from ..models import ConsultingAttachment, ConsultingRequest
-from ..schemas import ConsultingAttachmentOut, ConsultingRequestOut, ConsultingSubmitOut
+from ..schemas import (
+    ConsultingAttachmentOut,
+    ConsultingHandledUpdate,
+    ConsultingRequestOut,
+    ConsultingSubmitOut,
+)
 
 router = APIRouter(prefix="/api/consulting", tags=["consulting"])
 
@@ -121,6 +126,32 @@ async def submit_request(
     return entry
 
 
+def _to_out(r: ConsultingRequest) -> ConsultingRequestOut:
+    return ConsultingRequestOut(
+        id=r.id,
+        category=r.category,
+        name=r.name,
+        contact=r.contact,
+        company=r.company,
+        message=r.message,
+        extra_note=r.extra_note,
+        links=r.links,
+        submitted_at=r.submitted_at,
+        handled_at=r.handled_at,
+        attachments=[
+            ConsultingAttachmentOut(
+                id=a.id,
+                kind=a.kind,
+                original_filename=a.original_filename,
+                content_type=a.content_type,
+                size_bytes=a.size_bytes,
+                download_path=f"/api/consulting/{r.id}/attachments/{a.id}",
+            )
+            for a in r.attachments
+        ],
+    )
+
+
 @router.get("", response_model=list[ConsultingRequestOut], dependencies=[Depends(require_api_key)])
 async def list_requests(db: AsyncSession = Depends(get_db)):
     rows = (
@@ -134,31 +165,32 @@ async def list_requests(db: AsyncSession = Depends(get_db)):
         .scalars()
         .all()
     )
-    return [
-        ConsultingRequestOut(
-            id=r.id,
-            category=r.category,
-            name=r.name,
-            contact=r.contact,
-            company=r.company,
-            message=r.message,
-            extra_note=r.extra_note,
-            links=r.links,
-            submitted_at=r.submitted_at,
-            attachments=[
-                ConsultingAttachmentOut(
-                    id=a.id,
-                    kind=a.kind,
-                    original_filename=a.original_filename,
-                    content_type=a.content_type,
-                    size_bytes=a.size_bytes,
-                    download_path=f"/api/consulting/{r.id}/attachments/{a.id}",
-                )
-                for a in r.attachments
-            ],
+    return [_to_out(r) for r in rows]
+
+
+@router.patch(
+    "/{request_id}",
+    response_model=ConsultingRequestOut,
+    dependencies=[Depends(require_api_key)],
+)
+async def set_handled(
+    request_id: int,
+    payload: ConsultingHandledUpdate,
+    db: AsyncSession = Depends(get_db),
+):
+    entry = (
+        await db.execute(
+            select(ConsultingRequest)
+            .options(selectinload(ConsultingRequest.attachments))
+            .where(ConsultingRequest.id == request_id)
         )
-        for r in rows
-    ]
+    ).scalar_one_or_none()
+    if entry is None:
+        raise HTTPException(status_code=404)
+    entry.handled_at = func.now() if payload.handled else None
+    await db.commit()
+    await db.refresh(entry)
+    return _to_out(entry)
 
 
 @router.get("/{request_id}/attachments/{attachment_id}", dependencies=[Depends(require_api_key)])

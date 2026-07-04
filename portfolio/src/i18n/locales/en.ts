@@ -241,7 +241,7 @@ const en = {
     heroSub: 'Less friction between your problem and its solution. Pick the shape that fits — or tell me it doesn’t.',
     leverHint: 'Flip the lever to see the difference.',
     blocks: {
-      consulting: { label: 'Consulting', desc: 'Understand where my company can improve with technology & innovation.' },
+      consulting: { label: 'Consulting', desc: 'I want to understand where my company can improve with technology & innovation.' },
       integration: { label: 'Integration', desc: 'Make two or more systems talk, so I stop comparing exported files by hand.' },
       automation: { label: 'Automation', desc: 'Automate the analysis so I skip the tedious hours in spreadsheets.' },
       else: { label: 'Something else', desc: 'My need isn’t on the list — let’s talk anyway.' },

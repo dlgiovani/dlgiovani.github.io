@@ -1,6 +1,7 @@
 ---
 import type { Locale } from '../../types/i18n';
 import { useTranslations } from '../../i18n/ui';
+import { parentHref } from '../islands/solutions/routes';
 
 interface Props {
   locale: Locale;
@@ -8,7 +9,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = useTranslations(locale);
-const href = locale === 'pt-br' ? '/pt-br/consultoria' : '/consulting';
+const href = parentHref(locale);
 ---
 
 <a href={href} class="floating-cta">

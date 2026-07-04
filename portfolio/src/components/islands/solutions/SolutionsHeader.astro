@@ -1,0 +1,14 @@
+---
+import styles from './Solutions.module.css';
+
+interface Props { homeHref: string }
+const { homeHref } = Astro.props;
+---
+
+<header class={styles.header}>
+  <a href={homeHref} class={styles.logo}>
+    <span style="font-weight:500">dl</span>
+    <span class={styles.logoDot}>.</span>
+    <span>giovani</span>
+  </a>
+</header>

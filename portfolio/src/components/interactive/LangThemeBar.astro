@@ -1,12 +1,13 @@
 ---
+import { altHrefs } from '../../lib/locale-paths';
 import type { Locale } from '../../types/i18n';
-// href overrides support pages whose slug differs per locale (e.g. /consulting vs /pt-br/consultoria)
+// href overrides support pages whose slug differs per locale (e.g. /work-with-me vs /pt-br/trabalhe-comigo)
 interface Props { locale: Locale; enHref?: string; ptHref?: string }
 const { locale, enHref: enOverride, ptHref: ptOverride } = Astro.props;
 
-const pathname = Astro.url.pathname;
-const enHref = enOverride ?? (locale === 'pt-br' ? pathname.replace(/^\/pt-br/, '') || '/' : pathname);
-const ptHref = ptOverride ?? (locale === 'en' ? `/pt-br${pathname}` : pathname);
+const defaults = altHrefs(Astro.url.pathname);
+const enHref = enOverride ?? defaults.en;
+const ptHref = ptOverride ?? defaults.pt;
 ---
 
 <div class="ltbar" id="ltbar">
@@ -39,8 +40,22 @@ const ptHref = ptOverride ?? (locale === 'en' ? `/pt-br${pathname}` : pathname);
   const enLink = document.querySelector('.ltbar-lang:not([href*="pt-br"])');
   const ptLink = document.querySelector('.ltbar-lang[href*="pt-br"]');
 
-  enLink?.addEventListener('click', () => localStorage.setItem('lang_pref', 'en'));
-  ptLink?.addEventListener('click', () => localStorage.setItem('lang_pref', 'pt-br'));
+  // Record the explicit choice and switch via replace() so the language toggle
+  // is a mode change, not a back-stack entry. Modified clicks (new tab/window)
+  // keep native behavior; without JS the plain <a> nav still works.
+  function pickLang(pref: string) {
+    return (e: Event) => {
+      const c = e as MouseEvent;
+      if (c.metaKey || c.ctrlKey || c.shiftKey || c.altKey || c.button !== 0) return;
+      const href = (c.currentTarget as HTMLAnchorElement).getAttribute('href');
+      if (!href) return;
+      c.preventDefault();
+      localStorage.setItem('lang_choice', pref);
+      location.replace(href);
+    };
+  }
+  enLink?.addEventListener('click', pickLang('en'));
+  ptLink?.addEventListener('click', pickLang('pt-br'));
 
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const fireflyEls = [btn, enLink, ptLink].filter((el): el is Element => el !== null);

@@ -1,2 +1,4 @@
 portfolio/key.local
 **/.venv/**
+admin/node_modules/
+admin/dist/

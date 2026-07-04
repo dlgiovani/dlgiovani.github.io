@@ -1,0 +1,74 @@
+---
+import Base from '../../../layouts/Base.astro';
+import LangThemeBar from '../../interactive/LangThemeBar.astro';
+import SolutionsHeader from './SolutionsHeader.astro';
+import { CategoryAnim } from './CategoryAnim';
+import { ConsultingForm } from './ConsultingForm';
+import { parentHref, categoryHref } from './routes';
+import en from '../../../i18n/locales/en';
+import pt from '../../../i18n/locales/pt-br';
+import styles from './Solutions.module.css';
+import type { Locale } from '../../../types/i18n';
+import type { Category } from './types';
+
+// The lever animations draw on a fixed light panel, so their accent stays the
+// design's original regardless of theme.
+const ANIM_ACCENT = '#E0512B';
+
+interface Props { locale: Locale; category: Category }
+const { locale, category } = Astro.props;
+
+const strings = locale === 'pt-br' ? pt.solutions : en.solutions;
+const homeHref = locale === 'pt-br' ? '/pt-br/' : '/';
+const apiUrl = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
+const d = strings.details[category];
+---
+
+<Base
+  title={d.title}
+  description={strings.page_desc}
+  locale={locale}
+  altEn={categoryHref('en', category)}
+  altPt={categoryHref('pt-br', category)}
+>
+  <div class={styles.root}>
+    <SolutionsHeader homeHref={homeHref} />
+
+    <main class={styles.detail}>
+      <a class={styles.backBtn} href={parentHref(locale)}>
+        <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path d="M5 1 L1 5 L5 9 M1 5 H15" />
+        </svg>
+        {strings.form.back}
+      </a>
+
+      <p class={styles.detailKicker}>{d.kicker}</p>
+      <h1 class={styles.detailTitle}>{d.title}</h1>
+
+      <div class={styles.animPanel}>
+        <CategoryAnim client:load category={category} accent={ANIM_ACCENT} />
+      </div>
+      <p class={styles.leverHint}>{strings.leverHint}</p>
+
+      <p class={styles.detailPara}>{d.para}</p>
+
+      <div class={styles.formSection}>
+        <h2 class={styles.formTitle}>{strings.form.title}</h2>
+        <p class={styles.formSub}>{strings.form.sub}</p>
+        <ConsultingForm
+          client:visible
+          category={category}
+          form={strings.form}
+          sandbox={strings.sandbox}
+          apiUrl={apiUrl}
+          accent={ANIM_ACCENT}
+        />
+      </div>
+    </main>
+  </div>
+  <LangThemeBar
+    locale={locale}
+    enHref={categoryHref('en', category)}
+    ptHref={categoryHref('pt-br', category)}
+  />
+</Base>

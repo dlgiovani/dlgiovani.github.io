@@ -144,11 +144,15 @@ export function SketchBoard({ board, accent, s }: Props) {
   const onPointerDown = (e: React.PointerEvent) => {
     const p = pos(e);
     if (tool === 'text') {
+      // Prevent the pointerdown's default focus handling: without this the
+      // browser moves focus to <body> right after React mounts+autofocuses the
+      // inline input, blurring it in the same frame so it vanishes instantly.
+      // (This also stops the compat mousedown, so a tap no longer blurs an open
+      // entry — hence we commit the previous one here instead.)
+      e.preventDefault();
       // inline input instead of window.prompt — a blocking dialog inside
-      // pointerdown eats every following tap on mobile. If an entry is open,
-      // this tap just closes it (via the input's blur); the next tap places
-      // a new one.
-      if (textOpenRef.current) return;
+      // pointerdown eats every following tap on mobile.
+      if (textOpenRef.current && textEntry) commitText(textEntry); // finalize the open entry
       textValueRef.current = '';
       textOpenRef.current = true;
       setTextEntry(p);

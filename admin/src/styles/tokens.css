@@ -1,0 +1,44 @@
+/* Design tokens — subset mirrored from portfolio/src/styles/tokens.css so the
+   admin app reads as part of dlgiovani.dev. Accent is the site default (#1f6b4e). */
+:root {
+  --paper:      #f4f4f0;
+  --ink:        #0a0a0a;
+  --muted:      #737373;
+  --line:       #d8d6cf;
+  --line-soft:  #e6e4dc;
+  --surface:    #ffffff;
+  --accent:     #1f6b4e;
+  --accent-ink: #ffffff;
+  --up:         #1f7c3a;
+  --down:       #b73329;
+  --warn:       #b06a12;
+
+  --serif: 'Instrument Serif', 'Newsreader', Georgia, serif;
+  --sans:  'IBM Plex Sans', system-ui, sans-serif;
+  --mono:  'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+
+  --radius: 3px;
+  --border: 1px solid var(--line);
+  --shadow: 0 1px 2px rgba(10, 10, 10, 0.04), 0 8px 24px -16px rgba(10, 10, 10, 0.18);
+}
+
+html[data-theme='dark'] {
+  --paper:      #0e0e10;
+  --ink:        #f1efe8;
+  --muted:      #8c887e;
+  --line:       #25252a;
+  --line-soft:  #1a1a1e;
+  --surface:    #16161a;
+  --accent:     #5fb98f;
+  --accent-ink: #06110c;
+  --up:         #4fb26a;
+  --down:       #e0685d;
+  --warn:       #d99a4a;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -18px rgba(0, 0, 0, 0.8);
+}
