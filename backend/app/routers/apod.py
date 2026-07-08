@@ -33,6 +33,7 @@ _ARCHIVE_MAX_ENTRIES = 10
 _ARCHIVE_ENTRY_RE = re.compile(r'<a href="(ap(\d{6})\.html)">([^<]*)</a>')
 _LINKED_IMG_RE = re.compile(r'<a href="([^"]+\.(?:jpg|jpeg|png|gif))">\s*<img\s+src="([^"]+)"', re.IGNORECASE)
 _BARE_IMG_RE = re.compile(r'<img\s+src="([^"]+)"', re.IGNORECASE)
+_VIDEO_SOURCE_RE = re.compile(r'<source\s+src="([^"]+\.(?:mp4|webm|mov|m4v|mkv))"', re.IGNORECASE)
 _TITLE_TAG_RE = re.compile(r'<title>\s*APOD:.*?[–-]\s*(.*?)\s*</title>', re.IGNORECASE | re.DOTALL)
 _EXPLANATION_RE = re.compile(r'Explanation:\s*</b>\s*(.*?)(?:<p>|<center>)', re.IGNORECASE | re.DOTALL)
 
@@ -40,7 +41,6 @@ _EXPLANATION_RE = re.compile(r'Explanation:\s*</b>\s*(.*?)(?:<p>|<center>)', re.
 # YouTube/Vimeo embeds we can't (and shouldn't) scrape. Only the former get a
 # playable /api/apod/video — everything else just falls back to a still image.
 _VIDEO_EXTENSIONS = (".mp4", ".webm", ".mov", ".m4v", ".mkv")
-_FFMPEG_BIN = shutil.which("ffmpeg")
 _VIDEO_MAX_WIDTH = 854    # ~480p — decodes smoothly on old/low-end devices
 _VIDEO_MAX_FPS = 30
 _VIDEO_MAX_SECONDS = 120  # safety cap; APOD videos are normally under a minute
@@ -57,6 +57,26 @@ _cache_thumb: bytes | None = None
 _cache_full: bytes | None = None
 _cache_video: bytes | None = None
 _cache_etag: str | None = None
+_cache_mtime: float | None = None  # mtime of meta.json when the in-memory copy was loaded
+
+
+def _ffmpeg_bin() -> str | None:
+    """Resolved at call time so an ffmpeg installed after startup is picked up without a restart."""
+    return shutil.which("ffmpeg")
+
+
+def log_startup_diagnostics() -> None:
+    """Surface the two silent misconfigurations that leave the site stuck on an old APOD."""
+    if not _ffmpeg_bin():
+        log.error(
+            "[apod] ffmpeg is NOT on PATH — video-day APODs cannot be ingested; "
+            "the site will keep serving the previous day's image until ffmpeg is installed"
+        )
+    if settings.nasa_api_key == "DEMO_KEY":
+        log.warning(
+            "[apod] NASA_API_KEY is not set — using DEMO_KEY (~30 req/hour/IP, shared); "
+            "expect 429s and archive fallbacks. Set a real key in backend/.env"
+        )
 
 
 def _write_atomic(path: Path, data: bytes) -> None:
@@ -72,10 +92,11 @@ def _load_from_disk() -> bool:
     good APOD immediately instead of returning 503 until its own network
     fetch succeeds.
     """
-    global _cache_date, _cache_meta, _cache_thumb, _cache_full, _cache_video, _cache_etag
+    global _cache_date, _cache_meta, _cache_thumb, _cache_full, _cache_video, _cache_etag, _cache_mtime
     if not (_META_PATH.exists() and _THUMB_PATH.exists() and _FULL_PATH.exists()):
         return False
     try:
+        mtime = _META_PATH.stat().st_mtime
         meta = json.loads(_META_PATH.read_text())
         thumb = _THUMB_PATH.read_bytes()
         full = _FULL_PATH.read_bytes()
@@ -86,6 +107,7 @@ def _load_from_disk() -> bool:
     _cache_meta, _cache_thumb, _cache_full, _cache_video = meta, thumb, full, video
     _cache_date = meta.get("date")
     _cache_etag = hashlib.sha1(full + (video or b"")).hexdigest()[:16]
+    _cache_mtime = mtime
     return True
 
 
@@ -137,8 +159,26 @@ def _decode_apod_date(code: str) -> str:
     return f"{year:04d}-{mm:02d}-{dd:02d}"
 
 
-async def _fetch_from_archive(client: httpx.AsyncClient) -> tuple[dict, bytes] | None:
-    """Walk the public archive, newest first, until a day with a still image is found."""
+def _scrape_title_explanation(page_html: str, anchor_title: str) -> tuple[str, str]:
+    title_m = _TITLE_TAG_RE.search(page_html)
+    title = html.unescape(title_m.group(1).strip()) if title_m else html.unescape(anchor_title.strip())
+
+    explanation = ""
+    expl_m = _EXPLANATION_RE.search(page_html)
+    if expl_m:
+        explanation = re.sub(r"<[^>]+>", "", expl_m.group(1))
+        explanation = html.unescape(re.sub(r"\s+", " ", explanation).strip())
+    return title, explanation
+
+
+async def _fetch_from_archive(client: httpx.AsyncClient) -> tuple[dict, bytes, str] | None:
+    """Walk the public archive, newest first, until a day with usable media is found.
+
+    Self-hosted videos (a <source src="…mp4"> on the page) are ingested through the
+    same transcode pipeline as the primary API — but only when ffmpeg is available;
+    otherwise the walk continues to the most recent still image. Returns
+    (meta, asset_bytes, kind) where kind is "image" or "video".
+    """
     try:
         r = await client.get(_ARCHIVE_URL)
         r.raise_for_status()
@@ -156,12 +196,27 @@ async def _fetch_from_archive(client: httpx.AsyncClient) -> tuple[dict, bytes] |
             log.warning("[apod] archive page %s failed: %s", href, exc)
             continue
 
+        vid_m = _VIDEO_SOURCE_RE.search(page_html)
+        if vid_m and _ffmpeg_bin():
+            vid_src = vid_m.group(1)
+            vid_url = vid_src if vid_src.startswith("http") else _APOD_BASE + vid_src
+            try:
+                vid_r = await client.get(vid_url)
+                vid_r.raise_for_status()
+            except Exception as exc:
+                log.warning("[apod] archive video %s failed: %s", vid_url, exc)
+            else:
+                title, explanation = _scrape_title_explanation(page_html, anchor_title)
+                meta = {"title": title, "date": _decode_apod_date(code), "explanation": explanation, "media_type": "video"}
+                log.info("[apod] using archive fallback video for %s (%s)", meta["date"], title)
+                return meta, vid_r.content, "video"
+
         m = _LINKED_IMG_RE.search(page_html)
         img_src = m.group(1) if m else None
         if img_src is None:
             m = _BARE_IMG_RE.search(page_html)
             if not m:
-                continue  # video/non-image day — try the previous entry
+                continue  # embedded-video/non-image day — try the previous entry
             img_src = m.group(1)
 
         img_url = img_src if img_src.startswith("http") else _APOD_BASE + img_src
@@ -172,20 +227,12 @@ async def _fetch_from_archive(client: httpx.AsyncClient) -> tuple[dict, bytes] |
             log.warning("[apod] archive image %s failed: %s", img_url, exc)
             continue
 
-        title_m = _TITLE_TAG_RE.search(page_html)
-        title = html.unescape(title_m.group(1).strip()) if title_m else html.unescape(anchor_title.strip())
-
-        explanation = ""
-        expl_m = _EXPLANATION_RE.search(page_html)
-        if expl_m:
-            explanation = re.sub(r"<[^>]+>", "", expl_m.group(1))
-            explanation = html.unescape(re.sub(r"\s+", " ", explanation).strip())
-
+        title, explanation = _scrape_title_explanation(page_html, anchor_title)
         meta = {"title": title, "date": _decode_apod_date(code), "explanation": explanation, "media_type": "image"}
         log.info("[apod] using archive fallback for %s (%s)", meta["date"], title)
-        return meta, img_r.content
+        return meta, img_r.content, "image"
 
-    log.error("[apod] no image found in the last %d archive entries", len(entries))
+    log.error("[apod] no usable media found in the last %d archive entries", len(entries))
     return None
 
 
@@ -204,14 +251,15 @@ def _run_ffmpeg(args: list[str], timeout: int) -> bool:
 
 def _transcode_video(video_bytes: bytes) -> bytes | None:
     """Re-encode to a small VP9/WebM so low-end devices can decode it smoothly."""
-    if not _FFMPEG_BIN:
+    ffmpeg = _ffmpeg_bin()
+    if not ffmpeg:
         log.error("[apod] ffmpeg not found on PATH — cannot transcode video")
         return None
     with tempfile.TemporaryDirectory() as tmp:
         src, dst = Path(tmp) / "src", Path(tmp) / "out.webm"
         src.write_bytes(video_bytes)
         ok = _run_ffmpeg([
-            _FFMPEG_BIN, "-y", "-i", str(src),
+            ffmpeg, "-y", "-i", str(src),
             "-t", str(_VIDEO_MAX_SECONDS),
             "-vf", f"scale='min({_VIDEO_MAX_WIDTH},iw)':-2,fps={_VIDEO_MAX_FPS}",
             "-c:v", "libvpx-vp9", "-crf", "34", "-b:v", "0",
@@ -225,13 +273,14 @@ def _transcode_video(video_bytes: bytes) -> bytes | None:
 
 
 def _extract_poster_frame(video_bytes: bytes) -> bytes | None:
-    if not _FFMPEG_BIN:
+    ffmpeg = _ffmpeg_bin()
+    if not ffmpeg:
         log.error("[apod] ffmpeg not found on PATH — cannot extract a poster frame")
         return None
     with tempfile.TemporaryDirectory() as tmp:
         src, dst = Path(tmp) / "src", Path(tmp) / "poster.jpg"
         src.write_bytes(video_bytes)
-        ok = _run_ffmpeg([_FFMPEG_BIN, "-y", "-ss", "1", "-i", str(src), "-frames:v", "1", "-q:v", "2", str(dst)], timeout=30)
+        ok = _run_ffmpeg([ffmpeg, "-y", "-ss", "1", "-i", str(src), "-frames:v", "1", "-q:v", "2", str(dst)], timeout=30)
         if not ok or not dst.exists():
             return None
         return dst.read_bytes()
@@ -259,7 +308,7 @@ def _encode_webp_pair(img_bytes: bytes) -> tuple[bytes, bytes]:
 
 
 def _persist(meta: dict, thumb_bytes: bytes, full_bytes: bytes, video_bytes: bytes | None) -> None:
-    global _cache_date, _cache_meta, _cache_thumb, _cache_full, _cache_video, _cache_etag
+    global _cache_date, _cache_meta, _cache_thumb, _cache_full, _cache_video, _cache_etag, _cache_mtime
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     _write_atomic(_THUMB_PATH, thumb_bytes)
@@ -273,6 +322,7 @@ def _persist(meta: dict, thumb_bytes: bytes, full_bytes: bytes, video_bytes: byt
     _cache_meta, _cache_thumb, _cache_full, _cache_video = meta, thumb_bytes, full_bytes, video_bytes
     _cache_date = meta["date"]
     _cache_etag = hashlib.sha1(full_bytes + (video_bytes or b"")).hexdigest()[:16]
+    _cache_mtime = _META_PATH.stat().st_mtime
     log.info("[apod] cache refreshed for %s (thumb=%dKB full=%dKB video=%s)",
              _cache_date, len(thumb_bytes) // 1024, len(full_bytes) // 1024,
              f"{len(video_bytes) // 1024}KB" if video_bytes else "none")
@@ -332,8 +382,7 @@ async def refresh() -> None:
             log.warning("[apod] primary source unavailable, falling back to NASA archive")
             fallback = await _fetch_from_archive(client)
             if fallback:
-                meta, asset_bytes = fallback
-                kind = "image"
+                meta, asset_bytes, kind = fallback
 
     if asset_bytes is None or meta is None:
         log.error("[apod] primary API and archive fallback both failed — keeping last cached image")
@@ -353,7 +402,12 @@ async def refresh() -> None:
 
 
 async def _ensure_cache() -> None:
-    if _cache_meta is None:
+    """Load the cache, re-reading from disk when another worker's refresh has replaced it."""
+    try:
+        disk_mtime = _META_PATH.stat().st_mtime
+    except OSError:
+        disk_mtime = None
+    if _cache_meta is None or (disk_mtime is not None and disk_mtime != _cache_mtime):
         _load_from_disk()
     if _cache_meta is None:
         await refresh()

@@ -205,16 +205,24 @@ const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
     // The actual video is only fetched afterwards, off the critical path,
     // and only on connections/devices that can comfortably decode it —
     // it never blocks or replaces the instant poster paint.
+    function wantsVideo(d) {
+      return d.media_type === 'video' && d.has_video && !lowEndOrSlow();
+    }
+
     function maybeLoadVideo(d) {
       if (!videoEl) return;
-      if (d.media_type !== 'video' || !d.has_video || lowEndOrSlow()) {
+      if (!wantsVideo(d)) {
         videoEl.classList.remove('on');
         videoEl.removeAttribute('src');
         return;
       }
       scheduleIdle(() => {
-        videoEl.oncanplay = () => { videoEl.classList.add('on'); videoEl.play().catch(() => {}); };
-        videoEl.onerror = () => { videoEl.classList.remove('on'); };
+        videoEl.oncanplay = () => {
+          videoEl.classList.add('on');
+          apodEl.classList.remove('on');
+          videoEl.play().catch(() => {});
+        };
+        videoEl.onerror = () => { videoEl.classList.remove('on'); apodEl.classList.add('on'); };
         videoEl.src = `${API}/api/apod/video`;
         videoEl.load();
       });
@@ -225,7 +233,7 @@ const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
       apodEl.style.backgroundImage = 'url(' + d.url + ')';
       apodEl.classList.add('on');
       metaEl.innerHTML = 'backdrop: NASA APOD · <span class="apod-title">' + d.title + '</span> · ' + d.date;
-      if (d.hdurl) {
+      if (d.hdurl && !wantsVideo(d)) {
         const img = new Image();
         img.onload = () => { apodEl.style.backgroundImage = 'url(' + d.hdurl + ')'; };
         img.src = d.hdurl;

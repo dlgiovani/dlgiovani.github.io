@@ -11,19 +11,24 @@ from slowapi.middleware import SlowAPIMiddleware
 from .config import settings
 from .limiter import limiter
 from .routers import apod, consulting, guestbook, github, picks, pokemon, signals, ticker
-from .routers.apod import refresh as refresh_apod
+from .routers.apod import log_startup_diagnostics, refresh as refresh_apod
 from .routers.github import _update_cache as refresh_github
-from .scheduler import maybe_refresh_on_start, start_scheduler
+from .scheduler import acquire_scheduler_lock, maybe_refresh_on_start, start_scheduler
 
 logging.basicConfig(level=logging.INFO)
+log = logging.getLogger(__name__)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    start_scheduler()
-    await maybe_refresh_on_start()
-    await refresh_github()
-    await refresh_apod()
+    log_startup_diagnostics()
+    if acquire_scheduler_lock():
+        start_scheduler()
+        await maybe_refresh_on_start()
+        await refresh_github()
+        await refresh_apod()
+    else:
+        log.info("scheduler already running in another worker — this worker serves requests only")
     yield
 
 

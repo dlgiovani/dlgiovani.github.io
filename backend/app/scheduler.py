@@ -1,6 +1,8 @@
 import asyncio
+import fcntl
 import logging
 from datetime import datetime, timezone
+from pathlib import Path
 
 import httpx
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -15,6 +17,28 @@ from .routers.github import _update_cache as refresh_github
 log = logging.getLogger(__name__)
 
 scheduler = AsyncIOScheduler()
+
+_LOCK_PATH = Path(__file__).resolve().parents[1] / "data" / "scheduler.lock"
+_lock_handle = None
+
+
+def acquire_scheduler_lock() -> bool:
+    """Exactly one uvicorn worker should run the scheduler and startup refreshes.
+
+    The lock is held for the life of the process (the fd is kept open) and
+    released by the kernel when the worker exits, so a restart always has a winner.
+    """
+    global _lock_handle
+    _LOCK_PATH.parent.mkdir(parents=True, exist_ok=True)
+    handle = open(_LOCK_PATH, "w")
+    try:
+        fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError:
+        handle.close()
+        return False
+    _lock_handle = handle
+    return True
+
 
 _FX_PAIRS = ["EUR", "GBP"]  # base USD
 _CRYPTO_IDS = {"BTC": "bitcoin", "ETH": "ethereum"}
