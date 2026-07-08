@@ -238,7 +238,7 @@ const en = {
     cta: "Let's talk",
     kicker: 'Independent technologist',
     hero: 'What do you need?',
-    heroSub: 'Less friction between your problem and its solution. Pick the shape that fits, or ask for help choosing.',
+    heroSub: 'Less friction between your problem and its solution. Click below on what fits, or ask for help choosing.',
     leverHint: 'Flip the lever to see the difference.',
     blocks: {
       consulting: { label: 'Consulting', desc: 'I want to understand where my company can improve with technology & innovation.' },

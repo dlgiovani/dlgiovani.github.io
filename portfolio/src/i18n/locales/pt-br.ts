@@ -240,7 +240,7 @@ const pt: UI = {
     cta: 'Vamos conversar',
     kicker: 'Tecnólogo independente',
     hero: 'Do que você precisa?',
-    heroSub: 'Menos atrito entre o seu problema e a solução. Escolha o formato que encaixa, ou peça ajuda para escolher.',
+    heroSub: 'Menos atrito entre o seu problema e a solução. Clique abaixo no que encaixa, ou peça ajuda para escolher.',
     leverHint: 'Vire a alavanca para ver a diferença.',
     blocks: {
       consulting: { label: 'Consultoria', desc: 'Quero entender onde a minha empresa pode melhorar com tecnologia e inovação.' },
