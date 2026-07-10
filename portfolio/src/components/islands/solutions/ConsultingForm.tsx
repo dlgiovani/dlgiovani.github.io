@@ -15,6 +15,18 @@ interface MediaItem {
   sizeLabel: string;
 }
 
+// Field limits mirror the API's validation (backend/app/routers/consulting.py);
+// exceeding any of them there returns a 422, so enforce them in the inputs.
+const MAX_NAME = 120;
+const MIN_CONTACT = 3;
+const MAX_CONTACT = 200;
+const MAX_COMPANY = 200;
+const MAX_MESSAGE = 2000;
+const MAX_NOTE = 8000;
+const MAX_LINK = 500;
+const MAX_LINKS = 10;
+const MAX_MEDIA = 8;
+
 function sizeLabel(bytes: number): string {
   const kb = bytes / 1024;
   return kb >= 1024 ? `${(kb / 1024).toFixed(1)} MB` : `${Math.max(1, Math.round(kb))} KB`;
@@ -156,7 +168,8 @@ export function ConsultingForm({ category, form, sandbox, apiUrl, accent }: Prop
   const recTime = `${Math.floor(recSeconds / 60)}:${String(recSeconds % 60).padStart(2, '0')}`;
 
   const addMedia = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files ?? []);
+    // cap mirrors the API's 8-file limit so submissions aren't rejected server-side
+    const files = Array.from(e.target.files ?? []).slice(0, Math.max(0, MAX_MEDIA - media.length));
     const items = files.map((file) => {
       const dot = file.name.lastIndexOf('.');
       return {
@@ -243,6 +256,7 @@ export function ConsultingForm({ category, form, sandbox, apiUrl, accent }: Prop
         <input
           required
           type="text"
+          maxLength={MAX_NAME}
           className={styles.input}
           placeholder={f.namePh}
           value={name}
@@ -256,6 +270,8 @@ export function ConsultingForm({ category, form, sandbox, apiUrl, accent }: Prop
         <input
           required
           type="text"
+          minLength={MIN_CONTACT}
+          maxLength={MAX_CONTACT}
           className={styles.input}
           placeholder={f.contactPh}
           value={contact}
@@ -266,6 +282,7 @@ export function ConsultingForm({ category, form, sandbox, apiUrl, accent }: Prop
         <label className={styles.label}>{f.company}</label>
         <input
           type="text"
+          maxLength={MAX_COMPANY}
           className={styles.input}
           placeholder={f.companyPh}
           value={company}
@@ -276,6 +293,7 @@ export function ConsultingForm({ category, form, sandbox, apiUrl, accent }: Prop
         <label className={styles.label}>{f.message}</label>
         <textarea
           rows={3}
+          maxLength={MAX_MESSAGE}
           className={styles.textarea}
           placeholder={f.messagePh}
           value={message}
@@ -301,6 +319,7 @@ export function ConsultingForm({ category, form, sandbox, apiUrl, accent }: Prop
           <div className={styles.panelIn}>
             <textarea
               rows={5}
+              maxLength={MAX_NOTE}
               className={styles.writeArea}
               placeholder={sb.writePh}
               value={note}
@@ -383,6 +402,7 @@ export function ConsultingForm({ category, form, sandbox, apiUrl, accent }: Prop
               <div className={styles.linkRow} key={i}>
                 <input
                   type="url"
+                  maxLength={MAX_LINK}
                   className={styles.linkInput}
                   placeholder={sb.linkPh}
                   value={l}
@@ -395,13 +415,15 @@ export function ConsultingForm({ category, form, sandbox, apiUrl, accent }: Prop
                 )}
               </div>
             ))}
-            <button
-              type="button"
-              className={styles.addLinkBtn}
-              onClick={() => setLinks((prev) => [...prev, ''])}
-            >
-              + {sb.linkAdd}
-            </button>
+            {links.length < MAX_LINKS && (
+              <button
+                type="button"
+                className={styles.addLinkBtn}
+                onClick={() => setLinks((prev) => [...prev, ''])}
+              >
+                + {sb.linkAdd}
+              </button>
+            )}
           </div>
         )}
 
