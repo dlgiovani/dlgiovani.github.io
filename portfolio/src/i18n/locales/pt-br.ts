@@ -249,7 +249,7 @@ const pt: UI = {
       else: { label: 'Outra coisa', desc: 'Minha necessidade não está na lista, vamos conversar.' },
     },
     details: {
-      consulting: { kicker: '01 — Consultoria', title: 'Primeiro clareza, depois direção.', para: 'A maioria dos times não tem falta de esforço; tem falta de conexão. Eu acho onde a tecnologia certa tira o atrito, pra que o trabalho das pessoas realmente chegue onde precisa. O resultado não é só eficiência: são pessoas mais tranquilas e mais felizes.' },
+      consulting: { kicker: '01 — Consultoria', title: 'Primeiro clareza, depois direção.', para: 'A maioria dos times não tem falta de esforço; tem falta de conexão. Eu acho onde a tecnologia certa tira o atrito, pra que o trabalho das pessoas realmente chegue onde precisa. O resultado é mais eficiência e tranquilidade na equipe.' },
       integration: { kicker: '02 — Integração', title: 'Deixe os sistemas carregarem o papel.', para: 'Exportar, comparar, redigitar: isso é trabalho que o software deveria fazer por você. Conecto as suas ferramentas pra informação se mover sozinha, no formato certo, no lugar certo. Chega de levar arquivo de um lado pro outro.' },
       automation: { kicker: '03 — Automação', title: 'Horas de volta, toda semana.', para: 'Se uma pessoa passa horas copiando entre planilhas, é um processo esperando pra ser automatizado. Construo o fluxo que faz isso em segundos, com precisão e repetível, pra você ver os dados se moverem em vez de movê-los.' },
       else: { kicker: '04 — Outra coisa', title: 'Não está na lista? Melhor ainda.', para: 'Os problemas mais interessantes raramente cabem numa categoria arrumadinha. Me diga o que está te travando e a gente desenha junto o formato da solução.' },
