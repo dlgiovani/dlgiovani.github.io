@@ -26,7 +26,13 @@ const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
       <a href="#code">{t('hero.nav_code')}</a>
       <a href="#playground">{t('hero.nav_playground')}</a>
       <a href="#signals">{t('hero.nav_guestbook')}</a>
-      <a href={blogHref(locale)} class="nav-blog">{t('hero.nav_blog')}</a>
+      <a href={blogHref(locale)} class="nav-blog" target="_blank" rel="noopener">
+        {t('hero.nav_blog')}
+        <svg class="nav-ext" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+          <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+        </svg>
+        <span class="visually-hidden">{t('hero.nav_blog_newtab')}</span>
+      </a>
     </nav>
   </div>
 
@@ -120,20 +126,18 @@ const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
   .hero-nav { display: flex; gap: 28px; }
   .hero-nav a { color: rgba(245,243,236,0.8); text-decoration: none; }
   .hero-nav a:hover { color: #fff; }
-  /* The one nav item that leaves the page, so it reads as a button. */
+  /* Reads like the other nav items; only the glyph marks it as leaving here. */
   .hero-nav .nav-blog {
-    padding: 5px 12px;
-    margin: -5px 0;
-    border: 1px solid rgba(245,243,236,0.45);
-    border-radius: 999px;
-    color: #fff;
-    transition: background 0.2s ease, border-color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
   }
-  .hero-nav .nav-blog:hover,
-  .hero-nav .nav-blog:focus-visible {
-    background: rgba(245,243,236,0.14);
-    border-color: rgba(245,243,236,0.9);
+  .nav-ext {
+    opacity: 0.65;
+    transition: opacity 0.2s ease;
   }
+  .hero-nav .nav-blog:hover .nav-ext,
+  .hero-nav .nav-blog:focus-visible .nav-ext { opacity: 1; }
 
   .hero-body {
     align-self: center;

@@ -14,6 +14,7 @@ const pt: UI = {
     nav_playground: 'playground',
     nav_guestbook: 'livro de visitas',
     nav_blog: 'blog',
+    nav_blog_newtab: 'abre em uma nova aba',
     apod_credit: 'plano de fundo: nébula estrelada',
     scroll: 'role a tela',
   },

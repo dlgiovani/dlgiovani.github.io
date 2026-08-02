@@ -12,6 +12,7 @@ const en = {
     nav_playground: 'playground',
     nav_guestbook: 'guestbook',
     nav_blog: 'blog',
+    nav_blog_newtab: 'opens in a new tab',
     apod_credit: "backdrop: starry nebula",
     scroll: 'scroll',
   },
