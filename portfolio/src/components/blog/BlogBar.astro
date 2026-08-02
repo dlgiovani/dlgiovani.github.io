@@ -21,7 +21,11 @@ const home = locale === 'pt-br' ? '/pt-br/' : '/';
 
 {showProgress && (
   <script is:inline>
-    (function () {
+    // The bar renders above the article it measures; wait for the document.
+    (function (init) {
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+      else init();
+    })(function () {
       var bar = document.getElementById('blog-progress');
       var article = document.querySelector('.blog-prose');
       if (!bar || !article) return;
@@ -39,6 +43,6 @@ const home = locale === 'pt-br' ? '/pt-br/' : '/';
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', onScroll, { passive: true });
       update();
-    })();
+    });
   </script>
 )}

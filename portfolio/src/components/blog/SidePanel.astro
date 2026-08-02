@@ -16,28 +16,35 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 ---
 
 <aside class="blog-panel" aria-label={t('blog.contents')}>
-  {toc.length > 0 && (
-    <details class="panel-toc" id="panel-toc" open>
-      <summary class="panel-label">{t('blog.contents')}</summary>
-      <div class="blog-panel-body">
-        <ol class="toc" id="blog-toc">
-          {toc.map((h) => (
-            <li class={`depth-${h.depth}`}>
-              <a href={`#${h.slug}`}>{h.text}</a>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </details>
-  )}
+  <div class="blog-panel-sticky">
+    {toc.length > 0 && (
+      <details class="panel-toc" id="panel-toc" open>
+        <summary class="panel-label">{t('blog.contents')}</summary>
+        <div class="blog-panel-body">
+          <ol class="toc" id="blog-toc">
+            {toc.map((h) => (
+              <li class={`depth-${h.depth}`}>
+                <a href={`#${h.slug}`}>{h.text}</a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </details>
+    )}
 
-  <div class="panel-block">
-    <a href={blogHref(locale)}>← {t('blog.all_posts')}</a>
+    <div class="panel-block">
+      <a href={blogHref(locale)}>← {t('blog.all_posts')}</a>
+    </div>
   </div>
 </aside>
 
 <script is:inline>
-  (function () {
+  // The panel is rendered above the article, so the headings it points at are
+  // not parsed yet — wait for the document before wiring anything up.
+  (function (init) {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+  })(function () {
     // The contents box is a full screen on a phone; start it folded there.
     var details = document.getElementById('panel-toc');
     var narrow = window.matchMedia('(max-width: 1080px)');
@@ -81,5 +88,5 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
       a.setAttribute('tabindex', '-1');
       h.insertBefore(a, h.firstChild);
     });
-  })();
+  });
 </script>

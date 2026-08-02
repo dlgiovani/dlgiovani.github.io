@@ -91,14 +91,16 @@ const isoDate = entry.data.date.toISOString().slice(0, 10);
         <div class="blog-prose">
           <Content />
         </div>
+      </article>
 
+      <footer class="blog-foot">
         <RelatedPosts locale={locale} posts={related} />
 
         <nav class="blog-endnav" aria-label={t('blog.nav_label')}>
           <a href={blogHref(locale)}>← {t('blog.all_posts')}</a>
           <a href="#top" data-to-top>{t('blog.to_top')} ↑</a>
         </nav>
-      </article>
+      </footer>
     </div>
 
     <BackToTop locale={locale} />

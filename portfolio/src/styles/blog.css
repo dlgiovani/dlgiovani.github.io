@@ -78,20 +78,23 @@ html[data-theme='dark'] .blog {
 
 /* ── Page shell: reading column + right-hand panel ────────────────── */
 
-/* Masthead, prose and panel are siblings so a one-column phone layout can put
-   the table of contents between the title and the article. */
+/* Masthead, prose, panel and the closing block are siblings so a one-column
+   phone layout can put the table of contents between the title and the
+   article — and so the panel's grid area (and with it the reach of its sticky
+   positioning) ends where the prose does. */
 .blog-shell {
   display: grid;
   grid-template-columns: minmax(0, var(--b-measure)) var(--b-panel);
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto 1fr auto;
   column-gap: var(--b-gutter);
   justify-content: center;   /* the pair is centred, so the text sits left of centre */
   align-items: start;
   padding: clamp(3rem, 7vw, 6rem) clamp(1.25rem, 5vw, 3rem) 5rem;
 }
 .blog-shell > .blog-head { grid-column: 1; grid-row: 1; }
-.blog-shell > .blog-panel { grid-column: 2; grid-row: 1 / span 2; align-self: start; }
+.blog-shell > .blog-panel { grid-column: 2; grid-row: 1 / span 2; align-self: stretch; }
 .blog-shell > .blog-article { grid-column: 1; grid-row: 2; min-width: 0; }
+.blog-shell > .blog-foot { grid-column: 1 / -1; grid-row: 3; min-width: 0; }
 
 /* ── Masthead ─────────────────────────────────────────────────────── */
 
@@ -327,19 +330,25 @@ html[data-theme='dark'] .blog {
 
 /* ── Side panel ───────────────────────────────────────────────────── */
 
+/* The <aside> is the full-height track; the box inside it does the sticking,
+   so it comes to rest at the end of the prose instead of riding over the
+   related-reading block below. */
 .blog-panel {
-  position: sticky;
-  top: 6.5rem;   /* clears the fixed language/theme bar */
   font-family: var(--b-mono);
   font-size: 0.75rem;
   line-height: 1.5;
+  height: 100%;
+}
+.blog-panel-sticky {
+  position: sticky;
+  top: 6.5rem;   /* clears the fixed language/theme bar */
   max-height: calc(100vh - 9rem);
   overflow-y: auto;
   overscroll-behavior: contain;
   padding-bottom: 1rem;
 }
-.blog-panel::-webkit-scrollbar { width: 3px; }
-.blog-panel::-webkit-scrollbar-thumb { background: var(--b-line); }
+.blog-panel-sticky::-webkit-scrollbar { width: 3px; }
+.blog-panel-sticky::-webkit-scrollbar-thumb { background: var(--b-line); }
 
 .panel-label {
   font-size: 0.66rem;
@@ -383,8 +392,6 @@ html[data-theme='dark'] .blog {
   margin-top: clamp(4rem, 8vw, 6rem);
   padding-top: 2rem;
   border-top: 1px solid var(--b-line);
-  /* Breaks out under the side panel so three cards get a full row. */
-  margin-right: calc(-1 * (var(--b-panel) + var(--b-gutter)));
 }
 .related-grid {
   display: grid;
@@ -547,14 +554,20 @@ html[data-theme='dark'] .blog {
   /* One column: masthead, then the contents box, then the article. */
   .blog-shell > .blog-head,
   .blog-shell > .blog-panel,
-  .blog-shell > .blog-article { grid-column: 1; grid-row: auto; }
+  .blog-shell > .blog-article,
+  .blog-shell > .blog-foot { grid-column: 1; grid-row: auto; }
   .blog-panel {
-    position: static;
-    max-height: none;
+    height: auto;
     margin-bottom: 2.5rem;
     border: 1px solid var(--b-line);
     border-radius: 2px;
     padding: 0.2rem 1rem;
+  }
+  .blog-panel-sticky {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    padding-bottom: 0;
   }
   .blog-panel .panel-label { border-bottom: 0; margin-bottom: 0; padding: 0.8rem 0; }
   .panel-toc > summary {
@@ -566,7 +579,6 @@ html[data-theme='dark'] .blog {
   .panel-toc > summary::after { content: '+'; font-size: 0.9rem; }
   .panel-toc[open] > summary::after { content: '–'; }
   .blog-panel-body { padding-bottom: 0.8rem; }
-  .blog-related { margin-right: 0; }
   .blog-prose :is(h2, h3) > .heading-anchor { display: none; }
 }
 
