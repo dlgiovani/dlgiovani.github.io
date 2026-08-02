@@ -1,0 +1,26 @@
+---
+import type { Locale } from '../../types/i18n';
+import { useTranslations } from '../../i18n/ui';
+import { formatDate, postHref, readingMinutes, type Post } from '../../lib/blog';
+
+interface Props { locale: Locale; posts: Post[] }
+const { locale, posts } = Astro.props;
+const t = useTranslations(locale);
+---
+
+{posts.length > 0 && (
+  <section class="blog-related" aria-labelledby="related-heading">
+    <p class="panel-label" id="related-heading">{t('blog.related')}</p>
+    <div class="related-grid">
+      {posts.map((p) => (
+        <a href={postHref(p)} class="related-card">
+          <span class="related-date">
+            {`${formatDate(p.data.date, locale)} · ${readingMinutes(p.body ?? '')} ${t('blog.min_read')}`}
+          </span>
+          <span class="related-title">{p.data.title}</span>
+          <span class="related-desc">{p.data.description}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+)}

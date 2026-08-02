@@ -1,4 +1,5 @@
 ---
+key: "safe-shopping"
 title: "O Jeito Certo de Economizar e Comprar com Segurança na Internet"
 description: "Um guia prático para fazer compras online de forma segura e econômica, evitando golpes e aproveitando as melhores oportunidades."
 date: 2024-07-04

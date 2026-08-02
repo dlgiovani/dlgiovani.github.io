@@ -1,0 +1,592 @@
+/* ─────────────────────────────────────────────────────────────────────
+   Blog — minimal typewriter.
+   Mono for the furniture (nav, meta, table of contents), serif for the
+   reading column. Colours are blog-scoped so the rest of the site keeps
+   its own tokens; every pair here clears WCAG AA on both themes.
+   ───────────────────────────────────────────────────────────────────── */
+
+.blog {
+  --b-paper:     var(--paper);
+  --b-ink:       #1b1b19;
+  --b-muted:     #5f5d57;   /* 6.0:1 on --paper */
+  --b-line:      #d6d3ca;
+  --b-line-soft: #e7e5dd;
+  --b-mark:      #eceada;
+  --b-accent:    var(--accent);
+
+  --b-serif: 'Newsreader', 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --b-display: var(--serif);
+  --b-mono: var(--mono);
+
+  --b-measure: 66ch;
+  --b-panel: 15rem;
+  --b-gutter: clamp(2rem, 5.5vw, 5.5rem);
+
+  background: var(--b-paper);
+  color: var(--b-ink);
+  font-family: var(--b-serif);
+}
+
+html[data-theme='dark'] .blog {
+  --b-ink:       #e9e6dd;
+  --b-muted:     #9d998e;   /* 6.8:1 on dark --paper */
+  --b-line:      #2c2c32;
+  --b-line-soft: #202026;
+  --b-mark:      #1c1c22;
+  /* The site accent is tuned for the light paper; lift it so links and the
+     active table-of-contents marker still clear AA against the dark one. */
+  --b-accent: color-mix(in oklch, var(--accent) 55%, white);
+}
+
+.blog ::selection { background: var(--b-accent); color: #fff; }
+
+/* ── Top bar ──────────────────────────────────────────────────────── */
+
+.blog-bar {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 0.95rem clamp(1.25rem, 5vw, 3rem);
+  font-family: var(--b-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  background: color-mix(in srgb, var(--b-paper) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--b-line-soft);
+}
+.blog-bar a { color: var(--b-muted); text-decoration: none; }
+.blog-bar a:hover,
+.blog-bar a:focus-visible { color: var(--b-ink); }
+.blog-bar .crumbs { display: flex; gap: 0.9rem; align-items: baseline; }
+.blog-bar .mark { color: var(--b-ink); font-weight: 500; letter-spacing: 0.02em; }
+
+/* Reading progress, hairline along the bottom of the bar. */
+.blog-progress {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  width: 0;
+  background: var(--b-accent);
+  transition: width 0.08s linear;
+}
+
+/* ── Page shell: reading column + right-hand panel ────────────────── */
+
+/* Masthead, prose and panel are siblings so a one-column phone layout can put
+   the table of contents between the title and the article. */
+.blog-shell {
+  display: grid;
+  grid-template-columns: minmax(0, var(--b-measure)) var(--b-panel);
+  grid-template-rows: auto 1fr;
+  column-gap: var(--b-gutter);
+  justify-content: center;   /* the pair is centred, so the text sits left of centre */
+  align-items: start;
+  padding: clamp(3rem, 7vw, 6rem) clamp(1.25rem, 5vw, 3rem) 5rem;
+}
+.blog-shell > .blog-head { grid-column: 1; grid-row: 1; }
+.blog-shell > .blog-panel { grid-column: 2; grid-row: 1 / span 2; align-self: start; }
+.blog-shell > .blog-article { grid-column: 1; grid-row: 2; min-width: 0; }
+
+/* ── Masthead ─────────────────────────────────────────────────────── */
+
+.blog-head { margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+
+.blog-kicker {
+  font-family: var(--b-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--b-muted);
+  margin: 0 0 1.4rem;
+}
+
+.blog-title {
+  font-family: var(--b-display);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 5.4vw, 4rem);
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.blog-standfirst {
+  margin: 1.5rem 0 0;
+  font-size: 1.16rem;
+  line-height: 1.6;
+  color: var(--b-muted);
+  max-width: 52ch;
+  font-style: italic;
+}
+
+.blog-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1rem;
+  margin-top: 2rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--b-line);
+  font-family: var(--b-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--b-muted);
+}
+.blog-meta .dot { opacity: 0.5; }
+.blog-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.blog-tag {
+  font-family: var(--b-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--b-muted);
+  border: 1px solid var(--b-line);
+  border-radius: 2px;
+  padding: 0.15rem 0.5rem;
+  text-decoration: none;
+}
+
+.blog-cover { margin: clamp(2rem, 4vw, 3rem) 0 0; }
+.blog-cover img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 2px;
+  border: 1px solid var(--b-line-soft);
+  display: block;
+}
+.blog-cover figcaption {
+  margin-top: 0.6rem;
+  font-family: var(--b-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  color: var(--b-muted);
+}
+.blog-cover figcaption a { color: inherit; }
+
+/* ── Prose ────────────────────────────────────────────────────────── */
+
+.blog-prose {
+  font-size: 1.14rem;
+  line-height: 1.78;
+  letter-spacing: 0.002em;
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.blog-prose > * { max-width: 100%; }
+.blog-prose p { margin: 0 0 1.5em; }
+
+/* Big serif initial on the opening paragraph (tagged by PostPage). */
+.blog-prose > p.dropcap::first-letter {
+  float: left;
+  font-family: var(--b-display);
+  font-size: 4.4em;
+  line-height: 0.78;
+  padding: 0.05em 0.08em 0 0;
+  margin-top: 0.06em;
+  color: var(--b-ink);
+  font-weight: 400;
+}
+
+.blog-prose h2,
+.blog-prose h3,
+.blog-prose h4 {
+  font-family: var(--b-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.18;
+  scroll-margin-top: 5.5rem;
+  text-wrap: balance;
+}
+.blog-prose h2 { font-size: clamp(1.7rem, 3vw, 2.15rem); margin: 2.6em 0 0.6em; }
+.blog-prose h3 { font-size: clamp(1.3rem, 2.2vw, 1.55rem); margin: 2.1em 0 0.5em; }
+.blog-prose h4 { font-size: 1.2rem; margin: 1.8em 0 0.5em; }
+
+/* Anchor affordance, mono hash in the left margin. */
+.blog-prose :is(h2, h3) { position: relative; }
+.blog-prose :is(h2, h3) > .heading-anchor {
+  position: absolute;
+  left: -1.4em;
+  top: 0.18em;
+  font-family: var(--b-mono);
+  font-size: 0.72rem;
+  color: var(--b-muted);
+  opacity: 0;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+.blog-prose :is(h2, h3):hover > .heading-anchor,
+.blog-prose .heading-anchor:focus-visible { opacity: 1; }
+
+.blog-prose a {
+  color: var(--b-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: color-mix(in oklch, var(--b-accent) 40%, transparent);
+}
+.blog-prose a:hover { text-decoration-color: currentColor; }
+
+.blog-prose strong { font-weight: 600; color: var(--b-ink); }
+.blog-prose em { font-style: italic; }
+
+.blog-prose ul,
+.blog-prose ol { margin: 0 0 1.5em; padding-left: 1.4em; }
+.blog-prose li { margin-bottom: 0.5em; }
+.blog-prose li::marker { color: var(--b-muted); }
+
+.blog-prose blockquote {
+  margin: 2em 0;
+  padding: 0.2em 0 0.2em 1.4em;
+  border-left: 2px solid var(--b-line);
+  color: var(--b-muted);
+  font-family: var(--b-mono);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+}
+.blog-prose blockquote p:last-child { margin-bottom: 0; }
+
+.blog-prose img,
+.blog-prose canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 2em auto 0.6em;
+  border-radius: 2px;
+}
+/* An image and the bare line under it share a paragraph; that line is a caption. */
+.blog-prose p:has(> img) {
+  text-align: center;
+  font-family: var(--b-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  line-height: 1.7;
+  color: var(--b-muted);
+}
+
+.blog-prose hr {
+  border: 0;
+  border-top: 1px solid var(--b-line);
+  margin: 3em 0;
+}
+
+/* The `<middots>` divider used across the posts. */
+.blog-prose middots {
+  display: block;
+  text-align: center;
+  letter-spacing: 0.9em;
+  color: var(--b-muted);
+  margin: 2.8em 0;
+  font-size: 0.9rem;
+}
+
+/* One post discusses the literal token `<ctrl23>`; markdown parses it as a tag
+   and swallows the text. Put it back at the presentation layer. */
+.blog-prose ctrl23 { font-family: var(--b-mono); font-size: 0.88em; font-style: normal; }
+.blog-prose ctrl23::before { content: '<ctrl23>'; }
+
+.blog-prose code {
+  font-family: var(--b-mono);
+  font-size: 0.86em;
+  background: var(--b-mark);
+  border: 1px solid var(--b-line-soft);
+  border-radius: 2px;
+  padding: 0.1em 0.35em;
+}
+.blog-prose pre {
+  font-family: var(--b-mono);
+  font-size: 0.84rem;
+  line-height: 1.65;
+  margin: 2em 0;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--b-line);
+  border-radius: 2px;
+  overflow-x: auto;
+}
+.blog-prose pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+}
+
+.blog-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  margin: 2em 0;
+}
+.blog-prose :is(th, td) {
+  border-bottom: 1px solid var(--b-line);
+  padding: 0.6em 0.8em;
+  text-align: left;
+}
+.blog-prose th { font-family: var(--b-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--b-muted); }
+
+/* ── Side panel ───────────────────────────────────────────────────── */
+
+.blog-panel {
+  position: sticky;
+  top: 6.5rem;   /* clears the fixed language/theme bar */
+  font-family: var(--b-mono);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  max-height: calc(100vh - 9rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: 1rem;
+}
+.blog-panel::-webkit-scrollbar { width: 3px; }
+.blog-panel::-webkit-scrollbar-thumb { background: var(--b-line); }
+
+.panel-label {
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--b-muted);
+  margin: 0 0 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--b-line);
+}
+.panel-toc > summary { list-style: none; cursor: default; }
+.panel-toc > summary::-webkit-details-marker { display: none; }
+.panel-toc > summary::after { content: ''; }
+
+.toc { list-style: none; margin: 0; padding: 0; }
+.toc li { margin: 0; }
+.toc li.depth-3 { padding-left: 1rem; }
+.toc a {
+  display: block;
+  padding: 0.4rem 0 0.4rem 0.75rem;
+  color: var(--b-muted);
+  text-decoration: none;
+  border-left: 1px solid var(--b-line-soft);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.toc a:hover,
+.toc a:focus-visible { color: var(--b-ink); border-left-color: var(--b-muted); }
+.toc a.is-active {
+  color: var(--b-ink);
+  border-left-color: var(--b-accent);
+  background: linear-gradient(to right, color-mix(in oklch, var(--b-accent) 8%, transparent), transparent 70%);
+}
+
+.panel-block { margin-top: 2.2rem; }
+.panel-block a { color: var(--b-muted); text-decoration: none; display: block; padding: 0.25rem 0; }
+.panel-block a:hover { color: var(--b-ink); }
+
+/* ── Related reading ──────────────────────────────────────────────── */
+
+.blog-related {
+  margin-top: clamp(4rem, 8vw, 6rem);
+  padding-top: 2rem;
+  border-top: 1px solid var(--b-line);
+  /* Breaks out under the side panel so three cards get a full row. */
+  margin-right: calc(-1 * (var(--b-panel) + var(--b-gutter)));
+}
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 1.6rem 2rem;
+  margin-top: 1.6rem;
+}
+.related-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: inherit;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--b-line-soft);
+}
+.related-card:hover .related-title { color: var(--b-accent); }
+.related-date {
+  font-family: var(--b-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--b-muted);
+}
+.related-title {
+  font-family: var(--b-display);
+  font-size: 1.22rem;
+  line-height: 1.22;
+  transition: color 0.15s ease;
+}
+.related-desc {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--b-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blog-endnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  justify-content: space-between;
+  margin-top: 3rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--b-line-soft);
+  font-family: var(--b-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+}
+.blog-endnav a { color: var(--b-muted); text-decoration: none; }
+.blog-endnav a:hover { color: var(--b-ink); }
+
+/* ── Back to top ──────────────────────────────────────────────────── */
+
+.to-top {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 190;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  font-family: var(--b-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--b-muted);
+  background: var(--b-paper);
+  border: 1px solid var(--b-line);
+  border-radius: 2px;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, color 0.15s ease;
+}
+.to-top.is-visible { opacity: 1; transform: none; pointer-events: auto; }
+.to-top:hover { color: var(--b-ink); border-color: var(--b-muted); }
+
+/* ── Index page ───────────────────────────────────────────────────── */
+
+.blog-index-head {
+  padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 5vw, 3rem) 0;
+  max-width: calc(var(--b-measure) + var(--b-panel) + var(--b-gutter));
+  margin: 0 auto;
+}
+.blog-index-head .blog-title { font-size: clamp(2.8rem, 7vw, 5rem); }
+.blog-index-head .blog-standfirst { font-style: normal; max-width: 46ch; }
+
+.blog-list {
+  max-width: calc(var(--b-measure) + var(--b-panel) + var(--b-gutter));
+  margin: 0 auto;
+  padding: clamp(2.5rem, 5vw, 4rem) clamp(1.25rem, 5vw, 3rem) 5rem;
+  list-style: none;
+}
+
+.post-row {
+  display: grid;
+  grid-template-columns: 9.5rem minmax(0, 1fr);
+  gap: 0 var(--b-gutter);
+  padding: 2.2rem 0;
+  border-top: 1px solid var(--b-line-soft);
+  text-decoration: none;
+  color: inherit;
+}
+.post-row:first-child { border-top: 1px solid var(--b-line); }
+.post-row:last-child { border-bottom: 1px solid var(--b-line-soft); }
+
+.post-row .stamp {
+  font-family: var(--b-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--b-muted);
+  padding-top: 0.45rem;
+}
+.post-row .stamp .yr { display: block; color: var(--b-ink); font-size: 1.5rem; letter-spacing: 0; line-height: 1.1; }
+.post-row h2 {
+  font-family: var(--b-display);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.8vw, 2rem);
+  line-height: 1.15;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.01em;
+  transition: color 0.15s ease;
+}
+.post-row:hover h2,
+.post-row:focus-visible h2 { color: var(--b-accent); }
+.post-row p {
+  margin: 0;
+  color: var(--b-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 58ch;
+}
+.post-row .row-foot {
+  margin-top: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.8rem;
+  font-family: var(--b-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--b-muted);
+}
+.post-row .arrow { transition: transform 0.2s ease; display: inline-block; }
+.post-row:hover .arrow { transform: translateX(4px); }
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+
+@media (max-width: 1080px) {
+  .blog-shell {
+    grid-template-columns: minmax(0, var(--b-measure));
+    grid-template-rows: none;
+    justify-content: center;
+  }
+  /* One column: masthead, then the contents box, then the article. */
+  .blog-shell > .blog-head,
+  .blog-shell > .blog-panel,
+  .blog-shell > .blog-article { grid-column: 1; grid-row: auto; }
+  .blog-panel {
+    position: static;
+    max-height: none;
+    margin-bottom: 2.5rem;
+    border: 1px solid var(--b-line);
+    border-radius: 2px;
+    padding: 0.2rem 1rem;
+  }
+  .blog-panel .panel-label { border-bottom: 0; margin-bottom: 0; padding: 0.8rem 0; }
+  .panel-toc > summary {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .panel-toc > summary::after { content: '+'; font-size: 0.9rem; }
+  .panel-toc[open] > summary::after { content: '–'; }
+  .blog-panel-body { padding-bottom: 0.8rem; }
+  .blog-related { margin-right: 0; }
+  .blog-prose :is(h2, h3) > .heading-anchor { display: none; }
+}
+
+@media (max-width: 640px) {
+  .blog-prose { font-size: 1.08rem; }
+  .blog-prose > p:first-of-type::first-letter { font-size: 3.6em; }
+  .post-row { grid-template-columns: 1fr; gap: 0.7rem; }
+  .post-row .stamp { padding-top: 0; }
+  .post-row .stamp .yr { display: inline; font-size: 0.7rem; letter-spacing: 0.08em; color: var(--b-muted); }
+  /* Tags take their own line, so the separator before them would dangle. */
+  .blog-meta .dot:last-of-type { display: none; }
+  .blog-tags { flex-basis: 100%; }
+  .to-top { left: 14px; bottom: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog *, .blog *::before, .blog *::after { transition-duration: 0.01ms !important; }
+}

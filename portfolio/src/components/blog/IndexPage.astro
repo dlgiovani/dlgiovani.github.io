@@ -1,0 +1,59 @@
+---
+import Base from '../../layouts/Base.astro';
+import LangThemeBar from '../interactive/LangThemeBar.astro';
+import BlogBar from './BlogBar.astro';
+import BackToTop from './BackToTop.astro';
+import { useTranslations } from '../../i18n/ui';
+import { blogHref, formatDayMonth, postHref, postsFor, readingMinutes } from '../../lib/blog';
+import type { Locale } from '../../types/i18n';
+import '../../styles/blog.css';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const posts = await postsFor(locale);
+---
+
+<Base
+  title={t('blog.title')}
+  description={t('blog.page_desc')}
+  locale={locale}
+  altEn={blogHref('en')}
+  altPt={blogHref('pt-br')}
+>
+  <div class="blog">
+    <BlogBar locale={locale} />
+
+    <header class="blog-index-head">
+      <p class="blog-kicker">{t('blog.kicker')}</p>
+      <h1 class="blog-title">{t('blog.heading')}</h1>
+      <p class="blog-standfirst">{t('blog.lead')}</p>
+    </header>
+
+    <ol class="blog-list">
+      {posts.map((post) => (
+        <li>
+          <a href={postHref(post)} class="post-row">
+            <span class="stamp">
+              <span class="yr">{post.data.date.getFullYear()}</span>
+              {formatDayMonth(post.data.date, locale)}
+            </span>
+            <span>
+              <h2>{post.data.title}</h2>
+              <p>{post.data.description}</p>
+              <span class="row-foot">
+                <span>{readingMinutes(post.body ?? '')} {t('blog.min_read')}</span>
+                {(post.data.tags ?? []).map((tag) => <span class="blog-tag">{tag}</span>)}
+                <span class="arrow" aria-hidden="true">→</span>
+              </span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ol>
+
+    <BackToTop locale={locale} />
+  </div>
+
+  <LangThemeBar locale={locale} enHref={blogHref('en')} ptHref={blogHref('pt-br')} />
+</Base>

@@ -1,4 +1,5 @@
 ---
+key: "dead-internet"
 title: "A Teoria da Internet Morta Vs O Viés do Sobrevivente"
 description: "Alguns textos feitos por IA são absurdamente fáceis de identificar. Expressões como “X não é apenas Y — é Z”, alinhadas a outras bandeiras, convencem o leitor mais aguçado de que aquela sequência de palavras não é o resultado de dedos de carne e osso num teclado."
 date: 2025-11-20

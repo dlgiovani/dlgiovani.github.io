@@ -1,80 +1,81 @@
 ---
-title: "Uma simples fórmula que desmistifica gráficos 3D"
-description: "É possível gerar gráficos 'tridimensionais' em planos bidimensionais ao brincar com a perspectiva. É mexendo com truques que enganam a percepção humana que softwares conseguem passar a impressão de profundidade."
+key: "3d-formula"
+title: "A simple formula that demystifies 3D graphics"
+description: "You can produce 'three-dimensional' graphics on two-dimensional planes by playing with perspective. It is by messing with tricks that fool human perception that software manages to convey the impression of depth."
 date: 2025-12-29
-tags: ["Gráficos", "2D", "3D"]
+tags: ["Graphics", "2D", "3D"]
 cover: "/blog/simple-3D/explicacao-geometrica.jpeg"
 # image_credit: {
-#     text: "Foto por ",
+#     text: "Photo by ",
 #     url: ""
 # }
-language: "pt-BR"
+language: "en"
 ---
 
-## Apresentação
+## Introduction
 
-É possível gerar gráficos 'tridimensionais' em planos bidimensionais ao brincar com a perspectiva. É mexendo com truques que enganam a percepção humana que softwares conseguem passar a impressão de profundidade.
+You can produce 'three-dimensional' graphics on two-dimensional planes by playing with perspective. It is by messing with tricks that fool human perception that software manages to convey the impression of depth.
 
-Há uma fórmula muito simples que ajuda a alcançar este feito:
+There is a very simple formula that helps pull this off:
 ``` latex
 x' = x/z
 y' = y/z
 ```
-## Vamos entender?
+## Shall we work it out?
 
-Imagine um plano bidimensional. Quanto às coordenadas, imagine (0, 0) no meio. Ou seja, no meio do plano, `x` e `y` são iguais a zero.
+Picture a two-dimensional plane. As for the coordinates, picture (0, 0) in the middle. That is, in the middle of the plane, `x` and `y` are both zero.
 
-![Plano Cartesiano](/blog/simple-3D/plano-cartesiano.png)
+![Cartesian Plane](/blog/simple-3D/plano-cartesiano.png)
 
-É isso o que representam o `x` e o `y` na expressão acima, a posição de um ponto descrita em um plano cartesiano. (3, 3) seria um ponto no topo direito dessa imagem, e (-3, 0) seria um ponto à esquerda, no meio. (0, -3) seria embaixo, no centro.
+That is what the `x` and the `y` in the expression above stand for: the position of a point described on a Cartesian plane. (3, 3) would be a point at the top right of that image, and (-3, 0) would be a point on the left, halfway up. (0, -3) would be at the bottom, in the centre.
 
-O `z` nada mais é do que mais um eixo neste gráfico. Neste caso, seria um de profundidade, indo da frente ao fundo. Aqui, quanto maior o `z`, mais ao fundo o ponto está.
+The `z` is nothing more than one more axis on this graph. In this case, it would be a depth axis, running from front to back. Here, the larger the `z`, the further back the point is.
 
-![Plano Cartesiano de 3 dimensões com observador](/blog/simple-3D/plano-cartesiano-3d-com-observador.png)
+![Three-dimensional Cartesian plane with an observer](/blog/simple-3D/plano-cartesiano-3d-com-observador.png)
 
-Se quanto mais ao fundo, maior o `z`, concluímos que:
-- **quanto mais ao fundo, maior o denominador.**
+If further back means a larger `z`, we conclude that:
+- **the further back, the larger the denominator.**
 
-e:
-- **quanto maior o denominador, menor o resultado.**
+and:
+- **the larger the denominator, the smaller the result.**
 
-Isso faz sentido com o mundo real. Olhe através de uma janela e imagine um ponto no topo direito. Agora, imagine que este ponto está se mantendo na mesma altura e na mesma distância horizontal em relação à você, mas está indo para trás.
+This matches the real world. Look through a window and picture a point at the top right. Now picture that point holding the same height and the same horizontal distance relative to you, but moving backwards.
 
-Ao imaginar esta mesma ação num plano bidimensional, você perceberá que o que ocorre é que:
-- o ponto diminui de tamanho, caso você tenha dado a ele um tamanho;
-- ele parece se aproximar vertical e horizontalmente em direção à origem, o que é tridimensionalmente apenas uma ilusão de ótica, mas bidimensionalmente uma verdade.
+If you picture that same action on a two-dimensional plane, you will notice that what happens is:
+- the point shrinks, if you gave it a size;
+- it seems to move vertically and horizontally towards the origin, which in three dimensions is only an optical illusion, but in two dimensions is the plain truth.
 
-Caso ainda não esteja convencido(a) de que entendeu o que acontece, faça um experimento. Coloque dois objetos em cima de uma mesa, um atrás do outro. Olhando de frente, o segundo objeto estará atrás do primeiro. A partir do momento que você se movimentar para a direita, por exemplo, perceberá que, *no seu ponto de vista*, o objeto mais atrás estará mais à direita do objeto da frente.
+If you are still not convinced you have grasped what is going on, run an experiment. Put two objects on a table, one behind the other. Looking at them head-on, the second object will be behind the first. The moment you move to the right, for instance, you will notice that, *from your point of view*, the object further back sits further right than the one in front.
 
-E realmente, se considerarmos que os objetos estão no seu `x` = -100 (eles estão à esquerda, por isso negativo), a primeira garrafa no `z` = 10 e a segunda no `z` = 12.5, vemos que o `x'` da primeira e da segunda viram:
+And indeed, if we take the objects to be at `x` = -100 (they are to the left, hence the negative), the first bottle at `z` = 10 and the second at `z` = 12.5, we see that the `x'` of the first and of the second become:
 ``` latex
-x' (primeira garrafa) = -100/10 = -10
-x'' (segunda garrafa) = -100/12.5 = -8
+x' (first bottle) = -100/10 = -10
+x'' (second bottle) = -100/12.5 = -8
 ```
 
-Ou seja, no nosso plano cartesiano bidimensional, a segunda garrafa estaria mais à direita, pois -8 > -10.
+In other words, on our two-dimensional Cartesian plane, the second bottle would sit further right, because -8 > -10.
 
-Como garrafas têm tamanho, não são apenas pontos, a segunda garrafa também estaria um pouco menor, por extensão do mesmo princípio. Isso fará mais sentido em breve.
+Since bottles have size and are not merely points, the second bottle would also be a little smaller, by extension of the same principle. This will make more sense shortly.
 
-## Um detalhe importante
+## An important detail
 
-Na tela de um navegador, a origem é definida como o ponto mais acima e mais à esquerda. O eixo `x` então aumenta para a direita, e o `y` aumenta **para baixo**. Esta é a convenção para as janelas. Portanto, devemos mapear os valores corretamente e inverter o eixo vertical.
+On a browser screen, the origin is defined as the topmost, leftmost point. The `x` axis therefore increases to the right, and `y` increases **downwards**. This is the convention for windows. So we have to map the values correctly and flip the vertical axis.
 
-## Qual a intuição?
+## What's the intuition?
 
-De maneira intuitiva, soa correto que coisas mais distantes do observador devem se aproximar do centro (pense em montanhas enormes que parecem estar no centro da sua visão, por mais que elas se estendam por quilômetros lado a lado), e que essa razão depende da distância.
+Intuitively, it sounds right that things further from the observer should move towards the centre (think of enormous mountains that seem to sit in the centre of your vision, however many kilometres they stretch side to side), and that this ratio depends on the distance.
 
-Isso também significa que coisas mais distantes parecem se mover mais devagar em relação ao observador, pois qualquer distância efetuada pelo movimento vai ser reduzida pela divisão com a distância (pelo `/z` da fórmula).
+It also means that things further away appear to move more slowly relative to the observer, since any distance covered by the movement gets shrunk by the division with the distance (by the `/z` in the formula).
 
-## Por que essa fórmula funciona?
+## Why does this formula work?
 
-A matemática por trás disso é simples e bela. Apenas usamos o fato de que as proporções dos lados de triângulos com os mesmos ângulos serão sempre as mesmas.
+The maths behind it is simple and beautiful. We are only using the fact that the ratios between the sides of triangles with the same angles will always be the same.
 
-![Explicação Geométrica](/blog/simple-3D/explicacao-geometrica.jpeg)
+![Geometric Explanation](/blog/simple-3D/explicacao-geometrica.jpeg)
 
-## Demonstração (código)
+## Demo (code)
 
-Podemos aplicar esta fórmula num contexto 2D e obter uma sensação de profundidade. Veja este simples exemplo em javascript:
+We can apply this formula in a 2D context and get a sense of depth. Take this simple example in javascript:
 
 ``` html
 <canvas id="game"></canvas>
@@ -207,7 +208,7 @@ function frame() {
 setTimeout(frame, 1000 / FPS);
 ```
 
-## Demonstração (resultado)
+## Demo (result)
 
 <canvas id="game"></canvas>
 
@@ -339,6 +340,6 @@ setTimeout(frame, 1000 / FPS);
 </script>
 
 
-## Veja mais
+## See more
 
-Veja mais sobre isso no [vídeo](https://www.youtube.com/watch?v=qjWkNZ0SXfo) do canal Tsoding (em inglês).
+See more about this in the [video](https://www.youtube.com/watch?v=qjWkNZ0SXfo) by the Tsoding channel.

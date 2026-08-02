@@ -2,6 +2,7 @@
 import type { Locale } from '../../types/i18n';
 import { useTranslations } from '../../i18n/ui';
 import { siteTheme } from '../../config/theme';
+import { blogHref } from '../../lib/blog';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
@@ -25,6 +26,7 @@ const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
       <a href="#code">{t('hero.nav_code')}</a>
       <a href="#playground">{t('hero.nav_playground')}</a>
       <a href="#signals">{t('hero.nav_guestbook')}</a>
+      <a href={blogHref(locale)} class="nav-blog">{t('hero.nav_blog')}</a>
     </nav>
   </div>
 
@@ -118,6 +120,20 @@ const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
   .hero-nav { display: flex; gap: 28px; }
   .hero-nav a { color: rgba(245,243,236,0.8); text-decoration: none; }
   .hero-nav a:hover { color: #fff; }
+  /* The one nav item that leaves the page, so it reads as a button. */
+  .hero-nav .nav-blog {
+    padding: 5px 12px;
+    margin: -5px 0;
+    border: 1px solid rgba(245,243,236,0.45);
+    border-radius: 999px;
+    color: #fff;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .hero-nav .nav-blog:hover,
+  .hero-nav .nav-blog:focus-visible {
+    background: rgba(245,243,236,0.14);
+    border-color: rgba(245,243,236,0.9);
+  }
 
   .hero-body {
     align-self: center;
@@ -173,7 +189,8 @@ const API = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
     .hero-foot .meta { display: none; }
   }
   @media (max-width: 480px) {
-    .hero-nav { display: none; }
+    .hero-nav a:not(.nav-blog) { display: none; }
+    .hero-nav { max-width: none; }
     .hero-foot { justify-content: flex-end; }
   }
 </style>

@@ -1,4 +1,5 @@
 ---
+key: "chrome-ai-context"
 title: "Built-In Chrome AI: Making the assistant remember the previous conversation (context aware)."
 description: "[DEPRECATED] Since a recent update, there is a better method to make the assistant context aware. Check the official docs."
 date: 2024-03-25

@@ -1,0 +1,44 @@
+---
+import type { Locale } from '../../types/i18n';
+import { useTranslations } from '../../i18n/ui';
+import { blogHref } from '../../lib/blog';
+
+interface Props { locale: Locale; showProgress?: boolean }
+const { locale, showProgress = false } = Astro.props;
+const t = useTranslations(locale);
+const home = locale === 'pt-br' ? '/pt-br/' : '/';
+---
+
+<div class="blog-bar">
+  <nav class="crumbs" aria-label={t('blog.nav_label')}>
+    <a href={home} class="mark">dlgiovani.dev</a>
+    <span aria-hidden="true">/</span>
+    <a href={blogHref(locale)}>{t('blog.title')}</a>
+  </nav>
+  <a href={home}>{t('blog.back_home')}</a>
+  {showProgress && <div class="blog-progress" id="blog-progress" role="presentation"></div>}
+</div>
+
+{showProgress && (
+  <script is:inline>
+    (function () {
+      var bar = document.getElementById('blog-progress');
+      var article = document.querySelector('.blog-prose');
+      if (!bar || !article) return;
+      var ticking = false;
+      function update() {
+        ticking = false;
+        var rect = article.getBoundingClientRect();
+        var total = rect.height - window.innerHeight;
+        var done = total > 0 ? (-rect.top) / total : 1;
+        bar.style.width = Math.min(100, Math.max(0, done * 100)) + '%';
+      }
+      function onScroll() {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      update();
+    })();
+  </script>
+)}

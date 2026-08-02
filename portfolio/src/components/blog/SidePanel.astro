@@ -1,0 +1,85 @@
+---
+import type { MarkdownHeading } from 'astro';
+import type { Locale } from '../../types/i18n';
+import { useTranslations } from '../../i18n/ui';
+import { blogHref } from '../../lib/blog';
+
+interface Props {
+  locale: Locale;
+  headings: MarkdownHeading[];
+}
+const { locale, headings } = Astro.props;
+const t = useTranslations(locale);
+
+// h2/h3 only — deeper levels make the rail noisy at this width.
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+<aside class="blog-panel" aria-label={t('blog.contents')}>
+  {toc.length > 0 && (
+    <details class="panel-toc" id="panel-toc" open>
+      <summary class="panel-label">{t('blog.contents')}</summary>
+      <div class="blog-panel-body">
+        <ol class="toc" id="blog-toc">
+          {toc.map((h) => (
+            <li class={`depth-${h.depth}`}>
+              <a href={`#${h.slug}`}>{h.text}</a>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </details>
+  )}
+
+  <div class="panel-block">
+    <a href={blogHref(locale)}>← {t('blog.all_posts')}</a>
+  </div>
+</aside>
+
+<script is:inline>
+  (function () {
+    // The contents box is a full screen on a phone; start it folded there.
+    var details = document.getElementById('panel-toc');
+    var narrow = window.matchMedia('(max-width: 1080px)');
+    if (details && narrow.matches) details.open = false;
+
+    var toc = document.getElementById('blog-toc');
+    if (!toc) return;
+    var links = Array.prototype.slice.call(toc.querySelectorAll('a'));
+    var targets = links
+      .map(function (a) { return document.getElementById(decodeURIComponent(a.hash.slice(1))); })
+      .filter(Boolean);
+    if (!targets.length) return;
+
+    // Highlight the last heading whose top has passed the reading line.
+    var line = 140;
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var active = 0;
+      for (var i = 0; i < targets.length; i++) {
+        if (targets[i].getBoundingClientRect().top <= line) active = i;
+      }
+      var atEnd = window.innerHeight + window.scrollY >= document.body.scrollHeight - 8;
+      if (atEnd) active = targets.length - 1;
+      links.forEach(function (a, i) { a.classList.toggle('is-active', i === active); });
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
+
+    // Anchor affordance next to each linked heading.
+    targets.forEach(function (h) {
+      if (h.querySelector('.heading-anchor')) return;
+      var a = document.createElement('a');
+      a.className = 'heading-anchor';
+      a.href = '#' + h.id;
+      a.textContent = '#';
+      a.setAttribute('aria-hidden', 'true');
+      a.setAttribute('tabindex', '-1');
+      h.insertBefore(a, h.firstChild);
+    });
+  })();
+</script>

@@ -1,4 +1,5 @@
 ---
+key: "portuguese-identity"
 title: "“Portfólios” e a queda de identidade da Língua Portuguesa"
 description: "Ao estudar idiomas de outros lugares e tempos, percebe-se neles um fenômeno curioso, resultado do encontro de culturas (e linguagens): a troca de palavras. [...]"
 date: 2025-09-13

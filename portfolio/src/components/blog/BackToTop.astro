@@ -1,0 +1,38 @@
+---
+import type { Locale } from '../../types/i18n';
+import { useTranslations } from '../../i18n/ui';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<button type="button" class="to-top" id="to-top" aria-label={t('blog.to_top')}>
+  <span aria-hidden="true">↑</span>
+  <span>{t('blog.to_top')}</span>
+</button>
+
+<script is:inline>
+  (function () {
+    var btn = document.getElementById('to-top');
+    if (!btn) return;
+    var ticking = false;
+    function update() {
+      ticking = false;
+      btn.classList.toggle('is-visible', window.scrollY > 700);
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    btn.addEventListener('click', function () {
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+      var title = document.querySelector('.blog-title');
+      if (title) {
+        title.setAttribute('tabindex', '-1');
+        title.focus({ preventScroll: true });
+      }
+    });
+    update();
+  })();
+</script>

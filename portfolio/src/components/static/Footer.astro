@@ -3,6 +3,7 @@ import { execSync } from 'node:child_process';
 import type { Locale } from '../../types/i18n';
 import { useTranslations } from '../../i18n/ui';
 import { person } from '../../config/person';
+import { blogHref } from '../../lib/blog';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
@@ -20,6 +21,7 @@ try {
     {t('footer.cta_prefix')}<em>{t('footer.cta_em')}</em><br/>{t('footer.cta_suffix')}
   </div>
   <div class="small">
+    <a href={blogHref(locale)}>{t('blog.title').toLowerCase()} / {t('blog.read_all')}</a>
     <a href={`mailto:${person.email}`}>{person.email}</a>
     <a href={person.links.github} target="_blank" rel="noopener noreferrer">github / {person.handle}</a>
     <a href={person.links.linkedin} target="_blank" rel="noopener noreferrer">linkedin / {person.handle}</a>
