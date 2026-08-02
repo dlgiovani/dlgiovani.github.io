@@ -77,16 +77,22 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
     window.addEventListener('resize', update, { passive: true });
     update();
 
-    // Anchor affordance next to each linked heading.
+    // Wrap each heading's own text so the whole line is the self-link, rather
+    // than a lone hash the reader has to aim at.
     targets.forEach(function (h) {
       if (h.querySelector('.heading-anchor')) return;
       var a = document.createElement('a');
       a.className = 'heading-anchor';
       a.href = '#' + h.id;
-      a.textContent = '#';
-      a.setAttribute('aria-hidden', 'true');
-      a.setAttribute('tabindex', '-1');
-      h.insertBefore(a, h.firstChild);
+      while (h.firstChild) a.appendChild(h.firstChild);
+      // Real element rather than ::before, so it stays out of the link's
+      // accessible name.
+      var mark = document.createElement('span');
+      mark.className = 'heading-anchor-mark';
+      mark.textContent = '#';
+      mark.setAttribute('aria-hidden', 'true');
+      a.insertBefore(mark, a.firstChild);
+      h.appendChild(a);
     });
   });
 </script>

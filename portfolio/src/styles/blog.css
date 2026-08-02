@@ -211,21 +211,34 @@ html[data-theme='dark'] .blog {
 .blog-prose h3 { font-size: clamp(1.3rem, 2.2vw, 1.55rem); margin: 2.1em 0 0.5em; }
 .blog-prose h4 { font-size: 1.2rem; margin: 1.8em 0 0.5em; }
 
-/* Anchor affordance, mono hash in the left margin. */
-.blog-prose :is(h2, h3) { position: relative; }
+/* The heading's own text is the self-link, so the whole line is the target;
+   a mono hash fades into the left margin to advertise it. */
 .blog-prose :is(h2, h3) > .heading-anchor {
+  display: block;
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+}
+.heading-anchor-mark {
   position: absolute;
-  left: -1.4em;
-  top: 0.18em;
+  left: -1.1em;
   font-family: var(--b-mono);
-  font-size: 0.72rem;
+  font-size: 0.62em;
+  line-height: inherit;
   color: var(--b-muted);
   opacity: 0;
-  text-decoration: none;
-  transition: opacity 0.15s ease;
+  transition: opacity 0.15s ease, color 0.15s ease;
 }
-.blog-prose :is(h2, h3):hover > .heading-anchor,
-.blog-prose .heading-anchor:focus-visible { opacity: 1; }
+.heading-anchor:hover .heading-anchor-mark,
+.heading-anchor:focus-visible .heading-anchor-mark {
+  opacity: 1;
+  color: var(--b-accent);
+}
+.blog-prose :is(h2, h3) > .heading-anchor:focus-visible {
+  outline: 2px solid var(--b-accent);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
 
 .blog-prose a {
   color: var(--b-accent);
@@ -493,13 +506,33 @@ html[data-theme='dark'] .blog {
 
 .post-row {
   display: grid;
-  grid-template-columns: 9.5rem minmax(0, 1fr);
-  gap: 0 var(--b-gutter);
+  grid-template-columns: 7.5rem minmax(0, 1fr) 12.5rem;
+  grid-template-areas: 'stamp body cover';
+  align-items: start;
+  gap: 0 clamp(1.5rem, 3.5vw, 3.25rem);
   padding: 2.2rem 0;
   border-top: 1px solid var(--b-line-soft);
   text-decoration: none;
   color: inherit;
 }
+.post-row .stamp { grid-area: stamp; }
+.post-row .row-body { grid-area: body; }
+.post-row .row-cover { grid-area: cover; }
+
+.post-row .row-cover img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  border: 1px solid var(--b-line-soft);
+  border-radius: 2px;
+  filter: saturate(0.85);
+  transition: filter 0.25s ease, opacity 0.25s ease;
+  opacity: 0.92;
+}
+.post-row:hover .row-cover img,
+.post-row:focus-visible .row-cover img { filter: none; opacity: 1; }
 .post-row:first-child { border-top: 1px solid var(--b-line); }
 .post-row:last-child { border-bottom: 1px solid var(--b-line-soft); }
 
@@ -579,13 +612,27 @@ html[data-theme='dark'] .blog {
   .panel-toc > summary::after { content: '+'; font-size: 0.9rem; }
   .panel-toc[open] > summary::after { content: '–'; }
   .blog-panel-body { padding-bottom: 0.8rem; }
-  .blog-prose :is(h2, h3) > .heading-anchor { display: none; }
+  /* No room for the margin hash — the heading stays a link, just unadvertised. */
+  .heading-anchor-mark { display: none; }
+}
+
+/* Three columns get cramped before the layout is narrow enough to stack. */
+@media (max-width: 900px) {
+  .post-row {
+    grid-template-columns: 7rem minmax(0, 1fr) 9rem;
+    gap: 0 1.5rem;
+  }
 }
 
 @media (max-width: 640px) {
   .blog-prose { font-size: 1.08rem; }
   .blog-prose > p:first-of-type::first-letter { font-size: 3.6em; }
-  .post-row { grid-template-columns: 1fr; gap: 0.7rem; }
+  .post-row {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'cover' 'stamp' 'body';
+    gap: 0.7rem;
+  }
+  .post-row .row-cover { margin-bottom: 0.4rem; }
   .post-row .stamp { padding-top: 0; }
   .post-row .stamp .yr { display: inline; font-size: 0.7rem; letter-spacing: 0.08em; color: var(--b-muted); }
   /* Tags take their own line, so the separator before them would dangle. */

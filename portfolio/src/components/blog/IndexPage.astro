@@ -38,7 +38,7 @@ const posts = await postsFor(locale);
               <span class="yr">{post.data.date.getFullYear()}</span>
               {formatDayMonth(post.data.date, locale)}
             </span>
-            <span>
+            <span class="row-body">
               <h2>{post.data.title}</h2>
               <p>{post.data.description}</p>
               <span class="row-foot">
@@ -47,6 +47,18 @@ const posts = await postsFor(locale);
                 <span class="arrow" aria-hidden="true">→</span>
               </span>
             </span>
+            {post.data.cover && (
+              <span class="row-cover">
+                <img
+                  src={post.data.cover}
+                  alt=""
+                  width="400"
+                  height="225"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
+            )}
           </a>
         </li>
       ))}
