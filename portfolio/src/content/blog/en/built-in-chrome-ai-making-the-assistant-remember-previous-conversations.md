@@ -101,7 +101,7 @@ On each prompt except for the first, we will pass the string to the _prompt_ fun
 `${allPreviousMessages} <ctrl23> ${currentPrompt}`
 ```
 
-We basically start the prompt with the previous messages separated by line breaks, the **special control sequence** (which is literally just the string _<ctrl23>_, not a fancy U+whatever symbol), and then finally the actual current prompt. The result of that is an AI aware of its context, as follows:
+We basically start the prompt with the previous messages separated by line breaks, the **special control sequence** (which is literally just the string `<ctrl23>`, not a fancy U+whatever symbol), and then finally the actual current prompt. The result of that is an AI aware of its context, as follows:
 
 ![This example shows the AI actually acknowledging the previous messages and taking them into consideration to make a new answer, so it is aware of the context.](https://cdn-images-1.medium.com/max/960/1*ZiqeEMOkysKs3wxrBm0n_Q.png)
 Now we don't lose the previous context Also, using markdown on the model texts is a good idea!
